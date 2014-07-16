@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:background="@drawable/backgrn_color"
+    android:layout_height="match_parent"
+    android:padding="5dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="10dp"
+            android:layout_height="10dp"
+            android:src="@drawable/veg"
+            android:id="@+id/veg" />
+
+        <ImageView
+            android:layout_width="10dp"
+            android:layout_height="10dp"
+            android:src="@drawable/non_veg"
+            android:layout_marginLeft="5dp"
+            android:id="@+id/non_veg" />
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="80dp">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="80dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/ic_launcher"
+            android:id="@+id/image_product"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:orientation="horizontal"
+            android:background="#fff0eedc"
+            android:visibility="gone"
+            android:id="@+id/linear_layout_dicsount"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="-"
+                android:textStyle="bold"
+                android:textColor="#7A010D"
+                android:layout_marginLeft="2dp"
+                android:layout_marginRight="2dp"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/txt_discount_onimage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="2dp"
+                android:textColor="#7A010D"
+                android:textStyle="bold"
+                android:textSize="12sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="12sp"
+                android:textColor="#7A010D"
+                android:textStyle="bold"
+                android:id="@+id/lbl_persent"
+                android:text="@string/persent"
+                android:layout_marginRight="2dp" />
+        </LinearLayout>
+    </RelativeLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="14sp"
+        android:textColor="#000"
+        android:singleLine="true"
+        android:ellipsize="end"
+        android:gravity="center_horizontal"
+        android:id="@+id/text_provider_name" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:textColor="#c10a04ff"
+            android:id="@+id/text_rupees"
+            android:text="@string/rs"
+            android:layout_marginRight="2dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:textColor="#c10a04ff"
+            android:id="@+id/text_price" />
+    </LinearLayout>
+</LinearLayout>

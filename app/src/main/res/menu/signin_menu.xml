@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/signup"
+        android:showAsAction="always"
+        android:title="New User? Sign-Up"
+        android:actionLayout="@layout/sign_in_action_view" />
+
+</menu>

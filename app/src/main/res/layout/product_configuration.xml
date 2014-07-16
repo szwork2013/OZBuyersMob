@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="#304f6c">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="5dp">
+
+        <ListView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/product_configuration_list"
+            android:divider="#304f6c"
+            android:background="#fff"
+            android:dividerHeight="5dp"></ListView>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#fd9717"
+            android:textColor="#fff"
+            android:textStyle="bold"
+            android:id="@+id/add_configuration"
+            android:textSize="20sp"
+            android:layout_marginTop="5dp"
+            android:text="Add Configurations" />
+
+    </LinearLayout>
+</ScrollView>

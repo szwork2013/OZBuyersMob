@@ -1,0 +1,300 @@
+package com.gls.orderzapp.Cart.Adapters;
+
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.text.Editable;
+import android.text.InputType;
+import android.text.TextWatcher;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.MotionEvent;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.Spinner;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.gls.orderzapp.Provider.Beans.ProductDetails;
+import com.gls.orderzapp.R;
+import com.gls.orderzapp.Utility.Cart;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+import com.nostra13.universalimageloader.core.assist.DiscCacheUtil;
+import com.nostra13.universalimageloader.core.assist.MemoryCacheUtil;
+import com.nostra13.universalimageloader.core.assist.SimpleImageLoadingListener;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * Created by prajyot on 10/7/14.
+ */
+public class ProductListAdapter {
+    Context context;
+    List<ProductDetails> productDetailsList;
+    ImageLoader imageLoader;
+    DisplayImageOptions options;
+    ArrayList<String> arrayListweight;
+    EditText tempEditText = null;
+    static String measure = "";
+    EditText edittext_quantity;
+    static double min_weight, max_weight;
+    Spinner spinner_weight, tempSpinner;
+    ImageView delete_image;
+
+    int position = 0;
+
+    public ProductListAdapter(Context context, List<ProductDetails> productDetailsList) {
+        this.productDetailsList = productDetailsList;
+        this.context = context;
+
+        options = new DisplayImageOptions.Builder()
+                .showStubImage(R.drawable.ic_launcher)
+                .showImageForEmptyUri(R.drawable.ic_launcher)
+                .showImageOnFail(R.drawable.ic_launcher)
+                .cacheInMemory()
+                .cacheOnDisc()
+                .build();
+    }
+
+    public void getProductView() {
+        try {
+            for (int i = 0; i < productDetailsList.size(); i++) {
+                LayoutInflater li = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                LinearLayout llproductDetails = (LinearLayout) li.inflate(R.layout.cart_product_list, null);
+                ImageView product_image = (ImageView) llproductDetails.findViewById(R.id.product_image);
+                TextView product_name = (TextView) llproductDetails.findViewById(R.id.product_name);
+                TextView unit_price = (TextView) llproductDetails.findViewById(R.id.unit_price);
+                edittext_quantity = (EditText) llproductDetails.findViewById(R.id.edittext_quantity);
+                spinner_weight = (Spinner) llproductDetails.findViewById(R.id.spinner_weight);
+                delete_image = (ImageView) llproductDetails.findViewById(R.id.delete_image);
+                TextView calculated_price = (TextView) llproductDetails.findViewById(R.id.calculated_price);
+
+                if (productDetailsList.get(i).getProductlogo() != null) {
+                    if (productDetailsList.get(i).getProductlogo().getImage() != null) {
+                        loadImage(product_image, productDetailsList.get(i).getProductlogo().getImage());
+                    }
+                }
+
+                Log.d(productDetailsList.get(i).getProductname() + "ssssssssssssss   ", productDetailsList.get(i).getPrice().getUom());
+                if (productDetailsList.get(i).getProductname() != null) {
+                    product_name.setText(productDetailsList.get(i).getProductname());
+                }
+                if (productDetailsList.get(i).getPrice() != null) {
+                    unit_price.setText(productDetailsList.get(i).getPrice().getValue() + "");
+                    if (productDetailsList.get(i).getPrice().getUom() != null) {
+                        measure = productDetailsList.get(i).getPrice().getUom();
+                    }
+                }
+                if (productDetailsList.get(i).getQuantity() != null) {
+                    edittext_quantity.setText(productDetailsList.get(i).getQuantity());
+                }
+
+                if (productDetailsList.get(i).getPrice().getUom() != null) {
+                    calculated_price.setText(String.format("%.2f", productDetailsList.get(i).getPrice().getValue() * Double.parseDouble(productDetailsList.get(i).getQuantity())));
+                }
+                weightSpinnerActions();
+                min_weight = productDetailsList.get(i).getMin_weight().getValue();
+                max_weight = productDetailsList.get(i).getMax_weight().getValue();
+
+                final TextWatcher watcher = new TextWatcher() {
+                    @Override
+                    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                    }
+
+                    @Override
+                    public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                    }
+
+                    @Override
+                    public void afterTextChanged(Editable s) {
+                        if (tempEditText.getText().toString().trim().length() > 0) {
+                            final String fixed_rate = ((TextView) (((LinearLayout) (tempEditText.getParent())).getChildAt(1))).getText().toString();
+                            final TextView tempText = (TextView) (((LinearLayout) (tempEditText.getParent())).getChildAt(7));
+                            if (measure.equalsIgnoreCase("Kg")) {
+                                tempText.setText(String.format("%.2f", ((Double.parseDouble(tempEditText.getText().toString())) * (Double.parseDouble(fixed_rate)))));
+                            } else if (measure.equalsIgnoreCase("lb")) {
+                                tempText.setText(String.format("%.2f", ((Double.parseDouble(tempEditText.getText().toString())) * (Double.parseDouble(fixed_rate)))));
+                            } else if (measure.equalsIgnoreCase("Gm")) {
+                                tempText.setText(String.format("%.2f", (((Double.parseDouble(tempEditText.getText().toString())) * (Double.parseDouble(fixed_rate))) / 1000)));
+                            } else if (measure.equalsIgnoreCase("No")) {
+                                tempText.setText(String.format("%.2f", ((Double.parseDouble(tempEditText.getText().toString())) * (Double.parseDouble(fixed_rate)))));
+                            }
+
+//                            Toast.makeText(context, productDetailsList.get(position).getCartCount(), Toast.LENGTH_SHORT).show();
+                            if ((Double.parseDouble(tempEditText.getText().toString())) >= min_weight && (Double.parseDouble(tempEditText.getText().toString())) <= max_weight) {
+                                Cart.updateCart(productDetailsList.get(position).getCartCount(), productDetailsList.get(position), tempEditText.getText().toString().trim(), measure);
+                            } else {
+                                Toast.makeText(context, "Please enter a weight between " + min_weight + " " + measure + " and " + max_weight + " " + measure, Toast.LENGTH_LONG).show();
+//                            tempEditText.setText("");
+                            }
+                        }
+                    }
+                };
+
+                delete_image.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        if (productDetailsList.get(view.getId() - 6000) != null) {
+                            Toast.makeText(context, productDetailsList.get(view.getId() - 6000).getProductname(), Toast.LENGTH_LONG).show();
+//                            Cart.deleteFromCart(productDetailsList.get(view.getId()-600).getCartCount());
+//                            CartActivity.displayCart();
+                        }
+                    }
+                });
+                edittext_quantity.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+                    @Override
+                    public void onFocusChange(View v, boolean hasFocus) {
+                        if (hasFocus) {
+                            if (tempEditText != null) {
+                                tempEditText.removeTextChangedListener(watcher);
+                            }
+//                            Toast.makeText(context, productDetailsList.get(v.getId() - 300).getCartCount(), Toast.LENGTH_SHORT).show();
+                            position = v.getId() - 300;
+                            tempEditText = ((EditText) v);
+                            tempEditText.addTextChangedListener(watcher);
+                        }
+                    }
+
+                });
+
+                spinner_weight.setOnTouchListener(new View.OnTouchListener() {
+                    @Override
+                    public boolean onTouch(View v, MotionEvent event) {
+                        tempSpinner = ((Spinner) v);
+                        position = v.getId() - 400;
+//                        tempEditText = (EditText)((LinearLayout)tempSpinner.getParent()).getChildAt(3);
+                        return false;
+                    }
+                });
+
+                spinner_weight.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> parent, View view, int position1, long id) {
+
+//                        tempSpinner = ((Spinner)parent);
+//                        position = parent.getId()-400;
+                        tempEditText = (EditText) ((LinearLayout) parent.getParent()).getChildAt(3);
+                        if (((TextView) view).getText() != null) {
+                            if (((TextView) view).getText().toString().equalsIgnoreCase("Kg")) {
+                                if (tempEditText.getText().toString().trim().length() > 0) {
+                                    String fixed_rate = ((TextView) (((LinearLayout) (tempEditText.getParent())).getChildAt(1))).getText().toString();
+                                    TextView tempText = (TextView) (((LinearLayout) (tempEditText.getParent())).getChildAt(7));
+                                    measure = "Kg";
+                                    tempText.setText(String.format("%.2f", ((Double.parseDouble(tempEditText.getText().toString())) * (Double.parseDouble(fixed_rate)))));
+                                    Cart.updateCart(productDetailsList.get(position).getCartCount(), productDetailsList.get(position), tempEditText.getText().toString().trim(), measure);
+
+                                }
+                            } else if (((TextView) view).getText().toString().equalsIgnoreCase("lb")) {
+                                if (tempEditText.getText().toString().trim().length() > 0) {
+                                    String fixed_rate = ((TextView) (((LinearLayout) (tempEditText.getParent())).getChildAt(1))).getText().toString();
+                                    TextView tempText = (TextView) (((LinearLayout) (tempEditText.getParent())).getChildAt(7));
+                                    measure = "lb";
+                                    tempText.setText(String.format("%.2f", ((Double.parseDouble(tempEditText.getText().toString())) * (Double.parseDouble(fixed_rate)))));
+                                    Cart.updateCart(productDetailsList.get(position).getCartCount(), productDetailsList.get(position), tempEditText.getText().toString().trim(), measure);
+                                }
+                            } else if (((TextView) view).getText().toString().equalsIgnoreCase("Gm")) {
+                                if (tempEditText.getText().toString().trim().length() > 0) {
+                                    String fixed_rate = ((TextView) (((LinearLayout) (tempEditText.getParent())).getChildAt(1))).getText().toString();
+                                    TextView tempText = (TextView) (((LinearLayout) (tempEditText.getParent())).getChildAt(7));
+                                    measure = "Gm";
+                                    tempText.setText(String.format("%.2f", (((Double.parseDouble(tempEditText.getText().toString())) / 1000) * (Double.parseDouble(fixed_rate)))));
+                                    Cart.updateCart(productDetailsList.get(position).getCartCount(), productDetailsList.get(position), tempEditText.getText().toString().trim(), measure);
+                                }
+                            } else if (((TextView) view).getText().toString().equalsIgnoreCase("No")) {
+
+                                if (tempEditText.getText().toString().trim().length() > 0) {
+                                    String fixed_rate = ((TextView) (((LinearLayout) (tempEditText.getParent())).getChildAt(1))).getText().toString();
+                                    TextView tempText = (TextView) (((LinearLayout) (tempEditText.getParent())).getChildAt(7));
+                                    measure = "No";
+                                    tempText.setText(String.format("%.2f", ((Double.parseDouble(tempEditText.getText().toString())) * (Double.parseDouble(fixed_rate)))));
+                                    Cart.updateCart(productDetailsList.get(position).getCartCount(), productDetailsList.get(position), tempEditText.getText().toString().trim(), measure);
+
+                                }
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> parent) {
+
+                    }
+                });
+
+                product_name.setId(100 + i);
+                unit_price.setId(200 + i);
+                edittext_quantity.setId(300 + i);
+                spinner_weight.setId(400 + i);
+                calculated_price.setId(500 + i);
+                delete_image.setId(6000 + i);
+
+                CartAdapter.llProductList.addView(llproductDetails);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void loadImage(ImageView imageView, String imageUrl) {
+        imageLoader = ImageLoader.getInstance();
+        imageLoader.init(ImageLoaderConfiguration.createDefault(context));
+        imageLoader.displayImage(imageUrl, imageView, options, new SimpleImageLoadingListener() {
+            boolean cacheFound;
+
+            @Override
+            public void onLoadingStarted(String imageUri, View view) {
+                List<String> memCache = MemoryCacheUtil.findCacheKeysForImageUri(imageUri, ImageLoader.getInstance().getMemoryCache());
+                cacheFound = !memCache.isEmpty();
+                if (!cacheFound) {
+                    File discCache = DiscCacheUtil.findInCache(imageUri, ImageLoader.getInstance().getDiscCache());
+                    if (discCache != null) {
+                        cacheFound = discCache.exists();
+                    }
+                }
+            }
+
+            @Override
+            public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
+                if (cacheFound) {
+//                        MemoryCacheUtil.removeFromCache(imageUri, ImageLoader.getInstance().getMemoryCache());
+//                        DiscCacheUtil.removeFromCache(imageUri, ImageLoader.getInstance().getDiscCache());
+
+                    ImageLoader.getInstance().displayImage(imageUri, (ImageView) view);
+                }
+            }
+        });
+    }
+
+    public void weightSpinnerActions() {
+        arrayListweight = new ArrayList<>();
+        if (measure != null) {
+            if (measure.equalsIgnoreCase("No")) {
+                arrayListweight.add("No");
+                edittext_quantity.setInputType(InputType.TYPE_CLASS_NUMBER);
+            } else if (measure.equalsIgnoreCase("Kg")) {
+                arrayListweight.add("Kg");
+                arrayListweight.add("Gm");
+                edittext_quantity.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
+            } else if (measure.equalsIgnoreCase("Gm")) {
+                arrayListweight.add("Gm");
+                arrayListweight.add("Kg");
+                edittext_quantity.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
+            } else if (measure.equalsIgnoreCase("lb")) {
+                arrayListweight.add("lb");
+                edittext_quantity.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
+            }
+            for (int i = 0; i < arrayListweight.size(); i++) {
+                spinner_weight.setAdapter(new ArrayAdapter<String>(context.getApplicationContext(), R.layout.weight_spinner_items, arrayListweight));
+            }
+        }
+    }
+
+}

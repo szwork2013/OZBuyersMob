@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_margin="5dp"
+    android:padding="5dp"
+    android:gravity="center_vertical"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@drawable/no_image"
+            android:layout_gravity="center_vertical"
+            android:id="@+id/product_image" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:textColor="#000"
+            android:textSize="20sp"
+            android:layout_gravity="center_vertical"
+            android:gravity="center_vertical"
+            android:id="@+id/product_name" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#fd9717"
+        android:layout_marginTop="2dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:id="@+id/ll_food_type"
+        android:visibility="gone">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:textColor="#000"
+                android:layout_marginTop="5dp"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:layout_marginLeft="5dp"
+                android:text="@string/food_type" />
+
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#d3d3d3"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <RadioGroup
+                android:layout_width="0dp"
+                android:layout_weight="2"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:id="@+id/egg_eggless_group">
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/egg"
+                    android:textSize="16sp"
+                    android:textColor="#000"
+                    android:text="@string/egg" />
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    android:textColor="#000"
+                    android:layout_marginLeft="10dp"
+                    android:id="@+id/eggless"
+                    android:text="@string/eggless" />
+            </RadioGroup>
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:background="#d3d3d3"
+                android:layout_marginRight="5dp" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_weight="1"
+                    android:layout_gravity="right|center_vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/rs"
+                        android:textColor="#000"
+                        android:textSize="16sp"
+                        android:gravity="center_vertical|right" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/egg_price"
+
+                        android:textSize="16sp"
+                        android:textColor="#000" />
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:id="@+id/ll_message"
+        android:layout_marginTop="20dp"
+        android:visibility="gone">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <CheckBox
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/message"
+                android:layout_weight="2"
+                android:textStyle="bold"
+                android:id="@+id/message_checkbox"
+                android:textSize="16sp"
+                android:textColor="#000" />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#d3d3d3"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/edttxt_message_on_cake"
+                android:hint="Message on cake"
+                android:maxLength="50"
+                android:textSize="16sp"
+                android:layout_weight="2"
+                android:singleLine="true"
+                android:maxLines="1"
+                android:textColor="#000"
+                android:inputType="text"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content" />
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:background="#d3d3d3"
+                android:layout_marginRight="5dp" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_weight="1"
+                android:layout_gravity="right|center_vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/rs"
+                    android:textSize="16sp"
+                    android:textColor="#000"
+                    android:gravity="center_vertical|right" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/message_price"
+                    android:textSize="16sp"
+                    android:textColor="#000" />
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+
+</LinearLayout>

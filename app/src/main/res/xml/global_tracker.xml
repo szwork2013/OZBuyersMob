@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- the Local LogLevel for Analytics -->
+    <string name="ga_logLevel">verbose</string>
+    <!-- how often the dispatcher should fire -->
+    <integer name="ga_dispatchPeriod">10</integer>
+    <!-- Treat events as test events and don't send to google -->
+    <bool name="ga_dryRun">false</bool>
+    <!-- The screen names that will appear in reports -->
+    <screenName name="com.gls.orderzapp.MainApp.AboutUsActivity">About Us Screen</screenName>
+    <screenName name="com.gls.orderzapp.MainApp.ChangeAddressActivity">Change Address Screen
+    </screenName>
+    <screenName name="com.gls.orderzapp.MainApp.ConfirmOrder">Confirm Order Screen</screenName>
+    <screenName name="com.gls.orderzapp.MainApp.CurrentOrdersActivity">Current Order Screen
+    </screenName>
+    <screenName name="com.gls.orderzapp.MainApp.DeliveryAddressActivity">Delivery Address Screen
+    </screenName>
+    <screenName name="com.gls.orderzapp.MainApp.DetailedOrderActivity">Detail Order Screen
+    </screenName>
+    <screenName name="com.gls.orderzapp.MainApp.FinalOrderActivity">Final Order Screen</screenName>
+    <screenName name="com.gls.orderzapp.MainApp.ForgotPasswordActivity">Forgot Password Screen
+    </screenName>
+    <screenName name="com.gls.orderzapp.MainApp.HelpActivity">Help Screen</screenName>
+    <screenName name="com.gls.orderzapp.MainApp.MoreProductsListActivity">Load More Product Screen
+    </screenName>
+    <screenName name="com.gls.orderzapp.MainApp.MyOrdersListActivity">My Order List Screen
+    </screenName>
+    <screenName name="com.gls.orderzapp.MainApp.OrderDetailsActivity">Order Details Screen
+    </screenName>
+    <screenName name="com.gls.orderzapp.MainApp.PastOrdersActivity">Past Order Screen</screenName>
+    <screenName name="com.gls.orderzapp.MainApp.PaymentActivity">Payment Screen</screenName>
+    <screenName name="com.gls.orderzapp.MainApp.ProductCartActivity">Product Cart Screen
+    </screenName>
+    <screenName name="com.gls.orderzapp.MainApp.RegenerateVerificationToken">Regenerate Verification
+        Token Screen
+    </screenName>
+    <screenName name="com.gls.orderzapp.MainApp.SettingsActivity">Setting Screen</screenName>
+    <screenName name="com.gls.orderzapp.MainApp.SignInActivity">SignIn Screen</screenName>
+    <screenName name="com.gls.orderzapp.MainApp.SignUpActivity">Sign Up Screen</screenName>
+    <screenName name="com.gls.orderzapp.MainApp.StartUpActivity">Start Up Screen</screenName>
+    <screenName name="com.gls.orderzapp.MainApp.TabActivityForOrders">Tab Activity for Order
+        Screen
+    </screenName>
+    <screenName name="com.gls.orderzapp.MainApp.TempActivity">Temp Screen</screenName>
+    <screenName name="com.gls.orderzapp.MainApp.VerifyUserActivity">Verification User Screen
+    </screenName>
+    <screenName name="com.gls.orderzapp.MainApp.WebViewActivity">Web View Screen</screenName>
+</resources>

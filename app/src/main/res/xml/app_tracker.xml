@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- The apps Analytics Tracking Id -->
+    <string name="ga_trackingId">UA-52118777-1</string>
+    <!-- Percentage of events to include in reports -->
+    <string name="ga_sampleFrequency">100.0</string>
+    <!-- Enable automatic Activity measurement -->
+    <bool name="ga_autoActivityTracking">true</bool>
+
+    <!-- catch and report uncaught exceptions from the app -->
+
+    <bool name="ga_reportUncaughtExceptions">true</bool>
+    <!-- How long a session exists before giving up -->
+
+    <integer name="ga_sessionTimeout">-1</integer>
+
+    <!-- If ga_autoActivityTracking is enabled, an alternate screen name can be specified to
+    substitute for the full length canonical Activity name in screen view hit. In order to
+    specify an alternate screen name use an <screenName> element, with the name attribute
+    specifying the canonical name, and the value the alias to use instead. -->
+    <screenName name="com.gls.orderzapp.MainApp.AboutUsActivity">About Us Screen</screenName>
+    <screenName name="com.gls.orderzapp.MainApp.ChangeAddressActivity">Change Address Screen
+    </screenName>
+    <screenName name="com.gls.orderzapp.MainApp.ConfirmOrder">Confirm Order Screen</screenName>
+    <screenName name="com.gls.orderzapp.MainApp.CurrentOrdersActivity">Current Order Screen
+    </screenName>
+    <screenName name="com.gls.orderzapp.MainApp.DeliveryAddressActivity">Delivery Address Screen
+    </screenName>
+    <screenName name="com.gls.orderzapp.MainApp.DetailedOrderActivity">Detail Order Screen
+    </screenName>
+    <screenName name="com.gls.orderzapp.MainApp.FinalOrderActivity">Final Order Screen</screenName>
+    <screenName name="com.gls.orderzapp.MainApp.ForgotPasswordActivity">Forgot Password Screen
+    </screenName>
+    <screenName name="com.gls.orderzapp.MainApp.HelpActivity">Help Screen</screenName>
+    <screenName name="com.gls.orderzapp.MainApp.MoreProductsListActivity">Load More Product Screen
+    </screenName>
+    <screenName name="com.gls.orderzapp.MainApp.MyOrdersListActivity">My Order List Screen
+    </screenName>
+    <screenName name="com.gls.orderzapp.MainApp.OrderDetailsActivity">Order Details Screen
+    </screenName>
+    <screenName name="com.gls.orderzapp.MainApp.PastOrdersActivity">Past Order Screen</screenName>
+    <screenName name="com.gls.orderzapp.MainApp.PaymentActivity">Payment Screen</screenName>
+    <screenName name="com.gls.orderzapp.MainApp.ProductCartActivity">Product Cart Screen
+    </screenName>
+    <screenName name="com.gls.orderzapp.MainApp.RegenerateVerificationToken">Regenerate Verification
+        Token Screen
+    </screenName>
+    <screenName name="com.gls.orderzapp.MainApp.SettingsActivity">Setting Screen</screenName>
+    <screenName name="com.gls.orderzapp.MainApp.SignInActivity">SignIn Screen</screenName>
+    <screenName name="com.gls.orderzapp.MainApp.SignUpActivity">Sign Up Screen</screenName>
+    <screenName name="com.gls.orderzapp.MainApp.StartUpActivity">Start Up Screen</screenName>
+    <screenName name="com.gls.orderzapp.MainApp.TabActivityForOrders">Tab Activity for Order
+        Screen
+    </screenName>
+    <screenName name="com.gls.orderzapp.MainApp.TempActivity">Temp Screen</screenName>
+    <screenName name="com.gls.orderzapp.MainApp.VerifyUserActivity">Verification User Screen
+    </screenName>
+    <screenName name="com.gls.orderzapp.MainApp.WebViewActivity">Web View Screen</screenName>
+</resources>

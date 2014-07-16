@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.gls.orderzapp">
+
+    <permission
+        android:name="com.google.android.gcm.demo.app.permission.C2D_MESSAGE"
+        android:protectionLevel="signature" />
+    <!--<uses-permission android:name="com.google.android.gcm.demo.app.permission.C2D_MESSAGE" />-->
+
+    <!-- This app has permission to register and receive data message. -->
+    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="com.google.android.c2dm.intent.RECEIVE" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name"
+        android:name=".Utility.GoogleAnalyticsUtility"
+        android:theme="@style/CustomActionBarTheme">
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
+
+        <!-- Google Analytics Version v4 needs this value for easy tracking -->
+        <meta-data
+            android:name="com.google.android.gms.analytics.globalConfigResource"
+            android:resource="@xml/global_tracker" />
+
+
+        <receiver
+            android:name="com.gls.orderzapp.MainApp.ForgotPasswordActivity$SmsReceiver"
+            android:permission="com.google.android.c2dm.permission.SEND">
+
+            <intent-filter>
+                <action android:name="android.provider.Telephony.SMS_RECEIVED" />
+            </intent-filter>
+        </receiver>
+
+        <receiver
+            android:name="com.gls.orderzapp.MainApp.GCMTestActivity"
+            android:permission="com.google.android.c2dm.permission.SEND">
+            <intent-filter>
+                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+                <category android:name="com.gls.orderzapp" />
+            </intent-filter>
+        </receiver>
+
+        <service android:name="com.gls.orderzapp.GCMTest.GcmIntentService" />
+
+        <activity
+            android:name="com.gls.orderzapp.MainApp.SignUpActivity"
+            android:alwaysRetainTaskState="true"
+            android:label="Sign Up"
+            android:configChanges="orientation|screenSize|keyboardHidden"></activity>
+        <activity
+            android:name="com.gls.orderzapp.MainApp.SelectAddressListActivity"
+            android:alwaysRetainTaskState="true"
+            android:label="Delivery Address"
+            android:configChanges="orientation|screenSize|keyboardHidden">
+
+        </activity>
+        <activity
+            android:name="com.gls.orderzapp.MainApp.SignInActivity"
+            android:label="Sign In"
+            android:alwaysRetainTaskState="true"
+            android:configChanges="orientation|screenSize|keyboardHidden"></activity>
+        <activity
+            android:name="com.gls.orderzapp.MainApp.HelpActivity"
+            android:label="Help"
+            android:alwaysRetainTaskState="true"
+            android:configChanges="orientation|screenSize|keyboardHidden"></activity>
+        <activity
+            android:name="com.gls.orderzapp.MainApp.WebViewActivity"
+            android:alwaysRetainTaskState="true"
+            android:configChanges="orientation|screenSize|keyboardHidden"></activity>
+        <activity
+            android:name="com.gls.orderzapp.MainApp.ChangeAddressActivity"
+            android:alwaysRetainTaskState="true"
+            android:configChanges="orientation|screenSize|keyboardHidden"></activity>
+        <activity
+            android:name="com.gls.orderzapp.MainApp.StartUpActivity"
+            android:alwaysRetainTaskState="true"
+            android:configChanges="orientation|screenSize|keyboardHidden">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.gls.orderzapp.MainApp.ProductCartActivity"
+            android:alwaysRetainTaskState="true"
+            android:label="Shopping Cart"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:windowSoftInputMode="adjustResize"></activity>
+        <activity
+            android:name="com.gls.orderzapp.MainApp.SettingsActivity"
+            android:label="Settings"
+            android:alwaysRetainTaskState="true"
+            android:configChanges="orientation|screenSize|keyboardHidden"></activity>
+        <activity
+            android:name="com.gls.orderzapp.MainApp.AboutUsActivity"
+            android:label="About Us"
+            android:alwaysRetainTaskState="true"
+            android:configChanges="orientation|screenSize|keyboardHidden"></activity>
+        <activity
+            android:name="com.gls.orderzapp.MainApp.DeliveryAddressActivity"
+            android:alwaysRetainTaskState="true"
+            android:label="Address"
+            android:configChanges="orientation|screenSize|keyboardHidden"></activity>
+        <activity
+            android:name="com.gls.orderzapp.MainApp.VerifyUserActivity"
+            android:alwaysRetainTaskState="true"
+            android:label=" User Verification"
+            android:configChanges="orientation|screenSize|keyboardHidden"></activity>
+        <activity
+            android:name="com.gls.orderzapp.MainApp.MoreProductsListActivity"
+            android:alwaysRetainTaskState="true"
+            android:label="All Products"
+            android:configChanges="orientation|screenSize|keyboardHidden"></activity>
+        <activity
+            android:name="com.gls.orderzapp.MainApp.ForgotPasswordActivity"
+            android:label="Forgor Password"
+            android:alwaysRetainTaskState="true"
+            android:configChanges="orientation|screenSize|keyboardHidden"></activity>
+        <activity
+            android:name="com.gls.orderzapp.MainApp.RegenerateVerificationToken"
+            android:label="User Verification"
+            android:alwaysRetainTaskState="true"
+            android:configChanges="orientation|screenSize|keyboardHidden"></activity>
+        <activity
+            android:name="com.gls.orderzapp.MainApp.OrderDetailsActivity"
+            android:label="Order Detail"
+            android:alwaysRetainTaskState="true"
+            android:configChanges="orientation|screenSize|keyboardHidden"></activity>
+        <activity
+            android:name="com.gls.orderzapp.MainApp.TempActivity"
+            android:alwaysRetainTaskState="true"
+            android:configChanges="orientation|screenSize|keyboardHidden"></activity>
+        <activity
+            android:name="com.gls.orderzapp.MainApp.MyOrdersListActivity"
+            android:label="My Orders"
+            android:alwaysRetainTaskState="true"
+            android:configChanges="orientation|screenSize|keyboardHidden"></activity>
+        <activity
+            android:name="com.gls.orderzapp.MainApp.FinalOrderActivity"
+            android:label="Order"
+            android:alwaysRetainTaskState="true"
+            android:configChanges="orientation|screenSize|keyboardHidden"></activity>
+        <activity
+            android:name="com.gls.orderzapp.MainApp.DetailedOrderActivity"
+            android:label="Order"
+            android:alwaysRetainTaskState="true"
+            android:configChanges="orientation|screenSize|keyboardHidden"></activity>
+        <activity
+            android:name="com.gls.orderzapp.MainApp.GetSocialActivity"
+            android:label="Order"
+            android:alwaysRetainTaskState="true"
+            android:configChanges="orientation|screenSize|keyboardHidden"></activity>
+
+        <activity
+            android:name="com.gls.orderzapp.MainApp.CurrentOrdersActivity"
+            android:label="Order"
+            android:alwaysRetainTaskState="true"
+            android:configChanges="orientation|screenSize|keyboardHidden"></activity>
+        <activity
+            android:name="com.gls.orderzapp.MainApp.PastOrdersActivity"
+            android:label="Order"
+            android:alwaysRetainTaskState="true"
+            android:configChanges="orientation|screenSize|keyboardHidden"></activity>
+        <activity
+            android:name="com.gls.orderzapp.MainApp.TabActivityForOrders"
+            android:label="Order"
+            android:alwaysRetainTaskState="true"
+            android:configChanges="orientation|screenSize|keyboardHidden"></activity>
+
+        <activity
+            android:name=".MainApp.PaymentActivity"
+            android:label="Payment"
+            android:alwaysRetainTaskState="true"
+            android:configChanges="orientation|screenSize|keyboardHidden" />
+
+        <activity
+            android:name="com.paytm.pgsdk.PaytmPGActivity"
+            android:screenOrientation="portrait"
+            android:configChanges="keyboardHidden|orientation|keyboard" />
+        <activity
+            android:name=".MainApp.DeliveryPaymentActivity"
+            android:label="Payment"
+            android:alwaysRetainTaskState="true"
+            android:configChanges="orientation|screenSize|keyboardHidden" />
+        <activity
+            android:name="com.gls.orderzapp.MainApp.ProductConfigurationActivity"
+            android:alwaysRetainTaskState="true"
+            android:label="Product Configuration"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:windowSoftInputMode="adjustResize"></activity>
+
+        <activity
+            android:name="com.gls.orderzapp.MainApp.CartActivity"
+            android:alwaysRetainTaskState="true"
+            android:label="Product Configuration"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:windowSoftInputMode="adjustResize"></activity>
+    </application>
+</manifest>
