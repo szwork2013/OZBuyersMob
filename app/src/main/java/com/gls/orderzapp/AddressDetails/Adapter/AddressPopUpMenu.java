@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.PopupMenu;
 
 import com.gls.orderzapp.MainApp.ChangeAddressActivity;
+import com.gls.orderzapp.MainApp.DeliveryPaymentActivity;
 import com.gls.orderzapp.MainApp.SelectAddressListActivity;
 import com.gls.orderzapp.R;
 
@@ -36,12 +37,13 @@ public class AddressPopUpMenu {
                 switch (id) {
                     case R.id.select_from_existing:
                         Intent goToSelectListAddressactivity = new Intent(context, SelectAddressListActivity.class);
-                        ((Activity) context).startActivityForResult(goToSelectListAddressactivity, 1);
+                        ((Activity) context).startActivityForResult(goToSelectListAddressactivity, DeliveryPaymentActivity.CHANGE_ADDRESS);
 
                         break;
                     case R.id.add_new:
                         Intent goToChangeAddressActivity = new Intent(context, ChangeAddressActivity.class);
-                        ((Activity) context).startActivityForResult(goToChangeAddressActivity, 1);
+                        goToChangeAddressActivity.putExtra("User_Address","DeliveryAddress");
+                        ((Activity) context).startActivityForResult(goToChangeAddressActivity, DeliveryPaymentActivity.CHANGE_ADDRESS);
                         break;
                 }
                 return true;

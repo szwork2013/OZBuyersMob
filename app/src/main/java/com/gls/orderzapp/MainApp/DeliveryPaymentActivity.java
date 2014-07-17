@@ -50,7 +50,7 @@ import java.util.List;
  * Created by prajyot on 24/6/14.
  */
 public class DeliveryPaymentActivity extends Activity {
-    Context context;
+    static Context context;
     public static TextView shipping_address_textview, billing_address_textview;
     RadioGroup payment_mode_group;
     RadioButton cash_on_delivery, credit_card;
@@ -61,7 +61,7 @@ public class DeliveryPaymentActivity extends Activity {
     ImageView popup_image;
     public static String payment_mode = "", user_id = "";
     final int SIGN_IN = 0;
-    final int CHANGE_ADDRESS = 1;
+   public final static int  CHANGE_ADDRESS = 1;
     Calendar c;
     int mYear, mMonth, mDay, yy, mm, dd, hh, min, cHH, cMin, cAm_Pm;
     DatePicker datePicker;
@@ -72,13 +72,6 @@ public class DeliveryPaymentActivity extends Activity {
     //for payment mode
     ProductDetails[] checkForPaymentModeValues;
     List<ProductDetails> checkForPaymentModeList;
-    //for delivery mode
-//    ProductDetails[] checkForDeliveryModeValues;
-//    List<ProductDetails> checkForDeliveryModeList;
-//     HashMap<String,ProductDetails> listOfSellerDeliveryMode = new HashMap<>();
-//    ArrayList<String> providerNamesforDelivery = new ArrayList<>();
-
-    String providerName = "";
 
     Boolean cashOnDelivery = true;
 
@@ -113,6 +106,8 @@ public class DeliveryPaymentActivity extends Activity {
     @Override
     protected void onResume() {
         super.onResume();
+        checkPaymentmode();
+        selectPaymentMode();
     }
 
     public void checkPaymentmode() {
@@ -130,7 +125,7 @@ public class DeliveryPaymentActivity extends Activity {
 
     }
 
-    public void selectDeliveryType() {
+    public static void selectDeliveryType() {
 
 //ll_deliver_charge_type.removeAllViews();
         new DeliveryChargesAndTypeAdapter(context);
@@ -369,7 +364,10 @@ public class DeliveryPaymentActivity extends Activity {
     public void setBillingAddress(String getUserData) {
         try {
             successResponseOfUserBillingAddress = new Gson().fromJson(getUserData, SuccessResponseOfUser.class);
-            if (successResponseOfUserBillingAddress.getSuccess().getUser().getLocation() != null) {
+            if (successResponseOfUserBillingAddress.getSuccess().getUser().getLocation() != null
+                    && successResponseOfUserBillingAddress.getSuccess().getUser().getLocation().getArea()!=null
+                     && successResponseOfUserBillingAddress.getSuccess().getUser().getLocation().getCity()!=null
+                     &&  successResponseOfUserBillingAddress.getSuccess().getUser().getLocation().getZipcode()!=null) {
                 billing_address_textview.setText(successResponseOfUserBillingAddress.getSuccess().getUser().getLocation().getAddress1() + ", " +
                         successResponseOfUserBillingAddress.getSuccess().getUser().getLocation().getAddress2() + ", " +
                         successResponseOfUserBillingAddress.getSuccess().getUser().getLocation().getArea() + ", \n" +
@@ -378,22 +376,16 @@ public class DeliveryPaymentActivity extends Activity {
                         successResponseOfUserBillingAddress.getSuccess().getUser().getLocation().getState() + ", " +
                         successResponseOfUserBillingAddress.getSuccess().getUser().getLocation().getCountry() + ".");
             }
+            else
+            {
+                Intent goToChangeAddressActivity = new Intent(context, ChangeAddressActivity.class);
+                goToChangeAddressActivity.putExtra("User_Address","UpdateSettings");
+                ((Activity) context).startActivityForResult(goToChangeAddressActivity, 1);
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
-
-//    public String myAddressList(){
-//        String resultMyAddressList = "";
-//        try{
-//            if(successResponseOfUserDeliveryAddresDetails.getSuccess().getUser().getUserid()!=null) {
-//                resultMyAddressList = ServerConnection.executeGet(getApplicationContext(), "/api/mydeliveryaddresses/" + successResponseOfUserDeliveryAddresDetails.getSuccess().getUser().getUserid());
-//            }
-//        }catch (Exception e){
-//            e.printStackTrace();
-//        }
-//        return resultMyAddressList;
-//    }
 
     public void setDataForBillingAndDeliveryAddress() throws Exception {
 
