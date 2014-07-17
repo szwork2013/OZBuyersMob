@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.gls.orderzapp.Cart.Adapters.CartAdapter;
@@ -28,6 +29,7 @@ public class CartActivity extends Activity {
     public static LinearLayout llCartList;
     static Context context;
     Button place_an_order_button;
+    TextView area_text;
     final int SIGN_IN = 0;
 
     @Override
@@ -43,6 +45,12 @@ public class CartActivity extends Activity {
     public void findViewsById() {
         llCartList = (LinearLayout) findViewById(R.id.llCartList);
         place_an_order_button = (Button) findViewById(R.id.place_an_order_button);
+        area_text = (TextView) findViewById(R.id.area_text);
+    }
+
+    public void selectArea(View view){
+        Intent goToSelectAreaActivity = new Intent(CartActivity.this, CityAreaDetailsActivity.class);
+        startActivity(goToSelectAreaActivity);
     }
 
     public static void displayCart() {

@@ -220,7 +220,7 @@ public class ProductCartAdapter extends BaseAdapter {
                                     tempText.setText(String.format("%.2f", ((Double.parseDouble(temp_qty.getText().toString())) * (Double.parseDouble(fixed_rate)))));
                                 }
                                 if ((Double.parseDouble(temp_qty.getText().toString())) >= min_weight && (Double.parseDouble(temp_qty.getText().toString())) <= max_weight) {
-                                    Cart.updateCart(mKeys[position], Cart.hm.get(mKeys[position]), temp_qty.getText().toString().trim(), measure);
+//                                    Cart.updateCart(mKeys[position], Cart.hm.get(mKeys[position]), temp_qty.getText().toString().trim(), measure);
                                 } else {
                                     Toast.makeText(context, "Please enter a weight between " + min_weight + " " + measure + " and " + max_weight + " " + measure, Toast.LENGTH_LONG).show();
 
@@ -254,7 +254,7 @@ public class ProductCartAdapter extends BaseAdapter {
                                 }
 
 
-                                Cart.updateCart(mKeys[position], Cart.hm.get(mKeys[position]), "0", measure);
+//                                Cart.updateCart(mKeys[position], Cart.hm.get(mKeys[position]), "0", measure);
 
                             }
                         }
@@ -295,7 +295,7 @@ public class ProductCartAdapter extends BaseAdapter {
                                 TextView tempText = (TextView) (((LinearLayout) (temp_qty.getParent())).getChildAt(7));
                                 measure = "Kg";
                                 tempText.setText(String.format("%.2f", ((Double.parseDouble(temp_qty.getText().toString())) * (Double.parseDouble(fixed_rate)))));
-                                Cart.updateCart(mKeys[position], Cart.hm.get(mKeys[position]), temp_qty.getText().toString().trim(), measure);
+//                                Cart.updateCart(mKeys[position], Cart.hm.get(mKeys[position]), temp_qty.getText().toString().trim(), measure);
 
                             }
                         } else if (((TextView) view).getText().toString().equalsIgnoreCase("lb")) {
@@ -304,7 +304,7 @@ public class ProductCartAdapter extends BaseAdapter {
                                 TextView tempText = (TextView) (((LinearLayout) (temp_qty.getParent())).getChildAt(7));
                                 measure = "lb";
                                 tempText.setText(String.format("%.2f", ((Double.parseDouble(temp_qty.getText().toString())) * (Double.parseDouble(fixed_rate)))));
-                                Cart.updateCart(mKeys[position], Cart.hm.get(mKeys[position]), temp_qty.getText().toString().trim(), measure);
+//                                Cart.updateCart(mKeys[position], Cart.hm.get(mKeys[position]), temp_qty.getText().toString().trim(), measure);
                             }
                         } else if (((TextView) view).getText().toString().equalsIgnoreCase("Gm")) {
                             if (temp_qty.getText().toString().trim().length() > 0) {
@@ -312,7 +312,7 @@ public class ProductCartAdapter extends BaseAdapter {
                                 TextView tempText = (TextView) (((LinearLayout) (temp_qty.getParent())).getChildAt(7));
                                 measure = "Gm";
                                 tempText.setText(String.format("%.2f", (((Double.parseDouble(temp_qty.getText().toString())) / 1000) * (Double.parseDouble(fixed_rate)))));
-                                Cart.updateCart(mKeys[position], Cart.hm.get(mKeys[position]), temp_qty.getText().toString().trim(), measure);
+//                                Cart.updateCart(mKeys[position], Cart.hm.get(mKeys[position]), temp_qty.getText().toString().trim(), measure);
                             }
                         } else if (((TextView) view).getText().toString().equalsIgnoreCase("No")) {
 
@@ -321,7 +321,7 @@ public class ProductCartAdapter extends BaseAdapter {
                                 TextView tempText = (TextView) (((LinearLayout) (temp_qty.getParent())).getChildAt(7));
                                 measure = "No";
                                 tempText.setText(String.format("%.2f", ((Double.parseDouble(temp_qty.getText().toString())) * (Double.parseDouble(fixed_rate)))));
-                                Cart.updateCart(mKeys[position], Cart.hm.get(mKeys[position]), temp_qty.getText().toString().trim(), measure);
+//                                Cart.updateCart(mKeys[position], Cart.hm.get(mKeys[position]), temp_qty.getText().toString().trim(), measure);
 
                             }
                         }
