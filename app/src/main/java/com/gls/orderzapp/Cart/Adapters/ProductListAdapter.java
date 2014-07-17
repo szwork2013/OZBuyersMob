@@ -18,6 +18,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.gls.orderzapp.MainApp.CartActivity;
 import com.gls.orderzapp.Provider.Beans.ProductDetails;
 import com.gls.orderzapp.R;
 import com.gls.orderzapp.Utility.Cart;
@@ -48,7 +49,8 @@ public class ProductListAdapter {
     Spinner spinner_weight, tempSpinner;
     ImageView delete_image;
 
-    int position = 0;
+//    int position = 0;
+    String tag = "";
 
     public ProductListAdapter(Context context, List<ProductDetails> productDetailsList) {
         this.productDetailsList = productDetailsList;
@@ -99,142 +101,21 @@ public class ProductListAdapter {
                 if (productDetailsList.get(i).getPrice().getUom() != null) {
                     calculated_price.setText(String.format("%.2f", productDetailsList.get(i).getPrice().getValue() * Double.parseDouble(productDetailsList.get(i).getQuantity())));
                 }
-                weightSpinnerActions();
+
+                uomSpinnerActions();
+                quantityEditTextActions();
+                deleteProduct();
+                try {
+                    edittext_quantity.setSelection(edittext_quantity.getText().toString().trim().length() + 1);
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
                 min_weight = productDetailsList.get(i).getMin_weight().getValue();
                 max_weight = productDetailsList.get(i).getMax_weight().getValue();
 
-                final TextWatcher watcher = new TextWatcher() {
-                    @Override
-                    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-                    }
-
-                    @Override
-                    public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-                    }
-
-                    @Override
-                    public void afterTextChanged(Editable s) {
-                        if (tempEditText.getText().toString().trim().length() > 0) {
-                            final String fixed_rate = ((TextView) (((LinearLayout) (tempEditText.getParent())).getChildAt(1))).getText().toString();
-                            final TextView tempText = (TextView) (((LinearLayout) (tempEditText.getParent())).getChildAt(7));
-                            if (measure.equalsIgnoreCase("Kg")) {
-                                tempText.setText(String.format("%.2f", ((Double.parseDouble(tempEditText.getText().toString())) * (Double.parseDouble(fixed_rate)))));
-                            } else if (measure.equalsIgnoreCase("lb")) {
-                                tempText.setText(String.format("%.2f", ((Double.parseDouble(tempEditText.getText().toString())) * (Double.parseDouble(fixed_rate)))));
-                            } else if (measure.equalsIgnoreCase("Gm")) {
-                                tempText.setText(String.format("%.2f", (((Double.parseDouble(tempEditText.getText().toString())) * (Double.parseDouble(fixed_rate))) / 1000)));
-                            } else if (measure.equalsIgnoreCase("No")) {
-                                tempText.setText(String.format("%.2f", ((Double.parseDouble(tempEditText.getText().toString())) * (Double.parseDouble(fixed_rate)))));
-                            }
-
-//                            Toast.makeText(context, productDetailsList.get(position).getCartCount(), Toast.LENGTH_SHORT).show();
-                            if ((Double.parseDouble(tempEditText.getText().toString())) >= min_weight && (Double.parseDouble(tempEditText.getText().toString())) <= max_weight) {
-                                Cart.updateCart(productDetailsList.get(position).getCartCount(), productDetailsList.get(position), tempEditText.getText().toString().trim(), measure);
-                            } else {
-                                Toast.makeText(context, "Please enter a weight between " + min_weight + " " + measure + " and " + max_weight + " " + measure, Toast.LENGTH_LONG).show();
-//                            tempEditText.setText("");
-                            }
-                        }
-                    }
-                };
-
-                delete_image.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        if (productDetailsList.get(view.getId() - 6000) != null) {
-                            Toast.makeText(context, productDetailsList.get(view.getId() - 6000).getProductname(), Toast.LENGTH_LONG).show();
-//                            Cart.deleteFromCart(productDetailsList.get(view.getId()-600).getCartCount());
-//                            CartActivity.displayCart();
-                        }
-                    }
-                });
-                edittext_quantity.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-                    @Override
-                    public void onFocusChange(View v, boolean hasFocus) {
-                        if (hasFocus) {
-                            if (tempEditText != null) {
-                                tempEditText.removeTextChangedListener(watcher);
-                            }
-//                            Toast.makeText(context, productDetailsList.get(v.getId() - 300).getCartCount(), Toast.LENGTH_SHORT).show();
-                            position = v.getId() - 300;
-                            tempEditText = ((EditText) v);
-                            tempEditText.addTextChangedListener(watcher);
-                        }
-                    }
-
-                });
-
-                spinner_weight.setOnTouchListener(new View.OnTouchListener() {
-                    @Override
-                    public boolean onTouch(View v, MotionEvent event) {
-                        tempSpinner = ((Spinner) v);
-                        position = v.getId() - 400;
-//                        tempEditText = (EditText)((LinearLayout)tempSpinner.getParent()).getChildAt(3);
-                        return false;
-                    }
-                });
-
-                spinner_weight.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                    @Override
-                    public void onItemSelected(AdapterView<?> parent, View view, int position1, long id) {
-
-//                        tempSpinner = ((Spinner)parent);
-//                        position = parent.getId()-400;
-                        tempEditText = (EditText) ((LinearLayout) parent.getParent()).getChildAt(3);
-                        if (((TextView) view).getText() != null) {
-                            if (((TextView) view).getText().toString().equalsIgnoreCase("Kg")) {
-                                if (tempEditText.getText().toString().trim().length() > 0) {
-                                    String fixed_rate = ((TextView) (((LinearLayout) (tempEditText.getParent())).getChildAt(1))).getText().toString();
-                                    TextView tempText = (TextView) (((LinearLayout) (tempEditText.getParent())).getChildAt(7));
-                                    measure = "Kg";
-                                    tempText.setText(String.format("%.2f", ((Double.parseDouble(tempEditText.getText().toString())) * (Double.parseDouble(fixed_rate)))));
-                                    Cart.updateCart(productDetailsList.get(position).getCartCount(), productDetailsList.get(position), tempEditText.getText().toString().trim(), measure);
-
-                                }
-                            } else if (((TextView) view).getText().toString().equalsIgnoreCase("lb")) {
-                                if (tempEditText.getText().toString().trim().length() > 0) {
-                                    String fixed_rate = ((TextView) (((LinearLayout) (tempEditText.getParent())).getChildAt(1))).getText().toString();
-                                    TextView tempText = (TextView) (((LinearLayout) (tempEditText.getParent())).getChildAt(7));
-                                    measure = "lb";
-                                    tempText.setText(String.format("%.2f", ((Double.parseDouble(tempEditText.getText().toString())) * (Double.parseDouble(fixed_rate)))));
-                                    Cart.updateCart(productDetailsList.get(position).getCartCount(), productDetailsList.get(position), tempEditText.getText().toString().trim(), measure);
-                                }
-                            } else if (((TextView) view).getText().toString().equalsIgnoreCase("Gm")) {
-                                if (tempEditText.getText().toString().trim().length() > 0) {
-                                    String fixed_rate = ((TextView) (((LinearLayout) (tempEditText.getParent())).getChildAt(1))).getText().toString();
-                                    TextView tempText = (TextView) (((LinearLayout) (tempEditText.getParent())).getChildAt(7));
-                                    measure = "Gm";
-                                    tempText.setText(String.format("%.2f", (((Double.parseDouble(tempEditText.getText().toString())) / 1000) * (Double.parseDouble(fixed_rate)))));
-                                    Cart.updateCart(productDetailsList.get(position).getCartCount(), productDetailsList.get(position), tempEditText.getText().toString().trim(), measure);
-                                }
-                            } else if (((TextView) view).getText().toString().equalsIgnoreCase("No")) {
-
-                                if (tempEditText.getText().toString().trim().length() > 0) {
-                                    String fixed_rate = ((TextView) (((LinearLayout) (tempEditText.getParent())).getChildAt(1))).getText().toString();
-                                    TextView tempText = (TextView) (((LinearLayout) (tempEditText.getParent())).getChildAt(7));
-                                    measure = "No";
-                                    tempText.setText(String.format("%.2f", ((Double.parseDouble(tempEditText.getText().toString())) * (Double.parseDouble(fixed_rate)))));
-                                    Cart.updateCart(productDetailsList.get(position).getCartCount(), productDetailsList.get(position), tempEditText.getText().toString().trim(), measure);
-
-                                }
-                            }
-                        }
-                    }
-
-                    @Override
-                    public void onNothingSelected(AdapterView<?> parent) {
-
-                    }
-                });
-
-                product_name.setId(100 + i);
-                unit_price.setId(200 + i);
-                edittext_quantity.setId(300 + i);
-                spinner_weight.setId(400 + i);
-                calculated_price.setId(500 + i);
-                delete_image.setId(6000 + i);
+                spinner_weight.setTag(productDetailsList.get(i).getCartCount());
+                edittext_quantity.setTag(productDetailsList.get(i).getCartCount());
+                delete_image.setTag(productDetailsList.get(i).getCartCount());
 
                 CartAdapter.llProductList.addView(llproductDetails);
             }
@@ -273,7 +154,7 @@ public class ProductListAdapter {
         });
     }
 
-    public void weightSpinnerActions() {
+    public void uomSpinnerActions() {
         arrayListweight = new ArrayList<>();
         if (measure != null) {
             if (measure.equalsIgnoreCase("No")) {
@@ -295,6 +176,145 @@ public class ProductListAdapter {
                 spinner_weight.setAdapter(new ArrayAdapter<String>(context.getApplicationContext(), R.layout.weight_spinner_items, arrayListweight));
             }
         }
+
+
+        spinner_weight.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position1, long id) {
+
+                tempEditText = (EditText) ((LinearLayout) parent.getParent()).getChildAt(3);
+                if (((TextView) view).getText() != null) {
+                    if (((TextView) view).getText().toString().equalsIgnoreCase("Kg")) {
+                        if (tempEditText.getText().toString().trim().length() > 0) {
+                            String fixed_rate = ((TextView) (((LinearLayout) (tempEditText.getParent())).getChildAt(1))).getText().toString();
+                            TextView tempText = (TextView) (((LinearLayout) (tempEditText.getParent())).getChildAt(7));
+                            measure = "Kg";
+                            tempText.setText(String.format("%.2f", ((Double.parseDouble(tempEditText.getText().toString())) * (Double.parseDouble(fixed_rate)))));
+                            Cart.updateCart(tag, tempEditText.getText().toString().trim(), measure);
+
+                        }
+                    } else if (((TextView) view).getText().toString().equalsIgnoreCase("lb")) {
+                        if (tempEditText.getText().toString().trim().length() > 0) {
+                            String fixed_rate = ((TextView) (((LinearLayout) (tempEditText.getParent())).getChildAt(1))).getText().toString();
+                            TextView tempText = (TextView) (((LinearLayout) (tempEditText.getParent())).getChildAt(7));
+                            measure = "lb";
+                            tempText.setText(String.format("%.2f", ((Double.parseDouble(tempEditText.getText().toString())) * (Double.parseDouble(fixed_rate)))));
+                            Cart.updateCart(tag, tempEditText.getText().toString().trim(), measure);
+                        }
+                    } else if (((TextView) view).getText().toString().equalsIgnoreCase("Gm")) {
+                        if (tempEditText.getText().toString().trim().length() > 0) {
+                            String fixed_rate = ((TextView) (((LinearLayout) (tempEditText.getParent())).getChildAt(1))).getText().toString();
+                            TextView tempText = (TextView) (((LinearLayout) (tempEditText.getParent())).getChildAt(7));
+                            measure = "Gm";
+                            tempText.setText(String.format("%.2f", (((Double.parseDouble(tempEditText.getText().toString())) / 1000) * (Double.parseDouble(fixed_rate)))));
+                            Cart.updateCart(tag, tempEditText.getText().toString().trim(), measure);
+                        }
+                    } else if (((TextView) view).getText().toString().equalsIgnoreCase("No")) {
+
+                        if (tempEditText.getText().toString().trim().length() > 0) {
+                            String fixed_rate = ((TextView) (((LinearLayout) (tempEditText.getParent())).getChildAt(1))).getText().toString();
+                            TextView tempText = (TextView) (((LinearLayout) (tempEditText.getParent())).getChildAt(7));
+                            measure = "No";
+                            tempText.setText(String.format("%.2f", ((Double.parseDouble(tempEditText.getText().toString())) * (Double.parseDouble(fixed_rate)))));
+                            Cart.updateCart(tag, tempEditText.getText().toString().trim(), measure);
+
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        spinner_weight.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                tempSpinner = ((Spinner) v);
+                tag = v.getTag()+"";
+                return false;
+            }
+        });
     }
 
+    public void deleteProduct(){
+        delete_image.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Cart.deleteFromCart(view.getTag()+"");
+                CartActivity.displayCart();
+
+            }
+        });
+
+    }
+
+    public void quantityEditTextActions(){
+        final TextWatcher watcher = new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (tempEditText.getText().toString().trim().length() > 0) {
+                    final String fixed_rate = ((TextView) (((LinearLayout) (tempEditText.getParent())).getChildAt(1))).getText().toString();
+                    final TextView tempText = (TextView) (((LinearLayout) (tempEditText.getParent())).getChildAt(7));
+                    if (measure.equalsIgnoreCase("Kg")) {
+                        tempText.setText(String.format("%.2f", ((Double.parseDouble(tempEditText.getText().toString())) * (Double.parseDouble(fixed_rate)))));
+                    } else if (measure.equalsIgnoreCase("lb")) {
+                        tempText.setText(String.format("%.2f", ((Double.parseDouble(tempEditText.getText().toString())) * (Double.parseDouble(fixed_rate)))));
+                    } else if (measure.equalsIgnoreCase("Gm")) {
+                        tempText.setText(String.format("%.2f", (((Double.parseDouble(tempEditText.getText().toString())) * (Double.parseDouble(fixed_rate))) / 1000)));
+                    } else if (measure.equalsIgnoreCase("No")) {
+                        tempText.setText(String.format("%.2f", ((Double.parseDouble(tempEditText.getText().toString())) * (Double.parseDouble(fixed_rate)))));
+                    }
+
+                    if ((Double.parseDouble(tempEditText.getText().toString())) >= min_weight && (Double.parseDouble(tempEditText.getText().toString())) <= max_weight) {
+                        Cart.updateCart(tag, tempEditText.getText().toString().trim(), measure);
+                    } else {
+                        Toast.makeText(context, "Please enter a weight between " + min_weight + " " + measure + " and " + max_weight + " " + measure, Toast.LENGTH_LONG).show();
+                    }
+                }
+            }
+        };
+
+
+        edittext_quantity.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) {
+                    if (tempEditText != null) {
+                        tempEditText.removeTextChangedListener(watcher);
+                    }
+                    tag = v.getTag() + "";
+                    tempEditText = ((EditText) v);
+                    tempEditText.addTextChangedListener(watcher);
+                }
+            }
+
+        });
+
+        edittext_quantity.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (tempEditText != null) {
+                    tempEditText.removeTextChangedListener(watcher);
+                }
+                tag = v.getTag() + "";
+                tempEditText = ((EditText) v);
+                tempEditText.addTextChangedListener(watcher);
+                return false;
+            }
+        });
+    }
 }

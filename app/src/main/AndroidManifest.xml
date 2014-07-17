@@ -207,5 +207,12 @@
             android:label="Product Configuration"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:windowSoftInputMode="adjustResize"></activity>
+
+        <activity
+            android:name="com.gls.orderzapp.MainApp.CityAreaDetailsActivity"
+            android:alwaysRetainTaskState="true"
+            android:label="Product Configuration"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:windowSoftInputMode="adjustResize"></activity>
     </application>
 </manifest>

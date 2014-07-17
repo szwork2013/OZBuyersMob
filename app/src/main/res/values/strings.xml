@@ -91,5 +91,6 @@
     <string name="persent">%</string>
     <string name="deliverdatentime">Delivery Date And Time</string>
     <string name="delivertype_withcolon">Delivery Type :</string>
+    <string name="select_your_area">Select your Area </string>
 
 </resources>

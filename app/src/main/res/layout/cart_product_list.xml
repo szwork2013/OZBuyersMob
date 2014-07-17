@@ -23,27 +23,35 @@
             android:layout_marginLeft="10dp"
             android:layout_marginTop="5dp"
             android:orientation="vertical">
-
             <LinearLayout
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:layout_gravity="right"
-                android:gravity="center_vertical|center_horizontal">
-
-                <ImageView
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:src="@drawable/trash"
-                    android:id="@+id/delete_image" />
-            </LinearLayout>
-
-            <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="16sp"
-                android:textColor="#000"
-                android:id="@+id/product_name" />
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="20"
+                    android:layout_height="wrap_content"
+                    android:textSize="14sp"
+                    android:textColor="#000"
+                    android:layout_gravity="center_vertical"
+                    android:singleLine="false"
+                    android:ellipsize="end"
+                    android:id="@+id/product_name" />
 
+                <LinearLayout
+                    android:layout_width="30dp"
+                    android:layout_weight="1"
+                    android:layout_height="30dp"
+                    android:layout_gravity="right"
+                    android:gravity="center_horizontal">
+
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:src="@drawable/trash"
+                        android:id="@+id/delete_image" />
+                </LinearLayout>
+            </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -52,14 +60,14 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="16sp"
+                    android:textSize="12sp"
                     android:textColor="#000"
                     android:text="@string/rs" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="16sp"
+                    android:textSize="12sp"
                     android:textColor="#000"
                     android:layout_marginLeft="2dp"
                     android:id="@+id/unit_price" />
@@ -67,7 +75,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="16sp"
+                    android:textSize="12sp"
                     android:textColor="#000"
                     android:layout_marginLeft="2dp"
                     android:text="*" />
@@ -93,7 +101,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="14sp"
+                    android:textSize="12sp"
                     android:layout_marginLeft="2dp"
                     android:textColor="#000"
                     android:text="=" />
@@ -101,7 +109,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="16sp"
+                    android:textSize="12sp"
                     android:textColor="#000"
                     android:layout_marginLeft="2dp"
                     android:text="@string/rs" />
@@ -109,15 +117,11 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="16sp"
+                    android:textSize="12sp"
                     android:textColor="#000"
                     android:layout_marginLeft="2dp"
                     android:id="@+id/calculated_price" />
             </LinearLayout>
         </LinearLayout>
-
-
     </LinearLayout>
-
-
 </LinearLayout>

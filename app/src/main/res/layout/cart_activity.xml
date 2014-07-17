@@ -14,6 +14,34 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:background="#fff"
+            android:padding="5dp"
+            android:layout_marginBottom="3dp">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/select_your_area"
+                android:textSize="20sp"
+                android:textColor="#000"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="22sp"
+                android:id="@+id/area_text"
+                android:textColor="#000"
+                android:padding="2dp"
+                android:onClick="selectArea"
+                android:clickable="true"
+                android:text="Your area"
+                android:layout_marginLeft="5dp"
+                android:background="@drawable/square_corner"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical"
             android:background="#fff"
             android:id="@+id/llCartList" />

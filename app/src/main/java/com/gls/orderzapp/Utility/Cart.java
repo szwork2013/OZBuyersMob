@@ -139,13 +139,11 @@ public class Cart {
         double total = 0.00;
         try {
             for (int i = 0; i < list.size(); i++) {
-//                Log.d("surrentsubtotal", new Gson().toJson(list));
                 if (list.get(i).getUom().equalsIgnoreCase("kg") || list.get(i).getUom().equalsIgnoreCase("no") || list.get(i).getUom().equalsIgnoreCase("lb")) {
                     total = total + Double.parseDouble(list.get(i).getOrderprice());
                 } else {
                     total = total + (Double.parseDouble(list.get(i).getOrderprice())) / 1000;
                 }
-
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -153,7 +151,7 @@ public class Cart {
         return total;
     }
 
-    public static void updateCart(String position, ProductDetails productDetails, String quantity, String measure) {
+    public static void updateCart(String position, String quantity, String measure) {
         try {
             int hmSize = hm.size();
             String[] keys = hm.keySet().toArray(new String[hmSize]);
@@ -164,9 +162,11 @@ public class Cart {
 
                     Log.d("keys inner", keys[i]);
                     Log.d("position inner", position);
-                    productDetails.setQuantity(quantity);
-                    productDetails.getPrice().setUom(measure);
-                    hm.put(position, productDetails);
+//                    productDetails.setQuantity(quantity);
+//                    productDetails.getPrice().setUom(measure);
+                    hm.get(keys[i]).setQuantity(quantity);
+                    hm.get(keys[i]).getPrice().setUom(measure);
+                    hm.put(position, hm.get(keys[i]));
                 }
             }
             Log.d("update cart", new Gson().toJson(hm));
