@@ -12,31 +12,23 @@
         android:background="#fff"
         android:padding="3dp">
     
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="18sp"
-            android:textColor="#000"
-            android:id="@+id/country_edit"/>
+      <Spinner
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:id="@+id/country_spinner"/>
+      <Spinner
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:id="@+id/state_spinner"/>
+      <Spinner
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:id="@+id/city_spinner"/>
 
-       <View
-           android:layout_width="match_parent"
-           android:layout_height="3dp"
-           android:background="#304f6c"/>
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:gravity="center_vertical"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            android:text="List"
-            android:layout_marginLeft="3dp"/>
         <ListView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/list"/>
+            android:id="@+id/listOfAreas"/>
     </LinearLayout>
-
 
 </LinearLayout>

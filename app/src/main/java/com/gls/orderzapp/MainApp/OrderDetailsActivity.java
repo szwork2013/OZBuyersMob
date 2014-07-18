@@ -196,9 +196,7 @@ public class OrderDetailsActivity extends Activity {
                                 if (cartDetails.get(i).getProductconfiguration().getConfiguration().get(j).getFoodType().equalsIgnoreCase("eggless") || cartDetails.get(i).getProductconfiguration().getConfiguration().get(j).isChecked() == true) {
 
                                     productConfiguration = new ProductConfiguration();
-
                                     ProductConfigurationPrice productConfigurationPrice = new ProductConfigurationPrice();
-
                                     productConfigurationPrice.setValue(cartDetails.get(i).getProductconfiguration().getConfiguration().get(j).getProd_configprice().getValue() * Double.parseDouble(cartDetails.get(i).getQuantity()) + "");
                                     createOrderProductDetails.setOrderprice((Double.parseDouble(createOrderProductDetails.getOrderprice()) + Double.parseDouble(productConfigurationPrice.getValue())) + "");
                                     if (cartDetails.get(i).getProductconfiguration().getConfiguration().get(j).getProd_configtype().equalsIgnoreCase("msg")) {

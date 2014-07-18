@@ -29,7 +29,7 @@ public class CartActivity extends Activity {
     public static LinearLayout llCartList;
     static Context context;
     Button place_an_order_button;
-    TextView area_text;
+    static TextView area_text, grand_total;
     final int SIGN_IN = 0;
 
     @Override
@@ -46,6 +46,7 @@ public class CartActivity extends Activity {
         llCartList = (LinearLayout) findViewById(R.id.llCartList);
         place_an_order_button = (Button) findViewById(R.id.place_an_order_button);
         area_text = (TextView) findViewById(R.id.area_text);
+        grand_total = (TextView) findViewById(R.id.grand_total);
     }
 
     public void selectArea(View view){
@@ -57,6 +58,7 @@ public class CartActivity extends Activity {
         llCartList.removeAllViews();
         if (Cart.getCount() > 0) {
             new CartAdapter(context).getCartView();
+            grand_total.setText(Cart.subTotal()+"");
         } else {
 
         }

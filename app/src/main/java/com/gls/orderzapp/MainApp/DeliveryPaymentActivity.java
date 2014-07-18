@@ -121,9 +121,11 @@ public class DeliveryPaymentActivity extends Activity {
         Collections.sort(checkForPaymentModeList, new PaymentModeComparator());
 
         for (int i = 0; i < Cart.hm.size(); i++) {
-            if (checkForPaymentModeList.get(i).getProviderName() != null) {
-                if (checkForPaymentModeList.get(i).getPaymentmode().getCod() == false) {
-                    cashOnDelivery = false;
+            if (checkForPaymentModeList.get(i).getPaymentmode() != null) {
+                if(checkForPaymentModeList.get(i).getPaymentmode().getCod() != null) {
+                    if (checkForPaymentModeList.get(i).getPaymentmode().getCod() == false) {
+                        cashOnDelivery = false;
+                    }
                 }
             }
         }

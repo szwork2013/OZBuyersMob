@@ -29,6 +29,7 @@ public class CartAdapter {
     List<String> branchids = new ArrayList<>();
     List<ProductDetails> listProducts = new ArrayList<>();
     String providerName = "";
+    TextView sub_total;
 
     public CartAdapter(Context context) {
         this.context = context;
@@ -47,22 +48,32 @@ public class CartAdapter {
             providerName = productList.get(i).getProviderName();
 
             if (branchids.contains(branchid)) {
+
                 listProducts.add(productList.get(i));
+
             } else {
                 if (i > 0) {
+
                     new ProductListAdapter(context, listProducts).getProductView();
+                    sub_total.setText(Cart.providerSubTotalInCart(listProducts)+"");
 
                 }
+
                 LayoutInflater li = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                 llCartListItemView = (LinearLayout) li.inflate(R.layout.cart_list_items, null);
                 llProductList = (LinearLayout) llCartListItemView.findViewById(R.id.llProductList);
                 TextView textProviderName = (TextView) llCartListItemView.findViewById(R.id.textProviderName);
                 TextView delivery_type = (TextView) llCartListItemView.findViewById(R.id.delivery_type);
+                sub_total = (TextView) llCartListItemView.findViewById(R.id.sub_total);
+
                 branchids.add(branchid);
                 listProducts.clear();
                 listProducts.add(productList.get(i));
+
                 if (productList.get(i).getProviderName() != null) {
+
                     textProviderName.setText(productList.get(i).getProviderName());
+
                 }
 
                 if (productList.get(i).getDelivery() != null) {
@@ -75,12 +86,12 @@ public class CartAdapter {
                     }
                 }
 
-
                 CartActivity.llCartList.addView(llCartListItemView);
             }
 
             if (i == productList.size() - 1) {
                 new ProductListAdapter(context, listProducts).getProductView();
+                sub_total.setText(Cart.providerSubTotalInCart(listProducts)+"");
             }
 
         }
