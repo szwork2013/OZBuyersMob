@@ -9,6 +9,8 @@
     <ListView
         android:id="@+id/lst_address_list"
         android:layout_marginTop="5dp"
+        android:dividerHeight="3dp"
+        android:divider="#304f6c"
         android:layout_width="match_parent"
         android:layout_height="match_parent"></ListView>
 

@@ -70,6 +70,7 @@
                 android:layout_height="wrap_content"
                 android:textSize="16sp"
                 android:textColor="#000"
+                android:layout_marginLeft="2dp"
                 android:id="@+id/delivery_type" />
         </LinearLayout>
 

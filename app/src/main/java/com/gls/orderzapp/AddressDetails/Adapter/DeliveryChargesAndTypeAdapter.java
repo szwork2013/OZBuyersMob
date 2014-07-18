@@ -1,7 +1,9 @@
 package com.gls.orderzapp.AddressDetails.Adapter;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.preference.PreferenceManager;
@@ -12,6 +14,7 @@ import android.widget.Toast;
 
 import com.gls.orderzapp.Cart.Beans.BranchIdsForGettingDeliveryCharges;
 import com.gls.orderzapp.CreateOrder.CreateOrderBeans.SuccessResponseForDeliveryChargesAndType;
+import com.gls.orderzapp.MainApp.ChangeAddressActivity;
 import com.gls.orderzapp.MainApp.DeliveryPaymentActivity;
 import com.gls.orderzapp.Provider.Beans.ProductDetails;
 import com.gls.orderzapp.R;
@@ -42,9 +45,9 @@ public class DeliveryChargesAndTypeAdapter {
     public static LinearLayout llDeliveryChargeAndType;
     public static String delivery_type = "";
     ArrayList<String> branchIdforDelivery = new ArrayList<>();
-    BranchIdsForGettingDeliveryCharges branchIdsForGettingDeliveryCharges;
+   public static BranchIdsForGettingDeliveryCharges branchIdsForGettingDeliveryCharges;
     public static SuccessResponseForDeliveryChargesAndType successResponseForDeliveryCharges;
-    SuccessResponseOfUser successResponseOfUserDeliveryAddresDetails;
+   public static SuccessResponseOfUser successResponseOfUserDeliveryAddresDetails;
 
     public DeliveryChargesAndTypeAdapter(Context context) {
         this.context = context;
@@ -72,8 +75,12 @@ public class DeliveryChargesAndTypeAdapter {
         try {
             successResponseOfUserDeliveryAddresDetails = new Gson().fromJson(getUserData, SuccessResponseOfUser.class);
             branchIdsForGettingDeliveryCharges.setBranchids(branchIdforDelivery);
+            if(successResponseOfUserDeliveryAddresDetails.getSuccess().getUser().getLocation().getArea()!=null
+                    && successResponseOfUserDeliveryAddresDetails.getSuccess().getUser().getLocation().getCity()!=null){
             branchIdsForGettingDeliveryCharges.setArea(successResponseOfUserDeliveryAddresDetails.getSuccess().getUser().getLocation().getArea());
             branchIdsForGettingDeliveryCharges.setCity(successResponseOfUserDeliveryAddresDetails.getSuccess().getUser().getLocation().getCity());
+            }
+
             new GetDeliveryChargesAsync().execute();
         } catch (Exception e) {
             e.printStackTrace();

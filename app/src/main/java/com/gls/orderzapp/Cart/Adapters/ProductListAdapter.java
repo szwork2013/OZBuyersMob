@@ -106,7 +106,7 @@ public class ProductListAdapter {
                 quantityEditTextActions();
                 deleteProduct();
                 try {
-                    edittext_quantity.setSelection(edittext_quantity.getText().toString().trim().length() + 1);
+//                    edittext_quantity.setSelection(edittext_quantity.getText().toString().trim().length() + 1);
                 }catch (Exception e){
                     e.printStackTrace();
                 }

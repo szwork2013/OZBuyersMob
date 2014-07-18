@@ -302,7 +302,7 @@ public class StartUpActivity extends Activity implements View.OnClickListener {
                 if (connectedOrNot.equals("success")) {
                     if (!resultLogOut.isEmpty()) {
                         if (jObj.has("success")) {
-
+                            Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_LONG).show();
                             Intent goToSignInActivity = new Intent(StartUpActivity.this, StartUpActivity.class);
                             goToSignInActivity.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                             startActivity(goToSignInActivity);
