@@ -106,8 +106,6 @@ public class DeliveryPaymentActivity extends Activity {
     @Override
     protected void onResume() {
         super.onResume();
-        checkPaymentmode();
-        selectPaymentMode();
     }
 
     public void checkPaymentmode() {

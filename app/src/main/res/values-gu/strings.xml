@@ -89,7 +89,7 @@
     <string name="providernote">Note :</string>
     <string name="discount">Discount</string>
     <string name="persent">%</string>
-    <string name="deliverdatentime">Delivery Date And Time</string>
+    <string name="deliverdatentime">Date And Time</string>
     <string name="delivertype_withcolon">Delivery Type :</string>
 
 </resources>
