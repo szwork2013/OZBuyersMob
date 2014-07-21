@@ -2,8 +2,11 @@ package com.gls.orderzapp.MainApp;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceGroup;
+import android.preference.PreferenceManager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -17,6 +20,7 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.gls.orderzapp.Cart.Adapters.CityAreaListAdapter;
+import com.gls.orderzapp.Cart.Beans.SuccessResponseForAreaList;
 import com.gls.orderzapp.Cart.Beans.SuccessResponseForCityList;
 import com.gls.orderzapp.Cart.Beans.SuccessResponseForCountryList;
 import com.gls.orderzapp.Cart.Beans.SuccessResponseForStatesList;
@@ -39,10 +43,9 @@ public class CityAreaDetailsActivity extends Activity {
     SuccessResponseForCountryList successResponseForCountryList;
     SuccessResponseForStatesList successResponseForStatesList;
     SuccessResponseForCityList successResponseForCityList;
-//    List<String> listCountry = new ArrayList<>();
-//    List<String> listState = new ArrayList<>();
+    SuccessResponseForAreaList successResponseForAreaList;
     CityAreaListAdapter cityCountryListAdapter, cityStateListAdapter;
-    String country = "", state = "", city = "";
+    String country = "", state = "", city = "", area = "";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -88,6 +91,20 @@ public class CityAreaDetailsActivity extends Activity {
 
             }
         });
+
+        listOfAreas.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                area = parent.getItemAtPosition(position)+"";
+                storeArea();
+                storeCity();
+                storeState();
+                storeCountry();
+                finish();
+            }
+        });
+
+
     }
 
     public void findViewsById(){
@@ -95,6 +112,55 @@ public class CityAreaDetailsActivity extends Activity {
         state_spinner = (Spinner) findViewById(R.id.state_spinner);
         city_spinner = (Spinner) findViewById(R.id.city_spinner);
         listOfAreas = (ListView) findViewById(R.id.listOfAreas);
+    }
+
+    public void storeArea(){
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        SharedPreferences.Editor editor = sp.edit();
+        editor.putString("USER_AREA", area);
+        editor.commit();
+    }
+
+    public void storeCity(){
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        SharedPreferences.Editor editor= sp.edit();
+        editor.putString("USER_CITY", city);
+        editor.commit();
+    }
+
+    public void storeState(){
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        SharedPreferences.Editor editor = sp.edit();
+        editor.putString("USER_STATE", state);
+        editor.commit();
+    }
+
+    public void storeCountry(){
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        SharedPreferences.Editor editor = sp.edit();
+        editor.putString("USER_COUNTRY", country);
+        editor.commit();
+    }
+
+    public String loadCountryPreference(){
+        String userArea = "";
+        SharedPreferences spLoad = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        userArea = spLoad.getString("USER_COUNTRY", "IN");
+        return userArea;
+    }
+
+    public String loadStatePreference(){
+        String userArea = "";
+        SharedPreferences spLoad = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        userArea = spLoad.getString("USER_STATE", "Maharashtra");
+        return userArea;
+    }
+
+    public String loadCityPreference(){
+        String userArea = "";
+        SharedPreferences spLoad = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        userArea = spLoad.getString("USER_City", "Pune");
+        return userArea;
     }
 
     public String getCountryList() throws Exception{
@@ -163,6 +229,7 @@ public class CityAreaDetailsActivity extends Activity {
                         if(jObj.has("success")){
                             cityCountryListAdapter = new CityAreaListAdapter(getApplicationContext(), successResponseForCountryList.getSuccess().getCountry());
                             country_spinner.setAdapter(cityCountryListAdapter);
+                            country_spinner.setSelection(successResponseForCountryList.getSuccess().getCountry().indexOf(loadCountryPreference()));
                         }else{
                             Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_LONG).show();
                         }
@@ -198,6 +265,7 @@ public class CityAreaDetailsActivity extends Activity {
                         jObj = new JSONObject(resultGetStates);
                         if(jObj.has("success")){
 //                            listState.clear();
+
                             successResponseForStatesList = new Gson().fromJson(resultGetStates, SuccessResponseForStatesList.class);
 //                            listState.addAll(successResponseForStatesList.getSuccess().getStates());
                         }else{
@@ -221,6 +289,7 @@ public class CityAreaDetailsActivity extends Activity {
                         if(jObj.has("success")){
                             cityStateListAdapter = new CityAreaListAdapter(getApplicationContext(), successResponseForStatesList.getSuccess().getStates());
                             state_spinner.setAdapter(cityStateListAdapter);
+                            state_spinner.setSelection(successResponseForStatesList.getSuccess().getStates().indexOf(loadStatePreference()));
                         }else{
                             Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_LONG).show();
                         }
@@ -255,9 +324,7 @@ public class CityAreaDetailsActivity extends Activity {
                         Log.d("resultGetCountry", resultGetCities);
                         jObj = new JSONObject(resultGetCities);
                         if(jObj.has("success")){
-//                            listState.clear();
                             successResponseForCityList = new Gson().fromJson(resultGetCities, SuccessResponseForCityList.class);
-//                            listState.addAll(successResponseForStatesList.getSuccess().getStates());
                         }else{
                             JSONObject jObjError = jObj.getJSONObject("error");
                             msg = jObjError.getString("message");
@@ -279,6 +346,7 @@ public class CityAreaDetailsActivity extends Activity {
                         if(jObj.has("success")){
                             cityStateListAdapter = new CityAreaListAdapter(getApplicationContext(), successResponseForCityList.getSuccess().getCity());
                             city_spinner.setAdapter(cityStateListAdapter);
+                            city_spinner.setSelection(successResponseForCityList.getSuccess().getCity().indexOf(loadCityPreference()));
                         }else{
                             Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_LONG).show();
                         }
@@ -310,11 +378,12 @@ public class CityAreaDetailsActivity extends Activity {
                     connectedOrNot = "success";
                     resultGetArea = getAreaList();
                     if (!resultGetArea.isEmpty()){
-                        Log.d("resultGetCountry", resultGetArea);
+                        Log.d("getArea", resultGetArea);
                         jObj = new JSONObject(resultGetArea);
                         if(jObj.has("success")){
-//                            successResponseForCountryList = new Gson().fromJson(resultGetArea, SuccessResponseForCountryList.class);
-//                            listCountry.addAll(successResponseForCountryList.getSuccess().getCountry());
+
+                            successResponseForAreaList = new Gson().fromJson(resultGetArea, SuccessResponseForAreaList.class);
+//                            listOfAreas.addAll(successResponseForAreaList.getSuccess().getArea());
                         }else{
                             JSONObject jObjError = jObj.getJSONObject("error");
                             msg = jObjError.getString("message");
@@ -334,8 +403,8 @@ public class CityAreaDetailsActivity extends Activity {
                 if(connectedOrNot.equalsIgnoreCase("success")){
                     if(!resultGetArea.isEmpty()){
                         if(jObj.has("success")){
-//                            cityCountryListAdapter = new CityAreaListAdapter(getApplicationContext(), successResponseForCountryList.getSuccess().getCountry());
-//                            country_spinner.setAdapter(cityCountryListAdapter);
+                            cityCountryListAdapter = new CityAreaListAdapter(getApplicationContext(), successResponseForAreaList.getSuccess().getArea());
+                            listOfAreas.setAdapter(cityCountryListAdapter);
                         }else{
                             Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_LONG).show();
                         }

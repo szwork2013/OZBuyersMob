@@ -59,9 +59,9 @@ public class PaymentActivity extends Activity {
 //                Environment.
 //and PaytmPGService.getProductionService() will return the Service pointing to //Production Environment.
         PaytmPGService Service = null;
-        Service = PaytmPGService.getStagingService();
+//        Service = PaytmPGService.getStagingService();
 //        or
-//        Service = PaytmPGService.getProductionService();
+        Service = PaytmPGService.getProductionService();
 //Create new order Object having all order information.
         Log.d("orderid", successResponseForCreateOrder.getSuccess().getOrder().getOrderid());
         PaytmOrder Order = new PaytmOrder(successResponseForCreateOrder.getSuccess().getOrder().getOrderid(), successResponseOfUser.getSuccess().getUser().getUserid(), successResponseForCreateOrder.getSuccess().getOrder().getTotal_order_price() + "",

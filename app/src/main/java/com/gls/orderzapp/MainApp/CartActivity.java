@@ -4,8 +4,10 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -29,7 +31,7 @@ public class CartActivity extends Activity {
     public static LinearLayout llCartList;
     static Context context;
     Button place_an_order_button;
-    static TextView area_text, grand_total;
+    public static TextView area_text, grand_total;
     final int SIGN_IN = 0;
 
     @Override
@@ -39,7 +41,24 @@ public class CartActivity extends Activity {
         context = CartActivity.this;
         findViewsById();
 
-        displayCart();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        try {
+
+            displayCart();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    public String loadPreferences() throws Exception{
+        String userArea = "";
+        SharedPreferences spLoad = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        userArea = spLoad.getString("USER_AREA", "shivaji nagar");
+        return userArea;
     }
 
     public void findViewsById() {
@@ -54,11 +73,16 @@ public class CartActivity extends Activity {
         startActivity(goToSelectAreaActivity);
     }
 
-    public static void displayCart() {
+    public void displayCart() {
         llCartList.removeAllViews();
         if (Cart.getCount() > 0) {
-            new CartAdapter(context).getCartView();
-            grand_total.setText(Cart.subTotal()+"");
+            try {
+                area_text.setText(loadPreferences());
+                new CartAdapter(context);
+                grand_total.setText(Cart.subTotal() + "");
+            }catch (Exception e){
+                e.printStackTrace();
+            }
         } else {
 
         }

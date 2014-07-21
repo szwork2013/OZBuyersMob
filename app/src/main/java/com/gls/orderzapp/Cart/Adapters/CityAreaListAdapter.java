@@ -25,7 +25,7 @@ public class CityAreaListAdapter extends BaseAdapter {
         this.context = context;
         this.list = list;
 
-        Log.d("list", new Gson().toJson(list));
+//        Log.d("list", new Gson().toJson(list));
     }
     @Override
     public int getCount() {

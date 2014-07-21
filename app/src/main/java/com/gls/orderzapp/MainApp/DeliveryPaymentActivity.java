@@ -57,7 +57,6 @@ public class DeliveryPaymentActivity extends Activity {
     public static LinearLayout ll_deliver_charge_type;
     Button delivery_date, proceed_to_pay;
     SuccessResponseOfUser successResponseOfUserDeliveryAddresDetails, successResponseOfUserBillingAddress;
-
     ImageView popup_image;
     public static String payment_mode = "", user_id = "";
     final int SIGN_IN = 0;
@@ -72,7 +71,6 @@ public class DeliveryPaymentActivity extends Activity {
     //for payment mode
     ProductDetails[] checkForPaymentModeValues;
     List<ProductDetails> checkForPaymentModeList;
-
     Boolean cashOnDelivery = true;
 
     @Override
@@ -82,7 +80,7 @@ public class DeliveryPaymentActivity extends Activity {
         setContentView(R.layout.delivery_payment_activity);
         context = DeliveryPaymentActivity.this;
         findViewsById();
-        new CheckSessionAsync().execute();
+//        new CheckSessionAsync().execute();
         checkPaymentmode();
         selectPaymentMode();
 
@@ -127,7 +125,7 @@ public class DeliveryPaymentActivity extends Activity {
 
     public static void selectDeliveryType() {
 
-//ll_deliver_charge_type.removeAllViews();
+        //ll_deliver_charge_type.removeAllViews();
         new DeliveryChargesAndTypeAdapter(context);
 
     }
@@ -318,28 +316,28 @@ public class DeliveryPaymentActivity extends Activity {
 
     }
 
-    public String loadPreferencesUserDataForDeliveryAddress() throws Exception {
-        String user = "";
-        try {
-            SharedPreferences spLoad = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-            user = spLoad.getString("USER_DATA_DELIVERY_ADDRESS", null);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return user;
-    }
-
-
-    public String loadPreferencesUserDataForBillingAddress() throws Exception {
-        String user = "";
-        try {
-            SharedPreferences spLoad = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-            user = spLoad.getString("USER_DATA", null);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return user;
-    }
+//    public String loadPreferencesUserDataForDeliveryAddress() throws Exception {
+//        String user = "";
+//        try {
+//            SharedPreferences spLoad = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+//            user = spLoad.getString("USER_DATA_DELIVERY_ADDRESS", null);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//        return user;
+//    }
+//
+//
+//    public String loadPreferencesUserDataForBillingAddress() throws Exception {
+//        String user = "";
+//        try {
+//            SharedPreferences spLoad = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+//            user = spLoad.getString("USER_DATA", null);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//        return user;
+//    }
 
     public void setDeliveryAddress(String getUserData) {
         try {
@@ -449,87 +447,87 @@ public class DeliveryPaymentActivity extends Activity {
         startActivity(goToOrderDetailsActivity);
     }
 
-    public String getSessionStatus() throws Exception {
-        String resultOfCheckSession = "";
-        try {
-            resultOfCheckSession = ServerConnection.executeGet(getApplicationContext(), "/api/isloggedin");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return resultOfCheckSession;
-    }
+//    public String getSessionStatus() throws Exception {
+//        String resultOfCheckSession = "";
+//        try {
+//            resultOfCheckSession = ServerConnection.executeGet(getApplicationContext(), "/api/isloggedin");
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//        return resultOfCheckSession;
+//    }
 
-    public class CheckSessionAsync extends AsyncTask<String, Integer, String> {
-        String connectedOrNot, msg, code, resultOfCheckSession;
-        public JSONObject jObj;
-        ProgressDialog progressDialog;
-
-
-        @Override
-        protected void onPreExecute() {
-            progressDialog = ProgressDialog.show(DeliveryPaymentActivity.this, "", "");
-        }
-
-        @Override
-        protected String doInBackground(String... params) {
-            try {
-                if (new CheckConnection(getApplicationContext()).isConnectingToInternet()) {
-                    connectedOrNot = "success";
-                    resultOfCheckSession = getSessionStatus();
-                    if (!resultOfCheckSession.isEmpty()) {
-                        Log.d("check session", resultOfCheckSession);
-                        jObj = new JSONObject(resultOfCheckSession);
-
-                        if (jObj.has("success")) {
-                            JSONObject jObjSuccess = jObj.getJSONObject("success");
-                            msg = jObjSuccess.getString("message");
-                            Log.d("Login success", "In doinbck");
-                        } else {
-                            Log.d("Login not success", "In doinbck");
-                            JSONObject jObjError = jObj.getJSONObject("error");
-                            msg = jObjError.getString("message");
-                            code = jObjError.getString("code");
-                        }
-                    }
-                } else {
-                    connectedOrNot = "error";
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            return connectedOrNot;
-        }
-
-        @Override
-        protected void onPostExecute(String connectedOrNot) {
-            try {
-                progressDialog.dismiss();
-                if (connectedOrNot.equals("success")) {
-                    if (!resultOfCheckSession.isEmpty()) {
-                        if (jObj.has("success")) {
-                            Log.d("success", loadPreferencesUserDataForBillingAddress());
-                            setDeliveryAddress(loadPreferencesUserDataForDeliveryAddress());
-                            setBillingAddress(loadPreferencesUserDataForBillingAddress());
-                            selectDeliveryType();
-
-                        } else {
-                            Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_LONG).show();
-                            if (code.equals("AL001")) {
-                                Intent goToSignin = new Intent(DeliveryPaymentActivity.this, SignInActivity.class);
-                                startActivityForResult(goToSignin, SIGN_IN);
-                            }
-                        }
-                    } else {
-                        Toast.makeText(getApplicationContext(), "Server is not responding please try again later", Toast.LENGTH_LONG).show();
-                    }
-                } else {
-                    Toast.makeText(getApplicationContext(), "Please check your internet connection", Toast.LENGTH_LONG).show();
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-    }
+//    public class CheckSessionAsync extends AsyncTask<String, Integer, String> {
+//        String connectedOrNot, msg, code, resultOfCheckSession;
+//        public JSONObject jObj;
+//        ProgressDialog progressDialog;
+//
+//
+//        @Override
+//        protected void onPreExecute() {
+//            progressDialog = ProgressDialog.show(DeliveryPaymentActivity.this, "", "");
+//        }
+//
+//        @Override
+//        protected String doInBackground(String... params) {
+//            try {
+//                if (new CheckConnection(getApplicationContext()).isConnectingToInternet()) {
+//                    connectedOrNot = "success";
+//                    resultOfCheckSession = getSessionStatus();
+//                    if (!resultOfCheckSession.isEmpty()) {
+//                        Log.d("check session", resultOfCheckSession);
+//                        jObj = new JSONObject(resultOfCheckSession);
+//
+//                        if (jObj.has("success")) {
+//                            JSONObject jObjSuccess = jObj.getJSONObject("success");
+//                            msg = jObjSuccess.getString("message");
+//                            Log.d("Login success", "In doinbck");
+//                        } else {
+//                            Log.d("Login not success", "In doinbck");
+//                            JSONObject jObjError = jObj.getJSONObject("error");
+//                            msg = jObjError.getString("message");
+//                            code = jObjError.getString("code");
+//                        }
+//                    }
+//                } else {
+//                    connectedOrNot = "error";
+//                }
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
+//            return connectedOrNot;
+//        }
+//
+//        @Override
+//        protected void onPostExecute(String connectedOrNot) {
+//            try {
+//                progressDialog.dismiss();
+//                if (connectedOrNot.equals("success")) {
+//                    if (!resultOfCheckSession.isEmpty()) {
+//                        if (jObj.has("success")) {
+//                            Log.d("success", loadPreferencesUserDataForBillingAddress());
+//                            setDeliveryAddress(loadPreferencesUserDataForDeliveryAddress());
+//                            setBillingAddress(loadPreferencesUserDataForBillingAddress());
+//                            selectDeliveryType();
+//
+//                        } else {
+//                            Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_LONG).show();
+//                            if (code.equals("AL001")) {
+//                                Intent goToSignin = new Intent(DeliveryPaymentActivity.this, SignInActivity.class);
+//                                startActivityForResult(goToSignin, SIGN_IN);
+//                            }
+//                        }
+//                    } else {
+//                        Toast.makeText(getApplicationContext(), "Server is not responding please try again later", Toast.LENGTH_LONG).show();
+//                    }
+//                } else {
+//                    Toast.makeText(getApplicationContext(), "Please check your internet connection", Toast.LENGTH_LONG).show();
+//                }
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
+//        }
+//    }
 
 
     private class PaymentModeComparator implements Comparator<ProductDetails> {

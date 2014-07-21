@@ -39,8 +39,7 @@ public class DisplayDeliveryChargesAndType {
         getDeliveryChargesView();
         delivery_mode = new String[listOfDeliveryCharges.getSuccess().getDeliverycharge().size()];
         delivery_mode_branchid = new String[listOfDeliveryCharges.getSuccess().getDeliverycharge().size()];
-        providerid=new String[listOfDeliveryCharges.getSuccess().getDeliverycharge().size()];
-
+        providerid = new String[listOfDeliveryCharges.getSuccess().getDeliverycharge().size()];
 
     }
 
@@ -60,7 +59,7 @@ public class DisplayDeliveryChargesAndType {
             if (checkForDeliveryModeList.get(i).getProviderName() != null) {
                 txt_sellername.setText(checkForDeliveryModeList.get(i).getProviderName());
                 Log.d("provider id",checkForDeliveryModeList.get(i).getProviderid());
-                 providerid[i]=checkForDeliveryModeList.get(i).getProviderid();
+//                providerid[i] = checkForDeliveryModeList.get(i).getProviderid();
             }
 
             for (int j = 0; j < listOfDeliveryCharges.getSuccess().getDeliverycharge().size(); j++) {
@@ -99,7 +98,7 @@ public class DisplayDeliveryChargesAndType {
                 @Override
                 public void onClick(View view) {
                     Intent goToSelectPickUpAddressActivity = new Intent(context, SelectPickUpAddressActivity.class);
-                    goToSelectPickUpAddressActivity.putExtra("providerid",providerid[btn_selct_pickup_address.getId()-100]);
+//                    goToSelectPickUpAddressActivity.putExtra("providerid",providerid[btn_selct_pickup_address.getId()-100]);
                     ((Activity) context).startActivityForResult(goToSelectPickUpAddressActivity,1);
                 }
             });
