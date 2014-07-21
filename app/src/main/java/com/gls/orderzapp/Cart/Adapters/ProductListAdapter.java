@@ -245,7 +245,8 @@ public class ProductListAdapter {
             public void onClick(View view) {
 
                 Cart.deleteFromCart(view.getTag()+"");
-                CartActivity.displayCart();
+                CartActivity cartActivity = (CartActivity) context;
+                cartActivity.displayCart();
 
             }
         });
@@ -281,6 +282,7 @@ public class ProductListAdapter {
 
                     if ((Double.parseDouble(tempEditText.getText().toString())) >= min_weight && (Double.parseDouble(tempEditText.getText().toString())) <= max_weight) {
                         Cart.updateCart(tag, tempEditText.getText().toString().trim(), measure);
+
                     } else {
                         Toast.makeText(context, "Please enter a weight between " + min_weight + " " + measure + " and " + max_weight + " " + measure, Toast.LENGTH_LONG).show();
                     }

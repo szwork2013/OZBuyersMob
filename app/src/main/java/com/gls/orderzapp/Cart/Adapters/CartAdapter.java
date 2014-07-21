@@ -1,15 +1,31 @@
 package com.gls.orderzapp.Cart.Adapters;
 
+import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.os.AsyncTask;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.gls.orderzapp.AddressDetails.Adapter.DisplayDeliveryChargesAndType;
+import com.gls.orderzapp.Cart.Beans.BranchIdsForGettingDeliveryCharges;
+import com.gls.orderzapp.CreateOrder.CreateOrderBeans.SuccessResponseForDeliveryChargesAndType;
 import com.gls.orderzapp.MainApp.CartActivity;
+import com.gls.orderzapp.MainApp.DeliveryPaymentActivity;
 import com.gls.orderzapp.Provider.Beans.ProductDetails;
 import com.gls.orderzapp.R;
+import com.gls.orderzapp.User.SuccessResponseOfUser;
 import com.gls.orderzapp.Utility.Cart;
+import com.gls.orderzapp.Utility.CheckConnection;
+import com.gls.orderzapp.Utility.ServerConnection;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -28,8 +44,13 @@ public class CartAdapter {
     List<ProductDetails> productList;
     List<String> branchids = new ArrayList<>();
     List<ProductDetails> listProducts = new ArrayList<>();
-    String providerName = "";
+    String providerName = "", branchId = "";;
     TextView sub_total;
+    List<ProductDetails> SortedProviderList = new ArrayList<>();
+    SuccessResponseOfUser successResponseOfUserDeliveryAddresDetails;
+    BranchIdsForGettingDeliveryCharges branchIdsForGettingDeliveryCharges;
+    SuccessResponseForDeliveryChargesAndType successResponseForDeliveryCharges;
+    ArrayList<String> branchIdforDelivery = new ArrayList<>();
 
     public CartAdapter(Context context) {
         this.context = context;
@@ -39,6 +60,11 @@ public class CartAdapter {
         productList = new ArrayList<>(Arrays.asList(mValues));
 
         Collections.sort(productList, new CustomComparator());
+
+        successResponseForDeliveryCharges = new SuccessResponseForDeliveryChargesAndType();
+        branchIdsForGettingDeliveryCharges = new BranchIdsForGettingDeliveryCharges();
+
+        dataForGetDeliveryCharges();
     }
 
     public void getCartView() {
@@ -76,12 +102,16 @@ public class CartAdapter {
 
                 }
 
-                if (productList.get(i).getDelivery() != null) {
-                    if (productList.get(i).getDelivery().getIsprovidehomedelivery() != null) {
-                        if (productList.get(i).getDelivery().getIsprovidehomedelivery() == true) {
-                            delivery_type.setText("Home delivery available");
-                        } else {
-                            delivery_type.setText("Only pick up available");
+                if(successResponseForDeliveryCharges.getSuccess().getDeliverycharge().size() > 0) {
+                    for (int j = 0; j < successResponseForDeliveryCharges.getSuccess().getDeliverycharge().size(); j++) {
+                        if(successResponseForDeliveryCharges.getSuccess().getDeliverycharge().get(j).getBranchid() != null) {
+                            if (successResponseForDeliveryCharges.getSuccess().getDeliverycharge().get(j).getBranchid().equalsIgnoreCase(branchid)) {
+                                if (successResponseForDeliveryCharges.getSuccess().getDeliverycharge().get(j).isDelivery() == true) {
+                                    delivery_type.setText("Delivery available");
+                                } else {
+                                    delivery_type.setText("Delivery NOT avilable");
+                                }
+                            }
                         }
                     }
                 }
@@ -101,6 +131,130 @@ public class CartAdapter {
         @Override
         public int compare(ProductDetails o1, ProductDetails o2) {
             return o1.getBranchid().compareTo(o2.getBranchid());
+        }
+    }
+
+    public void setBranchId(String getUserData) {
+        try {
+            successResponseOfUserDeliveryAddresDetails = new Gson().fromJson(getUserData, SuccessResponseOfUser.class);
+            branchIdsForGettingDeliveryCharges.setBranchids(branchIdforDelivery);
+            if(successResponseOfUserDeliveryAddresDetails.getSuccess().getUser().getLocation().getArea()!=null
+                    && successResponseOfUserDeliveryAddresDetails.getSuccess().getUser().getLocation().getCity()!=null){
+                branchIdsForGettingDeliveryCharges.setArea(successResponseOfUserDeliveryAddresDetails.getSuccess().getUser().getLocation().getArea());
+                branchIdsForGettingDeliveryCharges.setCity(successResponseOfUserDeliveryAddresDetails.getSuccess().getUser().getLocation().getCity());
+            }
+
+            new GetDeliveryChargesAsync().execute();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public String loadPreferencesUserDataForBillingAddress() throws Exception {
+        String user = "";
+        try {
+            SharedPreferences spLoad = PreferenceManager.getDefaultSharedPreferences(context);
+            user = spLoad.getString("USER_DATA", null);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return user;
+    }
+
+    public String getDeliverCharges() {
+        String resultOfDeliveryCharges = "";
+        String jsonToSendOverServer = "";
+        try {
+
+            GsonBuilder gBuild = new GsonBuilder();
+            Gson gson = gBuild.disableHtmlEscaping().create();
+            jsonToSendOverServer = gson.toJson(branchIdsForGettingDeliveryCharges);
+            Log.d("jsonToSendOverServer", jsonToSendOverServer);
+            resultOfDeliveryCharges = ServerConnection.executePost1(jsonToSendOverServer, "/api/deliverycharge");
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return resultOfDeliveryCharges;
+    }
+
+    public void dataForGetDeliveryCharges() {
+
+        for (int i = 0; i < Cart.hm.size(); i++) {
+
+            branchId = productList.get(i).getBranchid();
+
+            if (!branchIdforDelivery.contains(branchId)) {
+                branchIdforDelivery.add(branchId);
+                SortedProviderList.add(productList.get(i));
+            }
+        }
+        try {
+            setBranchId(loadPreferencesUserDataForBillingAddress());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    private class GetDeliveryChargesAsync extends AsyncTask<String, Integer, String> {
+        JSONObject jObj;
+        String connectedOrNot, resultOfGetDeliveryCharges, msg, code;
+        ProgressDialog progressDialog;
+
+
+        @Override
+        protected void onPreExecute() {
+            context = (CartActivity)context;
+            progressDialog = ProgressDialog.show(context, "", "");
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+            try {
+                if (new CheckConnection(context).isConnectingToInternet()) {
+                    connectedOrNot = "success";
+                    resultOfGetDeliveryCharges = getDeliverCharges();
+                    if (!resultOfGetDeliveryCharges.isEmpty()) {
+                        Log.d("resultOfGetDeliveryCharges", resultOfGetDeliveryCharges);
+                        jObj = new JSONObject(resultOfGetDeliveryCharges);
+                        if (jObj.has("success")) {
+                            successResponseForDeliveryCharges = new Gson().fromJson(resultOfGetDeliveryCharges, SuccessResponseForDeliveryChargesAndType.class);
+                            Log.d("Successresponse for delivery charges", resultOfGetDeliveryCharges);
+                        } else {
+                            JSONObject jObjError = jObj.getJSONObject("error");
+                            msg = jObjError.getString("message");
+                            code = jObjError.getString("code");
+
+                        }
+                    }
+                } else {
+                    connectedOrNot = "error";
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return connectedOrNot;
+        }
+
+        @Override
+        protected void onPostExecute(String connectedOrNot) {
+            progressDialog.dismiss();
+            try {
+                if (connectedOrNot.equalsIgnoreCase("success")) {
+                    if (!resultOfGetDeliveryCharges.isEmpty()) {
+                        if (jObj.has("success")) {
+                            getCartView();
+                        } else {
+                            Toast.makeText(context, msg, Toast.LENGTH_LONG).show();
+                        }
+                    } else {
+                        Toast.makeText(context, "Server is not responding please try again later", Toast.LENGTH_LONG).show();
+                    }
+                } else {
+                    Toast.makeText(context, "Please check your internet connection", Toast.LENGTH_LONG).show();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 }

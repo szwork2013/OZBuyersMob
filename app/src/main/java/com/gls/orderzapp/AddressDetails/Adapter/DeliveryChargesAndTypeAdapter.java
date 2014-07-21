@@ -45,9 +45,9 @@ public class DeliveryChargesAndTypeAdapter {
     public static LinearLayout llDeliveryChargeAndType;
     public static String delivery_type = "";
     ArrayList<String> branchIdforDelivery = new ArrayList<>();
-   public static BranchIdsForGettingDeliveryCharges branchIdsForGettingDeliveryCharges;
+    public static BranchIdsForGettingDeliveryCharges branchIdsForGettingDeliveryCharges;
     public static SuccessResponseForDeliveryChargesAndType successResponseForDeliveryCharges;
-   public static SuccessResponseOfUser successResponseOfUserDeliveryAddresDetails;
+    public static SuccessResponseOfUser successResponseOfUserDeliveryAddresDetails;
 
     public DeliveryChargesAndTypeAdapter(Context context) {
         this.context = context;

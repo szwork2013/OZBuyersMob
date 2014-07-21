@@ -42,6 +42,7 @@ public class DisplayDeliveryChargesAndType {
         delivery_mode = new String[listOfDeliveryCharges.getSuccess().getDeliverycharge().size()];
         delivery_mode_branchid = new String[listOfDeliveryCharges.getSuccess().getDeliverycharge().size()];
         providerid=new String[listOfDeliveryCharges.getSuccess().getDeliverycharge().size()];
+        providerid = new String[listOfDeliveryCharges.getSuccess().getDeliverycharge().size()];
         getDeliveryChargesView();
     }
 
@@ -60,8 +61,13 @@ public class DisplayDeliveryChargesAndType {
 
             if (checkForDeliveryModeList.get(i).getProviderName() != null) {
                 txt_sellername.setText(checkForDeliveryModeList.get(i).getProviderName());
+
                 Log.d("provider id and seller name",checkForDeliveryModeList.get(i).getProviderid()+"???"+checkForDeliveryModeList.get(i).getProviderName());
                  providerid[i]=checkForDeliveryModeList.get(i).getProviderid();
+
+                Log.d("provider id",checkForDeliveryModeList.get(i).getProviderid());
+//                providerid[i] = checkForDeliveryModeList.get(i).getProviderid();
+
             }
 
             for (int j = 0; j < listOfDeliveryCharges.getSuccess().getDeliverycharge().size(); j++) {
@@ -103,6 +109,7 @@ public class DisplayDeliveryChargesAndType {
                     Intent goToSelectPickUpAddressActivity = new Intent(context, SelectPickUpAddressActivity.class);
                     goToSelectPickUpAddressActivity.putExtra("providerid",providerid[btn_selct_pickup_address.getId()-100]);
                     Log.d("Btn provider id and name-",providerid[delivery_type_group.getId() - 100]+"???"+checkForDeliveryModeList.get(delivery_type_group.getId() - 100).getProviderName());
+//                    goToSelectPickUpAddressActivity.putExtra("providerid",providerid[btn_selct_pickup_address.getId()-100]);
                     ((Activity) context).startActivityForResult(goToSelectPickUpAddressActivity,1);
                 }
             });

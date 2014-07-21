@@ -11,19 +11,58 @@
         android:orientation="vertical"
         android:background="#fff"
         android:padding="3dp">
-    
+
+      <TextView
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:textSize="18sp"
+          android:textColor="#000"
+          android:textStyle="bold"
+          android:text="Country: "
+          android:layout_marginBottom="5dp"
+          android:layout_marginTop="5dp"/>
       <Spinner
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
           android:id="@+id/country_spinner"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:textColor="#000"
+            android:textStyle="bold"
+            android:text="State: "
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="5dp"/>
       <Spinner
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
           android:id="@+id/state_spinner"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:textColor="#000"
+            android:textStyle="bold"
+            android:text="City: "
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="5dp"/>
       <Spinner
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
           android:id="@+id/city_spinner"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:textColor="#000"
+            android:textStyle="bold"
+            android:text="Areas"
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="5dp"/>
 
         <ListView
             android:layout_width="match_parent"

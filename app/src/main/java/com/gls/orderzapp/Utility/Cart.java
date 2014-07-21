@@ -12,6 +12,7 @@ import com.gls.orderzapp.AddressDetails.Adapter.DisplayDeliveryChargesAndType;
 import com.gls.orderzapp.CreateOrder.CreateOrderBeans.CreateOrderProductDetails;
 import com.gls.orderzapp.CreateOrder.CreateOrderBeans.ProductConfiguration;
 import com.gls.orderzapp.CreateOrder.CreateOrderBeans.SuccessResponseForDeliveryChargesAndType;
+import com.gls.orderzapp.MainApp.CartActivity;
 import com.gls.orderzapp.Provider.Beans.ProductDetails;
 import com.gls.orderzapp.R;
 import com.google.gson.Gson;
@@ -184,6 +185,7 @@ public class Cart {
             Log.d("update cart", new Gson().toJson(hm));
             //ProductCartActivity.txt_sub_total.setText(Math.round(Cart.subTotal()*100.0)/100.0+"");
 //            ProductCartActivity.txt_sub_total.setText(String.format("%.2f", Cart.subTotal()));
+            CartActivity.grand_total.setText(String.format("%.2f", Cart.subTotal()));
         } catch (Exception e) {
             e.printStackTrace();
         }
