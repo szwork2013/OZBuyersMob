@@ -34,8 +34,9 @@ public class SelectPickUpAddressActivity extends Activity {
         setContentView(R.layout.selectaddressactivitylist_layout);
         ((GoogleAnalyticsUtility) getApplication()).getTracker(GoogleAnalyticsUtility.TrackerName.APP_TRACKER);
         context = SelectPickUpAddressActivity.this;
+        bundle = getIntent().getExtras();
         findViewsById();
-         bundle = getIntent().getExtras();
+
         new GetPickUpAddressListAsync().execute();
     }
     public void findViewsById() {
@@ -68,6 +69,7 @@ public class SelectPickUpAddressActivity extends Activity {
 
     class GetPickUpAddressListAsync extends AsyncTask<String, Integer, String> {
         String resultGetPickUpAddressList, connectedOrNot, msg;
+        String provider_pos;
         ProgressDialog progressDialog;
         JSONObject jObj;
 
@@ -82,6 +84,7 @@ public class SelectPickUpAddressActivity extends Activity {
             try {
                 if (new CheckConnection(getApplicationContext()).isConnectingToInternet()) {
                     connectedOrNot = "success";
+                    Log.d("Provider id in bundle",bundle.getString("providerid"));
                     resultGetPickUpAddressList = getGetPickUpAddressList(bundle.getString("providerid"));
                     if (!resultGetPickUpAddressList.isEmpty()) {
                         Log.d("search result", new Gson().toJson(resultGetPickUpAddressList));
@@ -110,7 +113,7 @@ public class SelectPickUpAddressActivity extends Activity {
                 if (connectedOrNot.equals("success")) {
                     if (!resultGetPickUpAddressList.isEmpty()) {
                         if (jObj.has("success")) {
-                            lst_address_list.setAdapter(new AdapterForPickUpAddressList(context, pickUpAddressSuccessResponse.getSuccess().getAddresses()));
+                            lst_address_list.setAdapter(new AdapterForPickUpAddressList(context, pickUpAddressSuccessResponse.getSuccess().getAddresses(),bundle.getString("providerid")));
                         } else {
                             Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_LONG).show();
                         }

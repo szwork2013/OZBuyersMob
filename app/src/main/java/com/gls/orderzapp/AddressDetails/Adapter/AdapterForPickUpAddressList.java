@@ -2,6 +2,9 @@ package com.gls.orderzapp.AddressDetails.Adapter;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +13,8 @@ import android.widget.TextView;
 
 import com.gls.orderzapp.R;
 import com.gls.orderzapp.SignUp.Location;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,10 +26,14 @@ public class AdapterForPickUpAddressList extends BaseAdapter {
     Context context;
     List<Location> addresses = new ArrayList<>();
     public static Location pickupAddressFromList;
+    String provider_id;
     public static String pickuparea = null;
-    public AdapterForPickUpAddressList(Context context, List<Location> addresses) {
+    GsonBuilder gBuild = new GsonBuilder();
+    Gson gson = gBuild.disableHtmlEscaping().create();
+    public AdapterForPickUpAddressList(Context context, List<Location> addresses,String provider_id) {
         this.context = context;
         this.addresses = addresses;
+        this.provider_id=provider_id;
     }
 
     @Override
@@ -81,11 +90,13 @@ public class AdapterForPickUpAddressList extends BaseAdapter {
                             pickupAddressFromList.setState(addresses.get(position).getState());
                             pickupAddressFromList.setZipcode(addresses.get(position).getZipcode());
                             pickupAddressFromList.setCity(addresses.get(position).getCity());
-                        }
-                        if (pickupAddressFromList.getArea() != null) {
-                            DisplayDeliveryChargesAndType.pickuparea=pickupAddressFromList.getArea();
+                       Log.d("You selected area", addresses.get(position).getArea());
 
-//                            SelectAddressListActivity.isAddNewaddress = true;
+
+                            Intent returnIntent = new Intent();
+                            returnIntent.putExtra("pickupaddress",gson.toJson(pickupAddressFromList));
+                            returnIntent.putExtra("providerid_forpickupaddress",provider_id);
+                            ((Activity) context).setResult(((Activity) context).RESULT_OK, returnIntent);
                             ((Activity) context).finish();
                         }
                     } catch (Exception e) {
@@ -100,9 +111,6 @@ public class AdapterForPickUpAddressList extends BaseAdapter {
         }catch (Exception e) {
                 e.printStackTrace();
             }
-
-
-
         return convertView;
     }
 }

@@ -106,12 +106,13 @@ public class FinalOrderActivity extends Activity {
         try {
 
             final DateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
-            inputFormat.setTimeZone(TimeZone.getTimeZone("Asia/Calcutta"));
+            inputFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
 
-            final DateFormat outputFormat = new SimpleDateFormat("dd-MMM-yyyy");
+            final DateFormat outputFormat = new SimpleDateFormat("dd-MMM-yyyy HH:mm a");
             TimeZone tz = TimeZone.getTimeZone("Asia/Calcutta");
 
             outputFormat.setTimeZone(tz);
+
             Date order_date = inputFormat.parse(successResponseForCreateOrder.getSuccess().getOrder().getPreferred_delivery_date());
             txt_expected_delivery_date.setText(outputFormat.format(order_date));
 

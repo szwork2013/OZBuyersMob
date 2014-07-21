@@ -50,7 +50,7 @@
     <string name="submit">Submit</string>
     <string name="your_verification_token_is">Your Verification token is:</string>
     <string name="expected_delivery_date">Expected Delivery Date</string>
-    <string name="order_details">Order Priview</string>
+    <string name="order_details">Order Details</string>
     <string name="product_name">Product name</string>
     <string name="qty">Qty</string>
     <string name="payment_details">Payment</string>
@@ -93,5 +93,6 @@
     <string name="delivertype_withcolon">Delivery Type :</string>
     <string name="select_your_area">Select your Area </string>
     <string name="select_pickup_address">Select Pick Up address</string>
+    <string name="delivery_type_with_colon">Delivery Type:</string>
 
 </resources>

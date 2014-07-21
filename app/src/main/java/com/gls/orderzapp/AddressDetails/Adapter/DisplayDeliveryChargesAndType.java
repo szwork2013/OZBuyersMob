@@ -11,12 +11,15 @@ import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.gls.orderzapp.CreateOrder.CreateOrderBeans.SuccessResponseForDeliveryChargesAndType;
 import com.gls.orderzapp.MainApp.SelectPickUpAddressActivity;
 import com.gls.orderzapp.Provider.Beans.ProductDetails;
 import com.gls.orderzapp.R;
+import com.gls.orderzapp.SignUp.Location;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -25,7 +28,7 @@ import java.util.List;
 public class DisplayDeliveryChargesAndType {
     public static Context context;
     public static String[] delivery_mode;
-    public static String pickuparea=null;
+    public static List<Location> pickuparea=new ArrayList<>();
     int i=0;
     public static String[] delivery_mode_branchid;
     public String[] providerid;
@@ -36,12 +39,10 @@ public class DisplayDeliveryChargesAndType {
         this.context = context;
         this.listOfDeliveryCharges = listOfDeliveryCharges;
         this.checkForDeliveryModeList = checkForDeliveryModeList;
-        getDeliveryChargesView();
         delivery_mode = new String[listOfDeliveryCharges.getSuccess().getDeliverycharge().size()];
         delivery_mode_branchid = new String[listOfDeliveryCharges.getSuccess().getDeliverycharge().size()];
         providerid=new String[listOfDeliveryCharges.getSuccess().getDeliverycharge().size()];
-
-
+        getDeliveryChargesView();
     }
 
     public void getDeliveryChargesView() {
@@ -59,7 +60,7 @@ public class DisplayDeliveryChargesAndType {
 
             if (checkForDeliveryModeList.get(i).getProviderName() != null) {
                 txt_sellername.setText(checkForDeliveryModeList.get(i).getProviderName());
-                Log.d("provider id",checkForDeliveryModeList.get(i).getProviderid());
+                Log.d("provider id and seller name",checkForDeliveryModeList.get(i).getProviderid()+"???"+checkForDeliveryModeList.get(i).getProviderName());
                  providerid[i]=checkForDeliveryModeList.get(i).getProviderid();
             }
 
@@ -81,6 +82,7 @@ public class DisplayDeliveryChargesAndType {
                     switch (checkedId) {
                         case R.id.pick_up:
                             Log.d("Pickup pos", group.getId() - 100 + "");
+                            Log.d("Pickup provider id and name-",providerid[group.getId() - 100]+"???"+checkForDeliveryModeList.get(group.getId() - 100).getProviderid());
                             delivery_mode[group.getId() - 100] = "pickup";
                             btn_selct_pickup_address.setVisibility(View.VISIBLE);
                             delivery_mode_branchid[group.getId() - 100] = listOfDeliveryCharges.getSuccess().getDeliverycharge().get(group.getId() - 100).getBranchid();
@@ -100,6 +102,7 @@ public class DisplayDeliveryChargesAndType {
                 public void onClick(View view) {
                     Intent goToSelectPickUpAddressActivity = new Intent(context, SelectPickUpAddressActivity.class);
                     goToSelectPickUpAddressActivity.putExtra("providerid",providerid[btn_selct_pickup_address.getId()-100]);
+                    Log.d("Btn provider id and name-",providerid[delivery_type_group.getId() - 100]+"???"+checkForDeliveryModeList.get(delivery_type_group.getId() - 100).getProviderName());
                     ((Activity) context).startActivityForResult(goToSelectPickUpAddressActivity,1);
                 }
             });
@@ -113,6 +116,14 @@ public class DisplayDeliveryChargesAndType {
         for (int l = 0; l < listOfDeliveryCharges.getSuccess().getDeliverycharge().size(); l++)
             if (delivery_mode[l] != null) {
                 if (delivery_mode[l].isEmpty()) {
+                    if(delivery_mode[l].equalsIgnoreCase("pickup"))
+                    {
+                        if(pickuparea.get(l)==null)
+                        {
+                            Toast.makeText(context, "Please select a Pick-Up address", Toast.LENGTH_LONG).show();
+                            return false;
+                        }
+                    }
                     return false;
                 }
             } else {

@@ -40,6 +40,7 @@
             android:layout_height="match_parent"
             android:textSize="16sp"
             android:textColor="#000"
+            android:textStyle="bold"
             android:layout_marginRight="2dp"
             android:text="@string/seller" />
 
@@ -80,13 +81,14 @@
             android:textStyle="bold"
             android:textSize="16sp"
             android:textColor="#000"
-            android:text="@string/delivery_type" />
+            android:text="@string/delivery_type_with_colon" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/delivery_type"
             android:textSize="16sp"
+            android:layout_marginLeft="2dp"
             android:textColor="#000" />
     </LinearLayout>
 
@@ -215,8 +217,15 @@
             android:layout_height="wrap_content"
             android:textStyle="bold"
             android:textColor="#000"
-            android:textSize="16sp"
+            android:textSize="15sp"
             android:text="@string/delivery_charges" />
+        <TextView
+        android:layout_width="wrap_content"
+        android:text="@string/rs"
+        android:textSize="15sp"
+        android:textColor="#000"
+        android:layout_marginRight="2dp"
+        android:layout_height="wrap_content" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -224,13 +233,13 @@
             android:textStyle="bold"
             android:textColor="#000"
             android:id="@+id/delivery_charge"
-            android:textSize="16sp" />
+            android:textSize="15sp" />
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:orientation="horizontal"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="2dp"
         android:gravity="right"
         android:layout_marginRight="10dp"
         android:layout_height="wrap_content">

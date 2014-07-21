@@ -62,6 +62,7 @@ public class DeliveryPaymentActivity extends Activity {
     public static String payment_mode = "", user_id = "";
     final int SIGN_IN = 0;
    public final static int  CHANGE_ADDRESS = 1;
+    public final static int  PICKUP_ADDRESS = 2;
     Calendar c;
     int mYear, mMonth, mDay, yy, mm, dd, hh, min, cHH, cMin, cAm_Pm;
     DatePicker datePicker;
@@ -238,7 +239,7 @@ public class DeliveryPaymentActivity extends Activity {
                 Log.d("selected date", new Gson().toJson(selectedDate));
                 Log.d("current date", new Gson().toJson(TodaysDate));
                 if (selectedDate.before(TodaysDate)) {
-                    Toast.makeText(getApplicationContext(), "Please select a valid date", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "Please select a valid date and time", Toast.LENGTH_LONG).show();
 
                 } else {
 
@@ -314,6 +315,13 @@ public class DeliveryPaymentActivity extends Activity {
                     String result = data.getStringExtra("RESULT");
                 }
                 break;
+            case PICKUP_ADDRESS:
+            {
+                if(resultCode==RESULT_OK)
+                {
+                    selectDeliveryType();
+                }
+            }
         }
 
     }
