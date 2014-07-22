@@ -224,6 +224,28 @@ public class Cart {
         return al;
     }
 
+public static int deleteConfigObject()
+{
+    try{
+        String[] keys = hm.keySet().toArray(new String[hm.size()]);
+        final int keySize = keys.length;
+        for (int i = 0; i < keySize; i++) {
+            if (Cart.hm.get(keys[i]).getMessageonproduct().equalsIgnoreCase("none")) {
+                for(int k=0;k<Cart.hm.get(keys[i]).getProductconfiguration().getConfiguration().size();k++)
+                {
+                if(Cart.hm.get(keys[i]).getProductconfiguration().getConfiguration().get(k).getProd_configtype().equalsIgnoreCase("msg")&&
+                        Cart.hm.get(keys[i]).getProductconfiguration().getConfiguration().get(k).isChecked()==false)
+                        {
+                            Cart.hm.get(keys[i]).getProductconfiguration().setConfiguration(null);
+                        }
+                }
+            }
+        }
+
+
+    }catch(Exception e){e.printStackTrace();}
+    return getCount();
+}
     public static int deleteFromCartIfQuantityIsZero() {
         try {
             String[] keys = hm.keySet().toArray(new String[hm.size()]);

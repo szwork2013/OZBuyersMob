@@ -16,13 +16,13 @@
             android:layout_width="10dp"
             android:layout_height="10dp"
             android:src="@drawable/veg"
+            android:layout_marginRight="5dp"
             android:id="@+id/veg" />
 
         <ImageView
             android:layout_width="10dp"
             android:layout_height="10dp"
             android:src="@drawable/non_veg"
-            android:layout_marginLeft="5dp"
             android:id="@+id/non_veg" />
     </LinearLayout>
 

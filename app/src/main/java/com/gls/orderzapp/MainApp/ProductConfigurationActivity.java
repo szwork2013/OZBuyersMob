@@ -54,10 +54,10 @@ public class ProductConfigurationActivity extends Activity {
         add_configuration.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d("hm", new Gson().toJson(Cart.hm));
+                Log.d("hm after configuration", new Gson().toJson(Cart.hm));
+                Cart.deleteConfigObject();
+                Log.d("hm after deletconfiguration", new Gson().toJson(Cart.hm));
                 new CheckSessionAsync().execute();
-//                Intent deliveryPayment = new Intent(ProductConfigurationActivity.this, DeliveryPaymentActivity.class);
-//                startActivity(deliveryPayment);
             }
         });
     }
@@ -155,6 +155,7 @@ public class ProductConfigurationActivity extends Activity {
                     if (!resultOfCheckSession.isEmpty()) {
                         if (jObj.has("success")) {
                             Intent deliveryPayment = new Intent(ProductConfigurationActivity.this, DeliveryPaymentActivity.class);
+
                             startActivity(deliveryPayment);
                             finish();
 
