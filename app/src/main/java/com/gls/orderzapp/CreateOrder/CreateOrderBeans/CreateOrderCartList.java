@@ -17,6 +17,15 @@ public class CreateOrderCartList {
     String preferred_delivery_date;
     List<String> orderinstructions = new ArrayList<>();
     String paymentmode;
+    List<SellerDelivery> sellerdelivery = new ArrayList<>();
+
+    public List<SellerDelivery> getSellerdelivery() {
+        return sellerdelivery;
+    }
+
+    public void setSellerdelivery(List<SellerDelivery> sellerdelivery) {
+        this.sellerdelivery = sellerdelivery;
+    }
 
     public List<DeliveryTypes> getDeliverytypes() {
         return deliverytypes;

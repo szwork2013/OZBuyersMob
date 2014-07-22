@@ -47,7 +47,6 @@ public class CartAdapter {
     String providerName = "", branchId = "";;
     TextView sub_total;
     List<ProductDetails> SortedProviderList = new ArrayList<>();
-    SuccessResponseOfUser successResponseOfUserDeliveryAddresDetails;
     BranchIdsForGettingDeliveryCharges branchIdsForGettingDeliveryCharges;
     SuccessResponseForDeliveryChargesAndType successResponseForDeliveryCharges;
     ArrayList<String> branchIdforDelivery = new ArrayList<>();
@@ -109,7 +108,7 @@ public class CartAdapter {
                                 if (successResponseForDeliveryCharges.getSuccess().getDeliverycharge().get(j).isDelivery() == true) {
                                     delivery_type.setText("Delivery available");
                                 } else {
-                                    delivery_type.setText("Delivery NOT avilable");
+                                    delivery_type.setText("Delivery NOT available");
                                 }
                             }
                         }
@@ -127,6 +126,20 @@ public class CartAdapter {
         }
     }
 
+    public String loadCityPreference(){
+        String userCity = "";
+        SharedPreferences spLoad = PreferenceManager.getDefaultSharedPreferences(context);
+        userCity = spLoad.getString("USER_CITY", "Pune");
+        return userCity;
+    }
+
+    public String loadAreaPreference(){
+        String userArea = "";
+        SharedPreferences spLoad = PreferenceManager.getDefaultSharedPreferences(context);
+        userArea = spLoad.getString("USER_AREA", "Shivaji nagar");
+        return userArea;
+    }
+
     public class CustomComparator implements Comparator<ProductDetails> {
         @Override
         public int compare(ProductDetails o1, ProductDetails o2) {
@@ -134,31 +147,18 @@ public class CartAdapter {
         }
     }
 
-    public void setBranchId(String getUserData) {
+    public void setBranchId() {
         try {
-            successResponseOfUserDeliveryAddresDetails = new Gson().fromJson(getUserData, SuccessResponseOfUser.class);
+
             branchIdsForGettingDeliveryCharges.setBranchids(branchIdforDelivery);
-            if(successResponseOfUserDeliveryAddresDetails.getSuccess().getUser().getLocation().getArea()!=null
-                    && successResponseOfUserDeliveryAddresDetails.getSuccess().getUser().getLocation().getCity()!=null){
-                branchIdsForGettingDeliveryCharges.setArea(successResponseOfUserDeliveryAddresDetails.getSuccess().getUser().getLocation().getArea());
-                branchIdsForGettingDeliveryCharges.setCity(successResponseOfUserDeliveryAddresDetails.getSuccess().getUser().getLocation().getCity());
-            }
+                CartActivity.area_text.setText(loadAreaPreference());
+                branchIdsForGettingDeliveryCharges.setArea(loadAreaPreference());
+                branchIdsForGettingDeliveryCharges.setCity(loadCityPreference());
 
-            new GetDeliveryChargesAsync().execute();
+                new GetDeliveryChargesAsync().execute();
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
-
-    public String loadPreferencesUserDataForBillingAddress() throws Exception {
-        String user = "";
-        try {
-            SharedPreferences spLoad = PreferenceManager.getDefaultSharedPreferences(context);
-            user = spLoad.getString("USER_DATA", null);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return user;
     }
 
     public String getDeliverCharges() {
@@ -190,7 +190,7 @@ public class CartAdapter {
             }
         }
         try {
-            setBranchId(loadPreferencesUserDataForBillingAddress());
+            setBranchId();
         } catch (Exception e) {
             e.printStackTrace();
         }

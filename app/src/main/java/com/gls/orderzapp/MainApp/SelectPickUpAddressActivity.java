@@ -113,7 +113,7 @@ public class SelectPickUpAddressActivity extends Activity {
                 if (connectedOrNot.equals("success")) {
                     if (!resultGetPickUpAddressList.isEmpty()) {
                         if (jObj.has("success")) {
-                            lst_address_list.setAdapter(new AdapterForPickUpAddressList(context, pickUpAddressSuccessResponse.getSuccess().getAddresses(),bundle.getString("providerid")));
+                            lst_address_list.setAdapter(new AdapterForPickUpAddressList(context, pickUpAddressSuccessResponse.getSuccess().getAddresses(),bundle.getString("providerid"), bundle.getString("branchid")));
                         } else {
                             Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_LONG).show();
                         }

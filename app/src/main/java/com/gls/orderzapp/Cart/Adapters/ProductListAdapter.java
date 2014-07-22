@@ -281,6 +281,7 @@ public class ProductListAdapter {
                     }
 
                     if ((Double.parseDouble(tempEditText.getText().toString())) >= min_weight && (Double.parseDouble(tempEditText.getText().toString())) <= max_weight) {
+                        
                         Cart.updateCart(tag, tempEditText.getText().toString().trim(), measure);
 
                     } else {

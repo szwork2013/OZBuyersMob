@@ -54,13 +54,6 @@ public class CartActivity extends Activity {
         }
     }
 
-    public String loadPreferences() throws Exception{
-        String userArea = "";
-        SharedPreferences spLoad = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-        userArea = spLoad.getString("USER_AREA", "shivaji nagar");
-        return userArea;
-    }
-
     public void findViewsById() {
         llCartList = (LinearLayout) findViewById(R.id.llCartList);
         place_an_order_button = (Button) findViewById(R.id.place_an_order_button);
@@ -77,7 +70,7 @@ public class CartActivity extends Activity {
         llCartList.removeAllViews();
         if (Cart.getCount() > 0) {
             try {
-                area_text.setText(loadPreferences());
+//                area_text.setText(loadPreferences());
                 new CartAdapter(context);
                 grand_total.setText(Cart.subTotal() + "");
             }catch (Exception e){

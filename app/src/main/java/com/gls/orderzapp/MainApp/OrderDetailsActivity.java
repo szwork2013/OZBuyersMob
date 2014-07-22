@@ -192,7 +192,6 @@ public class OrderDetailsActivity extends Activity {
                     if (cartDetails.get(i).getProductconfiguration().getConfiguration().size() > 0) {
                         for (int j = 0; j < cartDetails.get(i).getProductconfiguration().getConfiguration().size(); j++) {
                             if (cartDetails.get(i).getProductconfiguration().getConfiguration().get(j).getFoodType() != null) {
-                                Log.d("before conversaion", new Gson().toJson(cartDetails.get(i).getProductconfiguration()));
                                 if (cartDetails.get(i).getProductconfiguration().getConfiguration().get(j).getFoodType().equalsIgnoreCase("eggless") || cartDetails.get(i).getProductconfiguration().getConfiguration().get(j).isChecked() == true) {
 
                                     productConfiguration = new ProductConfiguration();
@@ -254,7 +253,7 @@ public class OrderDetailsActivity extends Activity {
                 createOrderCartList.setPaymentmode("PAYTM");
             }
             createOrderData.setOrderdata(createOrderCartList);
-            new AdapterForMultipleProviders(context, createOrderCartList.getCart()).setMultipleProvidersList();
+            new AdapterForMultipleProviders(context, createOrderCartList.getCart(), orderDeliveryAddressDetails, orderBillingAddressDetails.getDate()).setMultipleProvidersList();
 //            createOrderCartList.setDeliverycharges(createOrderCartList.getDeliverycharges());
             displayOrderData();
         } catch (Exception e) {
@@ -265,8 +264,6 @@ public class OrderDetailsActivity extends Activity {
     public void displayOrderData() throws Exception {
 
         textGrandTotal.setText("Grand Total:");
-
-//        delivery_type.setText(DeliveryPaymentActivity.delivery_type);
         payment_mode.setText(DeliveryPaymentActivity.payment_mode);
         expected_delivery_date.setText(createOrderData.getOrderdata().getBilling_address().getDate());
 
@@ -278,19 +275,9 @@ public class OrderDetailsActivity extends Activity {
                 createOrderData.getOrderdata().getBilling_address().getState() + ", " +
                 createOrderData.getOrderdata().getBilling_address().getCountry());
 
-//        if (DeliveryPaymentActivity.delivery_type.equalsIgnoreCase("Pick up")) {
-
-//            delivery_address_text.setText("Pick up address");
-//            shippingAddressTextView.setVisibility(View.GONE);
-//            AddressAdapter addressAdapter = new AddressAdapter(getApplicationContext(), createOrderCartList.getCart());
-//            address_list.setAdapter(addressAdapter);
-//            setListViewHeightBasedOnChildren(address_list);
-//
-//        } else {
-
-        llayout_delivery_address.setVisibility(View.VISIBLE);
-        shippingAddressTextView.setVisibility(View.VISIBLE);
-        shippingAddressTextView.setText(createOrderData.getOrderdata().getDelivery_address().getAddress1() + ", " +
+                llayout_delivery_address.setVisibility(View.VISIBLE);
+                shippingAddressTextView.setVisibility(View.VISIBLE);
+                shippingAddressTextView.setText(createOrderData.getOrderdata().getDelivery_address().getAddress1() + ", " +
                 createOrderData.getOrderdata().getDelivery_address().getAddress2() + ", " +
                 createOrderData.getOrderdata().getDelivery_address().getArea() + ",\n" +
                 createOrderData.getOrderdata().getDelivery_address().getCity() + ". " +

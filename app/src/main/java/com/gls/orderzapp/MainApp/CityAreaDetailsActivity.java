@@ -159,7 +159,7 @@ public class CityAreaDetailsActivity extends Activity {
     public String loadCityPreference(){
         String userArea = "";
         SharedPreferences spLoad = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-        userArea = spLoad.getString("USER_City", "Pune");
+        userArea = spLoad.getString("USER_CITY", "Pune");
         return userArea;
     }
 
