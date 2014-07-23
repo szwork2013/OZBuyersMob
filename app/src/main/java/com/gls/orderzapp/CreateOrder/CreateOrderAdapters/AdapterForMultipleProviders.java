@@ -103,7 +103,8 @@ public class AdapterForMultipleProviders {
                             }
 
                             sellerDelivery.setPrefdeldtime(prefferedDeliveryDate);
-                            sellerDelivery.setOrderinstructions("");
+                            Log.d("Order Instruction",DisplayDeliveryChargesAndType.order_instruction[j]);
+                            sellerDelivery.setOrderinstructions(DisplayDeliveryChargesAndType.order_instruction[j]);
                             for(int k = 0; k < DeliveryChargesAndTypeAdapter.successResponseForDeliveryCharges.getSuccess().getDeliverycharge().size(); k++) {
                                 if (branchid.equalsIgnoreCase(DeliveryChargesAndTypeAdapter.successResponseForDeliveryCharges.getSuccess().getDeliverycharge().get(k).getBranchid())) {
                                     DeliveryChargeDetails deliveryChargeDetails = new DeliveryChargeDetails();
