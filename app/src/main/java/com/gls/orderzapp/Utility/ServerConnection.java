@@ -33,8 +33,8 @@ public class ServerConnection {
     public static HttpClient httpClient;
     public static HttpContext localContext;
     public static final String url = "http://ec2-54-254-210-45.ap-southeast-1.compute.amazonaws.com:5000";
-//    public static final String url = "http://ec2-54-255-211-121.ap-southeast-1.compute.amazonaws.com";
-//    public static final String url="http://192.168.1.40:2000";
+//    public static final String url = "https://ec2-54-255-211-121.ap-southeast-1.compute.amazonaws.com";
+//    public static final String url="http://192.169.1.71:5000";
 
     //    public static final String url="http://192.168.1.40:5000";
     public static HttpClient getHttpClient() {

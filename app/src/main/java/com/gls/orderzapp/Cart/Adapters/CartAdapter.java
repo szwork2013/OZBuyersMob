@@ -2,11 +2,15 @@ package com.gls.orderzapp.Cart.Adapters;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -16,6 +20,7 @@ import com.gls.orderzapp.Cart.Beans.BranchIdsForGettingDeliveryCharges;
 import com.gls.orderzapp.CreateOrder.CreateOrderBeans.SuccessResponseForDeliveryChargesAndType;
 import com.gls.orderzapp.MainApp.CartActivity;
 import com.gls.orderzapp.MainApp.DeliveryPaymentActivity;
+import com.gls.orderzapp.MainApp.WebViewActivity;
 import com.gls.orderzapp.Provider.Beans.ProductDetails;
 import com.gls.orderzapp.R;
 import com.gls.orderzapp.User.SuccessResponseOfUser;
@@ -41,11 +46,12 @@ public class CartAdapter {
     String[] mKeys;
     ProductDetails[] mValues;
     public static LinearLayout llCartListItemView, llProductList;
-    List<ProductDetails> productList;
+    static List<ProductDetails> productList;
     List<String> branchids = new ArrayList<>();
     List<ProductDetails> listProducts = new ArrayList<>();
-    String providerName = "", branchId = "";;
-    TextView sub_total;
+    String branchId = "";
+    static List<TextView> listText = new ArrayList<>();
+    static TextView sub_total;
     List<ProductDetails> SortedProviderList = new ArrayList<>();
     BranchIdsForGettingDeliveryCharges branchIdsForGettingDeliveryCharges;
     SuccessResponseForDeliveryChargesAndType successResponseForDeliveryCharges;
@@ -69,8 +75,6 @@ public class CartAdapter {
     public void getCartView() {
         for (int i = 0; i < Cart.hm.size(); i++) {
             String branchid = productList.get(i).getBranchid();
-            Log.d("branchid", branchid + "");
-            providerName = productList.get(i).getProviderName();
 
             if (branchids.contains(branchid)) {
 
@@ -79,7 +83,7 @@ public class CartAdapter {
             } else {
                 if (i > 0) {
 
-                    new ProductListAdapter(context, listProducts).getProductView();
+                    new ProductListAdapter(context, listProducts, listText.size()-1).getProductView();
                     sub_total.setText(Cart.providerSubTotalInCart(listProducts)+"");
 
                 }
@@ -89,8 +93,14 @@ public class CartAdapter {
                 llProductList = (LinearLayout) llCartListItemView.findViewById(R.id.llProductList);
                 TextView textProviderName = (TextView) llCartListItemView.findViewById(R.id.textProviderName);
                 TextView delivery_type = (TextView) llCartListItemView.findViewById(R.id.delivery_type);
+                TextView txt_provider_note = (TextView) llCartListItemView.findViewById(R.id.txt_provider_note);
+                LinearLayout llPolicyButton = (LinearLayout) llCartListItemView.findViewById(R.id.llPolicyButton);
+                Button btn_productcart_privacy = (Button)llCartListItemView.findViewById(R.id.btn_productcart_privacy);
                 sub_total = (TextView) llCartListItemView.findViewById(R.id.sub_total);
-
+                listText.add(sub_total);
+                if(productList.get(i).getNote() != null) {
+                    txt_provider_note.setText(productList.get(i).getNote());
+                }
                 branchids.add(branchid);
                 listProducts.clear();
                 listProducts.add(productList.get(i));
@@ -101,13 +111,37 @@ public class CartAdapter {
 
                 }
 
+                llPolicyButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                            Intent goToPrivacyPolicy = new Intent(context, WebViewActivity.class);
+                            goToPrivacyPolicy.putExtra("URL", ServerConnection.url + "/api/branchpolicy/" + productList.get(view.getId()-1000).getProviderid() + "/" + productList.get(view.getId()-1000).getBranchid() + "?type=all&response_type=html");
+                            goToPrivacyPolicy.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            context.startActivity(goToPrivacyPolicy);
+
+                    }
+                });
+
+                btn_productcart_privacy.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent goToPrivacyPolicy = new Intent(context, WebViewActivity.class);
+                        goToPrivacyPolicy.putExtra("URL", ServerConnection.url + "/api/branchpolicy/" + productList.get(view.getId()-2000).getProviderid() + "/" + productList.get(view.getId()-2000).getBranchid() + "?type=all&response_type=html");
+                        goToPrivacyPolicy.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        context.startActivity(goToPrivacyPolicy);
+
+                    }
+                });
+
                 if(successResponseForDeliveryCharges.getSuccess().getDeliverycharge().size() > 0) {
                     for (int j = 0; j < successResponseForDeliveryCharges.getSuccess().getDeliverycharge().size(); j++) {
                         if(successResponseForDeliveryCharges.getSuccess().getDeliverycharge().get(j).getBranchid() != null) {
                             if (successResponseForDeliveryCharges.getSuccess().getDeliverycharge().get(j).getBranchid().equalsIgnoreCase(branchid)) {
                                 if (successResponseForDeliveryCharges.getSuccess().getDeliverycharge().get(j).isDelivery() == true) {
+                                    delivery_type.setBackgroundColor(Color.parseColor("#009431"));
                                     delivery_type.setText("Delivery available");
                                 } else {
+                                    delivery_type.setBackgroundColor(Color.parseColor("#d60027"));
                                     delivery_type.setText("Delivery NOT available");
                                 }
                             }
@@ -115,11 +149,13 @@ public class CartAdapter {
                     }
                 }
 
+                llPolicyButton.setId(i+1000);
+                btn_productcart_privacy.setId(i+2000);
                 CartActivity.llCartList.addView(llCartListItemView);
             }
 
             if (i == productList.size() - 1) {
-                new ProductListAdapter(context, listProducts).getProductView();
+                new ProductListAdapter(context, listProducts, listText.size()-1).getProductView();
                 sub_total.setText(Cart.providerSubTotalInCart(listProducts)+"");
             }
 
@@ -223,7 +259,6 @@ public class CartAdapter {
                             JSONObject jObjError = jObj.getJSONObject("error");
                             msg = jObjError.getString("message");
                             code = jObjError.getString("code");
-
                         }
                     }
                 } else {
@@ -244,6 +279,7 @@ public class CartAdapter {
                         if (jObj.has("success")) {
                             getCartView();
                         } else {
+                            getCartView();
                             Toast.makeText(context, msg, Toast.LENGTH_LONG).show();
                         }
                     } else {
@@ -255,6 +291,29 @@ public class CartAdapter {
             } catch (Exception e) {
                 e.printStackTrace();
             }
+        }
+    }
+
+    public static void changeSubTotal(String cartCount, String parentIndex){
+        try {
+            String branchid = "";
+            List<ProductDetails> list = new ArrayList<>();
+            for (int j = 0; j < productList.size(); j++) {
+                if (cartCount.equalsIgnoreCase(productList.get(j).getCartCount())) {
+                    branchid = productList.get(j).getBranchid();
+                }
+            }
+
+            for (int j = 0; j < productList.size(); j++) {
+                if (branchid.equalsIgnoreCase(productList.get(j).getBranchid())) {
+                    list.add(productList.get(j));
+                }
+            }
+
+            Log.d("list", new Gson().toJson(list));
+            ((TextView) listText.get(Integer.parseInt(parentIndex))).setText(Cart.providerSubTotalInCart(list) + "");
+        }catch (Exception e){
+            e.printStackTrace();
         }
     }
 }

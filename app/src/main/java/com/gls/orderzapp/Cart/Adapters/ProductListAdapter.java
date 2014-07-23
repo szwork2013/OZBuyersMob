@@ -45,16 +45,20 @@ public class ProductListAdapter {
     EditText tempEditText = null;
     static String measure = "";
     EditText edittext_quantity;
+    LinearLayout llDeleteImage;
     static double min_weight, max_weight;
     Spinner spinner_weight, tempSpinner;
     ImageView delete_image;
+    int parentIndex;
+    List<String> list = new ArrayList<>();
 
 //    int position = 0;
     String tag = "";
 
-    public ProductListAdapter(Context context, List<ProductDetails> productDetailsList) {
+    public ProductListAdapter(Context context, List<ProductDetails> productDetailsList, int parentIndex) {
         this.productDetailsList = productDetailsList;
         this.context = context;
+        this.parentIndex = parentIndex;
 
         options = new DisplayImageOptions.Builder()
                 .showStubImage(R.drawable.ic_launcher)
@@ -76,6 +80,7 @@ public class ProductListAdapter {
                 edittext_quantity = (EditText) llproductDetails.findViewById(R.id.edittext_quantity);
                 spinner_weight = (Spinner) llproductDetails.findViewById(R.id.spinner_weight);
                 delete_image = (ImageView) llproductDetails.findViewById(R.id.delete_image);
+                llDeleteImage = (LinearLayout) llproductDetails.findViewById(R.id.llDeleteImage);
                 TextView calculated_price = (TextView) llproductDetails.findViewById(R.id.calculated_price);
 
                 if (productDetailsList.get(i).getProductlogo() != null) {
@@ -116,6 +121,9 @@ public class ProductListAdapter {
                 spinner_weight.setTag(productDetailsList.get(i).getCartCount());
                 edittext_quantity.setTag(productDetailsList.get(i).getCartCount());
                 delete_image.setTag(productDetailsList.get(i).getCartCount());
+                llDeleteImage.setTag(productDetailsList.get(i).getCartCount());
+
+                list.add(edittext_quantity.getTag()+"-"+parentIndex);
 
                 CartAdapter.llProductList.addView(llproductDetails);
             }
@@ -251,6 +259,17 @@ public class ProductListAdapter {
             }
         });
 
+        llDeleteImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Cart.deleteFromCart(view.getTag()+"");
+                CartActivity cartActivity = (CartActivity) context;
+                cartActivity.displayCart();
+
+            }
+        });
+
     }
 
     public void quantityEditTextActions(){
@@ -281,9 +300,13 @@ public class ProductListAdapter {
                     }
 
                     if ((Double.parseDouble(tempEditText.getText().toString())) >= min_weight && (Double.parseDouble(tempEditText.getText().toString())) <= max_weight) {
-                        
-                        Cart.updateCart(tag, tempEditText.getText().toString().trim(), measure);
 
+                        Cart.updateCart(tag, tempEditText.getText().toString().trim(), measure);
+                        for(int i = 0; i < list.size(); i++) {
+                            if(tag.equalsIgnoreCase(list.get(i).split("-")[0])) {
+                                CartAdapter.changeSubTotal(tag, list.get(i).split("-")[1]);
+                            }
+                        }
                     } else {
                         Toast.makeText(context, "Please enter a weight between " + min_weight + " " + measure + " and " + max_weight + " " + measure, Toast.LENGTH_LONG).show();
                     }

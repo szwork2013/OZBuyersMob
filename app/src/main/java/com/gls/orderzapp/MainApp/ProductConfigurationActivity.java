@@ -54,9 +54,9 @@ public class ProductConfigurationActivity extends Activity {
         add_configuration.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d("hm after configuration", new Gson().toJson(Cart.hm));
-                Cart.deleteConfigObject();
-                Log.d("hm after deletconfiguration", new Gson().toJson(Cart.hm));
+//                Log.d("hm after configuration", new Gson().toJson(Cart.hm));
+//                Cart.deleteConfigObject();
+//                Log.d("hm after deletconfiguration", new Gson().toJson(Cart.hm));
                 new CheckSessionAsync().execute();
             }
         });

@@ -43,7 +43,8 @@
                     android:layout_weight="1"
                     android:layout_height="30dp"
                     android:layout_gravity="right"
-                    android:gravity="center_horizontal">
+                    android:gravity="center_horizontal"
+                    android:id="@+id/llDeleteImage">
 
                     <ImageView
                         android:layout_width="20dp"
