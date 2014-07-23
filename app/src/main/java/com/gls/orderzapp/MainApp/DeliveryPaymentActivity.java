@@ -84,7 +84,13 @@ public class DeliveryPaymentActivity extends Activity {
 //        new CheckSessionAsync().execute();
         checkPaymentmode();
         selectPaymentMode();
-
+        try {
+            setDeliveryAddress(loadPreferencesUserDataForDeliveryAddress());
+            setBillingAddress(loadPreferencesUserDataForBillingAddress());
+            selectDeliveryType();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
 
     }
 
@@ -324,28 +330,28 @@ public class DeliveryPaymentActivity extends Activity {
 
     }
 
-//    public String loadPreferencesUserDataForDeliveryAddress() throws Exception {
-//        String user = "";
-//        try {
-//            SharedPreferences spLoad = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-//            user = spLoad.getString("USER_DATA_DELIVERY_ADDRESS", null);
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//        return user;
-//    }
-//
-//
-//    public String loadPreferencesUserDataForBillingAddress() throws Exception {
-//        String user = "";
-//        try {
-//            SharedPreferences spLoad = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-//            user = spLoad.getString("USER_DATA", null);
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//        return user;
-//    }
+    public String loadPreferencesUserDataForDeliveryAddress() throws Exception {
+        String user = "";
+        try {
+            SharedPreferences spLoad = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+            user = spLoad.getString("USER_DATA_DELIVERY_ADDRESS", null);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return user;
+    }
+
+
+    public String loadPreferencesUserDataForBillingAddress() throws Exception {
+        String user = "";
+        try {
+            SharedPreferences spLoad = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+            user = spLoad.getString("USER_DATA", null);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return user;
+    }
 
     public void setDeliveryAddress(String getUserData) {
         try {

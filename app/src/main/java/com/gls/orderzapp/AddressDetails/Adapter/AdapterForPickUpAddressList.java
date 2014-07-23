@@ -11,6 +11,8 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import com.gls.orderzapp.AddressDetails.Bean.ListOfPickupAddresses;
+import com.gls.orderzapp.AddressDetails.Bean.StorePickUpAddress;
 import com.gls.orderzapp.R;
 import com.gls.orderzapp.SignUp.Location;
 import com.google.gson.Gson;
@@ -30,10 +32,12 @@ public class AdapterForPickUpAddressList extends BaseAdapter {
     public static String pickuparea = null;
     GsonBuilder gBuild = new GsonBuilder();
     Gson gson = gBuild.disableHtmlEscaping().create();
-    public AdapterForPickUpAddressList(Context context, List<Location> addresses,String provider_id) {
+    String branch_id;
+    public AdapterForPickUpAddressList(Context context, List<Location> addresses,String provider_id, String branch_id) {
         this.context = context;
         this.addresses = addresses;
         this.provider_id=provider_id;
+        this.branch_id = branch_id;
     }
 
     @Override
@@ -92,6 +96,14 @@ public class AdapterForPickUpAddressList extends BaseAdapter {
                             pickupAddressFromList.setCity(addresses.get(position).getCity());
                        Log.d("You selected area", addresses.get(position).getArea());
 
+                            StorePickUpAddress storePickUpAddress = new StorePickUpAddress();
+                            storePickUpAddress.setBranchid(branch_id);
+                            storePickUpAddress.setLocation(pickupAddressFromList);
+
+
+                            DisplayDeliveryChargesAndType.listOfPickupAddresses.getListPickUpAddress().add(storePickUpAddress);
+
+                            Log.d("pick up addresss", new Gson().toJson(DisplayDeliveryChargesAndType.listOfPickupAddresses.getListPickUpAddress()));
 
                             Intent returnIntent = new Intent();
                             returnIntent.putExtra("pickupaddress",gson.toJson(pickupAddressFromList));

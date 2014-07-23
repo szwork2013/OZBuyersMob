@@ -62,7 +62,7 @@
                 android:layout_height="wrap_content"
                 android:textSize="16sp"
                 android:textColor="#000"
-                android:text="@string/delivery_type"
+                android:text="@string/delivery_type_with_colon"
                 android:textStyle="bold" />
 
             <TextView

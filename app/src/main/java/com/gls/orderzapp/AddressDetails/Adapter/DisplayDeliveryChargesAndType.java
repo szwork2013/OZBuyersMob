@@ -13,6 +13,7 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.gls.orderzapp.AddressDetails.Bean.ListOfPickupAddresses;
 import com.gls.orderzapp.CreateOrder.CreateOrderBeans.SuccessResponseForDeliveryChargesAndType;
 import com.gls.orderzapp.MainApp.SelectPickUpAddressActivity;
 import com.gls.orderzapp.Provider.Beans.ProductDetails;
@@ -34,6 +35,7 @@ public class DisplayDeliveryChargesAndType {
     public String[] providerid;
     public static SuccessResponseForDeliveryChargesAndType listOfDeliveryCharges;
     List<ProductDetails> checkForDeliveryModeList;
+    public static ListOfPickupAddresses listOfPickupAddresses =  new ListOfPickupAddresses();;
 
     public DisplayDeliveryChargesAndType(Context context, SuccessResponseForDeliveryChargesAndType listOfDeliveryCharges, List<ProductDetails> checkForDeliveryModeList) {
         this.context = context;
@@ -108,6 +110,7 @@ public class DisplayDeliveryChargesAndType {
                 public void onClick(View view) {
                     Intent goToSelectPickUpAddressActivity = new Intent(context, SelectPickUpAddressActivity.class);
                     goToSelectPickUpAddressActivity.putExtra("providerid",providerid[btn_selct_pickup_address.getId()-100]);
+                    goToSelectPickUpAddressActivity.putExtra("branchid", checkForDeliveryModeList.get(view.getId()-100).getBranchid());
                     Log.d("Btn provider id and name-",providerid[delivery_type_group.getId() - 100]+"???"+checkForDeliveryModeList.get(delivery_type_group.getId() - 100).getProviderName());
 //                    goToSelectPickUpAddressActivity.putExtra("providerid",providerid[btn_selct_pickup_address.getId()-100]);
                     ((Activity) context).startActivityForResult(goToSelectPickUpAddressActivity,1);
