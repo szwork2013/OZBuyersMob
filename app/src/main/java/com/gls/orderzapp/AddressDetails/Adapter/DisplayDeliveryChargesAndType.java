@@ -42,6 +42,7 @@ public class DisplayDeliveryChargesAndType {
     List<ProductDetails> checkForDeliveryModeList;
     public static ListOfPickupAddresses listOfPickupAddresses =  new ListOfPickupAddresses();;
     EditText tempEditText = null;
+    static List<Button> listPickUpButtons = new ArrayList<>();
 
     public DisplayDeliveryChargesAndType(Context context, SuccessResponseForDeliveryChargesAndType listOfDeliveryCharges, List<ProductDetails> checkForDeliveryModeList) {
         this.context = context;
@@ -60,20 +61,21 @@ public class DisplayDeliveryChargesAndType {
             LayoutInflater li = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             LinearLayout lldelievry_charge_type_details = (LinearLayout) li.inflate(R.layout.ll_deliver_charge_type_list, null);
 
-            TextView txt_sellername = (TextView) lldelievry_charge_type_details.findViewById(R.id.txt_sellername);
-            TextView txt_delivery_charges = (TextView) lldelievry_charge_type_details.findViewById(R.id.txt_delivery_charges);
+           TextView txt_sellername = (TextView) lldelievry_charge_type_details.findViewById(R.id.txt_sellername);
+           TextView txt_delivery_charges = (TextView) lldelievry_charge_type_details.findViewById(R.id.txt_delivery_charges);
            final EditText edt_orderInstruction= (EditText) lldelievry_charge_type_details.findViewById(R.id.edt_orderInstruction);
            final Button btn_selct_pickup_address=(Button) lldelievry_charge_type_details.findViewById(R.id.btn_selct_pickup_address);
            final RadioGroup delivery_type_group = (RadioGroup) lldelievry_charge_type_details.findViewById(R.id.delivery_type_group);
-            final RadioButton pick_up = (RadioButton) lldelievry_charge_type_details.findViewById(R.id.pick_up);
-            final RadioButton home_delivery = (RadioButton) lldelievry_charge_type_details.findViewById(R.id.home_delivery);
+           final RadioButton pick_up = (RadioButton) lldelievry_charge_type_details.findViewById(R.id.pick_up);
+           final RadioButton home_delivery = (RadioButton) lldelievry_charge_type_details.findViewById(R.id.home_delivery);
 
+            listPickUpButtons.add(btn_selct_pickup_address);
 
             if (checkForDeliveryModeList.get(i).getProviderName() != null) {
                 txt_sellername.setText(checkForDeliveryModeList.get(i).getProviderName());
 
                 Log.d("provider id and seller name",checkForDeliveryModeList.get(i).getProviderid()+"???"+checkForDeliveryModeList.get(i).getProviderName());
-                 providerid[i]=checkForDeliveryModeList.get(i).getProviderid();
+                providerid[i]=checkForDeliveryModeList.get(i).getProviderid();
 
                 Log.d("provider id",checkForDeliveryModeList.get(i).getProviderid());
 //                providerid[i] = checkForDeliveryModeList.get(i).getProviderid();
@@ -113,12 +115,14 @@ public class DisplayDeliveryChargesAndType {
                     }
                 }
             });
+
             btn_selct_pickup_address.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     Intent goToSelectPickUpAddressActivity = new Intent(context, SelectPickUpAddressActivity.class);
                     goToSelectPickUpAddressActivity.putExtra("providerid",providerid[btn_selct_pickup_address.getId()-100]);
                     goToSelectPickUpAddressActivity.putExtra("branchid", checkForDeliveryModeList.get(view.getId()-100).getBranchid());
+                    goToSelectPickUpAddressActivity.putExtra("pickupbuttontag", view.getTag()+"");
                     Log.d("Btn provider id and name-",providerid[delivery_type_group.getId() - 100]+"???"+checkForDeliveryModeList.get(delivery_type_group.getId() - 100).getProviderName());
 //                    goToSelectPickUpAddressActivity.putExtra("providerid",providerid[btn_selct_pickup_address.getId()-100]);
                     ((Activity) context).startActivityForResult(goToSelectPickUpAddressActivity,1);
@@ -174,6 +178,7 @@ public class DisplayDeliveryChargesAndType {
 
 
             //*****************************
+            btn_selct_pickup_address.setTag(i);
             edt_orderInstruction.setId(100+i);
             btn_selct_pickup_address.setId(100+i);
             delivery_type_group.setId(100 + i);
@@ -199,6 +204,14 @@ public class DisplayDeliveryChargesAndType {
                 return false;
             }
         return true;
+    }
+
+    public static void displayAreaNameOnPickupButton(String tag){
+        for(int i = 0; i < listPickUpButtons.size(); i++){
+            if(tag.equalsIgnoreCase(listPickUpButtons.get(i).getTag()+"")){
+                listPickUpButtons.get(i).setText(AdapterForPickUpAddressList.pickupAddressFromList.getArea());
+            }
+        }
     }
 }
 

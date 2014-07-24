@@ -182,14 +182,11 @@ public class AdapterForMultipleProviders {
                 Log.d("delivery charge2", deliveryCharges + "");
                 new ConfirmOrderProductListAdapter(context, list).setProductList();
 
-
                 delivery_charge.setText(deliveryCharges + "");
                 textGrandTotal.setText((Cart.currentProviderSubTotal(list) + deliveryCharges) + "");
                 OrderDetailsActivity.grandTotal.setText(String.format("%.2f", Cart.subTotal() + Cart.configurredProductPrice(createOrderProductDetailsList) + Cart.returnDeliveryCharges(DeliveryChargesAndTypeAdapter.successResponseForDeliveryCharges)));
                 deliveryCharges = 0.0;
             }
         }
-
-
     }
 }

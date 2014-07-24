@@ -33,11 +33,13 @@ public class AdapterForPickUpAddressList extends BaseAdapter {
     GsonBuilder gBuild = new GsonBuilder();
     Gson gson = gBuild.disableHtmlEscaping().create();
     String branch_id;
-    public AdapterForPickUpAddressList(Context context, List<Location> addresses,String provider_id, String branch_id) {
+    String tag;
+    public AdapterForPickUpAddressList(Context context, List<Location> addresses,String provider_id, String branch_id, String tag) {
         this.context = context;
         this.addresses = addresses;
         this.provider_id=provider_id;
         this.branch_id = branch_id;
+        this.tag = tag;
     }
 
     @Override
@@ -108,8 +110,10 @@ public class AdapterForPickUpAddressList extends BaseAdapter {
                             Intent returnIntent = new Intent();
                             returnIntent.putExtra("pickupaddress",gson.toJson(pickupAddressFromList));
                             returnIntent.putExtra("providerid_forpickupaddress",provider_id);
+
                             ((Activity) context).setResult(((Activity) context).RESULT_OK, returnIntent);
                             ((Activity) context).finish();
+                            DisplayDeliveryChargesAndType.displayAreaNameOnPickupButton(tag);
                         }
                     } catch (Exception e) {
                         e.printStackTrace();
