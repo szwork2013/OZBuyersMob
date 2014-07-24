@@ -106,6 +106,23 @@ public class ProductConfigurationActivity extends Activity {
         return resultOfCheckSession;
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+            case SIGN_IN:
+                if (resultCode == RESULT_OK) {
+                    Intent deliveryPayment = new Intent(ProductConfigurationActivity.this, DeliveryPaymentActivity.class);
+                    startActivity(deliveryPayment);
+                    finish();
+
+                } else if (resultCode == RESULT_CANCELED) {
+                    finish();
+                }
+                break;
+        }
+    }
+
     public class CheckSessionAsync extends AsyncTask<String, Integer, String> {
         String connectedOrNot, msg, code, resultOfCheckSession;
         public JSONObject jObj;
@@ -155,7 +172,6 @@ public class ProductConfigurationActivity extends Activity {
                     if (!resultOfCheckSession.isEmpty()) {
                         if (jObj.has("success")) {
                             Intent deliveryPayment = new Intent(ProductConfigurationActivity.this, DeliveryPaymentActivity.class);
-
                             startActivity(deliveryPayment);
                             finish();
 

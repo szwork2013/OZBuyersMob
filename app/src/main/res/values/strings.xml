@@ -94,5 +94,6 @@
     <string name="select_your_area">Select your Area </string>
     <string name="select_pickup_address">Pick Up address</string>
     <string name="delivery_type_with_colon">Delivery Type:</string>
+    <string name="order_instruction">Order Instructions</string>
 
 </resources>

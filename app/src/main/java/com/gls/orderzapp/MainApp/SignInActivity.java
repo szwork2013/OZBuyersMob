@@ -173,6 +173,7 @@ public class SignInActivity extends Activity {
         @Override
         protected void onPreExecute() {
             progressDialog = ProgressDialog.show(context, "", "Signing in ...");
+
         }
 
         @Override

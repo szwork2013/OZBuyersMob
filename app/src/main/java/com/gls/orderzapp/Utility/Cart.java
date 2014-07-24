@@ -315,9 +315,9 @@ public static int deleteConfigObject()
                     configurationList.add(list.getProductconfiguration().get(j));
                 }
 
-                if (list.getProductconfiguration().get(j).getFoodType().equalsIgnoreCase("eggless")) {
+//                if (list.getProductconfiguration().get(j).getFoodType().equalsIgnoreCase("eggless")) {
                     configurationList.add(list.getProductconfiguration().get(j));
-                }
+//                }
 
             }
         } catch (Exception e) {
