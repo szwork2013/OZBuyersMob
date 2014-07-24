@@ -82,33 +82,38 @@ public class AdapterForProviderCategories {
                 txtProviderArea.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_CHARACTERS);
                 txtProviderArea.setText(area);
             }
-            imageLoader = ImageLoader.getInstance();
-            imageLoader.init(ImageLoaderConfiguration.createDefault(context));
-            imageLoader.displayImage(providerDetailsList.get(i).getProvider().getProviderlogo(), imageProvider, options, new SimpleImageLoadingListener() {
-                boolean cacheFound;
+            try {
+                imageLoader = ImageLoader.getInstance();
+                imageLoader.init(ImageLoaderConfiguration.createDefault(context));
+                imageLoader.displayImage(providerDetailsList.get(i).getProvider().getProviderlogo(), imageProvider, options, new SimpleImageLoadingListener() {
+                    boolean cacheFound;
 
-                @Override
-                public void onLoadingStarted(String imageUri, View view) {
-                    List<String> memCache = MemoryCacheUtil.findCacheKeysForImageUri(imageUri, ImageLoader.getInstance().getMemoryCache());
-                    cacheFound = !memCache.isEmpty();
-                    if (!cacheFound) {
-                        File discCache = DiscCacheUtil.findInCache(imageUri, ImageLoader.getInstance().getDiscCache());
-                        if (discCache != null) {
-                            cacheFound = discCache.exists();
+                    @Override
+                    public void onLoadingStarted(String imageUri, View view) {
+                        List<String> memCache = MemoryCacheUtil.findCacheKeysForImageUri(imageUri, ImageLoader.getInstance().getMemoryCache());
+                        cacheFound = !memCache.isEmpty();
+                        if (!cacheFound) {
+                            File discCache = DiscCacheUtil.findInCache(imageUri, ImageLoader.getInstance().getDiscCache());
+                            if (discCache != null) {
+                                cacheFound = discCache.exists();
+                            }
                         }
                     }
-                }
 
-                @Override
-                public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
-                    if (cacheFound) {
+                    @Override
+                    public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
+                        if (cacheFound) {
 //                        MemoryCacheUtil.removeFromCache(imageUri, ImageLoader.getInstance().getMemoryCache());
 //                        DiscCacheUtil.removeFromCache(imageUri, ImageLoader.getInstance().getDiscCache());
 
-                        ImageLoader.getInstance().displayImage(imageUri, (ImageView) view);
+                            ImageLoader.getInstance().displayImage(imageUri, (ImageView) view);
+                        }
                     }
-                }
-            });
+                });
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+
             categoryDetailsGridView.setTag(providerDetailsList.get(i));
 //            productDetailsList.clear();
             if (providerDetailsList.get(i).isLoadmoreproduct() == true) {

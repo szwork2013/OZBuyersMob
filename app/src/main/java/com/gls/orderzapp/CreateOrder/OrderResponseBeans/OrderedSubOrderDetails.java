@@ -12,10 +12,19 @@ public class OrderedSubOrderDetails {
     List<OrderedProductDetails> products;
     Address billing_address;
     Address delivery_address;
+    Address pickup_address;
     double suborder_price;
     double deliverycharge;
     String deliverytype;
 
+
+    public Address getPickup_address() {
+        return pickup_address;
+    }
+
+    public void setPickup_address(Address pickup_address) {
+        this.pickup_address = pickup_address;
+    }
 
     public String getStatus() {
         return status;

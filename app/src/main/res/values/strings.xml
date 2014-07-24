@@ -93,7 +93,12 @@
     <string name="delivertype_withcolon">Delivery Type :</string>
     <string name="select_your_area">Select your Area </string>
     <string name="select_pickup_address">Pick Up address</string>
-    <string name="delivery_type_with_colon">Delivery Type:</string>
+    <string name="delivery_type_with_colon">Delivery Type :</string>
     <string name="order_instruction">Order Instructions</string>
+    <string name="no_products_in_cart">No Products Added In The Shopping Cart</string>
+    <string name="bank_name">Bank Name : </string>
+    <string name="transaction_id">Transaction Id : </string>
+    <string name="card_type">Card Type : </string>
+    <string name="txn_amount">Amount : </string>
 
 </resources>

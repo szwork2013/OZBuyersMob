@@ -49,19 +49,19 @@ public class PickupAddressAdapter extends BaseAdapter {
         TextView sellerName = (TextView) convertView.findViewById(R.id.txt_sellerName);
         LinearLayout ll_pikup_address= (LinearLayout)convertView.findViewById(R.id.ll_pikup_address);
         View view=(View)convertView.findViewById(R.id.view);
-        if (orderedSubOrderDetailsList.get(position).getProductprovider().getLocation() != null) {
+        if (orderedSubOrderDetailsList.get(position).getPickup_address() != null) {
             if(orderedSubOrderDetailsList.get(position).getDeliverytype().equalsIgnoreCase("pickup")){
                 ll_pikup_address.setVisibility(View.VISIBLE);
                 view.setVisibility(View.VISIBLE);
                 address.setVisibility(View.VISIBLE);
                 sellerName.setText(orderedSubOrderDetailsList.get(position).getProductprovider().getProvidername());
-            address.setText(orderedSubOrderDetailsList.get(position).getProductprovider().getLocation().getAddress1() + ", "
-                    + orderedSubOrderDetailsList.get(position).getProductprovider().getLocation().getAddress2() + ", "
-                    + orderedSubOrderDetailsList.get(position).getProductprovider().getLocation().getArea() + ",\n"
-                    + orderedSubOrderDetailsList.get(position).getProductprovider().getLocation().getCity() + ", "
-                    + orderedSubOrderDetailsList.get(position).getProductprovider().getLocation().getZipcode() + ".\n"
-                    + orderedSubOrderDetailsList.get(position).getProductprovider().getLocation().getState() + ", "
-                    + orderedSubOrderDetailsList.get(position).getProductprovider().getLocation().getCountry());
+                address.setText(orderedSubOrderDetailsList.get(position).getPickup_address().getAddress1() + ", "
+                    + orderedSubOrderDetailsList.get(position).getPickup_address().getAddress2() + ", "
+                    + orderedSubOrderDetailsList.get(position).getPickup_address().getArea() + ",\n"
+                    + orderedSubOrderDetailsList.get(position).getPickup_address().getCity() + ", "
+                    + orderedSubOrderDetailsList.get(position).getPickup_address().getZipcode() + ".\n"
+                    + orderedSubOrderDetailsList.get(position).getPickup_address().getState() + ", "
+                    + orderedSubOrderDetailsList.get(position).getPickup_address().getCountry());
         }
             else
             {

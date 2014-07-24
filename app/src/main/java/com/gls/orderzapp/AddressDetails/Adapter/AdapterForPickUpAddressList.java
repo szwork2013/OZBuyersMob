@@ -28,8 +28,9 @@ public class AdapterForPickUpAddressList extends BaseAdapter {
     Context context;
     List<Location> addresses = new ArrayList<>();
     public static Location pickupAddressFromList;
+    public static Boolean isPickUpAddressSelected=false;
     String provider_id;
-    public static String pickuparea = null;
+//    public static String pickuparea = null;
     GsonBuilder gBuild = new GsonBuilder();
     Gson gson = gBuild.disableHtmlEscaping().create();
     String branch_id;
@@ -38,6 +39,7 @@ public class AdapterForPickUpAddressList extends BaseAdapter {
         this.context = context;
         this.addresses = addresses;
         this.provider_id=provider_id;
+        isPickUpAddressSelected=false;
         this.branch_id = branch_id;
         this.tag = tag;
     }
@@ -85,9 +87,9 @@ public class AdapterForPickUpAddressList extends BaseAdapter {
                 public void onClick(View view) {
                     try {
                         pickupAddressFromList = new Location();
-                        if (pickupAddressFromList.getArea() != null) {
-                            pickuparea = pickupAddressFromList.getArea();
-                        }
+//                        if (pickupAddressFromList.getArea() != null) {
+//                            pickuparea = pickupAddressFromList.getArea();
+//                        }
                         if (addresses.get(position).getArea() != null) {
                             pickupAddressFromList.setAddress1(addresses.get(position).getAddress1());
                             pickupAddressFromList.setAddress2(addresses.get(position).getAddress2());
@@ -101,6 +103,7 @@ public class AdapterForPickUpAddressList extends BaseAdapter {
                             StorePickUpAddress storePickUpAddress = new StorePickUpAddress();
                             storePickUpAddress.setBranchid(branch_id);
                             storePickUpAddress.setLocation(pickupAddressFromList);
+                            isPickUpAddressSelected=true;
 
 
                             DisplayDeliveryChargesAndType.listOfPickupAddresses.getListPickUpAddress().add(storePickUpAddress);

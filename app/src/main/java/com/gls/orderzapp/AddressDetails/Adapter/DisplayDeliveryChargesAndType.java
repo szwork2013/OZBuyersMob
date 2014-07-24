@@ -34,7 +34,6 @@ public class DisplayDeliveryChargesAndType {
     public static Context context;
     public static String[] delivery_mode;
     public static String[] order_instruction;
-    public static List<Location> pickuparea=new ArrayList<>();
     int i=0;
     public static String[] delivery_mode_branchid;
     public String[] providerid;
@@ -189,18 +188,19 @@ public class DisplayDeliveryChargesAndType {
     public static boolean deliveryTypeCheck() {
         for (int l = 0; l < listOfDeliveryCharges.getSuccess().getDeliverycharge().size(); l++)
             if (delivery_mode[l] != null) {
-                if (delivery_mode[l].isEmpty()) {
+//                if (!delivery_mode[l].isEmpty()) {
                     if(delivery_mode[l].equalsIgnoreCase("pickup"))
                     {
-                        if(pickuparea.get(l)==null)
+                        if(AdapterForPickUpAddressList.isPickUpAddressSelected==false)
                         {
-                            Toast.makeText(context, "Please select a Pick-Up address", Toast.LENGTH_LONG).show();
+//                            Toast.makeText(context, "Please select a Pick-Up address", Toast.LENGTH_LONG).show();
                             return false;
                         }
                     }
-                    return false;
-                }
+//                    return false;
+//                }
             } else {
+//                Toast.makeText(context, "Please select a Delivery Type", Toast.LENGTH_LONG).show();
                 return false;
             }
         return true;

@@ -208,7 +208,7 @@
         <activity
             android:name="com.gls.orderzapp.MainApp.CartActivity"
             android:alwaysRetainTaskState="true"
-            android:label="Product Configuration"
+            android:label="Shopping Cart"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:windowSoftInputMode="adjustResize"></activity>
 

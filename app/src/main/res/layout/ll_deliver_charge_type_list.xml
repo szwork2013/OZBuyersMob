@@ -109,6 +109,7 @@
                     android:layout_width="wrap_content"
                     android:textSize="14sp"
                     android:gravity="center"
+                    android:visibility="gone"
                     android:padding="5dp"
                     android:background="@drawable/date_background"
                     android:text="@string/select_pickup_address"

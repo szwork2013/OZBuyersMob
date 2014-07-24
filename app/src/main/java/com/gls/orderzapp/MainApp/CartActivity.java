@@ -29,6 +29,8 @@ import org.json.JSONObject;
 public class CartActivity extends Activity {
 
     public static LinearLayout llCartList;
+    LinearLayout ll_products;
+    LinearLayout ll_noproducts;
     static Context context;
     Button place_an_order_button;
     public static TextView area_text, grand_total;
@@ -47,7 +49,6 @@ public class CartActivity extends Activity {
     protected void onResume() {
         super.onResume();
         try {
-
             displayCart();
         }catch (Exception e){
             e.printStackTrace();
@@ -55,6 +56,8 @@ public class CartActivity extends Activity {
     }
 
     public void findViewsById() {
+        ll_products=(LinearLayout) findViewById(R.id.ll_products);
+        ll_noproducts=(LinearLayout) findViewById(R.id.ll_noproducts);
         llCartList = (LinearLayout) findViewById(R.id.llCartList);
         place_an_order_button = (Button) findViewById(R.id.place_an_order_button);
         area_text = (TextView) findViewById(R.id.area_text);
@@ -69,6 +72,8 @@ public class CartActivity extends Activity {
     public void displayCart() {
         llCartList.removeAllViews();
         if (Cart.getCount() > 0) {
+            ll_noproducts.setVisibility(View.GONE);
+            ll_products.setVisibility(View.VISIBLE);
             try {
 //                area_text.setText(loadPreferences());
                 new CartAdapter(context);
@@ -77,7 +82,8 @@ public class CartActivity extends Activity {
                 e.printStackTrace();
             }
         } else {
-
+ll_noproducts.setVisibility(View.VISIBLE);
+            ll_products.setVisibility(View.GONE);
         }
     }
 

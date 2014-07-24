@@ -365,6 +365,7 @@ public class OrderDetailsActivity extends Activity {
                             if (DeliveryPaymentActivity.payment_mode.equalsIgnoreCase("Cash on Delivery")) {
                                 Intent goToFinalOrderActivity = new Intent(OrderDetailsActivity.this, FinalOrderActivity.class);
                                 goToFinalOrderActivity.putExtra("FINAL_ORDER", resultPlaceAnOrder);
+                                goToFinalOrderActivity.putExtra("TXN_DETAILS", "");
                                 goToFinalOrderActivity.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                 startActivity(goToFinalOrderActivity);
                             } else {

@@ -94,7 +94,6 @@ public class CartAdapter {
                 TextView textProviderName = (TextView) llCartListItemView.findViewById(R.id.textProviderName);
                 TextView delivery_type = (TextView) llCartListItemView.findViewById(R.id.delivery_type);
                 TextView txt_provider_note = (TextView) llCartListItemView.findViewById(R.id.txt_provider_note);
-                LinearLayout llPolicyButton = (LinearLayout) llCartListItemView.findViewById(R.id.llPolicyButton);
                 Button btn_productcart_privacy = (Button)llCartListItemView.findViewById(R.id.btn_productcart_privacy);
                 sub_total = (TextView) llCartListItemView.findViewById(R.id.sub_total);
                 listText.add(sub_total);
@@ -111,7 +110,7 @@ public class CartAdapter {
 
                 }
 
-                llPolicyButton.setOnClickListener(new View.OnClickListener() {
+                btn_productcart_privacy.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                             Intent goToPrivacyPolicy = new Intent(context, WebViewActivity.class);
@@ -149,7 +148,6 @@ public class CartAdapter {
                     }
                 }
 
-                llPolicyButton.setId(i+1000);
                 btn_productcart_privacy.setId(i+2000);
                 CartActivity.llCartList.addView(llCartListItemView);
             }

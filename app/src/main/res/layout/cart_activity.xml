@@ -5,8 +5,26 @@
     android:layout_height="match_parent"
     android:background="#304f6c"
     android:padding="5dp">
-
+<LinearLayout
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_height="match_parent">
     <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:id="@+id/ll_noproducts"
+        android:visibility="gone"
+        android:layout_height="match_parent">
+        <TextView
+            android:layout_width="match_parent"
+            android:gravity="center"
+            android:textSize="36sp"
+            android:background="@drawable/rounded_white_color"
+            android:text="@string/no_products_in_cart"
+            android:layout_height="160dp" />
+        </LinearLayout>
+    <LinearLayout
+        android:id="@+id/ll_products"
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -112,4 +130,5 @@
             android:textSize="20sp"
             android:id="@+id/place_an_order_button" />
     </LinearLayout>
+</LinearLayout>
 </ScrollView>

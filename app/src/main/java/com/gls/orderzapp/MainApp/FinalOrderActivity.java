@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.gls.orderzapp.CreateOrder.OrderResponseAdapters.AdapterForFinalOrderMultipleProviders;
 import com.gls.orderzapp.CreateOrder.OrderResponseAdapters.PickupAddressAdapter;
 import com.gls.orderzapp.CreateOrder.OrderResponseBeans.SuccessResponseForCreateOrder;
+import com.gls.orderzapp.Payment.PaymentSuccessResponse;
 import com.gls.orderzapp.R;
 import com.gls.orderzapp.Utility.Cart;
 import com.gls.orderzapp.Utility.GoogleAnalyticsUtility;
@@ -28,9 +29,12 @@ import java.util.TimeZone;
  */
 public class FinalOrderActivity extends Activity {
     public static LinearLayout listProducts, linerlayout_delivery_address;
-    TextView orderNumber, billing_address_textview, shipping_address_textview, paymentMode, grand_total, delivery_type, txt_expected_delivery_date, address_text;
+    TextView orderNumber, billing_address_textview, shipping_address_textview, paymentMode, grand_total, delivery_type,
+            txt_expected_delivery_date, address_text, bank_name, transaction_id, card_type, txn_amount;
     SuccessResponseForCreateOrder successResponseForCreateOrder;
     ListView address_list;
+    PaymentSuccessResponse paymentSuccessResponse;
+    String paymentResponse;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +45,11 @@ public class FinalOrderActivity extends Activity {
         ((GoogleAnalyticsUtility) getApplication()).getTracker(GoogleAnalyticsUtility.TrackerName.APP_TRACKER);
 
         findViewsById();
+        paymentResponse = getIntent().getStringExtra("TXN_DETAILS");
 //        Log.d("final order", getIntent().getStringExtra("FINAL_ORDER"));
+        if(!paymentResponse.isEmpty()){
+            paymentSuccessResponse = new Gson().fromJson(paymentResponse, PaymentSuccessResponse.class);
+        }
         successResponseForCreateOrder = new Gson().fromJson(getIntent().getStringExtra("FINAL_ORDER"), SuccessResponseForCreateOrder.class);
         setOrderDetailsData();
 
@@ -73,6 +81,10 @@ public class FinalOrderActivity extends Activity {
         txt_expected_delivery_date = (TextView) findViewById(R.id.txt_expected_delivery_date);
         address_list = (ListView) findViewById(R.id.address_list);
         address_text = (TextView) findViewById(R.id.address_text);
+        bank_name = (TextView) findViewById(R.id.bank_name);
+        transaction_id = (TextView) findViewById(R.id.transaction_id);
+        card_type = (TextView) findViewById(R.id.card_type);
+        txn_amount = (TextView) findViewById(R.id.txn_amount);
     }
 
     @Override
@@ -130,6 +142,21 @@ public class FinalOrderActivity extends Activity {
                 paymentMode.setText("Cash On Delivery");
             } else {
                 paymentMode.setText("Payment by card");
+            }
+            if(paymentSuccessResponse.getmMap() != null) {
+                if(paymentSuccessResponse.getmMap().getBANKNAME() != null) {
+                    bank_name.setText(paymentSuccessResponse.getmMap().getBANKNAME());
+                }
+                if(paymentSuccessResponse.getmMap().getTXNID() != null) {
+                    transaction_id.setText(paymentSuccessResponse.getmMap().getTXNID());
+                }
+                if(paymentSuccessResponse.getmMap().getPAYMENTMODE() != null){
+                    card_type.setText(paymentSuccessResponse.getmMap().getPAYMENTMODE());
+                }
+                if(paymentSuccessResponse.getmMap().getTXNAMOUNT() != null){
+                    txn_amount.setText(paymentSuccessResponse.getmMap().getTXNAMOUNT());
+                }
+
             }
         } catch (Exception e) {
             e.printStackTrace();

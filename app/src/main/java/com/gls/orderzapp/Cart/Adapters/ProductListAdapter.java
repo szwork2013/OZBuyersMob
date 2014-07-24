@@ -299,7 +299,53 @@ public class ProductListAdapter {
                         tempText.setText(String.format("%.2f", ((Double.parseDouble(tempEditText.getText().toString())) * (Double.parseDouble(fixed_rate)))));
                     }
 
-                    if ((Double.parseDouble(tempEditText.getText().toString())) >= min_weight && (Double.parseDouble(tempEditText.getText().toString())) <= max_weight) {
+                    if(min_weight==max_weight)
+                    {
+                        Cart.updateCart(tag, tempEditText.getText().toString().trim(), measure);
+                        for(int i = 0; i < list.size(); i++) {
+                            if(tag.equalsIgnoreCase(list.get(i).split("-")[0])) {
+                                CartAdapter.changeSubTotal(tag, list.get(i).split("-")[1]);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        if(max_weight==0.0)
+                        {
+                            if((Double.parseDouble(tempEditText.getText().toString())) >= min_weight)
+                            {
+                                Cart.updateCart(tag, tempEditText.getText().toString().trim(), measure);
+                                for(int i = 0; i < list.size(); i++) {
+                                    if(tag.equalsIgnoreCase(list.get(i).split("-")[0])) {
+                                        CartAdapter.changeSubTotal(tag, list.get(i).split("-")[1]);
+                                    }
+                                }
+
+                            }
+                            else
+                            {
+                                Toast.makeText(context, "minimum order of " + min_weight + " " + measure+" is required to place the order for this product", Toast.LENGTH_LONG).show();
+                            }
+                        }
+                        else {
+                            if (min_weight == 0.0) {
+                            if ((Double.parseDouble(tempEditText.getText().toString())) <= max_weight) {
+                                Cart.updateCart(tag, tempEditText.getText().toString().trim(), measure);
+                                for (int i = 0; i < list.size(); i++) {
+                                    if (tag.equalsIgnoreCase(list.get(i).split("-")[0])) {
+                                        CartAdapter.changeSubTotal(tag, list.get(i).split("-")[1]);
+                                    }
+                                }
+
+                            }
+                                else
+                            {
+                                Toast.makeText(context, "Cannot order more than " + max_weight + " " + measure+" of this product per order", Toast.LENGTH_LONG).show();
+                            }
+                        }
+                            else
+                            {
+                                if ((Double.parseDouble(tempEditText.getText().toString())) >= min_weight && (Double.parseDouble(tempEditText.getText().toString()))<=max_weight) {
 
                         Cart.updateCart(tag, tempEditText.getText().toString().trim(), measure);
                         for(int i = 0; i < list.size(); i++) {
@@ -307,9 +353,32 @@ public class ProductListAdapter {
                                 CartAdapter.changeSubTotal(tag, list.get(i).split("-")[1]);
                             }
                         }
+
                     } else {
-                        Toast.makeText(context, "Please enter a weight between " + min_weight + " " + measure + " and " + max_weight + " " + measure, Toast.LENGTH_LONG).show();
+                        Toast.makeText(context, "Enter weight between  " + min_weight + " " + measure + " and " + max_weight + " " + measure, Toast.LENGTH_LONG).show();
                     }
+                            }
+                        }
+                    }
+
+
+
+                    //*******************
+//                    if ((Double.parseDouble(tempEditText.getText().toString())) >= min_weight && (Double.parseDouble(tempEditText.getText().toString()))<=max_weight) {
+//
+//                        Cart.updateCart(tag, tempEditText.getText().toString().trim(), measure);
+//                        for(int i = 0; i < list.size(); i++) {
+//                            if(tag.equalsIgnoreCase(list.get(i).split("-")[0])) {
+//                                CartAdapter.changeSubTotal(tag, list.get(i).split("-")[1]);
+//                            }
+//                        }
+//                        //minimum order of 2lb is required to place the order for this product
+//                        //Cannot order more than 10 kgs of this product per order
+//
+//                        //
+//                    } else {
+//                        Toast.makeText(context, "Minimum order of  " + min_weight + " " + measure + " and " + max_weight + " " + measure, Toast.LENGTH_LONG).show();
+//                    }
                 }
             }
         };
