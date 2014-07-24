@@ -145,6 +145,17 @@ public class DisplayDeliveryChargesAndType {
                     Log.d("OrdInstruction",tempEditText.getText().toString().trim());
                 }
             };
+            edt_orderInstruction.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+                @Override
+                public void onFocusChange(View view, boolean b) {
+                    if (tempEditText != null) {
+                        tempEditText.removeTextChangedListener(textWatcher);
+                    }
+                    tempEditText = ((EditText) view);
+
+                    tempEditText.addTextChangedListener(textWatcher);
+                }
+            });
 
             edt_orderInstruction.setOnTouchListener(new View.OnTouchListener() {
                 @Override
