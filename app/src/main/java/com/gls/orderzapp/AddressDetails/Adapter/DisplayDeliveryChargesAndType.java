@@ -3,10 +3,14 @@ package com.gls.orderzapp.AddressDetails.Adapter;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -29,6 +33,7 @@ import java.util.List;
 public class DisplayDeliveryChargesAndType {
     public static Context context;
     public static String[] delivery_mode;
+    public static String[] order_instruction;
     public static List<Location> pickuparea=new ArrayList<>();
     int i=0;
     public static String[] delivery_mode_branchid;
@@ -36,6 +41,7 @@ public class DisplayDeliveryChargesAndType {
     public static SuccessResponseForDeliveryChargesAndType listOfDeliveryCharges;
     List<ProductDetails> checkForDeliveryModeList;
     public static ListOfPickupAddresses listOfPickupAddresses =  new ListOfPickupAddresses();;
+    EditText tempEditText = null;
 
     public DisplayDeliveryChargesAndType(Context context, SuccessResponseForDeliveryChargesAndType listOfDeliveryCharges, List<ProductDetails> checkForDeliveryModeList) {
         this.context = context;
@@ -43,6 +49,7 @@ public class DisplayDeliveryChargesAndType {
         this.checkForDeliveryModeList = checkForDeliveryModeList;
         delivery_mode = new String[listOfDeliveryCharges.getSuccess().getDeliverycharge().size()];
         delivery_mode_branchid = new String[listOfDeliveryCharges.getSuccess().getDeliverycharge().size()];
+        order_instruction = new String[listOfDeliveryCharges.getSuccess().getDeliverycharge().size()];
         providerid=new String[listOfDeliveryCharges.getSuccess().getDeliverycharge().size()];
         providerid = new String[listOfDeliveryCharges.getSuccess().getDeliverycharge().size()];
         getDeliveryChargesView();
@@ -55,6 +62,7 @@ public class DisplayDeliveryChargesAndType {
 
             TextView txt_sellername = (TextView) lldelievry_charge_type_details.findViewById(R.id.txt_sellername);
             TextView txt_delivery_charges = (TextView) lldelievry_charge_type_details.findViewById(R.id.txt_delivery_charges);
+           final EditText edt_orderInstruction= (EditText) lldelievry_charge_type_details.findViewById(R.id.edt_orderInstruction);
            final Button btn_selct_pickup_address=(Button) lldelievry_charge_type_details.findViewById(R.id.btn_selct_pickup_address);
            final RadioGroup delivery_type_group = (RadioGroup) lldelievry_charge_type_details.findViewById(R.id.delivery_type_group);
             final RadioButton pick_up = (RadioButton) lldelievry_charge_type_details.findViewById(R.id.pick_up);
@@ -116,6 +124,46 @@ public class DisplayDeliveryChargesAndType {
                     ((Activity) context).startActivityForResult(goToSelectPickUpAddressActivity,1);
                 }
             });
+
+//***************************************
+
+            final TextWatcher textWatcher = new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                }
+
+                @Override
+                public void afterTextChanged(Editable s) {
+                    order_instruction[edt_orderInstruction.getId()-100]=tempEditText.getText().toString().trim();
+//                    Cart.addMessageOnCake(mKeys[position], cakeList.get(position), tempEditText.getText().toString().trim());
+                    Log.d("OrdInstruction",tempEditText.getText().toString().trim());
+                }
+            };
+
+            edt_orderInstruction.setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View view, MotionEvent motionEvent) {
+
+                    if (tempEditText != null) {
+                        tempEditText.removeTextChangedListener(textWatcher);
+                    }
+                    tempEditText = ((EditText) view);
+
+                    tempEditText.addTextChangedListener(textWatcher);
+                    return false;
+                }
+            });
+
+
+
+            //*****************************
+            edt_orderInstruction.setId(100+i);
             btn_selct_pickup_address.setId(100+i);
             delivery_type_group.setId(100 + i);
             DeliveryChargesAndTypeAdapter.llDeliveryChargeAndType.addView(lldelievry_charge_type_details);
