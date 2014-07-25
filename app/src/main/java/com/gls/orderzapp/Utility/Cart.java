@@ -4,9 +4,11 @@ import android.content.Context;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.gls.orderzapp.AddressDetails.Adapter.DisplayDeliveryChargesAndType;
 import com.gls.orderzapp.CreateOrder.CreateOrderBeans.CreateOrderProductDetails;
@@ -26,23 +28,22 @@ import java.util.List;
  */
 public class Cart {
 
-    public static HashMap<String, ProductDetails> hm = new HashMap<>();
+    public static HashMap<String, ProductDetails> hm = new HashMap<String, ProductDetails>();
+
     static TextView numberTextOnCart;
     public static int productCount = 0;
 //    static Animation zoomin, zoomout;
 
     public static void addToCart(ProductDetails productDetails, Context context) {
+
+        ProductDetails localProduct = new ProductDetails();
         try {
             productCount++;
             productDetails.setCartCount(productCount + "");
-            hm.put(productCount + "", productDetails);
-//                Log.d("produc count", productCount+"");
-//                Log.d("cart count", new Gson().toJson(hm));
+            localProduct = productDetails;
+
+            hm.put(productCount +"" , localProduct);
             setTextOnCartCount();
-//            zoomin = AnimationUtils.loadAnimation(context, R.anim.zoomin);
-//            zoomout = AnimationUtils.loadAnimation(context, R.anim.zoomout);
-//            numberTextOnCart.setAnimation(zoomin);
-//            numberTextOnCart.setAnimation(zoomout);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -98,6 +99,7 @@ public class Cart {
         try {
 //            Log.d("before delete count", productId);
             hm.remove(productId);
+
 //            Log.d("after delete", new Gson().toJson(hm));
 //            ProductCartActivity.txt_sub_total.setText(Cart.subTotal() + "");
         } catch (Exception e) {
@@ -165,30 +167,37 @@ public class Cart {
     }
 
     public static void updateCart(String position, String quantity, String measure) {
+        ProductDetails localProduct;
         try {
             int hmSize = hm.size();
             String[] keys = hm.keySet().toArray(new String[hmSize]);
             for (int i = 0; i < hmSize; i++) {
-                Log.d("keys", keys[i]);
-                Log.d("position", position);
                 if (keys[i].equals(position)) {
-
-                    Log.d("keys inner", keys[i]);
-                    Log.d("position inner", position);
-//                    productDetails.setQuantity(quantity);
-//                    productDetails.getPrice().setUom(measure);
-                    hm.get(keys[i]).setQuantity(quantity);
-                    hm.get(keys[i]).getPrice().setUom(measure);
-                    hm.put(position, hm.get(keys[i]));
+                    localProduct = hm.get(keys[i]);
+                    localProduct.getPrice().setUom(measure);
+                    localProduct.setQuantity(quantity);
+                    hm.put(position, localProduct);
                 }
             }
-            Log.d("update cart", new Gson().toJson(hm));
-            //ProductCartActivity.txt_sub_total.setText(Math.round(Cart.subTotal()*100.0)/100.0+"");
-//            ProductCartActivity.txt_sub_total.setText(String.format("%.2f", Cart.subTotal()));
             CartActivity.grand_total.setText(String.format("%.2f", Cart.subTotal()));
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public static String returnUom(String cartCount){
+        String uom = "";
+        String[] mKeys = Cart.hm.keySet().toArray(new String[hm.size()]);
+        try{
+            for(int i = 0; i < mKeys.length; i++){
+                if(mKeys[i].equalsIgnoreCase(cartCount)){
+                    uom = Cart.hm.get(mKeys[i]).getPrice().getUom();
+                }
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return uom;
     }
 
     public static void addMessageOnCake(String position, ProductDetails productDetails, String messageoncake) {

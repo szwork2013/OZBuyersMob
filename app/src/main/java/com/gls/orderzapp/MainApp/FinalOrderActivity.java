@@ -28,7 +28,7 @@ import java.util.TimeZone;
  * Created by prajyot on 6/5/14.
  */
 public class FinalOrderActivity extends Activity {
-    public static LinearLayout listProducts, linerlayout_delivery_address;
+    public static LinearLayout listProducts, linerlayout_delivery_address, ll_txn_details;
     TextView orderNumber, billing_address_textview, shipping_address_textview, paymentMode, grand_total, delivery_type,
             txt_expected_delivery_date, address_text, bank_name, transaction_id, card_type, txn_amount;
     SuccessResponseForCreateOrder successResponseForCreateOrder;
@@ -73,6 +73,7 @@ public class FinalOrderActivity extends Activity {
         listProducts = (LinearLayout) findViewById(R.id.listProducts);
         orderNumber = (TextView) findViewById(R.id.order_no);
         linerlayout_delivery_address = (LinearLayout) findViewById(R.id.linerlayout_delivery_address);
+         ll_txn_details = (LinearLayout) findViewById(R.id.ll_txn_details);
         billing_address_textview = (TextView) findViewById(R.id.billing_address_textview);
         shipping_address_textview = (TextView) findViewById(R.id.shipping_address_textview);
         paymentMode = (TextView) findViewById(R.id.payment_mode);
@@ -135,28 +136,32 @@ public class FinalOrderActivity extends Activity {
 
 
         //*******************
-//        Log.d("Json", new Gson().toJson(successResponseForCreateOrder));
         new AdapterForFinalOrderMultipleProviders(getApplicationContext(), successResponseForCreateOrder.getSuccess().getOrder().getSuborder()).setMultipleProvidersList();
         try {
             if (successResponseForCreateOrder.getSuccess().getOrder().getPayment().getMode() != null && successResponseForCreateOrder.getSuccess().getOrder().getPayment().getMode().equals("COD")) {
                 paymentMode.setText("Cash On Delivery");
+                ll_txn_details.setVisibility(View.GONE);
+
             } else {
                 paymentMode.setText("Payment by card");
+                ll_txn_details.setVisibility(View.VISIBLE);
             }
-            if(paymentSuccessResponse.getmMap() != null) {
-                if(paymentSuccessResponse.getmMap().getBANKNAME() != null) {
-                    bank_name.setText(paymentSuccessResponse.getmMap().getBANKNAME());
-                }
-                if(paymentSuccessResponse.getmMap().getTXNID() != null) {
-                    transaction_id.setText(paymentSuccessResponse.getmMap().getTXNID());
-                }
-                if(paymentSuccessResponse.getmMap().getPAYMENTMODE() != null){
-                    card_type.setText(paymentSuccessResponse.getmMap().getPAYMENTMODE());
-                }
-                if(paymentSuccessResponse.getmMap().getTXNAMOUNT() != null){
-                    txn_amount.setText(paymentSuccessResponse.getmMap().getTXNAMOUNT());
-                }
+            if(!paymentResponse.isEmpty()) {
+                if (paymentSuccessResponse.getmMap() != null) {
+                    if (paymentSuccessResponse.getmMap().getBANKNAME() != null) {
+                        bank_name.setText(paymentSuccessResponse.getmMap().getBANKNAME());
+                    }
+                    if (paymentSuccessResponse.getmMap().getTXNID() != null) {
+                        transaction_id.setText(paymentSuccessResponse.getmMap().getTXNID());
+                    }
+                    if (paymentSuccessResponse.getmMap().getPAYMENTMODE() != null) {
+                        card_type.setText(paymentSuccessResponse.getmMap().getPAYMENTMODE());
+                    }
+                    if (paymentSuccessResponse.getmMap().getTXNAMOUNT() != null) {
+                        txn_amount.setText(paymentSuccessResponse.getmMap().getTXNAMOUNT());
+                    }
 
+                }
             }
         } catch (Exception e) {
             e.printStackTrace();

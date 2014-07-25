@@ -82,23 +82,23 @@ public class CartActivity extends Activity {
                 e.printStackTrace();
             }
         } else {
-ll_noproducts.setVisibility(View.VISIBLE);
+
+            Cart.hm.clear();
+            ll_noproducts.setVisibility(View.VISIBLE);
             ll_products.setVisibility(View.GONE);
         }
     }
 
     public void placeAnOrder(View view) {
-        if (Cart.checkForPrductConfigurarion() == true) {
-            Intent product_config = new Intent(CartActivity.this, ProductConfigurationActivity.class);
-            startActivity(product_config);
-        } else if (Cart.deleteFromCartIfQuantityIsZero() > 0) {
-            if (Cart.deleteFromCartIfQuantityIsZero() > 0) {
+        if (Cart.deleteFromCartIfQuantityIsZero() > 0) {
+            if (Cart.checkForPrductConfigurarion() == true) {
+                Intent product_config = new Intent(CartActivity.this, ProductConfigurationActivity.class);
+                startActivity(product_config);
+            }else{
                 new CheckSessionAsync().execute();
-//                Intent deliveryActivity = new Intent(CartActivity.this, DeliveryPaymentActivity.class);
-//                startActivity(deliveryActivity);
-            } else {
-                displayCart();
             }
+        }else{
+            displayCart();
         }
     }
     public String getSessionStatus() throws Exception {

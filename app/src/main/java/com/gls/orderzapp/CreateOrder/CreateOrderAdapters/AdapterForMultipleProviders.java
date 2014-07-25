@@ -77,7 +77,7 @@ public class AdapterForMultipleProviders {
                     for(int j=0;j<DisplayDeliveryChargesAndType.delivery_mode_branchid.length;j++){
 
                         if (branchid.equalsIgnoreCase(DisplayDeliveryChargesAndType.delivery_mode_branchid[j])) {
-                            if (DisplayDeliveryChargesAndType.delivery_mode[i].equalsIgnoreCase("home")) {
+                            if (DisplayDeliveryChargesAndType.delivery_mode[j].equalsIgnoreCase("home")) {
                                 deliveryType = "Home Delivery";
                             } else {
                                 deliveryType = "Pick-Up";
@@ -131,7 +131,7 @@ public class AdapterForMultipleProviders {
                     //***********
 
 //                    Log.d("delivery type", deliveryType);
-                    Log.d(createOrderProductDetailsList.get(i).getProductname(), DisplayDeliveryChargesAndType.delivery_mode[i]);
+//                    Log.d(createOrderProductDetailsList.get(i).getProductname(), DisplayDeliveryChargesAndType.delivery_mode[i]);
                     li = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                     LinearLayout llProductsForProvider = (LinearLayout) li.inflate(R.layout.product_for_provider, null);
                     ll = (LinearLayout) llProductsForProvider.findViewById(R.id.ll);
