@@ -60,11 +60,11 @@ public class DeliveryChargesAndTypeAdapter {
 
     }
 
-    public String loadPreferencesUserDataForBillingAddress() throws Exception {
+    public String loadPreferencesUserDataForDeliveryAddress() throws Exception {
         String user = "";
         try {
             SharedPreferences spLoad = PreferenceManager.getDefaultSharedPreferences(context);
-            user = spLoad.getString("USER_DATA", null);
+            user = spLoad.getString("USER_DATA_DELIVERY_ADDRESS", null);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -99,7 +99,7 @@ public class DeliveryChargesAndTypeAdapter {
             }
         }
         try {
-            setBranchId(loadPreferencesUserDataForBillingAddress());
+            setBranchId(loadPreferencesUserDataForDeliveryAddress());
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -129,7 +129,7 @@ public class DeliveryChargesAndTypeAdapter {
     }
 
 
-    private class GetDeliveryChargesAsync extends AsyncTask<String, Integer, String> {
+    public class GetDeliveryChargesAsync extends AsyncTask<String, Integer, String> {
         JSONObject jObj;
         String connectedOrNot, resultOfGetDeliveryCharges, msg, code;
         ProgressDialog progressDialog;
@@ -175,10 +175,9 @@ public class DeliveryChargesAndTypeAdapter {
                         if (jObj.has("success")) {
                             LayoutInflater li = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                             llDeliveryChargeAndType = (LinearLayout) li.inflate(R.layout.delivery_charge_type, null);
-
 //                            new DisplayDeliveryChargesAndType(context, successResponseForDeliveryCharges, checkForDeliveryModeList);
                             new DisplayDeliveryChargesAndType(context, successResponseForDeliveryCharges, SortedProviderList);
-
+                            DeliveryPaymentActivity.ll_deliver_charge_type.removeAllViews();
                             DeliveryPaymentActivity.ll_deliver_charge_type.addView(llDeliveryChargeAndType);
                         } else {
                             Toast.makeText(context, msg, Toast.LENGTH_LONG).show();

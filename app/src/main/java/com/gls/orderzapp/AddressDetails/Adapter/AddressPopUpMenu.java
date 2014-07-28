@@ -37,13 +37,13 @@ public class AddressPopUpMenu {
                 switch (id) {
                     case R.id.select_from_existing:
                         Intent goToSelectListAddressactivity = new Intent(context, SelectAddressListActivity.class);
-                        ((Activity) context).startActivityForResult(goToSelectListAddressactivity, DeliveryPaymentActivity.CHANGE_ADDRESS);
+                        ((Activity) context).startActivityForResult(goToSelectListAddressactivity, 1);
 
                         break;
                     case R.id.add_new:
                         Intent goToChangeAddressActivity = new Intent(context, ChangeAddressActivity.class);
                         goToChangeAddressActivity.putExtra("User_Address","DeliveryAddress");
-                        ((Activity) context).startActivityForResult(goToChangeAddressActivity, DeliveryPaymentActivity.CHANGE_ADDRESS);
+                        ((Activity) context).startActivityForResult(goToChangeAddressActivity, 1);
                         break;
                 }
                 return true;

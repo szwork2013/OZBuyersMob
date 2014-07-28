@@ -133,6 +133,7 @@ public class DeliveryPaymentActivity extends Activity {
     public static void selectDeliveryType() {
 
         //ll_deliver_charge_type.removeAllViews();
+        Log.d("deleivery type","Selected");
         new DeliveryChargesAndTypeAdapter(context);
 
     }
@@ -306,7 +307,7 @@ public class DeliveryPaymentActivity extends Activity {
         switch (requestCode) {
             case SIGN_IN:
                 if (resultCode == RESULT_OK) {
-                    setDeliveryAddress(data.getStringExtra("USER"));
+                    setDeliveryAddress(data.getStringExtra("USER_DATA_DELIVERY_ADDRESS"));
                     setBillingAddress(data.getStringExtra("USER"));
                     selectDeliveryType();
                 } else if (resultCode == RESULT_CANCELED) {
@@ -316,16 +317,18 @@ public class DeliveryPaymentActivity extends Activity {
 
             case CHANGE_ADDRESS:
                 if (resultCode == RESULT_OK) {
-                    String result = data.getStringExtra("RESULT");
+                    Log.d("Change_address","Change_address");
+                   selectDeliveryType();
                 }
                 break;
             case PICKUP_ADDRESS:
-            {
                 if(resultCode==RESULT_OK)
                 {
-                    selectDeliveryType();
+                    Log.d("PICKUP_ADDRESS","PICKUP_ADDRESS");
+//                    selectDeliveryType();
                 }
-            }
+                break;
+
         }
 
     }

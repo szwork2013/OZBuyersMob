@@ -309,11 +309,11 @@ public class ProductListAdapter {
 
             @Override
             public void afterTextChanged(Editable s) {
+                final String fixed_rate = ((TextView) (((LinearLayout) (tempEditText.getParent())).getChildAt(1))).getText().toString();
+                final TextView tempText = (TextView) (((LinearLayout) (tempEditText.getParent())).getChildAt(7));
+                if (tempEditText.getText().toString().trim().length() >0) {
 
-                if (tempEditText.getText().toString().trim().length() > 0) {
 
-                    final String fixed_rate = ((TextView) (((LinearLayout) (tempEditText.getParent())).getChildAt(1))).getText().toString();
-                    final TextView tempText = (TextView) (((LinearLayout) (tempEditText.getParent())).getChildAt(7));
                     uom = Cart.returnUom(tag);
                     if (uom.equalsIgnoreCase("Kg")) {
                         tempText.setText(String.format("%.2f", ((Double.parseDouble(tempEditText.getText().toString())) * (Double.parseDouble(fixed_rate)))));
@@ -407,6 +407,7 @@ public class ProductListAdapter {
                             CartAdapter.changeSubTotal(tag, list.get(i).split("-")[1]);
                         }
                     }
+                    tempText.setText("0");
                 }
             }
         };
