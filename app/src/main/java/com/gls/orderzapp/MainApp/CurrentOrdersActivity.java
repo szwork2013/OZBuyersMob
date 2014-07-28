@@ -68,11 +68,16 @@ public class CurrentOrdersActivity extends MyOrdersListActivity {
                             successResponseForMyOrders = new Gson().fromJson(resultOfMyOrders, SuccessResponseForMyOrders.class);
                             msg = successResponseForMyOrders.getSuccess().getMessage();
                             actualList.clear();
-
+                            serverTrackingStatus.clear();
                             for (int i = 0; i < successResponseForMyOrders.getSuccess().getOrders().size(); i++) {
                                 actualList.add(new ArrayList<String>());
+                                serverTrackingStatus.add(new ArrayList<ArrayList<String>>());
                                 for (int j = 0; j < successResponseForMyOrders.getSuccess().getOrders().get(i).getSuborder().size(); j++) {
                                     actualList.get(i).add(successResponseForMyOrders.getSuccess().getOrders().get(i).getSuborder().get(j).getStatus());
+                                    serverTrackingStatus.get(i).add(new ArrayList<String>());
+                                    for (int k = 0; k < successResponseForMyOrders.getSuccess().getOrders().get(i).getSuborder().get(j).getTracking().size(); k++) {
+                                        serverTrackingStatus.get(i).get(j).add(successResponseForMyOrders.getSuccess().getOrders().get(i).getSuborder().get(j).getTracking().get(k).getStatus());
+                                    }
                                 }
                             }
                         } else {

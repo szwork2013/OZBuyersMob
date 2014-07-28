@@ -23,9 +23,11 @@ public class DetailedTrackListAdapterWhenStatusCancel extends BaseAdapter {
     List<String> serverTrackList;
     int pos;
     int parent_position;
+    MyOrdersListActivity activity;
 
     public DetailedTrackListAdapterWhenStatusCancel(Context context, List<String> serverTrackList, List<String> list, int pos, int parent_position) {
         this.context = context;
+        activity = (MyOrdersListActivity) this.context;
         this.list = list;
         this.serverTrackList = serverTrackList;
         this.pos = pos;
@@ -61,9 +63,10 @@ public class DetailedTrackListAdapterWhenStatusCancel extends BaseAdapter {
         TextView textStatus = (TextView) convertView.findViewById(R.id.textStatus);
 
         imageTick.setVisibility(View.INVISIBLE);
-        for (int i = 0; i < MyOrdersListActivity.serverTrackingStatus.get(parent_position).get(pos).size(); i++) {
-            Log.d("track status", MyOrdersListActivity.serverTrackingStatus.get(parent_position).get(pos).get(i));
-            if (list.get(position).split("-")[1].contains(MyOrdersListActivity.serverTrackingStatus.get(parent_position).get(pos).get(i))) {
+        Log.d("trackingstatus", activity.serverTrackingStatus.size()+"");
+        for (int i = 0; i < activity.serverTrackingStatus.get(parent_position).get(pos).size(); i++) {
+            Log.d("track status", activity.serverTrackingStatus.get(parent_position).get(pos).get(i));
+            if (list.get(position).split("-")[1].contains(activity.serverTrackingStatus.get(parent_position).get(pos).get(i))) {
                 imageTick.setVisibility(View.VISIBLE);
             } else {
 

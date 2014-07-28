@@ -40,7 +40,7 @@ public class SubOrderListAdapter extends BaseAdapter {
 
     DisplayImageOptions options;
     public static ListView listDetailedTrack;
-    public static LinearLayout llApproval, llOrderProcessing, llShipping, llDelivery;
+    public static LinearLayout llApproval, llOrderProcessing, llDelivery;
     ImageLoader imageLoader;
     int pos;
     Typeface tfRobotoNormal;
@@ -97,17 +97,16 @@ public class SubOrderListAdapter extends BaseAdapter {
         TextView text_order_cancelled = (TextView) convertView.findViewById(R.id.text_order_cancelled);
         final ImageView imageApproval = (ImageView) convertView.findViewById(R.id.imageApproval);
         final ImageView imageOrderProcessing = (ImageView) convertView.findViewById(R.id.imageOrderProcessing);
-        final ImageView imageShipping = (ImageView) convertView.findViewById(R.id.imageshipping);
         final ImageView imageDelivery = (ImageView) convertView.findViewById(R.id.imageDelivery);
         llApproval = (LinearLayout) convertView.findViewById(R.id.approval);
         llOrderProcessing = (LinearLayout) convertView.findViewById(R.id.order_processing);
-        llShipping = (LinearLayout) convertView.findViewById(R.id.shipping);
+//        llShipping = (LinearLayout) convertView.findViewById(R.id.shipping);
         llDelivery = (LinearLayout) convertView.findViewById(R.id.delivery);
         listDetailedTrack = (ListView) convertView.findViewById(R.id.listDetailedTrack);
 
         LinearLayout llParentApproved = (LinearLayout) convertView.findViewById(R.id.llParentApproved);
         LinearLayout llParentOrdersProcessing = (LinearLayout) convertView.findViewById(R.id.llParentOrdersProcessing);
-        LinearLayout llParentShipping = (LinearLayout) convertView.findViewById(R.id.llParentShipping);
+//        LinearLayout llParentShipping = (LinearLayout) convertView.findViewById(R.id.llParentShipping);
         LinearLayout llParentDelivery = (LinearLayout) convertView.findViewById(R.id.llParentDelivery);
 
 
@@ -127,24 +126,21 @@ public class SubOrderListAdapter extends BaseAdapter {
             prevStatus = subOrderDetailsList.get(position).getTracking().get(subOrderDetailsList.get(position).getTracking().size() - 2).getStatus();
 
             Log.d("prevsattus", prevStatus);
-            if (prevStatus.equals("orderstart")) {
+            if (prevStatus.equals("orderreceived")) {
                 imageApproval.setVisibility(View.VISIBLE);
                 imageOrderProcessing.setVisibility(View.INVISIBLE);
-                imageShipping.setVisibility(View.INVISIBLE);
                 imageDelivery.setVisibility(View.INVISIBLE);
 
-                TrackingView.orderDetailsWhenCancelled(context, "orderstart", subOrderDetailsList.get(position), position, pos);
+                TrackingView.orderDetailsWhenCancelled(context, "orderreceived", subOrderDetailsList.get(position), position, pos);
             } else if (prevStatus.equals("accepted")) {
                 imageApproval.setVisibility(View.VISIBLE);
                 imageOrderProcessing.setVisibility(View.INVISIBLE);
-                imageShipping.setVisibility(View.INVISIBLE);
                 imageDelivery.setVisibility(View.INVISIBLE);
 
                 TrackingView.orderDetailsWhenCancelled(context, "accepted", subOrderDetailsList.get(position), position, pos);
             } else if (prevStatus.equals("inproduction") || subOrderDetailsList.get(position).getStatus().equals("packing")) {
                 imageApproval.setVisibility(View.INVISIBLE);
                 imageOrderProcessing.setVisibility(View.VISIBLE);
-                imageShipping.setVisibility(View.INVISIBLE);
                 imageDelivery.setVisibility(View.INVISIBLE);
                 Log.d("prevsattus", prevStatus);
 
@@ -152,28 +148,24 @@ public class SubOrderListAdapter extends BaseAdapter {
             } else if (prevStatus.equals("factorytostore")) {
                 imageApproval.setVisibility(View.INVISIBLE);
                 imageOrderProcessing.setVisibility(View.INVISIBLE);
-                imageShipping.setVisibility(View.VISIBLE);
                 imageDelivery.setVisibility(View.INVISIBLE);
-                Log.d("factstore", prevStatus);
 
                 TrackingView.orderDetailsWhenCancelled(context, "shipping", subOrderDetailsList.get(position), position, pos);
             } else {
                 imageApproval.setVisibility(View.INVISIBLE);
                 imageOrderProcessing.setVisibility(View.INVISIBLE);
-                imageShipping.setVisibility(View.INVISIBLE);
                 imageDelivery.setVisibility(View.VISIBLE);
 
                 TrackingView.orderDetailsWhenCancelled(context, "delivery", subOrderDetailsList.get(position), position, pos);
             }
-
-            TrackingView.trackOrder(context, MyOrdersListActivity.serverTrackingStatus.get(pos).get(position).get(MyOrdersListActivity.serverTrackingStatus.get(pos).get(position).size() - 2));
+            MyOrdersListActivity activity = (MyOrdersListActivity)context;
+            TrackingView.trackOrder(context, activity.serverTrackingStatus.get(pos).get(position).get(activity.serverTrackingStatus.get(pos).get(position).size() - 2));
 
             llParentApproved.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     imageApproval.setVisibility(View.VISIBLE);
                     imageOrderProcessing.setVisibility(View.INVISIBLE);
-                    imageShipping.setVisibility(View.INVISIBLE);
                     imageDelivery.setVisibility(View.INVISIBLE);
                     TrackingView.detailedTrackWhenClickedWhileOrderIsCancelled(context, subOrderDetailsList.get(position), "accepted", position, pos);
                 }
@@ -185,19 +177,8 @@ public class SubOrderListAdapter extends BaseAdapter {
 
                     imageApproval.setVisibility(View.INVISIBLE);
                     imageOrderProcessing.setVisibility(View.VISIBLE);
-                    imageShipping.setVisibility(View.INVISIBLE);
                     imageDelivery.setVisibility(View.INVISIBLE);
                     TrackingView.detailedTrackWhenClickedWhileOrderIsCancelled(context, subOrderDetailsList.get(position), "orderprocessing", position, pos);
-                }
-            });
-            llParentShipping.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    imageApproval.setVisibility(View.INVISIBLE);
-                    imageOrderProcessing.setVisibility(View.INVISIBLE);
-                    imageShipping.setVisibility(View.VISIBLE);
-                    imageDelivery.setVisibility(View.INVISIBLE);
-                    TrackingView.detailedTrackWhenClickedWhileOrderIsCancelled(context, subOrderDetailsList.get(position), "shipping", position, pos);
                 }
             });
 
@@ -206,7 +187,6 @@ public class SubOrderListAdapter extends BaseAdapter {
                 public void onClick(View v) {
                     imageApproval.setVisibility(View.INVISIBLE);
                     imageOrderProcessing.setVisibility(View.INVISIBLE);
-                    imageShipping.setVisibility(View.INVISIBLE);
                     imageDelivery.setVisibility(View.VISIBLE);
                     TrackingView.detailedTrackWhenClickedWhileOrderIsCancelled(context, subOrderDetailsList.get(position), "delivery", position, pos);
                 }
@@ -217,41 +197,35 @@ public class SubOrderListAdapter extends BaseAdapter {
             text_order_cancelled.setVisibility(View.GONE);
             TrackingView.trackOrder(context, MyOrdersListActivity.actualList.get(pos).get(position));
 
-            if (subOrderDetailsList.get(position).getStatus().equals("orderstart")) {
+            if (subOrderDetailsList.get(position).getStatus().equals("orderreceived")) {
                 imageApproval.setVisibility(View.VISIBLE);
                 imageOrderProcessing.setVisibility(View.INVISIBLE);
-                imageShipping.setVisibility(View.INVISIBLE);
                 imageDelivery.setVisibility(View.INVISIBLE);
-                TrackingView.detailedTrack(context, subOrderDetailsList.get(position), "orderstart", position, pos);
+                TrackingView.detailedTrack(context, subOrderDetailsList.get(position), "orderreceived", position, pos);
             } else if (subOrderDetailsList.get(position).getStatus().equals("accepted")) {
                 imageApproval.setVisibility(View.VISIBLE);
                 imageOrderProcessing.setVisibility(View.INVISIBLE);
-                imageShipping.setVisibility(View.INVISIBLE);
                 imageDelivery.setVisibility(View.INVISIBLE);
                 TrackingView.detailedTrack(context, subOrderDetailsList.get(position), "accepted", position, pos);
             } else if (subOrderDetailsList.get(position).getStatus().equals("rejected")) {
                 imageApproval.setVisibility(View.VISIBLE);
                 imageOrderProcessing.setVisibility(View.INVISIBLE);
-                imageShipping.setVisibility(View.INVISIBLE);
                 imageDelivery.setVisibility(View.INVISIBLE);
                 TrackingView.detailedTrack(context, subOrderDetailsList.get(position), "rejected", position, pos);
             } else if (subOrderDetailsList.get(position).getStatus().equals("inproduction") || subOrderDetailsList.get(position).getStatus().equals("packing")) {
                 imageApproval.setVisibility(View.INVISIBLE);
                 imageOrderProcessing.setVisibility(View.VISIBLE);
-                imageShipping.setVisibility(View.INVISIBLE);
                 imageDelivery.setVisibility(View.INVISIBLE);
                 TrackingView.detailedTrack(context, subOrderDetailsList.get(position), "orderprocessing", position, pos);
             } else if (subOrderDetailsList.get(position).getStatus().equals("factorytostore")) {
                 imageApproval.setVisibility(View.INVISIBLE);
                 imageOrderProcessing.setVisibility(View.INVISIBLE);
-                imageShipping.setVisibility(View.VISIBLE);
                 imageDelivery.setVisibility(View.INVISIBLE);
                 TrackingView.detailedTrack(context, subOrderDetailsList.get(position), "shipping", position, pos);
 
             } else {
                 imageApproval.setVisibility(View.INVISIBLE);
                 imageOrderProcessing.setVisibility(View.INVISIBLE);
-                imageShipping.setVisibility(View.INVISIBLE);
                 imageDelivery.setVisibility(View.VISIBLE);
                 TrackingView.detailedTrack(context, subOrderDetailsList.get(position), "delivery", position, pos);
             }
@@ -261,12 +235,11 @@ public class SubOrderListAdapter extends BaseAdapter {
                 public void onClick(View v) {
                     imageApproval.setVisibility(View.VISIBLE);
                     imageOrderProcessing.setVisibility(View.INVISIBLE);
-                    imageShipping.setVisibility(View.INVISIBLE);
                     imageDelivery.setVisibility(View.INVISIBLE);
                     if (MyOrdersListActivity.actualList.get(pos).get(position).equals("accepted")) {
                         TrackingView.detailedTrackWhenClicked(context, "accepted", position, pos);
-                    } else if (MyOrdersListActivity.actualList.get(pos).get(position).equals("orderstart")) {
-                        TrackingView.detailedTrackWhenClicked(context, "orderstart", position, pos);
+                    } else if (MyOrdersListActivity.actualList.get(pos).get(position).equals("orderreceived")) {
+                        TrackingView.detailedTrackWhenClicked(context, "orderreceived", position, pos);
                     } else if (MyOrdersListActivity.actualList.get(pos).get(position).equals("rejected")) {
                         TrackingView.detailedTrackWhenClicked(context, "rejected", position, pos);
                     }
@@ -279,19 +252,8 @@ public class SubOrderListAdapter extends BaseAdapter {
 
                     imageApproval.setVisibility(View.INVISIBLE);
                     imageOrderProcessing.setVisibility(View.VISIBLE);
-                    imageShipping.setVisibility(View.INVISIBLE);
                     imageDelivery.setVisibility(View.INVISIBLE);
                     TrackingView.detailedTrackWhenClicked(context, "orderprocessing", position, pos);
-                }
-            });
-            llParentShipping.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    imageApproval.setVisibility(View.INVISIBLE);
-                    imageOrderProcessing.setVisibility(View.INVISIBLE);
-                    imageShipping.setVisibility(View.VISIBLE);
-                    imageDelivery.setVisibility(View.INVISIBLE);
-                    TrackingView.detailedTrackWhenClicked(context, "shipping", position, pos);
                 }
             });
 
@@ -300,7 +262,6 @@ public class SubOrderListAdapter extends BaseAdapter {
                 public void onClick(View v) {
                     imageApproval.setVisibility(View.INVISIBLE);
                     imageOrderProcessing.setVisibility(View.INVISIBLE);
-                    imageShipping.setVisibility(View.INVISIBLE);
                     imageDelivery.setVisibility(View.VISIBLE);
                     TrackingView.detailedTrackWhenClicked(context, "delivery", position, pos);
                 }
@@ -309,33 +270,38 @@ public class SubOrderListAdapter extends BaseAdapter {
 
         }
 
-        imageLoader = ImageLoader.getInstance();
-        imageLoader.init(ImageLoaderConfiguration.createDefault(context));
-        imageLoader.displayImage(subOrderDetailsList.get(position).getProductprovider().getProviderlogo(), imageProvider, options, new SimpleImageLoadingListener() {
-            boolean cacheFound;
+        try {
+            imageLoader = ImageLoader.getInstance();
+            imageLoader.init(ImageLoaderConfiguration.createDefault(context));
+            imageLoader.displayImage(subOrderDetailsList.get(position).getProductprovider().getProviderlogo(), imageProvider, options, new SimpleImageLoadingListener() {
+                boolean cacheFound;
 
-            @Override
-            public void onLoadingStarted(String imageUri, View view) {
-                List<String> memCache = MemoryCacheUtil.findCacheKeysForImageUri(imageUri, ImageLoader.getInstance().getMemoryCache());
-                cacheFound = !memCache.isEmpty();
-                if (!cacheFound) {
-                    File discCache = DiscCacheUtil.findInCache(imageUri, ImageLoader.getInstance().getDiscCache());
-                    if (discCache != null) {
-                        cacheFound = discCache.exists();
+                @Override
+                public void onLoadingStarted(String imageUri, View view) {
+                    List<String> memCache = MemoryCacheUtil.findCacheKeysForImageUri(imageUri, ImageLoader.getInstance().getMemoryCache());
+                    cacheFound = !memCache.isEmpty();
+                    if (!cacheFound) {
+                        File discCache = DiscCacheUtil.findInCache(imageUri, ImageLoader.getInstance().getDiscCache());
+                        if (discCache != null) {
+                            cacheFound = discCache.exists();
+                        }
                     }
                 }
-            }
 
-            @Override
-            public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
-                if (cacheFound) {
+                @Override
+                public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
+                    if (cacheFound) {
 //                        MemoryCacheUtil.removeFromCache(imageUri, ImageLoader.getInstance().getMemoryCache());
 //                        DiscCacheUtil.removeFromCache(imageUri, ImageLoader.getInstance().getDiscCache());
 
-                    ImageLoader.getInstance().displayImage(imageUri, (ImageView) view);
+                        ImageLoader.getInstance().displayImage(imageUri, (ImageView) view);
+                    }
                 }
-            }
-        });
+            });
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
         subOrderNumber.setTypeface(tfRobotoNormal);
         seller.setTypeface(tfRobotoNormal);
         subTotal.setTypeface(tfRobotoNormal);

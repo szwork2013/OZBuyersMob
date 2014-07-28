@@ -89,12 +89,10 @@ public class MainOrderListAdapter extends BaseAdapter {
             TimeZone tz = TimeZone.getTimeZone("Asia/Calcutta");
 
             outputFormat.setTimeZone(tz);
-
             Date order_date = inputFormat.parse(myOrderList.get(position).getCreatedate());
             txt_order_date.setText(outputFormat.format(order_date));
             Date preferd_delivery_date = inputFormat.parse(myOrderList.get(position).getPreferred_delivery_date());
             txt_expected_delivery_date.setText(outputFormat.format(preferd_delivery_date));
-
 
         } catch (Exception e) {
             e.printStackTrace();

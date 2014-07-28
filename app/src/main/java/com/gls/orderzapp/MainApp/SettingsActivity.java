@@ -224,6 +224,28 @@ public class SettingsActivity extends ActionBarActivity {
         return user;
     }
 
+    public void storeUserPreferences(){
+        successResponseOfUser = new Gson().fromJson(loadPreferencesUser(), SuccessResponseOfUser.class);
+//        SuccessResponseOfUser user = new Gson().fromJson(userData, SuccessResponseOfUser.class);
+        Location location = new Location();
+        location.setAddress1(address1EditText.getText().toString().trim());
+        location.setAddress2(address2EditText.getText().toString().trim());
+        location.setArea(areaEditText.getText().toString().trim());
+        location.setCity(cityEditText.getText().toString().trim());
+        location.setState(editTextState.getText().toString().trim());
+        location.setCountry(countryEditText.getText().toString().trim());
+        location.setZipcode(pincodeEditText.getText().toString().trim());
+        successResponseOfUser.getSuccess().getUser().setLocation(location);
+
+        successResponseOfUser.getSuccess().getUser().setUsername(userNameEditText.getText().toString().trim());
+        successResponseOfUser.getSuccess().getUser().setPreffered_lang(loadPreferenceslang());
+
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        SharedPreferences.Editor editor = sp.edit();
+        editor.putString("USER_DATA", new Gson().toJson(successResponseOfUser));
+        editor.commit();
+    }
+
     public String loadPreferenceslang() {
         String lang = "";
         String language = "";
@@ -340,7 +362,6 @@ public class SettingsActivity extends ActionBarActivity {
 
     public void setPostSettingsData() throws Exception {
         userDetails = new UserDetails();
-//        userDetailsInUserObject = new UserDetailsInUserObject();
         settingsUserData = new SettingsUserData();
         Location location = new Location();
         location.setAddress1(address1EditText.getText().toString().trim());
@@ -445,6 +466,8 @@ public class SettingsActivity extends ActionBarActivity {
                         Log.d("result", resultOfSaveSettings);
                         jObj = new JSONObject(resultOfSaveSettings);
                         if (jObj.has("success")) {
+                            storeUserPreferences();
+                            successResponseOfUser = new Gson().fromJson(loadPreferencesUser(), SuccessResponseOfUser.class);
                             jObjSuccess = jObj.getJSONObject("success");
                             msg = jObjSuccess.getString("message");
                         } else {
@@ -469,7 +492,7 @@ public class SettingsActivity extends ActionBarActivity {
                 if (connectedOrNot.equals("success")) {
                     if (!resultOfSaveSettings.isEmpty()) {
                         if (jObj.has("success")) {
-                            successResponseOfUser = new Gson().fromJson(loadPreferencesUser(), SuccessResponseOfUser.class);
+
                             displayUserData();
                             Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_LONG).show();
                             finish();
