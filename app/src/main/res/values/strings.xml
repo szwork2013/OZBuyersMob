@@ -69,7 +69,7 @@
     <string name="type">Type</string>
     <string name="expected_date">Expected Date</string>
     <string name="seller">Seller :</string>
-    <string name="delivery_charges">Delivery Charges :</string>
+    <string name="delivery_charges">Charges :</string>
     <string name="delivery_type">Delivery Type </string>
     <string name="continue_shopping">Continue Shopping</string>
     <string name="create_date">Order Date</string>

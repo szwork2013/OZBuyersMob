@@ -35,7 +35,7 @@ import org.json.JSONObject;
 public class ChangeAddressActivity extends Activity {
     TextView text_address;
     Context context;
-    String userID;
+    String userID,user;
     public static EditText edittext_address1, edittext_address2, edittext_area, edittext_city, edittext_state, edittext_country, edittext_zipcode;
     Button save_address;
     public static boolean isAddressChanged = false;
@@ -43,7 +43,7 @@ public class ChangeAddressActivity extends Activity {
     UserDetails userDetails;
     SettingsUserData settingsUserData;
     SuccessResponseOfUser successResponseForUserID;
-    SuccessResponseOfUser successResponseOfUser;
+//    SuccessResponseOfUser successResponseOfUser;
     DeliveryPaymentActivity deliveryPaymentActivity;
     GsonBuilder gsonBuild = new GsonBuilder();
     Gson gson = gsonBuild.disableHtmlEscaping().create();
@@ -126,141 +126,189 @@ public class ChangeAddressActivity extends Activity {
                     edittext_state.getText().toString() + ", " +
                     edittext_country.getText().toString() + ".");
             isAddressChanged = true;
-        }else if(bundle.getString("User_Address").equals("UpdateSettings"))
-        {
-            new SaveSettingsAsync().execute();
-        }
-        finish();
-    }
-    public void savePostSettingsData() throws Exception {
-        userDetails = new UserDetails();
-        settingsUserData = new SettingsUserData();
-        Location location = new Location();
-        location.setAddress1(edittext_address1.getText().toString().trim());
-        location.setAddress2(edittext_address2.getText().toString().trim());
-        location.setCity(edittext_city.getText().toString().trim());
-        location.setArea(edittext_area.getText().toString().trim());
-        location.setCountry(edittext_country.getText().toString().trim());
-        location.setState(edittext_state.getText().toString().trim());
-        location.setZipcode(edittext_zipcode.getText().toString().trim());
-        userDetails.setLocation(location);
-        settingsUserData.setUserdata(userDetails);
-    }
-    public String postSettingsData() {
-        String resultOfSaveSettings = "";
-        String jsonPostSettingsData;
-        try {
-            jsonPostSettingsData = gson.toJson(settingsUserData);
-            setUserID(loadPreferencesUserID());
-            resultOfSaveSettings = ServerConnection.executePut(jsonPostSettingsData, "/api/user/" + userID);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return resultOfSaveSettings;
-    }
+            loadPreferencesUserDataForDeliveryAddress();
+            DeliveryPaymentActivity.shipping_address_textview.setText(edittext_address1.getText().toString() + ", " +
+                    edittext_address2.getText().toString() + ", " +
+                    edittext_area.getText().toString() + ", \n" +
+                    edittext_city.getText().toString() + ". " +
+                    edittext_zipcode.getText().toString() + "\n" +
+                    edittext_state.getText().toString() + ", " +
+                    edittext_country.getText().toString() + ".");
+            ((Activity) context).setResult(((Activity) context).RESULT_OK);
+            finish();
 
-    public void setUserID(String getUserData) {
-        try {
-            successResponseForUserID = new Gson().fromJson(getUserData, SuccessResponseOfUser.class);
-            userID=successResponseForUserID.getSuccess().getUser().getUserid();
-
-        } catch (Exception e) {
-            e.printStackTrace();
         }
     }
 
-    public String loadPreferencesUserID() throws Exception {
+
+    public String loadPreferencesUserDataForDeliveryAddress() throws Exception {
         String user = "";
+        String DeliveryAddresDetails="";
         try {
             SharedPreferences spLoad = PreferenceManager.getDefaultSharedPreferences(context);
-            user = spLoad.getString("USER_DATA", null);
+            user = spLoad.getString("USER_DATA_DELIVERY_ADDRESS", null);
+            successResponseForUserID= new Gson().fromJson(user, SuccessResponseOfUser.class);
+            successResponseForUserID.getSuccess().getUser().getLocation().setArea( edittext_area.getText().toString());
+            successResponseForUserID.getSuccess().getUser().getLocation().setCity( edittext_city.getText().toString());
+            successResponseForUserID.getSuccess().getUser().getLocation().setAddress1(edittext_address1.getText().toString());
+            successResponseForUserID.getSuccess().getUser().getLocation().setAddress2(edittext_address2.getText().toString());
+            successResponseForUserID.getSuccess().getUser().getLocation().setCountry( edittext_country.getText().toString());
+            successResponseForUserID.getSuccess().getUser().getLocation().setState(edittext_state.getText().toString());
+            successResponseForUserID.getSuccess().getUser().getLocation().setZipcode(edittext_zipcode.getText().toString() );
+
+            SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
+            SharedPreferences.Editor edit = sp.edit();
+            GsonBuilder gBuild = new GsonBuilder();
+            Gson gson = gBuild.disableHtmlEscaping().create();
+            DeliveryAddresDetails = gson.toJson(successResponseForUserID);
+            edit.putString("USER_DATA_DELIVERY_ADDRESS", DeliveryAddresDetails);
+            edit.commit();
         } catch (Exception e) {
             e.printStackTrace();
         }
         return user;
     }
-
-    public class SaveSettingsAsync extends AsyncTask<String, Integer, String> {
-        String connectedOrNot, resultOfSaveSettings, msg, code;
-        JSONObject jObj, jObjError, jObjSuccess;
-        ProgressDialog progressDialog;
-
-        @Override
-        protected void onPreExecute() {
-//            progressDialog = ProgressDialog.show(ChangeAddressActivity.this, "", "");
-        }
-
-        @Override
-        protected String doInBackground(String... params) {
-            try {
-                if (new CheckConnection(getApplicationContext()).isConnectingToInternet()) {
-                    connectedOrNot = "success";
-                    savePostSettingsData();
-                    resultOfSaveSettings = postSettingsData();
-                    if (!resultOfSaveSettings.isEmpty()) {
-                        Log.d("result", resultOfSaveSettings);
-                        jObj = new JSONObject(resultOfSaveSettings);
-                        if (jObj.has("success")) {
-                            jObjSuccess = jObj.getJSONObject("success");
-                            msg = jObjSuccess.getString("message");
-                            SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
-                            SharedPreferences.Editor edit = sp.edit();
-                            edit.putString("USER_DATA", gson.toJson(settingsUserData));
-                            edit.putString("USER_DATA_DELIVERY_ADDRESS", gson.toJson(settingsUserData));
-                            edit.commit();
-                        } else {
-                            jObjError = jObj.getJSONObject("error");
-                            msg = jObjError.getString("message");
-                            code = jObjError.getString("code");
-                        }
-                    }
-                } else {
-                    connectedOrNot = "error";
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            return connectedOrNot;
-        }
-
-        @Override
-        protected void onPostExecute(String connectedOrNot) {
-            try {
-                if (connectedOrNot.equals("success")) {
-                    if (!resultOfSaveSettings.isEmpty()) {
-                        if (jObj.has("success")) {
-
-                            DeliveryPaymentActivity.billing_address_textview.setText(edittext_address1.getText().toString() + ", " +
-                                    edittext_address2.getText().toString() + ", " +
-                                    edittext_area.getText().toString() + ", \n" +
-                                    edittext_city.getText().toString() + ". " +
-                                    edittext_zipcode.getText().toString() + "\n" +
-                                    edittext_state.getText().toString() + ", " +
-                                    edittext_country.getText().toString() + ".");
-                            DeliveryPaymentActivity.shipping_address_textview.setText(edittext_address1.getText().toString() + ", " +
-                                    edittext_address2.getText().toString() + ", " +
-                                    edittext_area.getText().toString() + ", \n" +
-                                    edittext_city.getText().toString() + ". " +
-                                    edittext_zipcode.getText().toString() + "\n" +
-                                    edittext_state.getText().toString() + ", " +
-                                    edittext_country.getText().toString() + ".");
-                            DeliveryChargesAndTypeAdapter.successResponseOfUserDeliveryAddresDetails.getSuccess().getUser().getLocation().setArea(edittext_area.getText().toString().trim());
-                            DeliveryChargesAndTypeAdapter.successResponseOfUserDeliveryAddresDetails.getSuccess().getUser().getLocation().setCity(edittext_city.getText().toString().trim());
-                            DeliveryPaymentActivity.selectDeliveryType();
-
-                            finish();
-                        } else {
-                            Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_LONG).show();
-                        }
-                    } else {
-                        Toast.makeText(getApplicationContext(), "Server is not responding please try again later", Toast.LENGTH_LONG).show();
-                    }
-                } else {
-                    Toast.makeText(getApplicationContext(), "Please check your internet connection", Toast.LENGTH_LONG).show();
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-    }
+//    //****************
+//
+//
+//
+//
+//
+//
+//
+//
+//    public void savePostSettingsData() throws Exception {
+////        userDetails = new UserDetails();
+//        successResponseForUserID= new Gson().fromJson(loadPreferencesUserID(), SuccessResponseOfUser.class);
+//        successResponseForUserID.getSuccess().getUser().getLocation().setArea(edittext_area.getText().toString().trim());
+//        successResponseForUserID.getSuccess().getUser().getLocation().setCity(edittext_city.getText().toString().trim());
+//        successResponseForUserID.getSuccess().getUser().getLocation().setAddress1(edittext_address1.getText().toString().trim());
+//        successResponseForUserID.getSuccess().getUser().getLocation().setAddress2(edittext_address2.getText().toString().trim());
+//        successResponseForUserID.getSuccess().getUser().getLocation().setCountry(edittext_country.getText().toString().trim());
+//        successResponseForUserID.getSuccess().getUser().getLocation().setState(edittext_state.getText().toString().trim());
+//        successResponseForUserID.getSuccess().getUser().getLocation().setZipcode(edittext_zipcode.getText().toString().trim());
+////        settingsUserData = new SettingsUserData();
+////        Location location = new Location();
+////        location.setAddress1(edittext_address1.getText().toString().trim());
+////        location.setAddress2(edittext_address2.getText().toString().trim());
+////        location.setCity(edittext_city.getText().toString().trim());
+////        location.setArea(edittext_area.getText().toString().trim());
+////        location.setCountry(edittext_country.getText().toString().trim());
+////        location.setState(edittext_state.getText().toString().trim());
+////        location.setZipcode(edittext_zipcode.getText().toString().trim());
+////        userDetails.setLocation(location);
+////        settingsUserData.setUserdata(userDetails);
+//    }
+//    public String postSettingsData() {
+//        String resultOfSaveSettings = "";
+//        String jsonPostSettingsData;
+//        try {
+//            jsonPostSettingsData = gson.toJson(successResponseForUserID);
+//            setUserID(loadPreferencesUserID());
+//            resultOfSaveSettings = ServerConnection.executePut(jsonPostSettingsData, "/api/user/" + userID);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//        return resultOfSaveSettings;
+//    }
+//
+//    public void setUserID(String getUserData) {
+//        try {
+//            successResponseForUserID = new Gson().fromJson(getUserData, SuccessResponseOfUser.class);
+//            userID=successResponseForUserID.getSuccess().getUser().getUserid();
+//
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//    }
+//
+//    public String loadPreferencesUserID() throws Exception {
+//        try {
+//            SharedPreferences spLoad = PreferenceManager.getDefaultSharedPreferences(context);
+//            user = spLoad.getString("USER_DATA", null);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//        return user;
+//    }
+//
+//    public class SaveSettingsAsync extends AsyncTask<String, Integer, String> {
+//        String connectedOrNot, resultOfSaveSettings, msg, code;
+//        JSONObject jObj, jObjError, jObjSuccess;
+//        ProgressDialog progressDialog;
+//
+//        @Override
+//        protected void onPreExecute() {
+////            progressDialog = ProgressDialog.show(ChangeAddressActivity.this, "", "");
+//        }
+//
+//        @Override
+//        protected String doInBackground(String... params) {
+//            try {
+//                if (new CheckConnection(getApplicationContext()).isConnectingToInternet()) {
+//                    connectedOrNot = "success";
+//                    savePostSettingsData();
+//                    resultOfSaveSettings = postSettingsData();
+//                    if (!resultOfSaveSettings.isEmpty()) {
+//                        Log.d("result", resultOfSaveSettings);
+//                        jObj = new JSONObject(resultOfSaveSettings);
+//                        if (jObj.has("success")) {
+//                            jObjSuccess = jObj.getJSONObject("success");
+//                            msg = jObjSuccess.getString("message");
+//                            SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
+//                            SharedPreferences.Editor edit = sp.edit();
+//                            edit.putString("USER_DATA_DELIVERY_ADDRESS", gson.toJson(successResponseForUserID));
+//                            edit.commit();
+//                        } else {
+//                            jObjError = jObj.getJSONObject("error");
+//                            msg = jObjError.getString("message");
+//                            code = jObjError.getString("code");
+//                        }
+//                    }
+//                } else {
+//                    connectedOrNot = "error";
+//                }
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
+//            return connectedOrNot;
+//        }
+//
+//        @Override
+//        protected void onPostExecute(String connectedOrNot) {
+//            try {
+//                if (connectedOrNot.equals("success")) {
+//                    if (!resultOfSaveSettings.isEmpty()) {
+//                        if (jObj.has("success")) {
+//
+//                            DeliveryPaymentActivity.billing_address_textview.setText(edittext_address1.getText().toString() + ", " +
+//                                    edittext_address2.getText().toString() + ", " +
+//                                    edittext_area.getText().toString() + ", \n" +
+//                                    edittext_city.getText().toString() + ". " +
+//                                    edittext_zipcode.getText().toString() + "\n" +
+//                                    edittext_state.getText().toString() + ", " +
+//                                    edittext_country.getText().toString() + ".");
+//                            DeliveryPaymentActivity.shipping_address_textview.setText(edittext_address1.getText().toString() + ", " +
+//                                    edittext_address2.getText().toString() + ", " +
+//                                    edittext_area.getText().toString() + ", \n" +
+//                                    edittext_city.getText().toString() + ". " +
+//                                    edittext_zipcode.getText().toString() + "\n" +
+//                                    edittext_state.getText().toString() + ", " +
+//                                    edittext_country.getText().toString() + ".");
+//                            ((Activity) context).setResult(((Activity) context).RESULT_OK);
+//                               finish();
+//                        } else {
+//                            Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_LONG).show();
+//                        }
+//                    } else {
+//                        Toast.makeText(getApplicationContext(), "Server is not responding please try again later", Toast.LENGTH_LONG).show();
+//                    }
+//                } else {
+//                    Toast.makeText(getApplicationContext(), "Please check your internet connection", Toast.LENGTH_LONG).show();
+//                }
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
+//        }
+//    }
 }

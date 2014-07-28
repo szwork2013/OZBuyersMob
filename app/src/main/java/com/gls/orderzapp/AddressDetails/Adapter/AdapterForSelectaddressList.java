@@ -1,18 +1,33 @@
 package com.gls.orderzapp.AddressDetails.Adapter;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.os.AsyncTask;
+import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.gls.orderzapp.AddressDetails.Bean.ListOfDeliveryAddress;
+import com.gls.orderzapp.CreateOrder.CreateOrderBeans.SuccessResponseForDeliveryChargesAndType;
 import com.gls.orderzapp.MainApp.DeliveryPaymentActivity;
 import com.gls.orderzapp.MainApp.SelectAddressListActivity;
 import com.gls.orderzapp.R;
 import com.gls.orderzapp.SignUp.Location;
+import com.gls.orderzapp.User.SuccessResponseOfUser;
+import com.gls.orderzapp.Utility.CheckConnection;
+import com.gls.orderzapp.Utility.ServerConnection;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,6 +40,7 @@ public class AdapterForSelectaddressList extends BaseAdapter {
     List<ListOfDeliveryAddress> deliveryaddresses = new ArrayList<>();
     public static ListOfDeliveryAddress deliveryAddressList;
     public static String deliveryaddressid = null;
+    public  SuccessResponseOfUser successResponseOfUserDeliveryAddresDetails;
 
     public AdapterForSelectaddressList(Context context, List<ListOfDeliveryAddress> deliveryaddresses) {
         this.context = context;
@@ -98,6 +114,8 @@ public class AdapterForSelectaddressList extends BaseAdapter {
                                     deliveryAddressList.getAddress().getState() + ", " +
                                     deliveryAddressList.getAddress().getCountry() + ".");
                             SelectAddressListActivity.isAddNewaddress = true;
+                            loadPreferencesUserDataForDeliveryAddress();
+                            ((Activity) context).setResult(((Activity) context).RESULT_OK);
                             ((Activity) context).finish();
                         }
                     } catch (Exception e) {
@@ -110,5 +128,33 @@ public class AdapterForSelectaddressList extends BaseAdapter {
         }
 
         return convertView;
+    }
+    public String loadPreferencesUserDataForDeliveryAddress() throws Exception {
+        String user = "";
+        String DeliveryAddresDetails="";
+        try {
+            SharedPreferences spLoad = PreferenceManager.getDefaultSharedPreferences(context);
+            user = spLoad.getString("USER_DATA_DELIVERY_ADDRESS", null);
+            successResponseOfUserDeliveryAddresDetails= new Gson().fromJson(user, SuccessResponseOfUser.class);
+            successResponseOfUserDeliveryAddresDetails.getSuccess().getUser().getLocation().setArea(deliveryAddressList.getAddress().getArea());
+            successResponseOfUserDeliveryAddresDetails.getSuccess().getUser().getLocation().setCity(deliveryAddressList.getAddress().getCity());
+            successResponseOfUserDeliveryAddresDetails.getSuccess().getUser().getLocation().setAddress1(deliveryAddressList.getAddress().getAddress1());
+            successResponseOfUserDeliveryAddresDetails.getSuccess().getUser().getLocation().setAddress2(deliveryAddressList.getAddress().getAddress2());
+            successResponseOfUserDeliveryAddresDetails.getSuccess().getUser().getLocation().setCountry(deliveryAddressList.getAddress().getCountry());
+            successResponseOfUserDeliveryAddresDetails.getSuccess().getUser().getLocation().setState(deliveryAddressList.getAddress().getState());
+            successResponseOfUserDeliveryAddresDetails.getSuccess().getUser().getLocation().setZipcode(deliveryAddressList.getAddress().getZipcode());
+
+            SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
+            SharedPreferences.Editor edit = sp.edit();
+            GsonBuilder gBuild = new GsonBuilder();
+            Gson gson = gBuild.disableHtmlEscaping().create();
+            DeliveryAddresDetails = gson.toJson(successResponseOfUserDeliveryAddresDetails);
+
+            edit.putString("USER_DATA_DELIVERY_ADDRESS", DeliveryAddresDetails);
+            edit.commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return user;
     }
 }

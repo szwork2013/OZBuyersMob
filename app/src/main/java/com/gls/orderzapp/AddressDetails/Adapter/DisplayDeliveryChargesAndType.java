@@ -64,6 +64,7 @@ public class DisplayDeliveryChargesAndType {
            TextView txt_delivery_charges = (TextView) lldelievry_charge_type_details.findViewById(R.id.txt_delivery_charges);
            final EditText edt_orderInstruction= (EditText) lldelievry_charge_type_details.findViewById(R.id.edt_orderInstruction);
            final Button btn_selct_pickup_address=(Button) lldelievry_charge_type_details.findViewById(R.id.btn_selct_pickup_address);
+            final LinearLayout ll_delivery_charges=(LinearLayout) lldelievry_charge_type_details.findViewById(R.id.ll_delivery_charges);
            final RadioGroup delivery_type_group = (RadioGroup) lldelievry_charge_type_details.findViewById(R.id.delivery_type_group);
            final RadioButton pick_up = (RadioButton) lldelievry_charge_type_details.findViewById(R.id.pick_up);
            final RadioButton home_delivery = (RadioButton) lldelievry_charge_type_details.findViewById(R.id.home_delivery);
@@ -85,10 +86,13 @@ public class DisplayDeliveryChargesAndType {
                 if (listOfDeliveryCharges.getSuccess().getDeliverycharge().get(j).getBranchid().equals(checkForDeliveryModeList.get(i).getBranchid())) {
                     if (listOfDeliveryCharges.getSuccess().getDeliverycharge().get(j).isDelivery() == true) {
                         home_delivery.setVisibility(View.VISIBLE);
+//                        ll_delivery_charges.setVisibility(View.VISIBLE);
+                        Log.d("HomeDelivery True","trueeeeeeeee");
                         txt_delivery_charges.setText(String.format("%.2f", listOfDeliveryCharges.getSuccess().getDeliverycharge().get(j).getCharge()));
                     } else {
                         txt_delivery_charges.setText("0.0");
                         home_delivery.setVisibility(View.GONE);
+                        ll_delivery_charges.setVisibility(View.GONE);
                     }
                 }
             }
@@ -102,12 +106,15 @@ public class DisplayDeliveryChargesAndType {
                             Log.d("Pickup provider id and name-",providerid[group.getId() - 100]+"???"+checkForDeliveryModeList.get(group.getId() - 100).getProviderid());
                             delivery_mode[group.getId() - 100] = "pickup";
                             btn_selct_pickup_address.setVisibility(View.VISIBLE);
+                            ll_delivery_charges.setVisibility(View.GONE);
+                            AdapterForPickUpAddressList.isPickUpAddressSelected=false;
                             delivery_mode_branchid[group.getId() - 100] = listOfDeliveryCharges.getSuccess().getDeliverycharge().get(group.getId() - 100).getBranchid();
                             break;
 
                         case R.id.home_delivery:
                             delivery_mode[group.getId() - 100] = "home";
                             btn_selct_pickup_address.setVisibility(View.GONE);
+                            ll_delivery_charges.setVisibility(View.VISIBLE);
                             delivery_mode_branchid[group.getId() - 100] = listOfDeliveryCharges.getSuccess().getDeliverycharge().get(group.getId() - 100).getBranchid();
                             Log.d("hom pos", group.getId() - 100 + "");
                             break;
@@ -123,8 +130,7 @@ public class DisplayDeliveryChargesAndType {
                     goToSelectPickUpAddressActivity.putExtra("branchid", checkForDeliveryModeList.get(view.getId()-100).getBranchid());
                     goToSelectPickUpAddressActivity.putExtra("pickupbuttontag", view.getTag()+"");
                     Log.d("Btn provider id and name-",providerid[delivery_type_group.getId() - 100]+"???"+checkForDeliveryModeList.get(delivery_type_group.getId() - 100).getProviderName());
-//                    goToSelectPickUpAddressActivity.putExtra("providerid",providerid[btn_selct_pickup_address.getId()-100]);
-                    ((Activity) context).startActivityForResult(goToSelectPickUpAddressActivity,1);
+                    ((Activity) context).startActivityForResult(goToSelectPickUpAddressActivity,2);
                 }
             });
 
@@ -187,22 +193,18 @@ public class DisplayDeliveryChargesAndType {
 
     public static boolean deliveryTypeCheck() {
         for (int l = 0; l < listOfDeliveryCharges.getSuccess().getDeliverycharge().size(); l++)
+        {
             if (delivery_mode[l] != null) {
-//                if (!delivery_mode[l].isEmpty()) {
-                    if(delivery_mode[l].equalsIgnoreCase("pickup"))
-                    {
-                        if(AdapterForPickUpAddressList.isPickUpAddressSelected==false)
-                        {
-//                            Toast.makeText(context, "Please select a Pick-Up address", Toast.LENGTH_LONG).show();
-                            return false;
-                        }
+                if (delivery_mode[l].equalsIgnoreCase("pickup")) {
+                    if (AdapterForPickUpAddressList.isPickUpAddressSelected == false) {
+                        return false;
                     }
-//                    return false;
-//                }
-            } else {
-//                Toast.makeText(context, "Please select a Delivery Type", Toast.LENGTH_LONG).show();
-                return false;
+                } else if (delivery_mode[l].equalsIgnoreCase("home")) {
+                    return true;
+                }
             }
+
+        }
         return true;
     }
 

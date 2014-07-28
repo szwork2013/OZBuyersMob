@@ -111,7 +111,7 @@ public class ProductListAdapter {
                 deleteProduct();
                 try {
 //                    edittext_quantity.setSelection(edittext_quantity.getText().toString().trim().length() + 1);
-                }catch (Exception e){
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
                 min_weight = productDetailsList.get(i).getMin_weight().getValue();
@@ -122,7 +122,7 @@ public class ProductListAdapter {
                 delete_image.setTag(productDetailsList.get(i).getCartCount());
                 llDeleteImage.setTag(productDetailsList.get(i).getCartCount());
 
-                list.add(edittext_quantity.getTag()+"-"+parentIndex);
+                list.add(edittext_quantity.getTag() + "-" + parentIndex);
 
                 CartAdapter.llProductList.addView(llproductDetails);
             }
@@ -194,7 +194,7 @@ public class ProductListAdapter {
                 if (((TextView) view).getText() != null) {
                     if (((TextView) view).getText().toString().equalsIgnoreCase("Kg")) {
                         if (tempEditText.getText().toString().trim().length() > 0) {
-                            if(isDouble(tempEditText.getText().toString().trim()) == true) {
+                            if (isDouble(tempEditText.getText().toString().trim()) == true) {
                                 String fixed_rate = ((TextView) (((LinearLayout) (tempEditText.getParent())).getChildAt(1))).getText().toString();
                                 TextView tempText = (TextView) (((LinearLayout) (tempEditText.getParent())).getChildAt(7));
                                 measure = "Kg";
@@ -209,7 +209,7 @@ public class ProductListAdapter {
                         }
                     } else if (((TextView) view).getText().toString().equalsIgnoreCase("lb")) {
                         if (tempEditText.getText().toString().trim().length() > 0) {
-                            if(isDouble(tempEditText.getText().toString().trim()) == true) {
+                            if (isDouble(tempEditText.getText().toString().trim()) == true) {
                                 String fixed_rate = ((TextView) (((LinearLayout) (tempEditText.getParent())).getChildAt(1))).getText().toString();
                                 TextView tempText = (TextView) (((LinearLayout) (tempEditText.getParent())).getChildAt(7));
                                 measure = "lb";
@@ -224,7 +224,7 @@ public class ProductListAdapter {
                         }
                     } else if (((TextView) view).getText().toString().equalsIgnoreCase("Gm")) {
                         if (tempEditText.getText().toString().trim().length() > 0) {
-                            if(isDouble(tempEditText.getText().toString().trim()) == true) {
+                            if (isDouble(tempEditText.getText().toString().trim()) == true) {
                                 String fixed_rate = ((TextView) (((LinearLayout) (tempEditText.getParent())).getChildAt(1))).getText().toString();
                                 TextView tempText = (TextView) (((LinearLayout) (tempEditText.getParent())).getChildAt(7));
                                 measure = "Gm";
@@ -240,7 +240,7 @@ public class ProductListAdapter {
                     } else if (((TextView) view).getText().toString().equalsIgnoreCase("No")) {
 
                         if (tempEditText.getText().toString().trim().length() > 0) {
-                            if(isDouble(tempEditText.getText().toString().trim()) == true) {
+                            if (isDouble(tempEditText.getText().toString().trim()) == true) {
                                 String fixed_rate = ((TextView) (((LinearLayout) (tempEditText.getParent())).getChildAt(1))).getText().toString();
                                 TextView tempText = (TextView) (((LinearLayout) (tempEditText.getParent())).getChildAt(7));
                                 measure = "No";
@@ -267,18 +267,18 @@ public class ProductListAdapter {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 tempSpinner = ((Spinner) v);
-                tag = v.getTag()+"";
+                tag = v.getTag() + "";
                 return false;
             }
         });
     }
 
-    public void deleteProduct(){
+    public void deleteProduct() {
         delete_image.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                Cart.deleteFromCart(view.getTag()+"");
+                Cart.deleteFromCart(view.getTag() + "");
                 CartActivity cartActivity = (CartActivity) context;
                 cartActivity.displayCart();
 
@@ -289,7 +289,7 @@ public class ProductListAdapter {
             @Override
             public void onClick(View view) {
 
-                Cart.deleteFromCart(view.getTag()+"");
+                Cart.deleteFromCart(view.getTag() + "");
                 CartActivity cartActivity = (CartActivity) context;
                 cartActivity.displayCart();
 
@@ -298,7 +298,7 @@ public class ProductListAdapter {
 
     }
 
-    public void quantityEditTextActions(){
+    public void quantityEditTextActions() {
         final TextWatcher watcher = new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -312,11 +312,11 @@ public class ProductListAdapter {
 
             @Override
             public void afterTextChanged(Editable s) {
+                final String fixed_rate = ((TextView) (((LinearLayout) (tempEditText.getParent())).getChildAt(1))).getText().toString();
+                final TextView tempText = (TextView) (((LinearLayout) (tempEditText.getParent())).getChildAt(7));
 
                 if (tempEditText.getText().toString().trim().length() > 0) {
-                    if(isDouble(tempEditText.getText().toString().trim()) == true) {
-                        final String fixed_rate = ((TextView) (((LinearLayout) (tempEditText.getParent())).getChildAt(1))).getText().toString();
-                        final TextView tempText = (TextView) (((LinearLayout) (tempEditText.getParent())).getChildAt(7));
+                    if (isDouble(tempEditText.getText().toString().trim()) == true) {
                         uom = Cart.returnUom(tag);
                         if (uom.equalsIgnoreCase("Kg")) {
                             tempText.setText(String.format("%.2f", ((Double.parseDouble(tempEditText.getText().toString())) * (Double.parseDouble(fixed_rate)))));
@@ -326,18 +326,38 @@ public class ProductListAdapter {
                             tempText.setText(String.format("%.2f", (((Double.parseDouble(tempEditText.getText().toString())) * (Double.parseDouble(fixed_rate))) / 1000)));
                         } else if (uom.equalsIgnoreCase("No")) {
                             tempText.setText(String.format("%.2f", ((Double.parseDouble(tempEditText.getText().toString())) * (Double.parseDouble(fixed_rate)))));
-                        }
 
-                        if (min_weight == max_weight) {
-                            Cart.updateCart(tag, tempEditText.getText().toString().trim(), uom);
-                            for (int i = 0; i < list.size(); i++) {
-                                if (tag.equalsIgnoreCase(list.get(i).split("-")[0])) {
-                                    CartAdapter.changeSubTotal(tag, list.get(i).split("-")[1]);
+
+                            if (min_weight == max_weight) {
+                                Cart.updateCart(tag, tempEditText.getText().toString().trim(), uom);
+                                for (int i = 0; i < list.size(); i++) {
+                                    if (tag.equalsIgnoreCase(list.get(i).split("-")[0])) {
+                                        CartAdapter.changeSubTotal(tag, list.get(i).split("-")[1]);
+                                    }
                                 }
-                            }
-                        } else {
-                            if (max_weight == 0.0) {
-                                if ((Double.parseDouble(tempEditText.getText().toString())) >= min_weight) {
+                            } else {
+                                if (max_weight == 0.0) {
+                                    if ((Double.parseDouble(tempEditText.getText().toString())) >= min_weight) {
+                                        Cart.updateCart(tag, tempEditText.getText().toString().trim(), uom);
+                                        for (int i = 0; i < list.size(); i++) {
+                                            if (tag.equalsIgnoreCase(list.get(i).split("-")[0])) {
+                                                CartAdapter.changeSubTotal(tag, list.get(i).split("-")[1]);
+                                            }
+                                        }
+                                    } else {
+                                        Cart.updateCart(tag, "0", uom);
+                                        for (int i = 0; i < list.size(); i++) {
+                                            if (tag.equalsIgnoreCase(list.get(i).split("-")[0])) {
+                                                CartAdapter.changeSubTotal(tag, list.get(i).split("-")[1]);
+                                            }
+                                        }
+                                        tempEditText.setText("");
+                                        Toast.makeText(context, "minimum order of " + min_weight + " " + measure + " is required to place the order for this product", Toast.LENGTH_LONG).show();
+                                    }
+
+                                }
+
+                                if (min_weight == max_weight) {
                                     Cart.updateCart(tag, tempEditText.getText().toString().trim(), uom);
                                     for (int i = 0; i < list.size(); i++) {
                                         if (tag.equalsIgnoreCase(list.get(i).split("-")[0])) {
@@ -345,109 +365,122 @@ public class ProductListAdapter {
                                         }
                                     }
                                 } else {
-                                    Cart.updateCart(tag, "0", uom);
-                                    for (int i = 0; i < list.size(); i++) {
-                                        if (tag.equalsIgnoreCase(list.get(i).split("-")[0])) {
-                                            CartAdapter.changeSubTotal(tag, list.get(i).split("-")[1]);
-                                        }
-                                    }
-                                    tempEditText.setText("");
-                                    Toast.makeText(context, "minimum order of " + min_weight + " " + measure + " is required to place the order for this product", Toast.LENGTH_LONG).show();
-                                }
-                            } else {
-                                if (min_weight == 0.0) {
-                                    if ((Double.parseDouble(tempEditText.getText().toString())) <= max_weight) {
-                                        Cart.updateCart(tag, tempEditText.getText().toString().trim(), uom);
-                                        for (int i = 0; i < list.size(); i++) {
-                                            if (tag.equalsIgnoreCase(list.get(i).split("-")[0])) {
-                                                CartAdapter.changeSubTotal(tag, list.get(i).split("-")[1]);
+                                    if (max_weight == 0.0) {
+                                        if ((Double.parseDouble(tempEditText.getText().toString())) >= min_weight) {
+                                            Cart.updateCart(tag, tempEditText.getText().toString().trim(), uom);
+                                            for (int i = 0; i < list.size(); i++) {
+                                                if (tag.equalsIgnoreCase(list.get(i).split("-")[0])) {
+                                                    CartAdapter.changeSubTotal(tag, list.get(i).split("-")[1]);
+                                                }
                                             }
+                                        } else {
+                                            Cart.updateCart(tag, "0", uom);
+                                            for (int i = 0; i < list.size(); i++) {
+                                                if (tag.equalsIgnoreCase(list.get(i).split("-")[0])) {
+                                                    CartAdapter.changeSubTotal(tag, list.get(i).split("-")[1]);
+                                                }
+                                            }
+                                            tempEditText.setText("");
+                                            Toast.makeText(context, "minimum order of " + min_weight + " " + measure + " is required to place the order for this product", Toast.LENGTH_LONG).show();
                                         }
-
                                     } else {
-                                        Cart.updateCart(tag, "0", uom);
-                                        for (int i = 0; i < list.size(); i++) {
-                                            if (tag.equalsIgnoreCase(list.get(i).split("-")[0])) {
-                                                CartAdapter.changeSubTotal(tag, list.get(i).split("-")[1]);
-                                            }
-                                        }
-                                        tempEditText.setText("");
-                                        Toast.makeText(context, "Cannot order more than " + max_weight + " " + measure + " of this product per order", Toast.LENGTH_LONG).show();
-                                    }
-                                } else {
-                                    if ((Double.parseDouble(tempEditText.getText().toString())) >= min_weight && (Double.parseDouble(tempEditText.getText().toString())) <= max_weight) {
+                                        if (min_weight == 0.0) {
+                                            if ((Double.parseDouble(tempEditText.getText().toString())) <= max_weight) {
+                                                Cart.updateCart(tag, tempEditText.getText().toString().trim(), uom);
+                                                for (int i = 0; i < list.size(); i++) {
+                                                    if (tag.equalsIgnoreCase(list.get(i).split("-")[0])) {
+                                                        CartAdapter.changeSubTotal(tag, list.get(i).split("-")[1]);
+                                                    }
+                                                }
 
-                                        Cart.updateCart(tag, tempEditText.getText().toString().trim(), uom);
-                                        for (int i = 0; i < list.size(); i++) {
-                                            if (tag.equalsIgnoreCase(list.get(i).split("-")[0])) {
-                                                CartAdapter.changeSubTotal(tag, list.get(i).split("-")[1]);
+                                            } else {
+                                                Cart.updateCart(tag, "0", uom);
+                                                for (int i = 0; i < list.size(); i++) {
+                                                    if (tag.equalsIgnoreCase(list.get(i).split("-")[0])) {
+                                                        CartAdapter.changeSubTotal(tag, list.get(i).split("-")[1]);
+                                                    }
+                                                }
+                                                tempEditText.setText("");
+                                                Toast.makeText(context, "Cannot order more than " + max_weight + " " + measure + " of this product per order", Toast.LENGTH_LONG).show();
                                             }
-                                        }
+                                        } else {
+                                            if ((Double.parseDouble(tempEditText.getText().toString())) >= min_weight && (Double.parseDouble(tempEditText.getText().toString())) <= max_weight) {
 
-                                    } else {
-                                        Cart.updateCart(tag, "0", uom);
-                                        for (int i = 0; i < list.size(); i++) {
-                                            if (tag.equalsIgnoreCase(list.get(i).split("-")[0])) {
-                                                CartAdapter.changeSubTotal(tag, list.get(i).split("-")[1]);
+                                                Cart.updateCart(tag, tempEditText.getText().toString().trim(), uom);
+                                                for (int i = 0; i < list.size(); i++) {
+                                                    if (tag.equalsIgnoreCase(list.get(i).split("-")[0])) {
+                                                        CartAdapter.changeSubTotal(tag, list.get(i).split("-")[1]);
+                                                    }
+                                                }
+
+                                            } else {
+                                                Cart.updateCart(tag, "0", uom);
+                                                for (int i = 0; i < list.size(); i++) {
+                                                    if (tag.equalsIgnoreCase(list.get(i).split("-")[0])) {
+                                                        CartAdapter.changeSubTotal(tag, list.get(i).split("-")[1]);
+                                                    }
+                                                }
+                                                tempEditText.setText("");
+                                                Toast.makeText(context, "Enter weight between  " + min_weight + " " + measure + " and " + max_weight + " " + measure, Toast.LENGTH_LONG).show();
                                             }
                                         }
-                                        tempEditText.setText("");
-                                        Toast.makeText(context, "Enter weight between  " + min_weight + " " + measure + " and " + max_weight + " " + measure, Toast.LENGTH_LONG).show();
                                     }
                                 }
                             }
-                        }
-                    }
-                }else{
-                    Cart.updateCart(tag, "0", uom);
-                    for(int i = 0; i < list.size(); i++) {
-                        if(tag.equalsIgnoreCase(list.get(i).split("-")[0])) {
-                            CartAdapter.changeSubTotal(tag, list.get(i).split("-")[1]);
+                        } else {
+                            Cart.updateCart(tag, "0", uom);
+                            for (int i = 0; i < list.size(); i++) {
+                                if (tag.equalsIgnoreCase(list.get(i).split("-")[0])) {
+                                    CartAdapter.changeSubTotal(tag, list.get(i).split("-")[1]);
+                                }
+                            }
+                            tempText.setText("0");
                         }
                     }
                 }
-            }
+             }
         };
 
-
-        edittext_quantity.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (hasFocus) {
-                    if (tempEditText != null) {
-                        tempEditText.removeTextChangedListener(watcher);
+                edittext_quantity.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+                    @Override
+                    public void onFocusChange(View v, boolean hasFocus) {
+                        if (hasFocus) {
+                            if (tempEditText != null) {
+                                tempEditText.removeTextChangedListener(watcher);
+                            }
+                            tag = v.getTag() + "";
+                            tempEditText = ((EditText) v);
+                            tempEditText.addTextChangedListener(watcher);
+                        }
                     }
-                    tag = v.getTag() + "";
-                    tempEditText = ((EditText) v);
-                    tempEditText.addTextChangedListener(watcher);
-                }
+
+                });
+
+                edittext_quantity.setOnTouchListener(new View.OnTouchListener() {
+                    @Override
+                    public boolean onTouch(View v, MotionEvent event) {
+                        if (tempEditText != null) {
+                            tempEditText.removeTextChangedListener(watcher);
+                        }
+                        tag = v.getTag() + "";
+                        tempEditText = ((EditText) v);
+                        tempEditText.addTextChangedListener(watcher);
+                        return false;
+                    }
+                });
             }
 
-        });
 
-        edittext_quantity.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if (tempEditText != null) {
-                    tempEditText.removeTextChangedListener(watcher);
+            public boolean isDouble(String value) {
+                boolean isStringParsable = true;
+                try {
+                    Double.parseDouble(value);
+                } catch (NumberFormatException e) {
+                    isStringParsable = false;
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
-                tag = v.getTag() + "";
-                tempEditText = ((EditText) v);
-                tempEditText.addTextChangedListener(watcher);
-                return false;
+                return isStringParsable;
             }
-        });
-    }
-
-    public boolean isDouble(String value){
-        boolean isStringParsable = true;
-        try{
-            Double.parseDouble(value);
-        }catch (NumberFormatException e){
-            isStringParsable = false;
-        }catch (Exception e){
-            e.printStackTrace();
         }
-        return isStringParsable;
-    }
-}
+
