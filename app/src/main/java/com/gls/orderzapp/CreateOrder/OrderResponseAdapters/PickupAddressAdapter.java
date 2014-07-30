@@ -71,6 +71,8 @@ public class PickupAddressAdapter extends BaseAdapter {
                 ll_pikup_address.setVisibility(View.GONE);
                 view.setVisibility(View.GONE);
                 address.setVisibility(View.GONE);
+                sellerName.setVisibility(View.GONE);
+                        view.setVisibility(View.GONE);
             }
         }
         return convertView;

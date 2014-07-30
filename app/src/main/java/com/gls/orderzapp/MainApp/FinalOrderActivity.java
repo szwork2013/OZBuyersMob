@@ -12,6 +12,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.gls.orderzapp.CreateOrder.OrderResponseAdapters.AdapterForFinalOrderMultipleProviders;
+import com.gls.orderzapp.CreateOrder.OrderResponseAdapters.HomeDeliveryAddressAdapter;
 import com.gls.orderzapp.CreateOrder.OrderResponseAdapters.PickupAddressAdapter;
 import com.gls.orderzapp.CreateOrder.OrderResponseBeans.SuccessResponseForCreateOrder;
 import com.gls.orderzapp.Payment.PaymentSuccessResponse;
@@ -34,7 +35,7 @@ public class FinalOrderActivity extends Activity {
     TextView orderNumber, billing_address_textview, shipping_address_textview, paymentMode, grand_total, delivery_type,
             txt_expected_delivery_date, bank_name, transaction_id, card_type, txn_amount;
     SuccessResponseForCreateOrder successResponseForCreateOrder;
-    ListView address_list;
+    ListView address_list,lst_selller_name_homedelivery;
     int homedelivery=0,pickupdelivery=0;
     PaymentSuccessResponse paymentSuccessResponse;
     String paymentResponse;
@@ -85,6 +86,7 @@ public class FinalOrderActivity extends Activity {
         grand_total = (TextView) findViewById(R.id.grand_total);
         txt_expected_delivery_date = (TextView) findViewById(R.id.txt_expected_delivery_date);
         address_list = (ListView) findViewById(R.id.address_list);
+        lst_selller_name_homedelivery= (ListView) findViewById(R.id.lst_selller_name_homedelivery);
         bank_name = (TextView) findViewById(R.id.bank_name);
         transaction_id = (TextView) findViewById(R.id.transaction_id);
         card_type = (TextView) findViewById(R.id.card_type);
@@ -205,6 +207,7 @@ public class FinalOrderActivity extends Activity {
                 if (homedelivery>0 &&
                         successResponseForCreateOrder.getSuccess().getOrder().getSuborder().get(i).getDeliverytype().equalsIgnoreCase("home")) {
                     ll_home_delivery_address.setVisibility(View.VISIBLE);
+//                    lst_selller_name_homedelivery.setAdapter(new HomeDeliveryAddressAdapter(getApplicationContext(),successResponseForCreateOrder.getSuccess().getOrder().getSuborder()));
                     shipping_address_textview.setText(successResponseForCreateOrder.getSuccess().getOrder().getSuborder().get(i).getDelivery_address().getAddress1() + ", " +
                             successResponseForCreateOrder.getSuccess().getOrder().getSuborder().get(i).getDelivery_address().getAddress2() + ", " +
                             successResponseForCreateOrder.getSuccess().getOrder().getSuborder().get(i).getDelivery_address().getArea() + ",\n" +
@@ -213,20 +216,15 @@ public class FinalOrderActivity extends Activity {
                             successResponseForCreateOrder.getSuccess().getOrder().getSuborder().get(i).getDelivery_address().getState() + ", " +
                             successResponseForCreateOrder.getSuccess().getOrder().getSuborder().get(i).getDelivery_address().getCountry());
                 }
-                else
-                {
-//                    ll_home_delivery_address.setVisibility(View.GONE);
-                }
+
 
                 if(pickupdelivery>0
                         && successResponseForCreateOrder.getSuccess().getOrder().getSuborder().get(i).getDeliverytype().equalsIgnoreCase("pickup")){
                     linerlayout_delivery_address.setVisibility(View.VISIBLE);
                 address_list.setAdapter(new PickupAddressAdapter(getApplicationContext(), successResponseForCreateOrder.getSuccess().getOrder().getSuborder()));
                 setListViewHeightBasedOnChildren(address_list);
-                }else
-                {
-//                    linerlayout_delivery_address.setVisibility(View.GONE);
                 }
+
             }
 
         } catch (Exception exc) {
