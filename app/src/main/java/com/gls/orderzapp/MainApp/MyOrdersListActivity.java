@@ -24,8 +24,7 @@ public class MyOrdersListActivity extends Activity {
     TextView txt_noOrder;
     public static SuccessResponseForMyOrders successResponseForMyOrders;
     public static ArrayList<ArrayList<String>> actualList = new ArrayList<>();
-    public static List<String> serverSideTracking = new ArrayList<>();
-    public static List<ArrayList<ArrayList<String>>> serverTrackingStatus = new ArrayList<>();
+    public List<ArrayList<ArrayList<String>>> serverTrackingStatus = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

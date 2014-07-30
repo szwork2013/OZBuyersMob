@@ -101,31 +101,6 @@
             android:layout_width="60dp"
             android:layout_height="40dp"
             android:orientation="horizontal"
-            android:gravity="center"
-            android:id="@+id/llParentShipping">
-
-            <View
-                android:layout_width="20dp"
-                android:layout_height="1dp"
-                android:background="#000" />
-
-            <LinearLayout
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:background="@drawable/tracking_round_white"
-                android:id="@+id/shipping"
-                android:orientation="horizontal" />
-
-            <View
-                android:layout_width="20dp"
-                android:layout_height="1dp"
-                android:background="#000" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="60dp"
-            android:layout_height="40dp"
-            android:orientation="horizontal"
             android:id="@+id/llParentDelivery"
             android:gravity="left|center_vertical">
 
@@ -175,17 +150,7 @@
             android:layout_height="1dp"
             android:visibility="invisible" />
 
-        <ImageView
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:src="@drawable/arrow_up1"
-            android:id="@+id/imageshipping"
-            android:visibility="invisible" />
 
-        <View
-            android:layout_width="40dp"
-            android:layout_height="1dp"
-            android:visibility="invisible" />
 
         <ImageView
             android:layout_width="20dp"

@@ -76,34 +76,38 @@ public class SubOrderProductListAdapter extends BaseAdapter {
         TextView actual_price = (TextView) convertView.findViewById(R.id.actual_price);
 
         String imageLogo = new Gson().toJson(productDetailsList.get(position));
-        if (imageLogo != null && imageLogo.contains("productlogo")) {
-            imageLoader = com.nostra13.universalimageloader.core.ImageLoader.getInstance();
-            imageLoader.init(ImageLoaderConfiguration.createDefault(context));
-            imageLoader.displayImage(productDetailsList.get(position).getProductlogo(), imageProductLogo, options, new SimpleImageLoadingListener() {
-                boolean cacheFound;
+        try {
+            if (imageLogo != null && imageLogo.contains("productlogo")) {
+                imageLoader = com.nostra13.universalimageloader.core.ImageLoader.getInstance();
+                imageLoader.init(ImageLoaderConfiguration.createDefault(context));
+                imageLoader.displayImage(productDetailsList.get(position).getProductlogo(), imageProductLogo, options, new SimpleImageLoadingListener() {
+                    boolean cacheFound;
 
-                @Override
-                public void onLoadingStarted(String imageUri, View view) {
-                    List<String> memCache = MemoryCacheUtil.findCacheKeysForImageUri(imageUri, ImageLoader.getInstance().getMemoryCache());
-                    cacheFound = !memCache.isEmpty();
-                    if (!cacheFound) {
-                        File discCache = DiscCacheUtil.findInCache(imageUri, ImageLoader.getInstance().getDiscCache());
-                        if (discCache != null) {
-                            cacheFound = discCache.exists();
+                    @Override
+                    public void onLoadingStarted(String imageUri, View view) {
+                        List<String> memCache = MemoryCacheUtil.findCacheKeysForImageUri(imageUri, ImageLoader.getInstance().getMemoryCache());
+                        cacheFound = !memCache.isEmpty();
+                        if (!cacheFound) {
+                            File discCache = DiscCacheUtil.findInCache(imageUri, ImageLoader.getInstance().getDiscCache());
+                            if (discCache != null) {
+                                cacheFound = discCache.exists();
+                            }
                         }
                     }
-                }
 
-                @Override
-                public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
-                    if (cacheFound) {
+                    @Override
+                    public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
+                        if (cacheFound) {
 //                        MemoryCacheUtil.removeFromCache(imageUri, ImageLoader.getInstance().getMemoryCache());
 //                        DiscCacheUtil.removeFromCache(imageUri, ImageLoader.getInstance().getDiscCache());
 
-                        ImageLoader.getInstance().displayImage(imageUri, (ImageView) view);
+                            ImageLoader.getInstance().displayImage(imageUri, (ImageView) view);
+                        }
                     }
-                }
-            });
+                });
+            }
+        }catch (Exception e){
+            e.printStackTrace();
         }
 
         textProductPrice.setTypeface(tfRobotoNormal);
