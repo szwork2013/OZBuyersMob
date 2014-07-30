@@ -179,6 +179,7 @@ public class Cart {
                     hm.put(position, localProduct);
                 }
             }
+            Log.d("cart", new Gson().toJson(hm));
             CartActivity.grand_total.setText(String.format("%.2f", Cart.subTotal()));
         } catch (Exception e) {
             e.printStackTrace();
@@ -271,7 +272,7 @@ public static int deleteConfigObject()
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return getCount();
+        return hm.size();
     }
 
     public static boolean checkForPrductConfigurarion() {
