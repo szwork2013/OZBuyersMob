@@ -1,5 +1,6 @@
 package com.gls.orderzapp.MainApp;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.SharedPreferences;
@@ -32,6 +33,8 @@ import com.google.gson.Gson;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -44,13 +47,46 @@ public class CityAreaDetailsActivity extends Activity {
     SuccessResponseForStatesList successResponseForStatesList;
     SuccessResponseForCityList successResponseForCityList;
     SuccessResponseForAreaList successResponseForAreaList;
-    CityAreaListAdapter cityCountryListAdapter, cityStateListAdapter;
+    List<String> areaList = new ArrayList<>();
+    CityAreaListAdapter cityCountryListAdapter, cityStateListAdapter, cityListAdapter, areaListAdapter;
     String country = "", state = "", city = "", area = "";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setTitle("Select Area");
         setContentView(R.layout.city_area_details);
+        ActionBar actionBar = getActionBar();
+
+        actionBar.setCustomView(R.layout.area_filter_layout);
+
+        final EditText search = (EditText) actionBar.getCustomView().findViewById(R.id.search);
+
+        actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM
+                | ActionBar.DISPLAY_SHOW_HOME);
+
+        search.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i2, int i3) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i2, int i3) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                areaList.clear();
+                for(int i = 0; i < successResponseForAreaList.getSuccess().getArea().size(); i++) {
+                    if (successResponseForAreaList.getSuccess().getArea().get(i).contains(search.getText().toString().trim())) {
+                        areaList.add(successResponseForAreaList.getSuccess().getArea().get(i));
+                    }
+                }
+                areaListAdapter.notifyDataSetChanged();
+            }
+        });
         findViewsById();
         new GetCountryListAsync().execute();
 
@@ -71,6 +107,7 @@ public class CityAreaDetailsActivity extends Activity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 state = parent.getItemAtPosition(position)+"";
+                Toast.makeText(getApplicationContext(), state, Toast.LENGTH_LONG).show();
                 new GetCityListAsync().execute();
             }
 
@@ -345,8 +382,8 @@ public class CityAreaDetailsActivity extends Activity {
                 if(connectedOrNot.equalsIgnoreCase("success")){
                     if(!resultGetCities.isEmpty()){
                         if(jObj.has("success")){
-                            cityStateListAdapter = new CityAreaListAdapter(getApplicationContext(), successResponseForCityList.getSuccess().getCity());
-                            city_spinner.setAdapter(cityStateListAdapter);
+                            cityListAdapter = new CityAreaListAdapter(getApplicationContext(), successResponseForCityList.getSuccess().getCity());
+                            city_spinner.setAdapter(cityListAdapter);
                             city_spinner.setSelection(successResponseForCityList.getSuccess().getCity().indexOf(loadCityPreference()));
                         }else{
                             Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_LONG).show();
@@ -382,8 +419,10 @@ public class CityAreaDetailsActivity extends Activity {
                         Log.d("getArea", resultGetArea);
                         jObj = new JSONObject(resultGetArea);
                         if(jObj.has("success")){
-
+                            areaList.clear();
                             successResponseForAreaList = new Gson().fromJson(resultGetArea, SuccessResponseForAreaList.class);
+                            areaList.addAll(successResponseForAreaList.getSuccess().getArea());
+                            Collections.sort(areaList, new CustomComparator());
 //                            listOfAreas.addAll(successResponseForAreaList.getSuccess().getArea());
                         }else{
                             JSONObject jObjError = jObj.getJSONObject("error");
@@ -404,8 +443,8 @@ public class CityAreaDetailsActivity extends Activity {
                 if(connectedOrNot.equalsIgnoreCase("success")){
                     if(!resultGetArea.isEmpty()){
                         if(jObj.has("success")){
-                            cityCountryListAdapter = new CityAreaListAdapter(getApplicationContext(), successResponseForAreaList.getSuccess().getArea());
-                            listOfAreas.setAdapter(cityCountryListAdapter);
+                            areaListAdapter = new CityAreaListAdapter(getApplicationContext(), areaList);
+                            listOfAreas.setAdapter(areaListAdapter);
                         }else{
                             Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_LONG).show();
                         }
@@ -424,5 +463,18 @@ public class CityAreaDetailsActivity extends Activity {
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.city_area_details_menu, menu);
         return super.onCreateOptionsMenu(menu);
+    }
+
+    class CustomComparator implements Comparator<String>{
+
+        @Override
+        public int compare(String s, String s2) {
+            return s.compareTo(s2);
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            return false;
+        }
     }
 }
