@@ -91,7 +91,6 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:background="#fff">
-
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
@@ -116,32 +115,48 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:orientation="vertical">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:id="@+id/ll_home_delivery_address"
+                        android:orientation="vertical"
+                        android:layout_marginLeft="10dp"
+                        android:visibility="gone"
+                        android:layout_height="wrap_content">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/delivery_address"
+                            android:textStyle="bold"
+                            android:textSize="16sp" />
+                        <ListView
+                            android:id="@+id/lst_selller_name_homedelivery"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"></ListView>
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textSize="16sp"
+                            android:singleLine="false"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginBottom="5dp"
+                            android:layout_marginTop="5dp"
+                            android:id="@+id/shipping_address_textview" />
+                        </LinearLayout>
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
                         android:layout_marginLeft="10dp"
+                        android:visibility="gone"
                         android:id="@+id/linerlayout_delivery_address">
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/address"
+                            android:text="@string/select_pickup_address"
                             android:textStyle="bold"
-                            android:id="@+id/address_text"
                             android:textSize="16sp" />
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:textSize="16sp"
-                            android:singleLine="false"
-                            android:visibility="gone"
-                            android:layout_marginLeft="10dp"
-                            android:layout_marginBottom="5dp"
-                            android:layout_marginTop="5dp"
-                            android:id="@+id/shipping_address_textview" />
 
                         <ListView
                             android:layout_width="match_parent"

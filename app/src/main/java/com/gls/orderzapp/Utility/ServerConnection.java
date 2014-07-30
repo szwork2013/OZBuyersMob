@@ -35,9 +35,9 @@ public class ServerConnection {
     //************Devlopment
 //    public static final String url = "http://ec2-54-254-210-45.ap-southeast-1.compute.amazonaws.com:5000";
     //************demo
-    public static final String url = "http://ec2-54-254-210-45.ap-southeast-1.compute.amazonaws.com:7000";
+//    public static final String url = "http://ec2-54-254-210-45.ap-southeast-1.compute.amazonaws.com:7000";
     //****************Production-https
-//    public static final String url = "https://ec2-54-255-211-121.ap-southeast-1.compute.amazonaws.com";
+    public static final String url = "https://ec2-54-255-211-121.ap-southeast-1.compute.amazonaws.com";
 //****************Production-http
 //    public static final String url = "http://ec2-54-255-211-121.ap-southeast-1.compute.amazonaws.com";
     //************test
