@@ -179,7 +179,6 @@ public class AdapterForMultipleProviders {
             }
 
             if (i == createOrderProductDetailsList.size() - 1) {
-                Log.d("delivery charge2", deliveryCharges + "");
                 new ConfirmOrderProductListAdapter(context, list).setProductList();
 
                 delivery_charge.setText(deliveryCharges + "");

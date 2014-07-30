@@ -49,6 +49,7 @@ public class CityAreaDetailsActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setTitle("Select Area");
         setContentView(R.layout.city_area_details);
         findViewsById();
         new GetCountryListAsync().execute();

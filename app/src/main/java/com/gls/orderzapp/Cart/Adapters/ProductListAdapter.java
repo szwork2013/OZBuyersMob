@@ -99,7 +99,12 @@ public class ProductListAdapter {
                     }
                 }
                 if (productDetailsList.get(i).getQuantity() != null) {
-                    edittext_quantity.setText(productDetailsList.get(i).getQuantity());
+                    if(measure.equalsIgnoreCase("no")){
+                        Log.d("qty", productDetailsList.get(i).getQuantity());
+                        edittext_quantity.setText(productDetailsList.get(i).getQuantity());
+                    }else {
+                        edittext_quantity.setText(productDetailsList.get(i).getQuantity());
+                    }
                 }
 
                 if (productDetailsList.get(i).getPrice().getUom() != null) {
@@ -354,7 +359,6 @@ public class ProductListAdapter {
                                         tempEditText.setText("");
                                         Toast.makeText(context, "minimum order of " + min_weight + " " + measure + " is required to place the order for this product", Toast.LENGTH_LONG).show();
                                     }
-
                                 }
 
                                 if (min_weight == max_weight) {
@@ -427,6 +431,8 @@ public class ProductListAdapter {
                                     }
                                 }
                             }
+                        }
+                    }
                         } else {
                             Cart.updateCart(tag, "0", uom);
                             for (int i = 0; i < list.size(); i++) {
@@ -437,8 +443,8 @@ public class ProductListAdapter {
                             tempText.setText("0");
                         }
                     }
-                }
-             }
+
+
         };
 
                 edittext_quantity.setOnFocusChangeListener(new View.OnFocusChangeListener() {
