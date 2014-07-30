@@ -55,6 +55,7 @@ public class FinalOrderActivity extends Activity {
             paymentSuccessResponse = new Gson().fromJson(paymentResponse, PaymentSuccessResponse.class);
         }
         successResponseForCreateOrder = new Gson().fromJson(getIntent().getStringExtra("FINAL_ORDER"), SuccessResponseForCreateOrder.class);
+        Log.d("successResponseForCreateOrder",new Gson().toJson(successResponseForCreateOrder));
         setOrderDetailsData();
 
     }
@@ -102,6 +103,8 @@ public class FinalOrderActivity extends Activity {
         Intent goToStartUpActivity = new Intent(FinalOrderActivity.this, StartUpActivity.class);
         startActivity(goToStartUpActivity);
         StartUpActivity.isFirstTime = true;
+        HomeDeliveryAddressAdapter.size=0;
+        PickupAddressAdapter.p_size=0;
         finish();
     }
 
@@ -204,10 +207,11 @@ public class FinalOrderActivity extends Activity {
                             successResponseForCreateOrder.getSuccess().getOrder().getSuborder().get(i).getBilling_address().getState() + ", " +
                             successResponseForCreateOrder.getSuccess().getOrder().getSuborder().get(i).getBilling_address().getCountry());
                 }
-                if (homedelivery>0 &&
-                        successResponseForCreateOrder.getSuccess().getOrder().getSuborder().get(i).getDeliverytype().equalsIgnoreCase("home")) {
+                if (successResponseForCreateOrder.getSuccess().getOrder().getSuborder().get(i).getDeliverytype().equalsIgnoreCase("home")
+                        && homedelivery>0) {
                     ll_home_delivery_address.setVisibility(View.VISIBLE);
-//                    lst_selller_name_homedelivery.setAdapter(new HomeDeliveryAddressAdapter(getApplicationContext(),successResponseForCreateOrder.getSuccess().getOrder().getSuborder()));
+                    lst_selller_name_homedelivery.setAdapter(new HomeDeliveryAddressAdapter(getApplicationContext(),successResponseForCreateOrder.getSuccess().getOrder().getSuborder().get(i).getProductprovider().getProvidername()));
+                    setListViewHeightBasedOnChildren(lst_selller_name_homedelivery);
                     shipping_address_textview.setText(successResponseForCreateOrder.getSuccess().getOrder().getSuborder().get(i).getDelivery_address().getAddress1() + ", " +
                             successResponseForCreateOrder.getSuccess().getOrder().getSuborder().get(i).getDelivery_address().getAddress2() + ", " +
                             successResponseForCreateOrder.getSuccess().getOrder().getSuborder().get(i).getDelivery_address().getArea() + ",\n" +
@@ -216,12 +220,11 @@ public class FinalOrderActivity extends Activity {
                             successResponseForCreateOrder.getSuccess().getOrder().getSuborder().get(i).getDelivery_address().getState() + ", " +
                             successResponseForCreateOrder.getSuccess().getOrder().getSuborder().get(i).getDelivery_address().getCountry());
                 }
-
-
-                if(pickupdelivery>0
-                        && successResponseForCreateOrder.getSuccess().getOrder().getSuborder().get(i).getDeliverytype().equalsIgnoreCase("pickup")){
+                else if(successResponseForCreateOrder.getSuccess().getOrder().getSuborder().get(i).getDeliverytype().equalsIgnoreCase("pickup")
+                        && pickupdelivery>0){
                     linerlayout_delivery_address.setVisibility(View.VISIBLE);
-                address_list.setAdapter(new PickupAddressAdapter(getApplicationContext(), successResponseForCreateOrder.getSuccess().getOrder().getSuborder()));
+                    Log.d("PickUpAddress",new Gson().toJson(successResponseForCreateOrder.getSuccess().getOrder().getSuborder().get(i).getPickup_address()));
+                address_list.setAdapter(new PickupAddressAdapter(getApplicationContext(), successResponseForCreateOrder.getSuccess().getOrder().getSuborder().get(i).getPickup_address(),successResponseForCreateOrder.getSuccess().getOrder().getSuborder().get(i).getProductprovider().getProvidername()));
                 setListViewHeightBasedOnChildren(address_list);
                 }
 
@@ -239,6 +242,8 @@ public class FinalOrderActivity extends Activity {
         Intent goToStartUpActivity = new Intent(FinalOrderActivity.this, StartUpActivity.class);
         startActivity(goToStartUpActivity);
         StartUpActivity.isFirstTime = true;
+        HomeDeliveryAddressAdapter.size=0;
+        PickupAddressAdapter.p_size=0;
         finish();
     }
 

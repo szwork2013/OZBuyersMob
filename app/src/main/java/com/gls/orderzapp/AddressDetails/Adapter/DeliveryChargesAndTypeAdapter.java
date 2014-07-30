@@ -43,7 +43,7 @@ public class DeliveryChargesAndTypeAdapter {
     List<ProductDetails> SortedProviderList = new ArrayList<>();
     String branchId = "";
     public static LinearLayout llDeliveryChargeAndType;
-    public static String delivery_type = "";
+//    public static String delivery_type = "";
     ArrayList<String> branchIdforDelivery = new ArrayList<>();
     public static BranchIdsForGettingDeliveryCharges branchIdsForGettingDeliveryCharges;
     public static SuccessResponseForDeliveryChargesAndType successResponseForDeliveryCharges;

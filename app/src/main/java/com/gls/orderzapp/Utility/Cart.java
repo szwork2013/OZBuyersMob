@@ -351,7 +351,7 @@ public static int deleteConfigObject()
         double deliveryCharges = 0.0;
         try {
             for (int i = 0; i < succesResponseForDeliveryChargesAndType.getSuccess().getDeliverycharge().size(); i++) {
-                if (DisplayDeliveryChargesAndType.delivery_mode[i].equalsIgnoreCase("home")) {
+                if (DisplayDeliveryChargesAndType.deliveryType.get(i).split("_")[1].equalsIgnoreCase("home")) {
                     deliveryCharges = deliveryCharges + succesResponseForDeliveryChargesAndType.getSuccess().getDeliverycharge().get(i).getCharge();
                 } else {
                     deliveryCharges = deliveryCharges + 0.0;

@@ -32,10 +32,11 @@ import java.util.List;
  */
 public class DisplayDeliveryChargesAndType {
     public static Context context;
-    public static String[] delivery_mode;
+//    public static String[] delivery_mode;
     public static String[] order_instruction;
     int i=0;
-    public static String[] delivery_mode_branchid;
+//    public static String[] delivery_mode_branchid;
+    public static List<String> deliveryType = new ArrayList<>();
     public String[] providerid;
     public static SuccessResponseForDeliveryChargesAndType listOfDeliveryCharges;
     List<ProductDetails> checkForDeliveryModeList;
@@ -47,8 +48,8 @@ public class DisplayDeliveryChargesAndType {
         this.context = context;
         this.listOfDeliveryCharges = listOfDeliveryCharges;
         this.checkForDeliveryModeList = checkForDeliveryModeList;
-        delivery_mode = new String[listOfDeliveryCharges.getSuccess().getDeliverycharge().size()];
-        delivery_mode_branchid = new String[listOfDeliveryCharges.getSuccess().getDeliverycharge().size()];
+//        delivery_mode = new String[listOfDeliveryCharges.getSuccess().getDeliverycharge().size()];
+//        delivery_mode_branchid = new String[listOfDeliveryCharges.getSuccess().getDeliverycharge().size()];
         order_instruction = new String[listOfDeliveryCharges.getSuccess().getDeliverycharge().size()];
         providerid=new String[listOfDeliveryCharges.getSuccess().getDeliverycharge().size()];
         providerid = new String[listOfDeliveryCharges.getSuccess().getDeliverycharge().size()];
@@ -102,21 +103,23 @@ public class DisplayDeliveryChargesAndType {
                 public void onCheckedChanged(RadioGroup group, int checkedId) {
                     switch (checkedId) {
                         case R.id.pick_up:
-                            Log.d("Pickup pos", group.getId() - 100 + "");
-                            Log.d("Pickup provider id and name-",providerid[group.getId() - 100]+"???"+checkForDeliveryModeList.get(group.getId() - 100).getProviderid());
-                            delivery_mode[group.getId() - 100] = "pickup";
+                            Log.d("Pickup pos", group.getId() - 200 + "");
+                            Log.d("Pickup provider id and name-",providerid[group.getId() - 200]+"???"+checkForDeliveryModeList.get(group.getId() - 200).getProviderName());
+//                            delivery_mode[group.getId() - 200] = "pickup";
+                            deliveryType.add(listOfDeliveryCharges.getSuccess().getDeliverycharge().get(group.getId() - 200).getBranchid()+"_"+"pickup");
                             btn_selct_pickup_address.setVisibility(View.VISIBLE);
                             ll_delivery_charges.setVisibility(View.GONE);
                             AdapterForPickUpAddressList.isPickUpAddressSelected=false;
-                            delivery_mode_branchid[group.getId() - 100] = listOfDeliveryCharges.getSuccess().getDeliverycharge().get(group.getId() - 100).getBranchid();
+//                            delivery_mode_branchid[group.getId() - 200] = listOfDeliveryCharges.getSuccess().getDeliverycharge().get(group.getId() - 200).getBranchid();
                             break;
 
                         case R.id.home_delivery:
-                            delivery_mode[group.getId() - 100] = "home";
+//                            delivery_mode[group.getId() - 200] = "home";
+                            deliveryType.add(listOfDeliveryCharges.getSuccess().getDeliverycharge().get(group.getId() - 200).getBranchid()+"_"+"home");
                             btn_selct_pickup_address.setVisibility(View.GONE);
                             ll_delivery_charges.setVisibility(View.VISIBLE);
-                            delivery_mode_branchid[group.getId() - 100] = listOfDeliveryCharges.getSuccess().getDeliverycharge().get(group.getId() - 100).getBranchid();
-                            Log.d("hom pos", group.getId() - 100 + "");
+//                            delivery_mode_branchid[group.getId() - 200] = listOfDeliveryCharges.getSuccess().getDeliverycharge().get(group.getId() - 200).getBranchid();
+                            Log.d("hom pos", group.getId() - 200 + "");
                             break;
                     }
                 }
@@ -129,7 +132,7 @@ public class DisplayDeliveryChargesAndType {
                     goToSelectPickUpAddressActivity.putExtra("providerid",providerid[btn_selct_pickup_address.getId()-100]);
                     goToSelectPickUpAddressActivity.putExtra("branchid", checkForDeliveryModeList.get(view.getId()-100).getBranchid());
                     goToSelectPickUpAddressActivity.putExtra("pickupbuttontag", view.getTag()+"");
-                    Log.d("Btn provider id and name-",providerid[delivery_type_group.getId() - 100]+"???"+checkForDeliveryModeList.get(delivery_type_group.getId() - 100).getProviderName());
+                    Log.d("Btn provider id and name-",providerid[delivery_type_group.getId() - 200]+"???"+checkForDeliveryModeList.get(delivery_type_group.getId() - 200).getProviderName());
                     ((Activity) context).startActivityForResult(goToSelectPickUpAddressActivity,2);
                 }
             });
@@ -186,20 +189,20 @@ public class DisplayDeliveryChargesAndType {
             btn_selct_pickup_address.setTag(i);
             edt_orderInstruction.setId(100+i);
             btn_selct_pickup_address.setId(100+i);
-            delivery_type_group.setId(100 + i);
+            delivery_type_group.setId(200 + i);
             DeliveryChargesAndTypeAdapter.llDeliveryChargeAndType.addView(lldelievry_charge_type_details);
         }
     }
 
     public static boolean deliveryTypeCheck() {
-        for (int l = 0; l < listOfDeliveryCharges.getSuccess().getDeliverycharge().size(); l++)
+        for (int l = 0; l < deliveryType.size(); l++)
         {
-            if (delivery_mode[l] != null) {
-                if (delivery_mode[l].equalsIgnoreCase("pickup")) {
+            if (deliveryType.get(l) != null) {
+                if (deliveryType.get(l).split("_")[1].equalsIgnoreCase("pickup")) {
                     if (AdapterForPickUpAddressList.isPickUpAddressSelected == false) {
                         return false;
                     }
-                } else if (delivery_mode[l].equalsIgnoreCase("home")) {
+                } else if (deliveryType.get(l).split("_")[1].equalsIgnoreCase("home")) {
                     return true;
                 }
             }

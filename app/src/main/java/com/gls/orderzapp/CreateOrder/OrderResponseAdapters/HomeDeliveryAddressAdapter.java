@@ -18,18 +18,19 @@ import java.util.List;
  */
 public class HomeDeliveryAddressAdapter extends BaseAdapter {
     Context context;
-    List<OrderedSubOrderDetails> orderedSubOrderDetailsList;
-
-    public HomeDeliveryAddressAdapter(Context context, List<OrderedSubOrderDetails> orderedSubOrderDetailsList) {
+    String p_name;
+     public static int  size=0;
+    public HomeDeliveryAddressAdapter(Context context, String p_name) {
         this.context = context;
-        this.orderedSubOrderDetailsList = orderedSubOrderDetailsList;
+        this.p_name=p_name;
+        size++;
 
 
     }
 
     @Override
     public int getCount() {
-        return orderedSubOrderDetailsList.size();
+        return size;
     }
 
     @Override
@@ -45,19 +46,10 @@ public class HomeDeliveryAddressAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         LayoutInflater li = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        convertView = li.inflate(R.layout.address_list_item, null);
+        convertView = li.inflate(R.layout.homedelivery_providerlist, null);
         TextView sellerName = (TextView) convertView.findViewById(R.id.txt_sellerName);
-        TextView address = (TextView) convertView.findViewById(R.id.address);
-        LinearLayout ll_pikup_address= (LinearLayout)convertView.findViewById(R.id.ll_pikup_address);
-        View view=(View)convertView.findViewById(R.id.view);
-        if (orderedSubOrderDetailsList.get(position).getPickup_address() != null) {
-            if(orderedSubOrderDetailsList.get(position).getDeliverytype().equalsIgnoreCase("home")){
-                address.setVisibility(View.GONE);
-                        ll_pikup_address.setVisibility(View.GONE);
-                view.setVisibility(View.GONE);
-                sellerName.setText(orderedSubOrderDetailsList.get(position).getProductprovider().getProvidername());
-            }
-        }
+        sellerName.setText(p_name);
+
         return convertView;
 
     }

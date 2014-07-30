@@ -93,6 +93,7 @@ public class AdapterForSelectaddressList extends BaseAdapter {
                         deliveryAddressList = new ListOfDeliveryAddress();
                         if (deliveryaddresses.get(position).getDeliveryaddressid() != null) {
                             deliveryaddressid = deliveryaddresses.get(position).getDeliveryaddressid();
+                            Log.d("deliveryaddressid",deliveryaddressid);
                         }
                         Location location = new Location();
                         if (deliveryaddresses.get(position).getAddress() != null) {
