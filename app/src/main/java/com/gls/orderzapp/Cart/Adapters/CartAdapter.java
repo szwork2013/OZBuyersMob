@@ -138,10 +138,10 @@ public class CartAdapter {
                             if (successResponseForDeliveryCharges.getSuccess().getDeliverycharge().get(j).getBranchid().equalsIgnoreCase(branchid)) {
                                 if (successResponseForDeliveryCharges.getSuccess().getDeliverycharge().get(j).isDelivery() == true) {
                                     delivery_type.setBackgroundColor(Color.parseColor("#009431"));
-                                    delivery_type.setText("Delivery available");
+                                    delivery_type.setText("Available");
                                 } else {
                                     delivery_type.setBackgroundColor(Color.parseColor("#d60027"));
-                                    delivery_type.setText("Delivery NOT available");
+                                    delivery_type.setText("NOT available");
                                 }
                             }
                         }

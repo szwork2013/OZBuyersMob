@@ -99,7 +99,7 @@ android:visibility="gone"
                     android:id="@+id/ll_delivery_charges"
                     android:layout_width="match_parent"
                     android:orientation="horizontal"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginTop="7dp"
                     android:visibility="gone"
                     android:layout_height="wrap_content">
                     <TextView

@@ -1,7 +1,6 @@
 package com.gls.orderzapp.CreateOrder.OrderResponseAdapters;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,13 +14,13 @@ import com.gls.orderzapp.R;
 import java.util.List;
 
 /**
- * Created by prajyot on 2/7/14.
+ * Created by avi on 7/30/14.
  */
-public class PickupAddressAdapter extends BaseAdapter {
+public class HomeDeliveryAddressAdapter extends BaseAdapter {
     Context context;
     List<OrderedSubOrderDetails> orderedSubOrderDetailsList;
 
-    public PickupAddressAdapter(Context context, List<OrderedSubOrderDetails> orderedSubOrderDetailsList) {
+    public HomeDeliveryAddressAdapter(Context context, List<OrderedSubOrderDetails> orderedSubOrderDetailsList) {
         this.context = context;
         this.orderedSubOrderDetailsList = orderedSubOrderDetailsList;
 
@@ -59,13 +58,13 @@ public class PickupAddressAdapter extends BaseAdapter {
                 address.setVisibility(View.VISIBLE);
                 sellerName.setText(orderedSubOrderDetailsList.get(position).getProductprovider().getProvidername());
                 address.setText(orderedSubOrderDetailsList.get(position).getPickup_address().getAddress1() + ", "
-                    + orderedSubOrderDetailsList.get(position).getPickup_address().getAddress2() + ", "
-                    + orderedSubOrderDetailsList.get(position).getPickup_address().getArea() + ",\n"
-                    + orderedSubOrderDetailsList.get(position).getPickup_address().getCity() + ", "
-                    + orderedSubOrderDetailsList.get(position).getPickup_address().getZipcode() + ".\n"
-                    + orderedSubOrderDetailsList.get(position).getPickup_address().getState() + ", "
-                    + orderedSubOrderDetailsList.get(position).getPickup_address().getCountry());
-        }
+                        + orderedSubOrderDetailsList.get(position).getPickup_address().getAddress2() + ", "
+                        + orderedSubOrderDetailsList.get(position).getPickup_address().getArea() + ",\n"
+                        + orderedSubOrderDetailsList.get(position).getPickup_address().getCity() + ", "
+                        + orderedSubOrderDetailsList.get(position).getPickup_address().getZipcode() + ".\n"
+                        + orderedSubOrderDetailsList.get(position).getPickup_address().getState() + ", "
+                        + orderedSubOrderDetailsList.get(position).getPickup_address().getCountry());
+            }
             else
             {
                 ll_pikup_address.setVisibility(View.GONE);
@@ -77,3 +76,4 @@ public class PickupAddressAdapter extends BaseAdapter {
 
     }
 }
+

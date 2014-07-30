@@ -3,6 +3,7 @@ package com.gls.orderzapp.MainApp;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
@@ -28,11 +29,13 @@ import java.util.TimeZone;
  * Created by prajyot on 6/5/14.
  */
 public class FinalOrderActivity extends Activity {
-    public static LinearLayout listProducts, linerlayout_delivery_address, ll_txn_details;
+    public static LinearLayout listProducts,  ll_txn_details;
+    public  LinearLayout  linerlayout_delivery_address,ll_home_delivery_address;
     TextView orderNumber, billing_address_textview, shipping_address_textview, paymentMode, grand_total, delivery_type,
-            txt_expected_delivery_date, address_text, bank_name, transaction_id, card_type, txn_amount;
+            txt_expected_delivery_date, bank_name, transaction_id, card_type, txn_amount;
     SuccessResponseForCreateOrder successResponseForCreateOrder;
     ListView address_list;
+    int homedelivery=0,pickupdelivery=0;
     PaymentSuccessResponse paymentSuccessResponse;
     String paymentResponse;
 
@@ -73,6 +76,7 @@ public class FinalOrderActivity extends Activity {
         listProducts = (LinearLayout) findViewById(R.id.listProducts);
         orderNumber = (TextView) findViewById(R.id.order_no);
         linerlayout_delivery_address = (LinearLayout) findViewById(R.id.linerlayout_delivery_address);
+        ll_home_delivery_address = (LinearLayout) findViewById(R.id.ll_home_delivery_address);
          ll_txn_details = (LinearLayout) findViewById(R.id.ll_txn_details);
         billing_address_textview = (TextView) findViewById(R.id.billing_address_textview);
         shipping_address_textview = (TextView) findViewById(R.id.shipping_address_textview);
@@ -81,7 +85,6 @@ public class FinalOrderActivity extends Activity {
         grand_total = (TextView) findViewById(R.id.grand_total);
         txt_expected_delivery_date = (TextView) findViewById(R.id.txt_expected_delivery_date);
         address_list = (ListView) findViewById(R.id.address_list);
-        address_text = (TextView) findViewById(R.id.address_text);
         bank_name = (TextView) findViewById(R.id.bank_name);
         transaction_id = (TextView) findViewById(R.id.transaction_id);
         card_type = (TextView) findViewById(R.id.card_type);
@@ -167,6 +170,15 @@ public class FinalOrderActivity extends Activity {
             e.printStackTrace();
         }
         try {
+            for (int k = 0; k < successResponseForCreateOrder.getSuccess().getOrder().getSuborder().size(); k++) {
+                if(successResponseForCreateOrder.getSuccess().getOrder().getSuborder().get(k).getDeliverytype().equalsIgnoreCase("pickup"))
+                {
+                    pickupdelivery++;
+                }else if(successResponseForCreateOrder.getSuccess().getOrder().getSuborder().get(k).getDeliverytype().equalsIgnoreCase("home"))
+                {
+                    homedelivery++;
+                }
+            }
             for (int i = 0; i < successResponseForCreateOrder.getSuccess().getOrder().getSuborder().size(); i++) {
 //                Log.d("delivery type", successResponseForCreateOrder.getSuccess().getOrder().getSuborder().get(i).getDeliverytype());
                 try {
@@ -190,30 +202,37 @@ public class FinalOrderActivity extends Activity {
                             successResponseForCreateOrder.getSuccess().getOrder().getSuborder().get(i).getBilling_address().getState() + ", " +
                             successResponseForCreateOrder.getSuccess().getOrder().getSuborder().get(i).getBilling_address().getCountry());
                 }
-                if (i == 0) {
-//                    if (DeliveryPaymentActivity.delivery_type.equalsIgnoreCase("Home Delivery")) {
-
-                    linerlayout_delivery_address.setVisibility(View.VISIBLE);
-                    shipping_address_textview.setVisibility(View.VISIBLE);
-                    shipping_address_textview.setText(OrderDetailsActivity.shippingAddressTextView.getText().toString());
-//                    }
+                if (homedelivery>0 &&
+                        successResponseForCreateOrder.getSuccess().getOrder().getSuborder().get(i).getDeliverytype().equalsIgnoreCase("home")) {
+                    ll_home_delivery_address.setVisibility(View.VISIBLE);
+                    shipping_address_textview.setText(successResponseForCreateOrder.getSuccess().getOrder().getSuborder().get(i).getDelivery_address().getAddress1() + ", " +
+                            successResponseForCreateOrder.getSuccess().getOrder().getSuborder().get(i).getDelivery_address().getAddress2() + ", " +
+                            successResponseForCreateOrder.getSuccess().getOrder().getSuborder().get(i).getDelivery_address().getArea() + ",\n" +
+                            successResponseForCreateOrder.getSuccess().getOrder().getSuborder().get(i).getDelivery_address().getCity() + ", " +
+                            successResponseForCreateOrder.getSuccess().getOrder().getSuborder().get(i).getDelivery_address().getZipcode() + "\n" +
+                            successResponseForCreateOrder.getSuccess().getOrder().getSuborder().get(i).getDelivery_address().getState() + ", " +
+                            successResponseForCreateOrder.getSuccess().getOrder().getSuborder().get(i).getDelivery_address().getCountry());
+                }
+                else
+                {
+//                    ll_home_delivery_address.setVisibility(View.GONE);
                 }
 
-//                if(DeliveryPaymentActivity.delivery_type.equalsIgnoreCase("Pick up")){
-                shipping_address_textview.setVisibility(View.GONE);
-                address_text.setText("Pick-up Address");
+                if(pickupdelivery>0
+                        && successResponseForCreateOrder.getSuccess().getOrder().getSuborder().get(i).getDeliverytype().equalsIgnoreCase("pickup")){
+                    linerlayout_delivery_address.setVisibility(View.VISIBLE);
                 address_list.setAdapter(new PickupAddressAdapter(getApplicationContext(), successResponseForCreateOrder.getSuccess().getOrder().getSuborder()));
                 setListViewHeightBasedOnChildren(address_list);
-//                }
+                }else
+                {
+//                    linerlayout_delivery_address.setVisibility(View.GONE);
+                }
             }
-
 
         } catch (Exception exc) {
             exc.printStackTrace();
         }
     }
-
-
     public void continueShopping(View view) {
         successResponseForCreateOrder = null;
 //        DeliveryPaymentActivity.delivery_type = "";
