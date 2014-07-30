@@ -85,12 +85,6 @@ public class ConfirmOrderProductListAdapter {
                     new PopUpForConfigurationCharges(context, v, Cart.configurationList(createOrderProductDetailsList.get(v.getId() - 1000))).displayConfigurationCharges();
                 }
             });
-//            try {
-//                Log.d("data", new Gson().toJson(createOrderProductDetailsList));
-//                textQuantity.setText(String.format("%.2f", Double.parseDouble(createOrderProductDetailsList.get(i).getQty())) + " " + createOrderProductDetailsList.get(i).getUom());
-//            }catch (Exception e){
-//                e.printStackTrace();
-//            }
 
             if (createOrderProductDetailsList.get(i).getUom() != null) {
                 if (createOrderProductDetailsList.get(i).getUom().equalsIgnoreCase("Kg")) {
