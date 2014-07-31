@@ -1,6 +1,7 @@
 package com.gls.orderzapp.ProductConfiguration.Adapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.View;
 import android.widget.PopupMenu;
 
@@ -30,6 +31,7 @@ public class PopUpForConfigurationCharges {
 
         popupMenu.getMenuInflater().inflate(R.menu.configuration_popup, popupMenu.getMenu());
 
+        Log.d("popup", "popup");
         for (int i = 0; i < productConfigurationList.size(); i++) {
             if (productConfigurationList.get(i).getProd_configtype().equalsIgnoreCase("ftp")) {
                 popupMenu.getMenu().add(productConfigurationList.get(i).getFoodType() + "            " + context.getResources().getString(R.string.rs) + " " + productConfigurationList.get(i).getProd_configprice().getValue());

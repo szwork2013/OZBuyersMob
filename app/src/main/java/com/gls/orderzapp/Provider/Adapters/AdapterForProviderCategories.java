@@ -68,10 +68,10 @@ public class AdapterForProviderCategories {
             txtProviderArea = (TextView) linearLayoutCategoryDetails.findViewById(R.id.txt_provider_area);
             imageProvider = (ImageView) linearLayoutCategoryDetails.findViewById(R.id.image_provider);
 
-            if (providerDetailsList.get(i).getProvider().getProvidername() != null) {
+            if (providerDetailsList.get(i).getProvider().getProviderbrandname() != null) {
                 Typeface pName = Typeface.createFromAsset(context.getAssets(), "Roboto-Regular.ttf");
                 textProviderName.setTypeface(pName);
-                textProviderName.setText(providerDetailsList.get(i).getProvider().getProvidername());
+                textProviderName.setText(providerDetailsList.get(i).getProvider().getProviderbrandname());
 
             }
             if (providerDetailsList.get(i).getBranch().getLocation().getArea() != null) {

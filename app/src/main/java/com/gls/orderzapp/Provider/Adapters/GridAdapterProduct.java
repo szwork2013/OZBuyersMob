@@ -167,7 +167,11 @@ public class GridAdapterProduct extends BaseAdapter {
                     } else {
                         if (providerDetails != null) {
                             ProductDetails productDetailsToAddIntoTheCart = new ProductDetails();
-                            productDetailsToAddIntoTheCart.setProviderName(providerDetails.getProvider().getProvidername());
+                            if(providerDetails.getProvider().getProviderbrandname() != null) {
+                                productDetailsToAddIntoTheCart.setProviderName(providerDetails.getProvider().getProviderbrandname());
+                            }else{
+                                productDetailsToAddIntoTheCart.setProviderName("");
+                            }
                             if (productDetailsList.get(position).getMin_weight().getValue() != 0) {
                                 productDetailsToAddIntoTheCart.setQuantity(productDetailsList.get(position).getMin_weight().getValue() + "");
                             }
