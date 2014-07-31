@@ -147,7 +147,7 @@ public class FinalOrderActivity extends Activity {
 
 
         //*******************
-        new AdapterForFinalOrderMultipleProviders(getApplicationContext(), successResponseForCreateOrder.getSuccess().getOrder().getSuborder()).setMultipleProvidersList();
+        new AdapterForFinalOrderMultipleProviders(context, successResponseForCreateOrder.getSuccess().getOrder().getSuborder()).setMultipleProvidersList();
         try {
             if (successResponseForCreateOrder.getSuccess().getOrder().getPayment().getMode() != null && successResponseForCreateOrder.getSuccess().getOrder().getPayment().getMode().equals("COD")) {
                 paymentMode.setText("Cash On Delivery");
@@ -230,7 +230,7 @@ public class FinalOrderActivity extends Activity {
                         successResponseForCreateOrder.getSuccess().getOrder().getSuborder().get(i).getDeliverytype().equalsIgnoreCase("pickup")){
                     linerlayout_delivery_address.setVisibility(View.VISIBLE);
                     Log.d("PickUpAddress", new Gson().toJson(successResponseForCreateOrder.getSuccess().getOrder().getSuborder().get(i).getPickup_address()));
-                    address_list.setAdapter(new PickupAddressAdapter(getApplicationContext(), successResponseForCreateOrder.getSuccess().getOrder().getSuborder()));
+                    address_list.setAdapter(new PickupAddressAdapter(context, successResponseForCreateOrder.getSuccess().getOrder().getSuborder()));
                     setListViewHeightBasedOnChildren(address_list);
                 }
             }

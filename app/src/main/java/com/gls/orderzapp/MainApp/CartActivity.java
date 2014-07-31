@@ -46,9 +46,16 @@ public class CartActivity extends Activity {
     }
 
     @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Cart.deleteFromCartIfQuantityIsZero();
+    }
+
+    @Override
     protected void onResume() {
         super.onResume();
         try {
+
             displayCart();
         }catch (Exception e){
             e.printStackTrace();
@@ -76,6 +83,7 @@ public class CartActivity extends Activity {
             ll_products.setVisibility(View.VISIBLE);
             try {
 //                area_text.setText(loadPreferences());
+                Cart.deleteFromCartIfQuantityIsZero();
                 new CartAdapter(context);
                 grand_total.setText(Cart.subTotal() + "");
             }catch (Exception e){
