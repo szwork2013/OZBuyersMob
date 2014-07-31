@@ -141,11 +141,11 @@ public class AdapterForMultipleProviders {
 
                             OrderDetailsActivity.deliveryTypes = new DeliveryTypes();
                             OrderDetailsActivity.deliveryTypes.setBranchid(DisplayDeliveryChargesAndType.deliveryType.get(j).split("_")[0]);
-                            OrderDetailsActivity.deliveryTypes.setDeliverytype(deliveryType);
+                            OrderDetailsActivity.deliveryTypes.setDeliverytype(DisplayDeliveryChargesAndType.deliveryType.get(j).split("_")[1]);
 
                             SellerDelivery sellerDelivery = new SellerDelivery();
                             sellerDelivery.setBranchid(branchid);
-                            sellerDelivery.setDeliverytype(deliveryType);
+                            sellerDelivery.setDeliverytype(DisplayDeliveryChargesAndType.deliveryType.get(j).split("_")[1]);
 
                             sellerDelivery.setDelivery_address(orderDeliveryAddress);
 
@@ -159,21 +159,23 @@ public class AdapterForMultipleProviders {
 
                             sellerDelivery.setPrefdeldtime(prefferedDeliveryDate);
 //                            Log.d("Order Instruction",DisplayDeliveryChargesAndType.order_instruction[j]);
-                            if(DisplayDeliveryChargesAndType.order_instruction[j]!=null && !DisplayDeliveryChargesAndType.order_instruction[j].isEmpty())
-                            {
-                                sellerDelivery.setOrderinstructions(DisplayDeliveryChargesAndType.order_instruction[j]);
-                            }
-                            else
-                            {
-                                sellerDelivery.setOrderinstructions("");
+
+                            if(DisplayDeliveryChargesAndType.order_instruction.length > j && DisplayDeliveryChargesAndType.order_instruction[j] != null ) {
+                                {
+                                    if (!DisplayDeliveryChargesAndType.order_instruction[j].isEmpty()) {
+                                        sellerDelivery.setOrderinstructions(DisplayDeliveryChargesAndType.order_instruction[j]);
+                                    } else {
+                                        sellerDelivery.setOrderinstructions("");
+                                    }
+                                }
                             }
 
                             for(int k = 0; k < DeliveryChargesAndTypeAdapter.successResponseForDeliveryCharges.getSuccess().getDeliverycharge().size(); k++) {
                                 if (branchid.equalsIgnoreCase(DeliveryChargesAndTypeAdapter.successResponseForDeliveryCharges.getSuccess().getDeliverycharge().get(k).getBranchid())) {
                                     DeliveryChargeDetails deliveryChargeDetails = new DeliveryChargeDetails();
-                                    deliveryChargeDetails.setCharge(DeliveryChargesAndTypeAdapter.successResponseForDeliveryCharges.getSuccess().getDeliverycharge().get(j).getCharge());
-                                    deliveryChargeDetails.setDelivery(DeliveryChargesAndTypeAdapter.successResponseForDeliveryCharges.getSuccess().getDeliverycharge().get(j).isDelivery());
-                                    deliveryChargeDetails.setIsdeliverychargeinpercent(DeliveryChargesAndTypeAdapter.successResponseForDeliveryCharges.getSuccess().getDeliverycharge().get(j).isIsdeliverychargeinpercent());
+                                    deliveryChargeDetails.setCharge(DeliveryChargesAndTypeAdapter.successResponseForDeliveryCharges.getSuccess().getDeliverycharge().get(k).getCharge());
+                                    deliveryChargeDetails.setDelivery(DeliveryChargesAndTypeAdapter.successResponseForDeliveryCharges.getSuccess().getDeliverycharge().get(k).isDelivery());
+                                    deliveryChargeDetails.setIsdeliverychargeinpercent(DeliveryChargesAndTypeAdapter.successResponseForDeliveryCharges.getSuccess().getDeliverycharge().get(k).isIsdeliverychargeinpercent());
 
                                     sellerDelivery.setDeliverycharge(deliveryChargeDetails);
 
