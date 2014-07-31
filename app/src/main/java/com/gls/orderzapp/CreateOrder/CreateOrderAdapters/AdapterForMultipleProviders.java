@@ -16,6 +16,7 @@ import com.gls.orderzapp.CreateOrder.CreateOrderBeans.SellerDelivery;
 import com.gls.orderzapp.MainApp.OrderDetailsActivity;
 import com.gls.orderzapp.R;
 import com.gls.orderzapp.Utility.Cart;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,6 +40,9 @@ public class AdapterForMultipleProviders {
         this.createOrderProductDetailsList = createOrderProductDetailsList;
         this.orderDeliveryAddress = orderDeliveryAddress;
         this.prefferedDeliveryDate = prefferedDeliveryDate;
+
+        Log.d("Sorted List Adapter for  provider",new Gson().toJson(createOrderProductDetailsList));
+        Log.d("Delivery types adapter for provider",new Gson().toJson(DisplayDeliveryChargesAndType.deliveryType));
     }
 
     public void setMultipleProvidersList() {
@@ -131,21 +135,21 @@ public class AdapterForMultipleProviders {
 
                     for(int j = 0; j < DisplayDeliveryChargesAndType.deliveryType.size(); j++){
                         if(branchid.equals(DisplayDeliveryChargesAndType.deliveryType.get(j).split("_")[0])) {
-                            if (DisplayDeliveryChargesAndType.deliveryType.get(j).split("_")[1].equalsIgnoreCase("home")) {
+                            if (DisplayDeliveryChargesAndType.deliveryType.get(i).split("_")[1].equalsIgnoreCase("home")) {
                                 deliveryType = "Home Delivery";
                             } else {
                                 deliveryType = "Pick-Up";
                             }
-                            Log.d(i+"", DisplayDeliveryChargesAndType.deliveryType.get(j)+"      "+branchid+"  "+ deliveryType+"     "+providerName+" "+providerArea);
+                            Log.d(i+"fromrediobutton---->", DisplayDeliveryChargesAndType.deliveryType.get(j)+"   branchid from adaptr---->"+branchid+"  from adptr---->"+ deliveryType+"     "+providerName+" "+providerArea);
 //                            Log.d(i+"", branchid+"   ssssssssssssssssssss   "+ DisplayDeliveryChargesAndType.deliveryType.get(j).split("_")[0]);
 
                             OrderDetailsActivity.deliveryTypes = new DeliveryTypes();
                             OrderDetailsActivity.deliveryTypes.setBranchid(DisplayDeliveryChargesAndType.deliveryType.get(j).split("_")[0]);
-                            OrderDetailsActivity.deliveryTypes.setDeliverytype(deliveryType);
+                            OrderDetailsActivity.deliveryTypes.setDeliverytype(DisplayDeliveryChargesAndType.deliveryType.get(i).split("_")[1]);
 
                             SellerDelivery sellerDelivery = new SellerDelivery();
                             sellerDelivery.setBranchid(branchid);
-                            sellerDelivery.setDeliverytype(deliveryType);
+                            sellerDelivery.setDeliverytype(DisplayDeliveryChargesAndType.deliveryType.get(i).split("_")[1]);
 
                             sellerDelivery.setDelivery_address(orderDeliveryAddress);
 

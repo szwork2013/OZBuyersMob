@@ -59,15 +59,15 @@ public class PaymentActivity extends Activity {
 //                Environment.
 //and PaytmPGService.getProductionService() will return the Service pointing to //Production Environment.
         PaytmPGService Service = null;
-//        Service = PaytmPGService.getStagingService();
+        Service = PaytmPGService.getStagingService();
 //        or
-        Service = PaytmPGService.getProductionService();
+//        Service = PaytmPGService.getProductionService();
 //Create new order Object having all order information.
         Log.d("orderid", successResponseForCreateOrder.getSuccess().getOrder().getOrderid());
         PaytmOrder Order = new PaytmOrder(successResponseForCreateOrder.getSuccess().getOrder().getOrderid(), successResponseOfUser.getSuccess().getUser().getUserid(), successResponseForCreateOrder.getSuccess().getOrder().getTotal_order_price() + "",
                 successResponseOfUser.getSuccess().getUser().getEmail(), successResponseOfUser.getSuccess().getUser().getMobileno());
 //Create new Merchant Object having all merchant configuration.
-        PaytmMerchant Merchant = new PaytmMerchant("GiantL66431191194091", "WAP", "Retail115", "giantleapsystems", "javas",
+        PaytmMerchant Merchant = new PaytmMerchant("Giantl00830321943927", "WAP", "Retail", "giantleapsystems", "javas",
                 ServerConnection.url + "/api/paytm/generatechecksum", ServerConnection.url + "/api/orderzapp/payment");
 //Create Client Certificate object holding the information related to Client Certificate. Filename must be without .p12
 //        extension.
