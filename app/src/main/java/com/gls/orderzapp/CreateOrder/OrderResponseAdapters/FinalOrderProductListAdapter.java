@@ -1,14 +1,20 @@
 package com.gls.orderzapp.CreateOrder.OrderResponseAdapters;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.gls.orderzapp.CreateOrder.OrderResponseBeans.OrderedProductDetails;
 import com.gls.orderzapp.CreateOrder.OrderResponseBeans.ProductConfiguration;
+import com.gls.orderzapp.ProductConfiguration.Adapter.PopUpForConfigurationCharges;
+import com.gls.orderzapp.ProductConfiguration.Adapter.PopUpForDisplayProductConfigurationOnFinalOrder;
 import com.gls.orderzapp.R;
+import com.gls.orderzapp.Utility.Cart;
+import com.google.gson.Gson;
 
 import java.util.List;
 
@@ -53,6 +59,15 @@ public class FinalOrderProductListAdapter {
             }
             subtotal.setText(String.format("%.2f", orderedProductDetailsList.get(i).getOrderprice() - configurationPrice(orderedProductDetailsList.get(i).getProductconfiguration())));
             AdapterForFinalOrderMultipleProviders.ll.addView(llProductList);
+
+            ll_special_message.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    new PopUpForDisplayProductConfigurationOnFinalOrder(context,v,orderedProductDetailsList.get(v.getId()-1000).getProductconfiguration()).displayConfigurationCharges();
+                }
+            });
+            ll_special_message.setId(1000 + i);
+
         }
     }
 

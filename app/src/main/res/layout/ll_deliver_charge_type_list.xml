@@ -136,6 +136,10 @@ android:visibility="gone"
             android:textSize="16sp"
             android:text="@string/order_instruction"
             android:layout_height="wrap_content" />
+        <View
+            android:layout_width="match_parent"
+            android:background="#ffaeaca8"
+            android:layout_height="1dp"/>
         <EditText
             android:id="@+id/edt_orderInstruction"
             android:maxLength="60"
