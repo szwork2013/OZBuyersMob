@@ -145,8 +145,6 @@ public class DisplayDeliveryChargesAndType {
                 }
             });
 
-//***************************************
-
             final TextWatcher textWatcher = new TextWatcher() {
                 @Override
                 public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -160,12 +158,10 @@ public class DisplayDeliveryChargesAndType {
 
                 @Override
                 public void afterTextChanged(Editable s) {
-
                       Cart.saveOrderInstructions(tag, tempEditText.getText().toString().trim());
 //                    order_instruction[edt_orderInstruction.getId()-100]=tempEditText.getText().toString().trim();
 //                    Cart.addMessageOnCake(mKeys[position], cakeList.get(position), tempEditText.getText().toString().trim());
-                    Log.d("OrdInstruction",tempEditText.getText().toString().trim());
-                }
+               }
             };
             edt_orderInstruction.setOnFocusChangeListener(new View.OnFocusChangeListener() {
                 @Override

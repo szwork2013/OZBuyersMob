@@ -71,9 +71,8 @@ public class AdapterForMultipleProviders {
 
                         new ConfirmOrderProductListAdapter(context, list).setProductList();
 
-//                    OrderDetailsActivity.grandTotal.setText(String.format("%.2f", Cart.subTotal()+Cart.configurredProductPrice(createOrderProductDetailsList)));
-
                     }
+
                     //**********
 //                    for(int j = 0; j < DisplayDeliveryChargesAndType.deliveryType.size(); j++){
 //                        Log.d("branchid and provider name inside for but outside if", branchid + "   "+providerName+ "   "+providerArea);

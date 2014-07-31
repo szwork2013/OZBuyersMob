@@ -101,5 +101,7 @@
     <string name="card_type">Card Type : </string>
     <string name="txn_amount">Amount : </string>
     <string name="txn_details">Transaction Details</string>
+    <string name="product_configuration_price">Product Configuration Price : </string>
+
 
 </resources>

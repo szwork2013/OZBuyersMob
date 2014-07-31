@@ -1,6 +1,7 @@
 package com.gls.orderzapp.MainApp;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -30,6 +31,7 @@ import java.util.TimeZone;
  * Created by prajyot on 6/5/14.
  */
 public class FinalOrderActivity extends Activity {
+    Context context;
     public static LinearLayout listProducts,  ll_txn_details;
     public  LinearLayout  linerlayout_delivery_address,ll_home_delivery_address;
     TextView orderNumber, billing_address_textview, shipping_address_textview, paymentMode, grand_total, delivery_type,
@@ -43,6 +45,7 @@ public class FinalOrderActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        context=FinalOrderActivity.this;
         setContentView(R.layout.final_order);
         Cart.hm.clear();
 
@@ -144,7 +147,7 @@ public class FinalOrderActivity extends Activity {
 
 
         //*******************
-        new AdapterForFinalOrderMultipleProviders(getApplicationContext(), successResponseForCreateOrder.getSuccess().getOrder().getSuborder()).setMultipleProvidersList();
+        new AdapterForFinalOrderMultipleProviders(context, successResponseForCreateOrder.getSuccess().getOrder().getSuborder()).setMultipleProvidersList();
         try {
             if (successResponseForCreateOrder.getSuccess().getOrder().getPayment().getMode() != null && successResponseForCreateOrder.getSuccess().getOrder().getPayment().getMode().equals("COD")) {
                 paymentMode.setText("Cash On Delivery");
@@ -227,7 +230,7 @@ public class FinalOrderActivity extends Activity {
                         successResponseForCreateOrder.getSuccess().getOrder().getSuborder().get(i).getDeliverytype().equalsIgnoreCase("pickup")){
                     linerlayout_delivery_address.setVisibility(View.VISIBLE);
                     Log.d("PickUpAddress", new Gson().toJson(successResponseForCreateOrder.getSuccess().getOrder().getSuborder().get(i).getPickup_address()));
-                    address_list.setAdapter(new PickupAddressAdapter(getApplicationContext(), successResponseForCreateOrder.getSuccess().getOrder().getSuborder()));
+                    address_list.setAdapter(new PickupAddressAdapter(context, successResponseForCreateOrder.getSuccess().getOrder().getSuborder()));
                     setListViewHeightBasedOnChildren(address_list);
                 }
             }

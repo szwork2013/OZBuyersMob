@@ -139,7 +139,7 @@
             android:configChanges="orientation|screenSize|keyboardHidden"></activity>
         <activity
             android:name="com.gls.orderzapp.MainApp.OrderDetailsActivity"
-            android:label="Order Preview"
+            android:label="Payment"
             android:alwaysRetainTaskState="true"
             android:configChanges="orientation|screenSize|keyboardHidden"></activity>
         <activity
@@ -195,7 +195,7 @@
             android:configChanges="keyboardHidden|orientation|keyboard" />
         <activity
             android:name=".MainApp.DeliveryPaymentActivity"
-            android:label="Payment"
+            android:label="Delivery"
             android:alwaysRetainTaskState="true"
             android:configChanges="orientation|screenSize|keyboardHidden" />
         <activity

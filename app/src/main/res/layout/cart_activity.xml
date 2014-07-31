@@ -49,12 +49,12 @@
                 android:textSize="20sp"
                 android:id="@+id/area_text"
                 android:textColor="#000"
-                android:padding="2dp"
+                android:padding="3dp"
                 android:onClick="selectArea"
                 android:clickable="true"
                 android:text="Your area"
                 android:layout_marginLeft="5dp"
-                android:background="@drawable/square_corner"/>
+                android:background="@drawable/square_fill_with_gray_color"/>
         </LinearLayout>
 
         <LinearLayout

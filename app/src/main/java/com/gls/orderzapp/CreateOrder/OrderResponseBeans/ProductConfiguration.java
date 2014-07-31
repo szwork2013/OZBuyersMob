@@ -1,13 +1,18 @@
 package com.gls.orderzapp.CreateOrder.OrderResponseBeans;
 
+import com.gls.orderzapp.CreateOrder.CreateOrderBeans.*;
+import com.gls.orderzapp.CreateOrder.CreateOrderBeans.ProductConfigurationPrice;
+
 /**
  * Created by prajyot on 8/7/14.
  */
 public class ProductConfiguration {
     String prod_configtype;
     String prod_configname;
-
     ProductConfigurationPrice prod_configprice;
+    boolean checked = false;
+    FootTypeResponse data;
+    String foodType;
 
     public String getProd_configtype() {
         return prod_configtype;
@@ -31,5 +36,29 @@ public class ProductConfiguration {
 
     public void setProd_configprice(ProductConfigurationPrice prod_configprice) {
         this.prod_configprice = prod_configprice;
+    }
+
+    public boolean isChecked() {
+        return checked;
+    }
+
+    public void setChecked(boolean checked) {
+        this.checked = checked;
+    }
+
+    public FootTypeResponse getData() {
+        return data;
+    }
+
+    public void setData(FootTypeResponse data) {
+        this.data = data;
+    }
+
+    public String getFoodType() {
+        return foodType;
+    }
+
+    public void setFoodType(String foodType) {
+        this.foodType = foodType;
     }
 }
