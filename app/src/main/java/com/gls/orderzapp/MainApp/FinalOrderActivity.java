@@ -224,7 +224,7 @@ public class FinalOrderActivity extends Activity {
                         && pickupdelivery>0){
                     linerlayout_delivery_address.setVisibility(View.VISIBLE);
                     Log.d("PickUpAddress",new Gson().toJson(successResponseForCreateOrder.getSuccess().getOrder().getSuborder().get(i).getPickup_address()));
-                address_list.setAdapter(new PickupAddressAdapter(getApplicationContext(), successResponseForCreateOrder.getSuccess().getOrder().getSuborder().get(i).getPickup_address(),successResponseForCreateOrder.getSuccess().getOrder().getSuborder().get(i).getProductprovider().getProvidername()));
+                address_list.setAdapter(new PickupAddressAdapter(getApplicationContext(), successResponseForCreateOrder.getSuccess().getOrder().getSuborder()));
                 setListViewHeightBasedOnChildren(address_list);
                 }
 

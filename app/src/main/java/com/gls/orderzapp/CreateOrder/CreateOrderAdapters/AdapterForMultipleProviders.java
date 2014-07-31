@@ -150,7 +150,6 @@ public class AdapterForMultipleProviders {
                             SellerDelivery sellerDelivery = new SellerDelivery();
                             sellerDelivery.setBranchid(branchid);
                             sellerDelivery.setDeliverytype(DisplayDeliveryChargesAndType.deliveryType.get(i).split("_")[1]);
-
                             sellerDelivery.setDelivery_address(orderDeliveryAddress);
 
                             if(DisplayDeliveryChargesAndType.deliveryType.get(j).split("_")[1].equalsIgnoreCase("pickup") && DisplayDeliveryChargesAndType.listOfPickupAddresses.getListPickUpAddress().size() > 0) {
@@ -163,21 +162,23 @@ public class AdapterForMultipleProviders {
 
                             sellerDelivery.setPrefdeldtime(prefferedDeliveryDate);
 //                            Log.d("Order Instruction",DisplayDeliveryChargesAndType.order_instruction[j]);
-                            if(DisplayDeliveryChargesAndType.order_instruction[j]!=null && !DisplayDeliveryChargesAndType.order_instruction[j].isEmpty())
-                            {
-                                sellerDelivery.setOrderinstructions(DisplayDeliveryChargesAndType.order_instruction[j]);
-                            }
-                            else
-                            {
-                                sellerDelivery.setOrderinstructions("");
+
+                            if(DisplayDeliveryChargesAndType.order_instruction.length > j && DisplayDeliveryChargesAndType.order_instruction[j] != null ) {
+                                {
+                                    if (!DisplayDeliveryChargesAndType.order_instruction[j].isEmpty()) {
+                                        sellerDelivery.setOrderinstructions(DisplayDeliveryChargesAndType.order_instruction[j]);
+                                    } else {
+                                        sellerDelivery.setOrderinstructions("");
+                                    }
+                                }
                             }
 
                             for(int k = 0; k < DeliveryChargesAndTypeAdapter.successResponseForDeliveryCharges.getSuccess().getDeliverycharge().size(); k++) {
                                 if (branchid.equalsIgnoreCase(DeliveryChargesAndTypeAdapter.successResponseForDeliveryCharges.getSuccess().getDeliverycharge().get(k).getBranchid())) {
                                     DeliveryChargeDetails deliveryChargeDetails = new DeliveryChargeDetails();
-                                    deliveryChargeDetails.setCharge(DeliveryChargesAndTypeAdapter.successResponseForDeliveryCharges.getSuccess().getDeliverycharge().get(j).getCharge());
-                                    deliveryChargeDetails.setDelivery(DeliveryChargesAndTypeAdapter.successResponseForDeliveryCharges.getSuccess().getDeliverycharge().get(j).isDelivery());
-                                    deliveryChargeDetails.setIsdeliverychargeinpercent(DeliveryChargesAndTypeAdapter.successResponseForDeliveryCharges.getSuccess().getDeliverycharge().get(j).isIsdeliverychargeinpercent());
+                                    deliveryChargeDetails.setCharge(DeliveryChargesAndTypeAdapter.successResponseForDeliveryCharges.getSuccess().getDeliverycharge().get(k).getCharge());
+                                    deliveryChargeDetails.setDelivery(DeliveryChargesAndTypeAdapter.successResponseForDeliveryCharges.getSuccess().getDeliverycharge().get(k).isDelivery());
+                                    deliveryChargeDetails.setIsdeliverychargeinpercent(DeliveryChargesAndTypeAdapter.successResponseForDeliveryCharges.getSuccess().getDeliverycharge().get(k).isIsdeliverychargeinpercent());
 
                                     sellerDelivery.setDeliverycharge(deliveryChargeDetails);
 
