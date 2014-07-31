@@ -80,7 +80,8 @@ public class CityAreaDetailsActivity extends Activity {
             public void afterTextChanged(Editable editable) {
                 areaList.clear();
                 for(int i = 0; i < successResponseForAreaList.getSuccess().getArea().size(); i++) {
-                    if (successResponseForAreaList.getSuccess().getArea().get(i).contains(search.getText().toString().trim())) {
+
+                    if ((successResponseForAreaList.getSuccess().getArea().get(i)).toLowerCase().contains((search.getText().toString().trim()).toLowerCase())) {
                         areaList.add(successResponseForAreaList.getSuccess().getArea().get(i));
                     }
                 }

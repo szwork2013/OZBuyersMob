@@ -170,7 +170,6 @@ public class OrderDetailsActivity extends Activity {
             createOrderCartList = new CreateOrderCartList();
             createOrderData = new CreateOrderData();
 
-
             for (int i = 0; i < cartDetails.size(); i++) {
                 CreateOrderProductDetails createOrderProductDetails = new CreateOrderProductDetails();
                 if (cartDetails.get(i).getBranchid() != null) {

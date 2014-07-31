@@ -132,8 +132,6 @@ public class DeliveryPaymentActivity extends Activity {
 
     public static void selectDeliveryType() {
 
-        //ll_deliver_charge_type.removeAllViews();
-        Log.d("deleivery type","Selected");
         new DeliveryChargesAndTypeAdapter(context);
 
     }

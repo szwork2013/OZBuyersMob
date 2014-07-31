@@ -31,34 +31,33 @@ public class AdapterForMultipleProviders {
     public  DeliveryTypes adddeliveryTypes=new DeliveryTypes();
     List<CreateOrderProductDetails> createOrderProductDetailsList;
     List<CreateOrderProductDetails> list = new ArrayList<>();
+    List<String> branchIds = new ArrayList<>();
     LayoutInflater li;
     TextView textGrandTotal, delivery_charge, deliveryTypeText;
     CreateOrderAddressDetails orderDeliveryAddress;
     String prefferedDeliveryDate;
+    String[] keys;
 
     public AdapterForMultipleProviders(Context context, List<CreateOrderProductDetails> createOrderProductDetailsList, CreateOrderAddressDetails orderDeliveryAddress, String prefferedDeliveryDate) {
         this.context = context;
         this.createOrderProductDetailsList = createOrderProductDetailsList;
         this.orderDeliveryAddress = orderDeliveryAddress;
         this.prefferedDeliveryDate = prefferedDeliveryDate;
+
+        keys = Cart.hm.keySet().toArray(new String[Cart.hm.size()]);
     }
 
     public void setMultipleProvidersList() {
         ArrayList<String> providers = new ArrayList<String>();
         double deliveryCharges = 0.0;
-//        Log.d("createOrderProductDetailsList.size()",createOrderProductDetailsList.size()+"");
-//        Log.d("DisplayDeliveryChargesAndType.delivery_mode_branchid",DisplayDeliveryChargesAndType.delivery_mode_branchid.length+"");
+
         for (int i = 0; i < createOrderProductDetailsList.size(); i++) {
 
             String branchid = createOrderProductDetailsList.get(i).getBranchid();
-//            Log.d("create order branch id", branchid)
             String providerName = createOrderProductDetailsList.get(i).getProvidername();
             String providerArea = createOrderProductDetailsList.get(i).getLocation().getArea();
             String deliveryType = "";
 
-//            for(int j = 0; j < createOrderProductDetailsList.get(i).getDeliverycharge().size(); j++) {
-//                deliveryCharges = deliveryCharges + createOrderProductDetailsList.get(i).getDeliverycharge().get(j).getCharge();
-//            }
             if (providers != null) {
                 if (providers.contains(branchid)) {
 
@@ -76,27 +75,21 @@ public class AdapterForMultipleProviders {
 
                     }
                     //**********
-//                    for(int j=0;j<DisplayDeliveryChargesAndType.delivery_mode_branchid.length;j++){
+//                    for(int j = 0; j < DisplayDeliveryChargesAndType.deliveryType.size(); j++){
+//                        Log.d("branchid and provider name inside for but outside if", branchid + "   "+providerName+ "   "+providerArea);
+//                        if(branchid.equals(DisplayDeliveryChargesAndType.deliveryType.get(j).split("_")[0])) {
 //
-//                        if (branchid.equalsIgnoreCase(DisplayDeliveryChargesAndType.delivery_mode_branchid[j])) {
-//                            if (DisplayDeliveryChargesAndType.delivery_mode[j].equalsIgnoreCase("home")) {
+//                            Log.d("branchid and provider name inside for but outside if", branchid + "   "+providerName+ "   "+providerArea);
+//                            if (DisplayDeliveryChargesAndType.deliveryType.get(j).split("_")[1].equalsIgnoreCase("home")) {
 //                                deliveryType = "Home Delivery";
 //                            } else {
 //                                deliveryType = "Pick-Up";
 //                            }
-//                            Log.d("branch id", branchid);
-//                            Log.d("branch array", DeliveryChargesAndTypeAdapter.successResponseForDeliveryCharges.getSuccess().getDeliverycharge().get(j).getBranchid());
-//                            OrderDetailsActivity.deliveryTypes = new DeliveryTypes();
-//                            OrderDetailsActivity.deliveryTypes.setBranchid(DisplayDeliveryChargesAndType.delivery_mode_branchid[j]);
-//                            OrderDetailsActivity.deliveryTypes.setDeliverytype(DisplayDeliveryChargesAndType.delivery_mode[j]);
-//
 //                            SellerDelivery sellerDelivery = new SellerDelivery();
 //                            sellerDelivery.setBranchid(branchid);
-//                            sellerDelivery.setDeliverytype(DisplayDeliveryChargesAndType.delivery_mode[j]);
-//
+//                            sellerDelivery.setDeliverytype(DisplayDeliveryChargesAndType.deliveryType.get(i).split("_")[1]);
 //                            sellerDelivery.setDelivery_address(orderDeliveryAddress);
-//
-//                            if(DisplayDeliveryChargesAndType.delivery_mode[j].equalsIgnoreCase("pickup") && DisplayDeliveryChargesAndType.listOfPickupAddresses.getListPickUpAddress().size() > 0) {
+//                            if(DisplayDeliveryChargesAndType.deliveryType.get(j).split("_")[1].equalsIgnoreCase("pickup") && DisplayDeliveryChargesAndType.listOfPickupAddresses.getListPickUpAddress().size() > 0) {
 //                                for (int l = 0; l < DisplayDeliveryChargesAndType.listOfPickupAddresses.getListPickUpAddress().size(); l++) {
 //                                    if (branchid.equalsIgnoreCase(DisplayDeliveryChargesAndType.listOfPickupAddresses.getListPickUpAddress().get(l).getBranchid())) {
 //                                        sellerDelivery.setPickup_address(DisplayDeliveryChargesAndType.listOfPickupAddresses.getListPickUpAddress().get(l).getLocation());
@@ -105,44 +98,55 @@ public class AdapterForMultipleProviders {
 //                            }
 //
 //                            sellerDelivery.setPrefdeldtime(prefferedDeliveryDate);
-////                            Log.d("Order Instruction",DisplayDeliveryChargesAndType.order_instruction[j]);
-//                            if(DisplayDeliveryChargesAndType.order_instruction[j]!=null && !DisplayDeliveryChargesAndType.order_instruction[j].isEmpty())
-//                            {
-//                                sellerDelivery.setOrderinstructions(DisplayDeliveryChargesAndType.order_instruction[j]);
-//                            }
-//                            else
-//                            {
-//                                sellerDelivery.setOrderinstructions("");
+//                            if(DisplayDeliveryChargesAndType.order_instruction.length > j && DisplayDeliveryChargesAndType.order_instruction[j] != null ) {
+//                                {
+//                                    if (!DisplayDeliveryChargesAndType.order_instruction[j].isEmpty()) {
+//                                        sellerDelivery.setOrderinstructions(DisplayDeliveryChargesAndType.order_instruction[j]);
+//                                    } else {
+//                                        sellerDelivery.setOrderinstructions("");
+//                                    }
+//                                }
 //                            }
 //
 //                            for(int k = 0; k < DeliveryChargesAndTypeAdapter.successResponseForDeliveryCharges.getSuccess().getDeliverycharge().size(); k++) {
 //                                if (branchid.equalsIgnoreCase(DeliveryChargesAndTypeAdapter.successResponseForDeliveryCharges.getSuccess().getDeliverycharge().get(k).getBranchid())) {
 //                                    DeliveryChargeDetails deliveryChargeDetails = new DeliveryChargeDetails();
-//                                    deliveryChargeDetails.setCharge(DeliveryChargesAndTypeAdapter.successResponseForDeliveryCharges.getSuccess().getDeliverycharge().get(j).getCharge());
-//                                    deliveryChargeDetails.setDelivery(DeliveryChargesAndTypeAdapter.successResponseForDeliveryCharges.getSuccess().getDeliverycharge().get(j).isDelivery());
-//                                    deliveryChargeDetails.setIsdeliverychargeinpercent(DeliveryChargesAndTypeAdapter.successResponseForDeliveryCharges.getSuccess().getDeliverycharge().get(j).isIsdeliverychargeinpercent());
+//                                    deliveryChargeDetails.setCharge(DeliveryChargesAndTypeAdapter.successResponseForDeliveryCharges.getSuccess().getDeliverycharge().get(k).getCharge());
+//                                    deliveryChargeDetails.setDelivery(DeliveryChargesAndTypeAdapter.successResponseForDeliveryCharges.getSuccess().getDeliverycharge().get(k).isDelivery());
+//                                    deliveryChargeDetails.setIsdeliverychargeinpercent(DeliveryChargesAndTypeAdapter.successResponseForDeliveryCharges.getSuccess().getDeliverycharge().get(k).isIsdeliverychargeinpercent());
 //
 //                                    sellerDelivery.setDeliverycharge(deliveryChargeDetails);
 //
 //                                }
 //                            }
 //                            OrderDetailsActivity.createOrderCartList.getSellerdelivery().add(sellerDelivery);
-//                            OrderDetailsActivity.createOrderCartList.getDeliverytypes().add(OrderDetailsActivity.deliveryTypes);
+////                            OrderDetailsActivity.createOrderCartList.getDeliverytypes().add(OrderDetailsActivity.deliveryTypes);
+//                            adddeliveryTypes.setBranchid(branchid);
+//                            adddeliveryTypes.setDeliverytype(DisplayDeliveryChargesAndType.deliveryType.get(j).split("_")[1]);
+//                            OrderDetailsActivity.createOrderCartList.getDeliverytypes().add(adddeliveryTypes);
+//
 //                        }
 //                    }
 
-                    for(int j = 0; j < DisplayDeliveryChargesAndType.deliveryType.size(); j++){
-                        if(branchid.equals(DisplayDeliveryChargesAndType.deliveryType.get(j).split("_")[0])) {
-                            if (DisplayDeliveryChargesAndType.deliveryType.get(i).split("_")[1].equalsIgnoreCase("home")) {
-                                deliveryType = "Home Delivery";
-                            } else {
-                                deliveryType = "Pick-Up";
-                            }
-                            SellerDelivery sellerDelivery = new SellerDelivery();
-                            sellerDelivery.setBranchid(branchid);
-                            sellerDelivery.setDeliverytype(DisplayDeliveryChargesAndType.deliveryType.get(i).split("_")[1]);
-                            sellerDelivery.setDelivery_address(orderDeliveryAddress);
-                            if(DisplayDeliveryChargesAndType.deliveryType.get(i).split("_")[1].equalsIgnoreCase("pickup") && DisplayDeliveryChargesAndType.listOfPickupAddresses.getListPickUpAddress().size() > 0) {
+                    for(int j = 0; j < Cart.hm.size(); j++){
+                        if(branchIds.contains(Cart.hm.get(keys[j]).getBranchid())){
+
+                        }else {
+//                            branchIds.add(Cart.hm.get(keys[j]).getBranchid());
+                            if (branchid.equals(Cart.hm.get(keys[j]).getBranchid())) {
+
+                                if (Cart.hm.get(keys[j]).getDeliveryType().getDeliveryType().equalsIgnoreCase("home")) {
+                                    deliveryType = "Home Delivery";
+                                } else {
+                                    deliveryType = "Pick-Up";
+                                }
+                                Log.d("del type", deliveryType);
+                                SellerDelivery sellerDelivery = new SellerDelivery();
+                                sellerDelivery.setBranchid(branchid);
+                                sellerDelivery.setDeliverytype(Cart.hm.get(keys[j]).getDeliveryType().getDeliveryType());
+                                sellerDelivery.setDelivery_address(orderDeliveryAddress);
+
+                            if(Cart.hm.get(keys[j]).getDeliveryType().getDeliveryType().equalsIgnoreCase("pickup") && DisplayDeliveryChargesAndType.listOfPickupAddresses.getListPickUpAddress().size() > 0) {
                                 for (int l = 0; l < DisplayDeliveryChargesAndType.listOfPickupAddresses.getListPickUpAddress().size(); l++) {
                                     if (branchid.equalsIgnoreCase(DisplayDeliveryChargesAndType.listOfPickupAddresses.getListPickUpAddress().get(l).getBranchid())) {
                                         sellerDelivery.setPickup_address(DisplayDeliveryChargesAndType.listOfPickupAddresses.getListPickUpAddress().get(l).getLocation());
@@ -150,16 +154,16 @@ public class AdapterForMultipleProviders {
                                 }
                             }
 
-                            sellerDelivery.setPrefdeldtime(prefferedDeliveryDate);
-                            if(DisplayDeliveryChargesAndType.order_instruction.length > j && DisplayDeliveryChargesAndType.order_instruction[j] != null ) {
-                                {
-                                    if (!DisplayDeliveryChargesAndType.order_instruction[j].isEmpty()) {
-                                        sellerDelivery.setOrderinstructions(DisplayDeliveryChargesAndType.order_instruction[j]);
+                                sellerDelivery.setPrefdeldtime(prefferedDeliveryDate);
+                                if(Cart.hm.get(keys[j]).getDeliveryType().getOrderinstructions() != null) {
+                                    if (!Cart.hm.get(keys[j]).getDeliveryType().getOrderinstructions().isEmpty()) {
+
+                                        sellerDelivery.setOrderinstructions(Cart.hm.get(keys[j]).getDeliveryType().getOrderinstructions());
                                     } else {
                                         sellerDelivery.setOrderinstructions("");
                                     }
                                 }
-                            }
+
 
                             for(int k = 0; k < DeliveryChargesAndTypeAdapter.successResponseForDeliveryCharges.getSuccess().getDeliverycharge().size(); k++) {
                                 if (branchid.equalsIgnoreCase(DeliveryChargesAndTypeAdapter.successResponseForDeliveryCharges.getSuccess().getDeliverycharge().get(k).getBranchid())) {
@@ -172,12 +176,12 @@ public class AdapterForMultipleProviders {
 
                                 }
                             }
-                            OrderDetailsActivity.createOrderCartList.getSellerdelivery().add(sellerDelivery);
+                                OrderDetailsActivity.createOrderCartList.getSellerdelivery().add(sellerDelivery);
 //                            OrderDetailsActivity.createOrderCartList.getDeliverytypes().add(OrderDetailsActivity.deliveryTypes);
-                            adddeliveryTypes.setBranchid(branchid);
-                            adddeliveryTypes.setDeliverytype(DisplayDeliveryChargesAndType.deliveryType.get(i).split("_")[1]);
-                            OrderDetailsActivity.createOrderCartList.getDeliverytypes().add(adddeliveryTypes);
-
+                                adddeliveryTypes.setBranchid(branchid);
+                                adddeliveryTypes.setDeliverytype(Cart.hm.get(keys[j]).getDeliveryType().getDeliveryType());
+                                OrderDetailsActivity.createOrderCartList.getDeliverytypes().add(adddeliveryTypes);
+                            }
                         }
                     }
 

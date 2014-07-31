@@ -15,6 +15,7 @@ import com.gls.orderzapp.CreateOrder.CreateOrderBeans.CreateOrderProductDetails;
 import com.gls.orderzapp.CreateOrder.CreateOrderBeans.ProductConfiguration;
 import com.gls.orderzapp.CreateOrder.CreateOrderBeans.SuccessResponseForDeliveryChargesAndType;
 import com.gls.orderzapp.MainApp.CartActivity;
+import com.gls.orderzapp.Provider.Beans.DeliveryType;
 import com.gls.orderzapp.Provider.Beans.ProductDetails;
 import com.gls.orderzapp.R;
 import com.google.gson.Gson;
@@ -364,5 +365,32 @@ public static int deleteConfigObject()
         return deliveryCharges;
     }
 
+    public static void saveDeliveryTypeInfoInCart(String branchId, String deliveryType){
+        try{
+            String[] keys = Cart.hm.keySet().toArray(new String[hm.size()]);
+            for(int i = 0; i < hm.size(); i++){
+                if(hm.get(keys[i]).getBranchid().equals(branchId)){
+                    hm.get(keys[i]).getDeliveryType().setDeliveryType(deliveryType);
+                    hm.get(keys[i]).getDeliveryType().setBranchId(branchId);
+                }
+            }
 
+            Log.d("cart after saving deliverytype", new Gson().toJson(hm));
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    public static void saveDeliveryChargesInfoInCart(){
+
+    }
+
+    public static void saveOrderInstructions(String branchid, String orderInstruction){
+        String[] keys = hm.keySet().toArray(new String[hm.size()]);
+        for(int i = 0; i < hm.size(); i++){
+            if(hm.get(keys[i]).getBranchid().equals(branchid)){
+                hm.get(keys[i]).getDeliveryType().setOrderinstructions(orderInstruction);
+            }
+        }
+    }
 }

@@ -23,6 +23,7 @@ import com.gls.orderzapp.MainApp.SelectPickUpAddressActivity;
 import com.gls.orderzapp.Provider.Beans.ProductDetails;
 import com.gls.orderzapp.R;
 import com.gls.orderzapp.SignUp.Location;
+import com.gls.orderzapp.Utility.Cart;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,6 +43,7 @@ public class DisplayDeliveryChargesAndType {
     List<ProductDetails> checkForDeliveryModeList;
     public static ListOfPickupAddresses listOfPickupAddresses =  new ListOfPickupAddresses();;
     EditText tempEditText = null;
+    String tag = "";
     static List<Button> listPickUpButtons = new ArrayList<>();
 
     public DisplayDeliveryChargesAndType(Context context, SuccessResponseForDeliveryChargesAndType listOfDeliveryCharges, List<ProductDetails> checkForDeliveryModeList) {
@@ -65,7 +67,7 @@ public class DisplayDeliveryChargesAndType {
            TextView txt_delivery_charges = (TextView) lldelievry_charge_type_details.findViewById(R.id.txt_delivery_charges);
            final EditText edt_orderInstruction= (EditText) lldelievry_charge_type_details.findViewById(R.id.edt_orderInstruction);
            final Button btn_selct_pickup_address=(Button) lldelievry_charge_type_details.findViewById(R.id.btn_selct_pickup_address);
-            final LinearLayout ll_delivery_charges=(LinearLayout) lldelievry_charge_type_details.findViewById(R.id.ll_delivery_charges);
+           final LinearLayout ll_delivery_charges=(LinearLayout) lldelievry_charge_type_details.findViewById(R.id.ll_delivery_charges);
            final RadioGroup delivery_type_group = (RadioGroup) lldelievry_charge_type_details.findViewById(R.id.delivery_type_group);
            final RadioButton pick_up = (RadioButton) lldelievry_charge_type_details.findViewById(R.id.pick_up);
            final RadioButton home_delivery = (RadioButton) lldelievry_charge_type_details.findViewById(R.id.home_delivery);
@@ -87,6 +89,7 @@ public class DisplayDeliveryChargesAndType {
                 if (listOfDeliveryCharges.getSuccess().getDeliverycharge().get(j).getBranchid().equals(checkForDeliveryModeList.get(i).getBranchid())) {
                     if (listOfDeliveryCharges.getSuccess().getDeliverycharge().get(j).isDelivery() == true) {
                         home_delivery.setVisibility(View.VISIBLE);
+
 //                        ll_delivery_charges.setVisibility(View.VISIBLE);
                         Log.d("HomeDelivery True","trueeeeeeeee");
                         txt_delivery_charges.setText(String.format("%.2f", listOfDeliveryCharges.getSuccess().getDeliverycharge().get(j).getCharge()));
@@ -103,23 +106,29 @@ public class DisplayDeliveryChargesAndType {
                 public void onCheckedChanged(RadioGroup group, int checkedId) {
                     switch (checkedId) {
                         case R.id.pick_up:
-                            Log.d("Pickup pos", group.getId() - 200 + "");
-                            Log.d("Pickup provider id and name-",providerid[group.getId() - 200]+"???"+checkForDeliveryModeList.get(group.getId() - 200).getProviderName());
-//                            delivery_mode[group.getId() - 200] = "pickup";
-                            deliveryType.add(listOfDeliveryCharges.getSuccess().getDeliverycharge().get(group.getId() - 200).getBranchid()+"_"+"pickup");
+//                            Toast.makeText(context, checkForDeliveryModeList.get(group.getId() - 200).getProviderName(), Toast.LENGTH_LONG).show();
+                            Cart.saveDeliveryTypeInfoInCart(checkForDeliveryModeList.get(group.getId() - 200).getBranchid(), "pickup");
                             btn_selct_pickup_address.setVisibility(View.VISIBLE);
-                            ll_delivery_charges.setVisibility(View.GONE);
-                            AdapterForPickUpAddressList.isPickUpAddressSelected=false;
-//                            delivery_mode_branchid[group.getId() - 200] = listOfDeliveryCharges.getSuccess().getDeliverycharge().get(group.getId() - 200).getBranchid();
+                            for(int k = 0; k < deliveryType.size(); k++){
+                                if(deliveryType.get(k).split("_")[0].equals(checkForDeliveryModeList.get(group.getId() - 200).getBranchid())){
+                                    deliveryType.remove(checkForDeliveryModeList.get(group.getId() - 200));
+                                }
+                            }
+                            deliveryType.add(checkForDeliveryModeList.get(group.getId() - 200).getBranchid()+"_"+"pickup");
+
                             break;
 
                         case R.id.home_delivery:
-//                            delivery_mode[group.getId() - 200] = "home";
-                            deliveryType.add(listOfDeliveryCharges.getSuccess().getDeliverycharge().get(group.getId() - 200).getBranchid()+"_"+"home");
-                            btn_selct_pickup_address.setVisibility(View.GONE);
                             ll_delivery_charges.setVisibility(View.VISIBLE);
-//                            delivery_mode_branchid[group.getId() - 200] = listOfDeliveryCharges.getSuccess().getDeliverycharge().get(group.getId() - 200).getBranchid();
-                            Log.d("hom pos", group.getId() - 200 + "");
+//                            Toast.makeText(context, checkForDeliveryModeList.get(group.getId() - 200).getProviderName() , Toast.LENGTH_LONG).show();
+                            Cart.saveDeliveryTypeInfoInCart(checkForDeliveryModeList.get(group.getId() - 200).getBranchid(), "home");
+                            btn_selct_pickup_address.setVisibility(View.INVISIBLE);
+                            for(int k = 0; k < deliveryType.size(); k++){
+                                if(deliveryType.get(k).split("_")[0].equals(checkForDeliveryModeList.get(group.getId() - 200).getBranchid())){
+                                    deliveryType.remove(checkForDeliveryModeList.get(group.getId() - 200));
+                                }
+                            }
+                            deliveryType.add(checkForDeliveryModeList.get(group.getId() - 200).getBranchid()+"_"+"home");
                             break;
                     }
                 }
@@ -131,8 +140,7 @@ public class DisplayDeliveryChargesAndType {
                     Intent goToSelectPickUpAddressActivity = new Intent(context, SelectPickUpAddressActivity.class);
                     goToSelectPickUpAddressActivity.putExtra("providerid",providerid[btn_selct_pickup_address.getId()-100]);
                     goToSelectPickUpAddressActivity.putExtra("branchid", checkForDeliveryModeList.get(view.getId()-100).getBranchid());
-                    goToSelectPickUpAddressActivity.putExtra("pickupbuttontag", view.getTag()+"");
-                    Log.d("Btn provider id and name-",providerid[delivery_type_group.getId() - 200]+"???"+checkForDeliveryModeList.get(delivery_type_group.getId() - 200).getProviderName());
+                    goToSelectPickUpAddressActivity.putExtra("pickupbuttontag", view.getTag() + "");
                     ((Activity) context).startActivityForResult(goToSelectPickUpAddressActivity,2);
                 }
             });
@@ -152,7 +160,9 @@ public class DisplayDeliveryChargesAndType {
 
                 @Override
                 public void afterTextChanged(Editable s) {
-                    order_instruction[edt_orderInstruction.getId()-100]=tempEditText.getText().toString().trim();
+
+                      Cart.saveOrderInstructions(tag, tempEditText.getText().toString().trim());
+//                    order_instruction[edt_orderInstruction.getId()-100]=tempEditText.getText().toString().trim();
 //                    Cart.addMessageOnCake(mKeys[position], cakeList.get(position), tempEditText.getText().toString().trim());
                     Log.d("OrdInstruction",tempEditText.getText().toString().trim());
                 }
@@ -163,6 +173,7 @@ public class DisplayDeliveryChargesAndType {
                     if (tempEditText != null) {
                         tempEditText.removeTextChangedListener(textWatcher);
                     }
+                    tag = view.getTag()+"";
                     tempEditText = ((EditText) view);
 
                     tempEditText.addTextChangedListener(textWatcher);
@@ -176,6 +187,7 @@ public class DisplayDeliveryChargesAndType {
                     if (tempEditText != null) {
                         tempEditText.removeTextChangedListener(textWatcher);
                     }
+                    tag = view.getTag()+"";
                     tempEditText = ((EditText) view);
 
                     tempEditText.addTextChangedListener(textWatcher);
@@ -187,7 +199,8 @@ public class DisplayDeliveryChargesAndType {
 
             //*****************************
             btn_selct_pickup_address.setTag(i);
-            edt_orderInstruction.setId(100+i);
+//            edt_orderInstruction.setId(100+i);
+            edt_orderInstruction.setTag(checkForDeliveryModeList.get(i).getBranchid());
             btn_selct_pickup_address.setId(100+i);
             delivery_type_group.setId(200 + i);
             DeliveryChargesAndTypeAdapter.llDeliveryChargeAndType.addView(lldelievry_charge_type_details);

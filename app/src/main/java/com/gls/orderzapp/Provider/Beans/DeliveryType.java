@@ -6,6 +6,15 @@ package com.gls.orderzapp.Provider.Beans;
 public class DeliveryType {
     String branchId;
     String deliveryType;
+    String orderinstructions;
+
+    public String getOrderinstructions() {
+        return orderinstructions;
+    }
+
+    public void setOrderinstructions(String orderinstructions) {
+        this.orderinstructions = orderinstructions;
+    }
 
     public String getBranchId() {
         return branchId;
