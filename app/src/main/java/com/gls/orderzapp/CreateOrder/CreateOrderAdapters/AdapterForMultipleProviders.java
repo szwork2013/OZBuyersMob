@@ -28,6 +28,7 @@ public class AdapterForMultipleProviders {
     Context context;
 
     public static LinearLayout ll;
+    public  DeliveryTypes adddeliveryTypes=new DeliveryTypes();
     List<CreateOrderProductDetails> createOrderProductDetailsList;
     List<CreateOrderProductDetails> list = new ArrayList<>();
     LayoutInflater li;
@@ -40,9 +41,6 @@ public class AdapterForMultipleProviders {
         this.createOrderProductDetailsList = createOrderProductDetailsList;
         this.orderDeliveryAddress = orderDeliveryAddress;
         this.prefferedDeliveryDate = prefferedDeliveryDate;
-
-        Log.d("Sorted List Adapter for  provider",new Gson().toJson(createOrderProductDetailsList));
-        Log.d("Delivery types adapter for provider",new Gson().toJson(DisplayDeliveryChargesAndType.deliveryType));
     }
 
     public void setMultipleProvidersList() {
@@ -140,19 +138,11 @@ public class AdapterForMultipleProviders {
                             } else {
                                 deliveryType = "Pick-Up";
                             }
-                            Log.d(i+"fromrediobutton---->", DisplayDeliveryChargesAndType.deliveryType.get(j)+"   branchid from adaptr---->"+branchid+"  from adptr---->"+ deliveryType+"     "+providerName+" "+providerArea);
-//                            Log.d(i+"", branchid+"   ssssssssssssssssssss   "+ DisplayDeliveryChargesAndType.deliveryType.get(j).split("_")[0]);
-
-                            OrderDetailsActivity.deliveryTypes = new DeliveryTypes();
-                            OrderDetailsActivity.deliveryTypes.setBranchid(DisplayDeliveryChargesAndType.deliveryType.get(j).split("_")[0]);
-                            OrderDetailsActivity.deliveryTypes.setDeliverytype(DisplayDeliveryChargesAndType.deliveryType.get(i).split("_")[1]);
-
                             SellerDelivery sellerDelivery = new SellerDelivery();
                             sellerDelivery.setBranchid(branchid);
                             sellerDelivery.setDeliverytype(DisplayDeliveryChargesAndType.deliveryType.get(i).split("_")[1]);
                             sellerDelivery.setDelivery_address(orderDeliveryAddress);
-
-                            if(DisplayDeliveryChargesAndType.deliveryType.get(j).split("_")[1].equalsIgnoreCase("pickup") && DisplayDeliveryChargesAndType.listOfPickupAddresses.getListPickUpAddress().size() > 0) {
+                            if(DisplayDeliveryChargesAndType.deliveryType.get(i).split("_")[1].equalsIgnoreCase("pickup") && DisplayDeliveryChargesAndType.listOfPickupAddresses.getListPickUpAddress().size() > 0) {
                                 for (int l = 0; l < DisplayDeliveryChargesAndType.listOfPickupAddresses.getListPickUpAddress().size(); l++) {
                                     if (branchid.equalsIgnoreCase(DisplayDeliveryChargesAndType.listOfPickupAddresses.getListPickUpAddress().get(l).getBranchid())) {
                                         sellerDelivery.setPickup_address(DisplayDeliveryChargesAndType.listOfPickupAddresses.getListPickUpAddress().get(l).getLocation());
@@ -161,8 +151,6 @@ public class AdapterForMultipleProviders {
                             }
 
                             sellerDelivery.setPrefdeldtime(prefferedDeliveryDate);
-//                            Log.d("Order Instruction",DisplayDeliveryChargesAndType.order_instruction[j]);
-
                             if(DisplayDeliveryChargesAndType.order_instruction.length > j && DisplayDeliveryChargesAndType.order_instruction[j] != null ) {
                                 {
                                     if (!DisplayDeliveryChargesAndType.order_instruction[j].isEmpty()) {
@@ -185,14 +173,14 @@ public class AdapterForMultipleProviders {
                                 }
                             }
                             OrderDetailsActivity.createOrderCartList.getSellerdelivery().add(sellerDelivery);
-                            OrderDetailsActivity.createOrderCartList.getDeliverytypes().add(OrderDetailsActivity.deliveryTypes);
+//                            OrderDetailsActivity.createOrderCartList.getDeliverytypes().add(OrderDetailsActivity.deliveryTypes);
+                            adddeliveryTypes.setBranchid(branchid);
+                            adddeliveryTypes.setDeliverytype(DisplayDeliveryChargesAndType.deliveryType.get(i).split("_")[1]);
+                            OrderDetailsActivity.createOrderCartList.getDeliverytypes().add(adddeliveryTypes);
+
                         }
                     }
 
-                    //***********
-
-//                    Log.d("delivery type", deliveryType);
-//                    Log.d(createOrderProductDetailsList.get(i).getProductname(), DisplayDeliveryChargesAndType.delivery_mode[i]);
                     li = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                     LinearLayout llProductsForProvider = (LinearLayout) li.inflate(R.layout.product_for_provider, null);
                     ll = (LinearLayout) llProductsForProvider.findViewById(R.id.ll);

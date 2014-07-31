@@ -103,8 +103,8 @@ public class FinalOrderActivity extends Activity {
         Intent goToStartUpActivity = new Intent(FinalOrderActivity.this, StartUpActivity.class);
         startActivity(goToStartUpActivity);
         StartUpActivity.isFirstTime = true;
-        HomeDeliveryAddressAdapter.size=0;
-        PickupAddressAdapter.p_size=0;
+//        HomeDeliveryAddressAdapter.size=0;
+//        PickupAddressAdapter.p_size=0;
         finish();
     }
 
@@ -179,19 +179,21 @@ public class FinalOrderActivity extends Activity {
                 if(successResponseForCreateOrder.getSuccess().getOrder().getSuborder().get(k).getDeliverytype().equalsIgnoreCase("pickup"))
                 {
                     pickupdelivery++;
+                    Log.d("pickupdelivery size",pickupdelivery+"");
                 }else if(successResponseForCreateOrder.getSuccess().getOrder().getSuborder().get(k).getDeliverytype().equalsIgnoreCase("home"))
                 {
                     homedelivery++;
+                    Log.d("homedelivery size",homedelivery+"");
                 }
             }
             for (int i = 0; i < successResponseForCreateOrder.getSuccess().getOrder().getSuborder().size(); i++) {
 //                Log.d("delivery type", successResponseForCreateOrder.getSuccess().getOrder().getSuborder().get(i).getDeliverytype());
                 try {
                     if (i == 0) {
-                        if (successResponseForCreateOrder.getSuccess().getOrder().getSuborder().get(i).getDeliverytype() != null && successResponseForCreateOrder.getSuccess().getOrder().getSuborder().get(i).getDeliverytype().equalsIgnoreCase("Home")) {
+                        if (successResponseForCreateOrder.getSuccess().getOrder().getSuborder().get(i).getDeliverytype().equalsIgnoreCase("home")) {
                             delivery_type.setText("Home delivery");
                         } else {
-                            delivery_type.setText(successResponseForCreateOrder.getSuccess().getOrder().getSuborder().get(i).getDeliverytype());
+                            delivery_type.setText("Pick-Up");
                         }
                     }
                 } catch (NullPointerException npe) {
@@ -207,10 +209,11 @@ public class FinalOrderActivity extends Activity {
                             successResponseForCreateOrder.getSuccess().getOrder().getSuborder().get(i).getBilling_address().getState() + ", " +
                             successResponseForCreateOrder.getSuccess().getOrder().getSuborder().get(i).getBilling_address().getCountry());
                 }
-                if (successResponseForCreateOrder.getSuccess().getOrder().getSuborder().get(i).getDeliverytype().equalsIgnoreCase("home")
-                        && homedelivery>0) {
+                if (homedelivery > 0 &&
+                        successResponseForCreateOrder.getSuccess().getOrder().getSuborder().get(i).getDeliverytype().equalsIgnoreCase("home")) {
                     ll_home_delivery_address.setVisibility(View.VISIBLE);
-                    lst_selller_name_homedelivery.setAdapter(new HomeDeliveryAddressAdapter(getApplicationContext(),successResponseForCreateOrder.getSuccess().getOrder().getSuborder().get(i).getProductprovider().getProvidername()));
+                    Log.d("Home--pname---->", successResponseForCreateOrder.getSuccess().getOrder().getSuborder().get(i).getProductprovider().getProvidername());
+                    lst_selller_name_homedelivery.setAdapter(new HomeDeliveryAddressAdapter(getApplicationContext(), successResponseForCreateOrder.getSuccess().getOrder().getSuborder()));
                     setListViewHeightBasedOnChildren(lst_selller_name_homedelivery);
                     shipping_address_textview.setText(successResponseForCreateOrder.getSuccess().getOrder().getSuborder().get(i).getDelivery_address().getAddress1() + ", " +
                             successResponseForCreateOrder.getSuccess().getOrder().getSuborder().get(i).getDelivery_address().getAddress2() + ", " +
@@ -219,15 +222,15 @@ public class FinalOrderActivity extends Activity {
                             successResponseForCreateOrder.getSuccess().getOrder().getSuborder().get(i).getDelivery_address().getZipcode() + "\n" +
                             successResponseForCreateOrder.getSuccess().getOrder().getSuborder().get(i).getDelivery_address().getState() + ", " +
                             successResponseForCreateOrder.getSuccess().getOrder().getSuborder().get(i).getDelivery_address().getCountry());
-                }
-                else if(successResponseForCreateOrder.getSuccess().getOrder().getSuborder().get(i).getDeliverytype().equalsIgnoreCase("pickup")
-                        && pickupdelivery>0){
+                } else {
+                if( pickupdelivery > 0 &&
+                        successResponseForCreateOrder.getSuccess().getOrder().getSuborder().get(i).getDeliverytype().equalsIgnoreCase("pickup")){
                     linerlayout_delivery_address.setVisibility(View.VISIBLE);
-                    Log.d("PickUpAddress",new Gson().toJson(successResponseForCreateOrder.getSuccess().getOrder().getSuborder().get(i).getPickup_address()));
-                address_list.setAdapter(new PickupAddressAdapter(getApplicationContext(), successResponseForCreateOrder.getSuccess().getOrder().getSuborder()));
-                setListViewHeightBasedOnChildren(address_list);
+                    Log.d("PickUpAddress", new Gson().toJson(successResponseForCreateOrder.getSuccess().getOrder().getSuborder().get(i).getPickup_address()));
+                    address_list.setAdapter(new PickupAddressAdapter(getApplicationContext(), successResponseForCreateOrder.getSuccess().getOrder().getSuborder()));
+                    setListViewHeightBasedOnChildren(address_list);
                 }
-
+            }
             }
 
         } catch (Exception exc) {
@@ -242,8 +245,8 @@ public class FinalOrderActivity extends Activity {
         Intent goToStartUpActivity = new Intent(FinalOrderActivity.this, StartUpActivity.class);
         startActivity(goToStartUpActivity);
         StartUpActivity.isFirstTime = true;
-        HomeDeliveryAddressAdapter.size=0;
-        PickupAddressAdapter.p_size=0;
+//        HomeDeliveryAddressAdapter.size=0;
+//        PickupAddressAdapter.p_size=0;
         finish();
     }
 

@@ -1,6 +1,7 @@
 package com.gls.orderzapp.CreateOrder.OrderResponseAdapters;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,7 @@ import android.widget.TextView;
 import com.gls.orderzapp.CreateOrder.OrderResponseBeans.OrderedSubOrderDetails;
 import com.gls.orderzapp.R;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -18,12 +20,24 @@ import java.util.List;
  */
 public class HomeDeliveryAddressAdapter extends BaseAdapter {
     Context context;
-    String p_name;
-     public static int  size=0;
-    public HomeDeliveryAddressAdapter(Context context, String p_name) {
+    List<OrderedSubOrderDetails> orderedSubOrderDetailsList=new ArrayList<>();
+     public  int  size=0;
+    public HomeDeliveryAddressAdapter(Context context,List<OrderedSubOrderDetails> orderedSubOrderDetailsList) {
         this.context = context;
-        this.p_name=p_name;
-        size++;
+        this.orderedSubOrderDetailsList.clear();
+        this.orderedSubOrderDetailsList=orderedSubOrderDetailsList;
+        Log.d("orderedSubOrderDetailsList",orderedSubOrderDetailsList.size()+" "+this.orderedSubOrderDetailsList.size());
+//size=0;
+        for(int i=0;i<orderedSubOrderDetailsList.size();i++)
+        {
+            Log.d("i----",i+"");
+            if(orderedSubOrderDetailsList.get(i).getDeliverytype().equalsIgnoreCase("home"))
+            {
+                Log.d("HomeDELIVERY P_name",orderedSubOrderDetailsList.get(i).getProductprovider().getProvidername());
+                size++;
+                Log.d("size++",size+"");
+            }
+        }
 
 
     }
@@ -35,7 +49,7 @@ public class HomeDeliveryAddressAdapter extends BaseAdapter {
 
     @Override
     public Object getItem(int position) {
-        return null;
+        return orderedSubOrderDetailsList.get(position);
     }
 
     @Override
@@ -48,8 +62,9 @@ public class HomeDeliveryAddressAdapter extends BaseAdapter {
         LayoutInflater li = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         convertView = li.inflate(R.layout.homedelivery_providerlist, null);
         TextView sellerName = (TextView) convertView.findViewById(R.id.txt_sellerName);
-        sellerName.setText(p_name);
-
+        if(orderedSubOrderDetailsList.get(position).getDeliverytype().equalsIgnoreCase("home")) {
+            sellerName.setText(orderedSubOrderDetailsList.get(position).getProductprovider().getProvidername());
+        }
         return convertView;
 
     }

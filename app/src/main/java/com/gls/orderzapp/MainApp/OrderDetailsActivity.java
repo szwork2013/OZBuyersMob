@@ -63,7 +63,7 @@ public class OrderDetailsActivity extends Activity {
     RadioButton cash_on_delivery, credit_card;
     CreateOrderData createOrderData;
     public static DeliveryChargeDetails deliveryChargeDetails;
-    public static DeliveryTypes deliveryTypes;
+//    public static DeliveryTypes deliveryTypes;
     Context context;
     ArrayList<ProductDetails> cartDetails = new ArrayList<>();
     SuccessResponseOfUser successResponseOfUserBillingAddresDetails, successResponseOfUserDeliveryAddresDetails;
