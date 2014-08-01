@@ -2,6 +2,7 @@ package com.gls.orderzapp.CreateOrder.CreateOrderAdapters;
 
 import android.content.Context;
 import android.graphics.Typeface;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -82,6 +83,7 @@ public class ConfirmOrderProductListAdapter {
             ll_special_message.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    Log.d("PopUp","OrderDetails");
                     new PopUpForConfigurationCharges(context, v, Cart.configurationList(createOrderProductDetailsList.get(v.getId() - 1000))).displayConfigurationCharges();
                 }
             });

@@ -63,6 +63,7 @@ public class FinalOrderProductListAdapter {
             ll_special_message.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    Log.d("PopUp","FinalOrder");
                     new PopUpForDisplayProductConfigurationOnFinalOrder(context,v,orderedProductDetailsList.get(v.getId()-1000).getProductconfiguration()).displayConfigurationCharges();
                 }
             });
