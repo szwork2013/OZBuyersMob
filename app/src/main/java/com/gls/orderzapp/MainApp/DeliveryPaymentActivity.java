@@ -469,7 +469,9 @@ public class DeliveryPaymentActivity extends Activity {
     private class PaymentModeComparator implements Comparator<ProductDetails> {
         @Override
         public int compare(ProductDetails o1, ProductDetails o2) {
+
             return o1.getProviderName().compareTo(o2.getProviderName());
+
         }
     }
 

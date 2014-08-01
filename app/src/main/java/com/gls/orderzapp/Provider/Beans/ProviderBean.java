@@ -6,8 +6,17 @@ package com.gls.orderzapp.Provider.Beans;
 public class ProviderBean {
     String providerid;
     String providername;
+    String providerbrandname;
     String providerlogo;
     PaymentMode paymentmode;
+
+    public String getProviderbrandname() {
+        return providerbrandname;
+    }
+
+    public void setProviderbrandname(String providerbrandname) {
+        this.providerbrandname = providerbrandname;
+    }
 
     public PaymentMode getPaymentmode() {
         return paymentmode;

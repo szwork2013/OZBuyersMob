@@ -221,8 +221,8 @@ public class MoreProductsListActivity extends Activity implements View.OnClickLi
                             if (providerDetails.getProvider() != null) {
                                 providerSuccessResponse.getSuccess().getProvider().get(0).setProvider(providerDetails.getProvider());
                             }
-                            if (providerDetails.getProvider().getProvidername() != null) {
-                                providerSuccessResponse.getSuccess().getProvider().get(0).getProvider().setProvidername(providerDetails.getProvider().getProvidername());
+                            if (providerDetails.getProvider().getProviderbrandname() != null) {
+                                providerSuccessResponse.getSuccess().getProvider().get(0).getProvider().setProviderbrandname(providerDetails.getProvider().getProviderbrandname());
                             }
                             if (providerDetails.getProvider().getProviderid() != null) {
                                 providerSuccessResponse.getSuccess().getProvider().get(0).getProvider().setProviderid(providerDetails.getProvider().getProviderid());
