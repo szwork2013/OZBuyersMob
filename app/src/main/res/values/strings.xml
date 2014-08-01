@@ -21,7 +21,7 @@
     <string name="signup">Sign-up</string>
     <string name="emailaddress">Email Address</string>
     <string name="signin">Sign-In</string>
-
+<string name="firstname">First Name</string>
     <string name="setting">Setting</string>
     <string name="privacypolicy">Privacy Policy</string>
     <string name="one_time_password">Verification Token</string>

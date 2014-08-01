@@ -20,7 +20,7 @@ import org.json.JSONObject;
  */
 public class TabActivityForOrders extends TabActivity {
     TabHost tabHost;
-    static boolean isload = false;
+    public static boolean isload = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

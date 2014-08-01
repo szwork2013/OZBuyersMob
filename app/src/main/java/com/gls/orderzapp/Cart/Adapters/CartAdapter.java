@@ -46,12 +46,12 @@ public class CartAdapter {
     String[] mKeys;
     ProductDetails[] mValues;
     public static LinearLayout llCartListItemView, llProductList;
-    static List<ProductDetails> productList;
+   public static List<ProductDetails> productList;
     List<String> branchids = new ArrayList<>();
     List<ProductDetails> listProducts = new ArrayList<>();
     String branchId = "";
-    static List<TextView> listText = new ArrayList<>();
-    static TextView sub_total;
+    public static List<TextView> listText = new ArrayList<>();
+    public static TextView sub_total;
     List<ProductDetails> SortedProviderList = new ArrayList<>();
     BranchIdsForGettingDeliveryCharges branchIdsForGettingDeliveryCharges;
     SuccessResponseForDeliveryChargesAndType successResponseForDeliveryCharges;

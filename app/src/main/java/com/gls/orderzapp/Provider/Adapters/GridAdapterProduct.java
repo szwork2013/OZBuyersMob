@@ -44,7 +44,7 @@ public class GridAdapterProduct extends BaseAdapter {
     TextView textProductName, textProductDescription, textProductPrice;
     com.nostra13.universalimageloader.core.ImageLoader imageLoader;
     DisplayImageOptions options;
-    SuccessReplyForIndividualProductDetails successReplyForIndividualProductDetails;
+
 
 
     public GridAdapterProduct(Context context, List<ProductDetails> productDetailsList, BranchInfo branchDetails, ProviderDetails providerDetails) {

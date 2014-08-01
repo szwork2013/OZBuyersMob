@@ -76,12 +76,24 @@
                 android:hint="@string/username"
                 android:inputType="textPersonName"
                 android:textSize="18sp" />
+            <EditText
+                android:id="@+id/editTextFirstName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/editTextUserName"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="10dp"
+                android:ems="10"
+                android:singleLine="true"
+                android:hint="@string/firstname"
+                android:inputType="textPersonName"
+                android:textSize="18sp" />
 
             <EditText
                 android:id="@+id/editTextEmail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/editTextUserName"
+                android:layout_below="@+id/editTextFirstName"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="10dp"
                 android:ems="10"
@@ -116,71 +128,175 @@
                 android:inputType="textPostalAddress"
                 android:textSize="18sp" />
 
-            <EditText
-                android:id="@+id/editTextCity"
+            <!--<EditText-->
+                <!--android:id="@+id/editTextCity"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_below="@+id/editTextAddress2"-->
+                <!--android:layout_centerHorizontal="true"-->
+                <!--android:layout_marginTop="10dp"-->
+                <!--android:hint="@string/city"-->
+                <!--android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"-->
+                <!--android:inputType="text"-->
+                <!--android:singleLine="true"-->
+                <!--android:textSize="18sp" />-->
+
+            <!--<EditText-->
+                <!--android:id="@+id/editTextArea"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_below="@+id/editTextCity"-->
+                <!--android:layout_centerHorizontal="true"-->
+                <!--android:layout_marginTop="10dp"-->
+                <!--android:hint="@string/area"-->
+                <!--android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz 123456789./"-->
+                <!--android:inputType="text"-->
+                <!--android:singleLine="true"-->
+                <!--android:textSize="18sp" />-->
+
+            <!--<EditText-->
+                <!--android:id="@+id/editTextState"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_below="@+id/editTextArea"-->
+                <!--android:layout_centerHorizontal="true"-->
+                <!--android:layout_marginTop="10dp"-->
+                <!--android:hint="@string/state"-->
+                <!--android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"-->
+                <!--android:inputType="text"-->
+                <!--android:singleLine="true"-->
+                <!--android:textSize="18sp" />-->
+
+            <!--<EditText-->
+                <!--android:id="@+id/editTextCountry"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_below="@+id/editTextState"-->
+                <!--android:layout_centerHorizontal="true"-->
+                <!--android:layout_marginTop="10dp"-->
+                <!--android:hint="@string/country"-->
+                <!--android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"-->
+                <!--android:inputType="text"-->
+                <!--android:singleLine="true"-->
+                <!--android:textSize="18sp" />-->
+
+            <!--<EditText-->
+                <!--android:id="@+id/editTextPincode"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_below="@+id/editTextCountry"-->
+                <!--android:layout_centerHorizontal="true"-->
+                <!--android:layout_marginTop="10dp"-->
+                <!--android:ems="10"-->
+                <!--android:maxLength="6"-->
+                <!--android:singleLine="true"-->
+                <!--android:hint="@string/pincode"-->
+                <!--android:inputType="number"-->
+                <!--android:textSize="18sp" />-->
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:background="#fff"
+                android:id="@+id/ll_city_area"
                 android:layout_below="@+id/editTextAddress2"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="10dp"
-                android:hint="@string/city"
-                android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
-                android:inputType="text"
-                android:singleLine="true"
-                android:textSize="18sp" />
+                android:padding="3dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="18sp"
+                    android:textColor="#000"
+                    android:textStyle="bold"
+                    android:text="Country: "
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginTop="5dp"/>
+                <Spinner
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/country_spinner"/>
+
+                <View
+                    android:layout_width="fill_parent"
+                    android:layout_height="1dp"
+                    android:background="#304f6c"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="18sp"
+                    android:textColor="#000"
+                    android:textStyle="bold"
+                    android:text="State: "
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginTop="5dp"/>
+
+                <Spinner
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/state_spinner"/>
+
+                <View
+                    android:layout_width="fill_parent"
+                    android:layout_height="1dp"
+                    android:background="#304f6c"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="18sp"
+                    android:textColor="#000"
+                    android:textStyle="bold"
+                    android:text="City: "
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginTop="5dp"/>
+
+                <Spinner
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/city_spinner"/>
+
+                <View
+                    android:layout_width="fill_parent"
+                    android:layout_height="1dp"
+                    android:background="#304f6c"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="18sp"
+                    android:textColor="#000"
+                    android:textStyle="bold"
+                    android:text="Areas"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginTop="5dp"/>
+<AutoCompleteTextView
+    android:id="@+id/auto_area"
+    android:layout_width="match_parent"
+    android:textSize="18sp"
+    android:singleLine="true"
+    android:hint="@string/area"
+    android:layout_height="wrap_content" />
+                <ListView
+                    android:visibility="gone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/listOfAreas"/>
+            </LinearLayout>
 
             <EditText
-                android:id="@+id/editTextArea"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/editTextCity"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="10dp"
-                android:hint="@string/area"
-                android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz 123456789./"
-                android:inputType="text"
-                android:singleLine="true"
-                android:textSize="18sp" />
-
-            <EditText
-                android:id="@+id/editTextState"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/editTextArea"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="10dp"
-                android:hint="@string/state"
-                android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
-                android:inputType="text"
-                android:singleLine="true"
-                android:textSize="18sp" />
-
-            <EditText
-                android:id="@+id/editTextCountry"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/editTextState"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="10dp"
-                android:hint="@string/country"
-                android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
-                android:inputType="text"
-                android:singleLine="true"
-                android:textSize="18sp" />
-
-            <EditText
-                android:id="@+id/editTextPincode"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/editTextCountry"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="10dp"
-                android:ems="10"
-                android:maxLength="6"
-                android:singleLine="true"
-                android:hint="@string/pincode"
-                android:inputType="number"
-                android:textSize="18sp" />
+            android:id="@+id/editTextPincode"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/ll_city_area"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:ems="10"
+            android:maxLength="6"
+            android:singleLine="true"
+            android:hint="@string/pincode"
+            android:inputType="number"
+            android:textSize="18sp" />
 
             <TextView
                 android:id="@+id/txt_tc"

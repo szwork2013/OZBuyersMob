@@ -36,7 +36,6 @@ public class SubOrderListAdapter extends BaseAdapter {
 
     Context context;
     List<SubOrderDetails> subOrderDetailsList;
-    public static boolean isCancelled;
 
     DisplayImageOptions options;
     public static ListView listDetailedTrack;
@@ -45,8 +44,6 @@ public class SubOrderListAdapter extends BaseAdapter {
     int pos;
     Typeface tfRobotoNormal;
     Typeface tfRobotoBold;
-    List<String> serverSideTrack = new ArrayList<>();
-//    int count;
 
     public SubOrderListAdapter(Context context, List<SubOrderDetails> subOrderDetailsList, int pos) {
         this.context = context;
