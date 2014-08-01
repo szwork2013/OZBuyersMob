@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Typeface;
 import android.text.InputType;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -90,6 +91,7 @@ public class AdapterForProviderCategories {
 
                     @Override
                     public void onLoadingStarted(String imageUri, View view) {
+                        Log.d("image", imageUri);
                         List<String> memCache = MemoryCacheUtil.findCacheKeysForImageUri(imageUri, ImageLoader.getInstance().getMemoryCache());
                         cacheFound = !memCache.isEmpty();
                         if (!cacheFound) {

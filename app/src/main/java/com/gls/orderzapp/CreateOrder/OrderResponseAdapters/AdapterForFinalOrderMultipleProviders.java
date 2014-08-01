@@ -47,8 +47,8 @@ public class AdapterForFinalOrderMultipleProviders {
                 else
                 {  delivery_type.setText("Pick-Up");}
             }
-            if (orderedSubOrderDetailsList.get(i).getProductprovider().getProvidername() != null) {
-                providerName.setText(orderedSubOrderDetailsList.get(i).getProductprovider().getProvidername());
+            if (orderedSubOrderDetailsList.get(i).getProductprovider().getProviderbrandname() != null) {
+                providerName.setText(orderedSubOrderDetailsList.get(i).getProductprovider().getProviderbrandname());
             }
             if (orderedSubOrderDetailsList.get(i).getProductprovider().getLocation().getArea() != null) {
                 providerArea.setText(orderedSubOrderDetailsList.get(i).getProductprovider().getLocation().getArea());

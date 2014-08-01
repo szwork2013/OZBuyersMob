@@ -21,6 +21,7 @@ import java.util.List;
 public class HomeDeliveryAddressAdapter extends BaseAdapter {
     Context context;
     List<OrderedSubOrderDetails> orderedSubOrderDetailsList=new ArrayList<>();
+    List<OrderedSubOrderDetails> deliveryAddress = new ArrayList<>();
      public  int  size=0;
     public HomeDeliveryAddressAdapter(Context context,List<OrderedSubOrderDetails> orderedSubOrderDetailsList) {
         this.context = context;
@@ -35,6 +36,7 @@ public class HomeDeliveryAddressAdapter extends BaseAdapter {
             {
                 Log.d("HomeDELIVERY P_name",orderedSubOrderDetailsList.get(i).getProductprovider().getProvidername());
                 size++;
+                deliveryAddress.add(orderedSubOrderDetailsList.get(i));
                 Log.d("size++",size+"");
             }
         }
@@ -44,7 +46,7 @@ public class HomeDeliveryAddressAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return size;
+        return deliveryAddress.size();
     }
 
     @Override
@@ -62,9 +64,8 @@ public class HomeDeliveryAddressAdapter extends BaseAdapter {
         LayoutInflater li = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         convertView = li.inflate(R.layout.homedelivery_providerlist, null);
         TextView sellerName = (TextView) convertView.findViewById(R.id.txt_sellerName);
-        if(orderedSubOrderDetailsList.get(position).getDeliverytype().equalsIgnoreCase("home")) {
-            sellerName.setText(orderedSubOrderDetailsList.get(position).getProductprovider().getProvidername());
-        }
+        if(deliveryAddress.get(position).getProductprovider().getProviderbrandname() != null)
+         sellerName.setText(deliveryAddress.get(position).getProductprovider().getProviderbrandname());
         return convertView;
 
     }

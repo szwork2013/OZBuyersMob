@@ -199,13 +199,11 @@ public class GridAdapterProduct extends BaseAdapter {
                             if (providerDetails.getProvider().getPaymentmode().getCod() != null) {
                                 productDetailsToAddIntoTheCart.getPaymentmode().setCod(providerDetails.getProvider().getPaymentmode().getCod());
                             }
-                            if (providerDetails.getBranch().getDelivery().getIsprovidehomedelivery() != null) {
                                 productDetailsToAddIntoTheCart.getDelivery().setIsprovidehomedelivery(providerDetails.getBranch().getDelivery().getIsprovidehomedelivery());
-                            }
-                            if (providerDetails.getBranch().getDelivery().getIsprovidepickup() != null) {
-                                productDetailsToAddIntoTheCart.getDelivery().setIsprovidepickup(providerDetails.getBranch().getDelivery().getIsprovidepickup());
-                            }
 
+                                productDetailsToAddIntoTheCart.getDelivery().setIsprovidepickup(providerDetails.getBranch().getDelivery().getIsprovidepickup());
+
+                                productDetailsToAddIntoTheCart.getDelivery().setIsdeliverychargeinpercent(providerDetails.getBranch().getDelivery().isIsdeliverychargeinpercent());
                             if (providerDetails.getBranch().getNote() != null) {
                                 productDetailsToAddIntoTheCart.setNote(providerDetails.getBranch().getNote());
                             }

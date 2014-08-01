@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -21,6 +22,7 @@ import android.widget.TextView;
 import com.gls.orderzapp.Provider.Beans.ProductDetails;
 import com.gls.orderzapp.R;
 import com.gls.orderzapp.Utility.Cart;
+import com.google.gson.Gson;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
@@ -137,6 +139,8 @@ public class ProductConfigurationListAdapter extends BaseAdapter {
                                 egg_price.setText((cakeList.get(position).getProductconfiguration().getConfiguration().get(i).getProd_configprice().getValue() * Double.parseDouble(cakeList.get(position).getQuantity())) + "");
                             }
                         }
+
+                        Log.d("cartt after adding conf", new Gson().toJson(Cart.hm));
                         break;
                     case R.id.egg:
                         egg_price.setText("0.0");

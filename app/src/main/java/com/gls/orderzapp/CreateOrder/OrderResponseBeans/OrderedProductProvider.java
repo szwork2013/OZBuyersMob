@@ -5,10 +5,19 @@ package com.gls.orderzapp.CreateOrder.OrderResponseBeans;
  */
 public class OrderedProductProvider {
     String branchid;
+    String providerbrandname;
     Address location;
     String providerid;
     String providerlogo;
     String providername;
+
+    public String getProviderbrandname() {
+        return providerbrandname;
+    }
+
+    public void setProviderbrandname(String providerbrandname) {
+        this.providerbrandname = providerbrandname;
+    }
 
     public String getBranchid() {
         return branchid;

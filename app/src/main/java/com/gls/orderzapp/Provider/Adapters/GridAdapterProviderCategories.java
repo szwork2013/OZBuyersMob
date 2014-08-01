@@ -189,12 +189,11 @@ public class GridAdapterProviderCategories extends BaseAdapter {
                                 }
                             }
                             if (providerDetails.getBranch().getDelivery() != null) {
-                                if (providerDetails.getBranch().getDelivery().getIsprovidehomedelivery() != null) {
                                     productDetailsToAddIntoTheCart.getDelivery().setIsprovidehomedelivery(providerDetails.getBranch().getDelivery().getIsprovidehomedelivery());
-                                }
-                                if (providerDetails.getBranch().getDelivery().getIsprovidepickup() != null) {
+
                                     productDetailsToAddIntoTheCart.getDelivery().setIsprovidepickup(providerDetails.getBranch().getDelivery().getIsprovidepickup());
-                                }
+
+                                    productDetailsToAddIntoTheCart.getDelivery().setIsdeliverychargeinpercent(providerDetails.getBranch().getDelivery().isIsdeliverychargeinpercent());
                             }
                             if (providerDetails.getProvider().getProviderbrandname() != null) {
                                 productDetailsToAddIntoTheCart.setProviderName(providerDetails.getProvider().getProviderbrandname());
@@ -202,7 +201,12 @@ public class GridAdapterProviderCategories extends BaseAdapter {
                                 productDetailsToAddIntoTheCart.setProviderName("");
                             }
                             if (providerDetails.getProducts().get(position).getMin_weight() != null) {
-                                productDetailsToAddIntoTheCart.setQuantity(providerDetails.getProducts().get(position).getMin_weight().getValue() + "");
+                                Log.d("minweight", (providerDetails.getProducts().get(position).getMin_weight().getValue()+"").split("\\.")[0]);
+                                if(providerDetails.getProducts().get(position).getPrice().getUom().equalsIgnoreCase("no") || providerDetails.getProducts().get(position).getPrice().getUom().equalsIgnoreCase("lb")) {
+                                    productDetailsToAddIntoTheCart.setQuantity((providerDetails.getProducts().get(position).getMin_weight().getValue() + "").split("\\.")[0]);
+                                }else{
+                                    productDetailsToAddIntoTheCart.setQuantity(providerDetails.getProducts().get(position).getMin_weight().getValue() + "");
+                                }
                             }
                             if (providerDetails.getBranch().getBranchid() != null) {
                                 productDetailsToAddIntoTheCart.setBranchid(providerDetails.getBranch().getBranchid());

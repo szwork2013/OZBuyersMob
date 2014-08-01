@@ -4,10 +4,19 @@ package com.gls.orderzapp.Provider.Beans;
  * Created by avinash on 11/7/14.
  */
 public class DeliveryMode {
-    Boolean isprovidehomedelivery;
-    Boolean isprovidepickup;
+    boolean isprovidehomedelivery;
+    boolean isprovidepickup;
+    boolean isdeliverychargeinpercent;
 
-    public Boolean getIsprovidehomedelivery() {
+    public boolean isIsdeliverychargeinpercent() {
+        return isdeliverychargeinpercent;
+    }
+
+    public void setIsdeliverychargeinpercent(boolean isdeliverychargeinpercent) {
+        this.isdeliverychargeinpercent = isdeliverychargeinpercent;
+    }
+
+    public boolean getIsprovidehomedelivery() {
         return isprovidehomedelivery;
     }
 
@@ -15,7 +24,7 @@ public class DeliveryMode {
         this.isprovidehomedelivery = isprovidehomedelivery;
     }
 
-    public Boolean getIsprovidepickup() {
+    public boolean getIsprovidepickup() {
         return isprovidepickup;
     }
 

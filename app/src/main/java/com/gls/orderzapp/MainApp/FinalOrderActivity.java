@@ -53,7 +53,6 @@ public class FinalOrderActivity extends Activity {
 
         findViewsById();
         paymentResponse = getIntent().getStringExtra("TXN_DETAILS");
-//        Log.d("final order", getIntent().getStringExtra("FINAL_ORDER"));
         if(!paymentResponse.isEmpty()){
             paymentSuccessResponse = new Gson().fromJson(paymentResponse, PaymentSuccessResponse.class);
         }
@@ -215,9 +214,8 @@ public class FinalOrderActivity extends Activity {
                 if (homedelivery > 0 &&
                         successResponseForCreateOrder.getSuccess().getOrder().getSuborder().get(i).getDeliverytype().equalsIgnoreCase("home")) {
                     ll_home_delivery_address.setVisibility(View.VISIBLE);
-                    Log.d("Home--pname---->", successResponseForCreateOrder.getSuccess().getOrder().getSuborder().get(i).getProductprovider().getProvidername());
-                    lst_selller_name_homedelivery.setAdapter(new HomeDeliveryAddressAdapter(getApplicationContext(), successResponseForCreateOrder.getSuccess().getOrder().getSuborder()));
-                    setListViewHeightBasedOnChildren(lst_selller_name_homedelivery);
+//                    lst_selller_name_homedelivery.setAdapter(new HomeDeliveryAddressAdapter(getApplicationContext(), successResponseForCreateOrder.getSuccess().getOrder().getSuborder()));
+//                    setListViewHeightBasedOnChildren(lst_selller_name_homedelivery);
                     shipping_address_textview.setText(successResponseForCreateOrder.getSuccess().getOrder().getSuborder().get(i).getDelivery_address().getAddress1() + ", " +
                             successResponseForCreateOrder.getSuccess().getOrder().getSuborder().get(i).getDelivery_address().getAddress2() + ", " +
                             successResponseForCreateOrder.getSuccess().getOrder().getSuborder().get(i).getDelivery_address().getArea() + ",\n" +

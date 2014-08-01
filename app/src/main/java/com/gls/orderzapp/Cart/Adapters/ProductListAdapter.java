@@ -181,7 +181,7 @@ public class ProductListAdapter {
                 edittext_quantity.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
             } else if (measure.equalsIgnoreCase("lb")) {
                 arrayListweight.add("lb");
-                edittext_quantity.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
+                edittext_quantity.setInputType(InputType.TYPE_CLASS_NUMBER );
             }
             for (int i = 0; i < arrayListweight.size(); i++) {
                 spinner_weight.setAdapter(new ArrayAdapter<String>(context.getApplicationContext(), R.layout.weight_spinner_items, arrayListweight));
@@ -195,7 +195,7 @@ public class ProductListAdapter {
 
                 tempEditText = (EditText) ((LinearLayout) parent.getParent()).getChildAt(3);
 
-                if (((TextView) view).getText() != null) {
+
                     if (((TextView) view).getText().toString().equalsIgnoreCase("Kg")) {
                         if (tempEditText.getText().toString().trim().length() > 0) {
                             if (isDouble(tempEditText.getText().toString().trim()) == true) {
@@ -210,6 +210,9 @@ public class ProductListAdapter {
                                     }
                                 }
                             }
+                        }else{
+                            measure = "Kg";
+                            Cart.updateCart(tag, "0", measure);
                         }
                     } else if (((TextView) view).getText().toString().equalsIgnoreCase("lb")) {
                         if (tempEditText.getText().toString().trim().length() > 0) {
@@ -225,6 +228,9 @@ public class ProductListAdapter {
                                     }
                                 }
                             }
+                        }else{
+                            measure = "lb";
+                            Cart.updateCart(tag, "0", measure);
                         }
                     } else if (((TextView) view).getText().toString().equalsIgnoreCase("Gm")) {
                         if (tempEditText.getText().toString().trim().length() > 0) {
@@ -240,6 +246,9 @@ public class ProductListAdapter {
                                     }
                                 }
                             }
+                        }else{
+                            measure = "Gm";
+                            Cart.updateCart(tag, "0", measure);
                         }
                     } else if (((TextView) view).getText().toString().equalsIgnoreCase("No")) {
 
@@ -257,8 +266,11 @@ public class ProductListAdapter {
                                 }
                             }
                         }
+                    }else{
+                        measure = "No";
+                        Cart.updateCart(tag, "0", measure);
                     }
-                }
+
             }
 
             @Override
@@ -433,6 +445,7 @@ public class ProductListAdapter {
 //                        }
                     }
                         } else {
+                            uom = Cart.returnUom(tag);
                             Cart.updateCart(tag, "0", uom);
                             for (int i = 0; i < list.size(); i++) {
                                 if (tag.equalsIgnoreCase(list.get(i).split("-")[0])) {
