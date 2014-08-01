@@ -44,7 +44,7 @@ public class DisplayDeliveryChargesAndType {
     public static ListOfPickupAddresses listOfPickupAddresses =  new ListOfPickupAddresses();;
     EditText tempEditText = null;
     String tag = "";
-    static List<Button> listPickUpButtons = new ArrayList<>();
+    public static List<Button> listPickUpButtons = new ArrayList<>();
 
     public DisplayDeliveryChargesAndType(Context context, SuccessResponseForDeliveryChargesAndType listOfDeliveryCharges, List<ProductDetails> checkForDeliveryModeList) {
         this.context = context;

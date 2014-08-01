@@ -46,7 +46,7 @@ public class ProductListAdapter {
     String measure = "";
     EditText edittext_quantity;
     LinearLayout llDeleteImage;
-    static double min_weight, max_weight;
+    public static double min_weight, max_weight;
     Spinner spinner_weight, tempSpinner;
     ImageView delete_image;
     int parentIndex;

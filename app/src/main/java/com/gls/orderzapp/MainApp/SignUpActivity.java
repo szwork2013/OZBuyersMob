@@ -8,11 +8,22 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.gls.orderzapp.Cart.Adapters.CityAreaListAdapter;
+import com.gls.orderzapp.Cart.Beans.SuccessResponseForAreaList;
+import com.gls.orderzapp.Cart.Beans.SuccessResponseForCityList;
+import com.gls.orderzapp.Cart.Beans.SuccessResponseForCountryList;
+import com.gls.orderzapp.Cart.Beans.SuccessResponseForStatesList;
 import com.gls.orderzapp.R;
 import com.gls.orderzapp.SignUp.SendSignUpData;
 import com.gls.orderzapp.SignUp.SignUpDataInUserObject;
@@ -28,6 +39,11 @@ import com.google.gson.GsonBuilder;
 
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+
 
 public class SignUpActivity extends ActionBarActivity {
 
@@ -35,13 +51,25 @@ public class SignUpActivity extends ActionBarActivity {
     GoogleCloudMessaging gcm;
     String regid = "";
     Context context;
+    AutoCompleteTextView auto_area;
     EditText mobileNoEditText, passwordEditText, usernameEditText, address1EditText, address2EditText, cityEditText, areaEditText,
-            pincodeEditText, countryCodeEditText, countryEditText, stateEditText, emailEditText;
+            pincodeEditText, countryCodeEditText, countryEditText, stateEditText, emailEditText,firstnameEditText;
     Button signUpButton;
     //    String SENDER_ID = "926441694335";
     String SENDER_ID = "1088135189222";
     SignUpDataInUserObject signUpData;
     SendSignUpData sendSignUpData;
+
+    //******for auto area
+    Spinner country_spinner, state_spinner, city_spinner;
+    ListView listOfAreas;
+    SuccessResponseForCountryList successResponseForCountryList;
+    SuccessResponseForStatesList successResponseForStatesList;
+    SuccessResponseForCityList successResponseForCityList;
+    SuccessResponseForAreaList successResponseForAreaList;
+    List<String> areaList = new ArrayList<String>();
+    CityAreaListAdapter cityCountryListAdapter, cityStateListAdapter, cityListAdapter, areaListAdapter;
+    String country = "", state = "", city = "", area = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +80,67 @@ public class SignUpActivity extends ActionBarActivity {
         setContentView(R.layout.sign_up);
 
         findViewsById();
+        new GetCountryListAsync().execute();
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplicationContext(),R.layout.area,areaList);
+        auto_area.setAdapter(adapter);
+        adapter.setNotifyOnChange(true);
+
+        country_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                country = parent.getItemAtPosition(position)+"";
+                Log.d("Countryy",country);
+                new GetStatesListAsync().execute();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        state_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                state = parent.getItemAtPosition(position)+"";
+                Log.d("statee",state);
+                Toast.makeText(getApplicationContext(), state, Toast.LENGTH_LONG).show();
+                new GetCityListAsync().execute();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        city_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                city = parent.getItemAtPosition(position)+"";
+                Log.d("cityy",city);
+                new GetAreaListAsync().execute();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        listOfAreas.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                area = parent.getItemAtPosition(position)+"";
+                Log.d("areaa",area);
+                storeArea();
+                storeCity();
+                storeState();
+                storeCountry();
+            }
+        });
+
 
     }
 
@@ -72,6 +161,7 @@ public class SignUpActivity extends ActionBarActivity {
     public void findViewsById() {
 
         mobileNoEditText = (EditText) findViewById(R.id.editTextMobileNUmber);
+        firstnameEditText= (EditText) findViewById(R.id.editTextFirstName);
         passwordEditText = (EditText) findViewById(R.id.editTextPassword);
         usernameEditText = (EditText) findViewById(R.id.editTextUserName);
         address1EditText = (EditText) findViewById(R.id.editTextAddress1);
@@ -84,6 +174,12 @@ public class SignUpActivity extends ActionBarActivity {
         countryCodeEditText = (EditText) findViewById(R.id.editTextCountryCode);
         countryEditText = (EditText) findViewById(R.id.editTextCountry);
         stateEditText = (EditText) findViewById(R.id.editTextState);
+        auto_area= (AutoCompleteTextView) findViewById(R.id.auto_area);
+        //************after auto area
+        country_spinner = (Spinner) findViewById(R.id.country_spinner);
+        state_spinner = (Spinner) findViewById(R.id.state_spinner);
+        city_spinner = (Spinner) findViewById(R.id.city_spinner);
+        listOfAreas = (ListView) findViewById(R.id.listOfAreas);
 
         UtilityClassForLanguagePreferance.applyTypeface(UtilityClassForLanguagePreferance.getParentView(passwordEditText), UtilityClassForLanguagePreferance.getTypeFace(context));
     }
@@ -134,6 +230,10 @@ public class SignUpActivity extends ActionBarActivity {
             Toast.makeText(getApplicationContext(), "Please enter a Email Address", Toast.LENGTH_LONG).show();
             return;
         }
+        if (firstnameEditText.getText().toString().trim().length() == 0) {
+            Toast.makeText(getApplicationContext(), "Please enter a username", Toast.LENGTH_LONG).show();
+            return;
+        }
         if (usernameEditText.getText().toString().trim().length() == 0) {
             Toast.makeText(getApplicationContext(), "Please enter a username", Toast.LENGTH_LONG).show();
             return;
@@ -146,26 +246,30 @@ public class SignUpActivity extends ActionBarActivity {
             Toast.makeText(getApplicationContext(), "Please enter address 2", Toast.LENGTH_LONG).show();
             return;
         }
-        if (cityEditText.getText().toString().trim().length() == 0) {
-            Toast.makeText(getApplicationContext(), "Please enter your city", Toast.LENGTH_LONG).show();
-            return;
-        }
-        if (areaEditText.getText().toString().trim().length() == 0) {
+
+        if (auto_area.getText().toString().trim().length() == 0) {
             Toast.makeText(getApplicationContext(), "Please enter your area", Toast.LENGTH_LONG).show();
             return;
         }
+//        if (auto_area.getText().toString().trim().length() > 0) {
+//           for(int i=0;i<areaList.size();i++)
+//           {
+//               if(auto_area.getText().toString().trim().equalsIgnoreCase(areaList.get(i).toString()))
+//               {
+//               }
+//               else
+//               {
+//                   Toast.makeText(getApplicationContext(), "Please enter valid area", Toast.LENGTH_LONG).show();
+//                   return;
+//               }
+//           }
+//        }
+
         if (pincodeEditText.getText().toString().trim().length() < 6) {
             Toast.makeText(getApplicationContext(), "Please enter your Pincode", Toast.LENGTH_LONG).show();
             return;
         }
-        if (countryEditText.getText().toString().trim().length() == 0) {
-            Toast.makeText(getApplicationContext(), "Please enter your Country", Toast.LENGTH_LONG).show();
-            return;
-        }
-        if (stateEditText.getText().toString().trim().length() == 0) {
-            Toast.makeText(getApplicationContext(), "Please enter your State", Toast.LENGTH_LONG).show();
-            return;
-        }
+
         if (checkPlayServices()) {
 
             new RegisterToGcmInBackground(context).execute();
@@ -196,15 +300,22 @@ public class SignUpActivity extends ActionBarActivity {
         sendSignUpData.setMobileno(countryCodeEditText.getText().toString().trim() + mobileNoEditText.getText().toString().trim());
         sendSignUpData.setPassword(passwordEditText.getText().toString().trim());
         sendSignUpData.setUsername(usernameEditText.getText().toString().trim());
+        sendSignUpData.setFirstname(firstnameEditText.getText().toString().trim());
         sendSignUpData.setGcmregistrationid(regid);
         sendSignUpData.setEmail(emailEditText.getText().toString().trim());
         sendSignUpData.getLocation().setAddress1(address1EditText.getText().toString().trim());
         sendSignUpData.getLocation().setAddress2(address2EditText.getText().toString().trim());
-        sendSignUpData.getLocation().setCity(cityEditText.getText().toString().trim());
-        sendSignUpData.getLocation().setArea(areaEditText.getText().toString().trim());
         sendSignUpData.getLocation().setZipcode(pincodeEditText.getText().toString().trim());
-        sendSignUpData.getLocation().setCountry(countryEditText.getText().toString().trim());
-        sendSignUpData.getLocation().setState(stateEditText.getText().toString().trim());
+
+//        sendSignUpData.getLocation().setCity(cityEditText.getText().toString().trim());
+//        sendSignUpData.getLocation().setArea(areaEditText.getText().toString().trim());
+//        sendSignUpData.getLocation().setCountry(countryEditText.getText().toString().trim());
+//        sendSignUpData.getLocation().setState(stateEditText.getText().toString().trim());
+
+        sendSignUpData.getLocation().setCity(city);
+        sendSignUpData.getLocation().setArea(auto_area.getText().toString().trim());
+        sendSignUpData.getLocation().setCountry(country);
+        sendSignUpData.getLocation().setState(state);
 
         signUpData.setUser(sendSignUpData);
     }
@@ -297,6 +408,330 @@ public class SignUpActivity extends ActionBarActivity {
             } catch (Exception e) {
                 e.printStackTrace();
             }
+        }
+    }
+
+
+    //*******************after auto area
+    public void storeArea(){
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        SharedPreferences.Editor editor = sp.edit();
+        editor.putString("USER_AREA", area);
+        editor.commit();
+    }
+
+    public void storeCity(){
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        SharedPreferences.Editor editor= sp.edit();
+        editor.putString("USER_CITY", city);
+        editor.commit();
+    }
+
+    public void storeState(){
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        SharedPreferences.Editor editor = sp.edit();
+        editor.putString("USER_STATE", state);
+        editor.commit();
+    }
+
+
+    public void storeCountry(){
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        SharedPreferences.Editor editor = sp.edit();
+        editor.putString("USER_COUNTRY", country);
+        editor.commit();
+    }
+
+    public String loadCountryPreference(){
+        String userArea = "";
+        SharedPreferences spLoad = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        userArea = spLoad.getString("USER_COUNTRY", "IN");
+        return userArea;
+    }
+
+    public String loadStatePreference(){
+        String userArea = "";
+        SharedPreferences spLoad = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        userArea = spLoad.getString("USER_STATE", "Maharashtra");
+        return userArea;
+    }
+
+    public String loadCityPreference(){
+        String userArea = "";
+        SharedPreferences spLoad = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        userArea = spLoad.getString("USER_CITY", "Pune");
+        return userArea;
+    }
+
+
+
+    public String getCountryList() throws Exception{
+        String resultGetCountryList = "";
+        resultGetCountryList = ServerConnection.executeGet(getApplicationContext(), "/api/location?key=country&value=country");
+        return resultGetCountryList;
+    }
+
+    public String getStatesList() throws Exception{
+        String resultGetCountryList = "";
+        resultGetCountryList = ServerConnection.executeGet(getApplicationContext(), "/api/location?key=state&value="+country);
+        return resultGetCountryList;
+    }
+
+    public String getCitiesList() throws Exception{
+        String resultGetCountryList = "";
+        resultGetCountryList = ServerConnection.executeGet(getApplicationContext(), "/api/location?key=city&value="+state);
+        return resultGetCountryList;
+    }
+
+    public String getAreaList() throws Exception{
+        String resultGetCountryList = "";
+        resultGetCountryList = ServerConnection.executeGet(getApplicationContext(), "/api/location/area?city="+city);
+        return resultGetCountryList;
+    }
+
+    class GetCountryListAsync extends AsyncTask<String, Integer, String>{
+        String connectedOrNot, resultGetCountry, msg, code;
+        JSONObject jObj;
+        ProgressDialog progressDialog;
+        @Override
+        protected void onPreExecute() {
+            progressDialog = ProgressDialog.show(SignUpActivity.this, "", "");
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+            try{
+                if(new CheckConnection(getApplicationContext()).isConnectingToInternet()) {
+                    connectedOrNot = "success";
+                    resultGetCountry = getCountryList();
+                    if (!resultGetCountry.isEmpty()){
+                        Log.d("resultGetCountry", resultGetCountry);
+                        jObj = new JSONObject(resultGetCountry);
+                        if(jObj.has("success")){
+                            successResponseForCountryList = new Gson().fromJson(resultGetCountry, SuccessResponseForCountryList.class);
+//                            listCountry.addAll(successResponseForCountryList.getSuccess().getCountry());
+                        }else{
+                            JSONObject jObjError = jObj.getJSONObject("error");
+                            msg = jObjError.getString("message");
+                        }
+                    }
+                }
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+            return connectedOrNot;
+        }
+
+        @Override
+        protected void onPostExecute(String connectedOrNot) {
+            try{
+                progressDialog.dismiss();
+                if(connectedOrNot.equalsIgnoreCase("success")){
+                    if(!resultGetCountry.isEmpty()){
+                        if(jObj.has("success")){
+                            cityCountryListAdapter = new CityAreaListAdapter(getApplicationContext(), successResponseForCountryList.getSuccess().getCountry());
+                            country_spinner.setAdapter(cityCountryListAdapter);
+                            country_spinner.setSelection(successResponseForCountryList.getSuccess().getCountry().indexOf(loadCountryPreference()));
+                        }else{
+                            Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_LONG).show();
+                        }
+                    }else{
+                        Toast.makeText(getApplicationContext(), "Server is not responding, please try again later", Toast.LENGTH_LONG).show();
+                    }
+                }else{
+                    Toast.makeText(getApplicationContext(), "Please check your internet connection", Toast.LENGTH_LONG).show();
+                }
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+        }
+    }
+
+    class GetStatesListAsync extends AsyncTask<String, Integer, String>{
+        String connectedOrNot, resultGetStates, msg, code;
+        JSONObject jObj;
+        ProgressDialog progressDialog;
+        @Override
+        protected void onPreExecute() {
+            progressDialog = ProgressDialog.show(SignUpActivity.this, "", "");
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+            try{
+                if(new CheckConnection(getApplicationContext()).isConnectingToInternet()) {
+                    connectedOrNot = "success";
+                    resultGetStates = getStatesList();
+                    if (!resultGetStates.isEmpty()){
+                        Log.d("resultGetCountry", resultGetStates);
+                        jObj = new JSONObject(resultGetStates);
+                        if(jObj.has("success")){
+//                            listState.clear();
+
+                            successResponseForStatesList = new Gson().fromJson(resultGetStates, SuccessResponseForStatesList.class);
+//                            listState.addAll(successResponseForStatesList.getSuccess().getStates());
+                        }else{
+                            JSONObject jObjError = jObj.getJSONObject("error");
+                            msg = jObjError.getString("message");
+                        }
+                    }
+                }
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+            return connectedOrNot;
+        }
+
+        @Override
+        protected void onPostExecute(String connectedOrNot) {
+            try{
+                progressDialog.dismiss();
+                if(connectedOrNot.equalsIgnoreCase("success")){
+                    if(!resultGetStates.isEmpty()){
+                        if(jObj.has("success")){
+                            cityStateListAdapter = new CityAreaListAdapter(getApplicationContext(), successResponseForStatesList.getSuccess().getStates());
+                            state_spinner.setAdapter(cityStateListAdapter);
+                            state_spinner.setSelection(successResponseForStatesList.getSuccess().getStates().indexOf(loadStatePreference()));
+                        }else{
+                            Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_LONG).show();
+                        }
+                    }else{
+                        Toast.makeText(getApplicationContext(), "Server is not responding, please try again later", Toast.LENGTH_LONG).show();
+                    }
+                }else{
+                    Toast.makeText(getApplicationContext(), "Please check your internet connection", Toast.LENGTH_LONG).show();
+                }
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+        }
+    }
+
+    class GetCityListAsync extends AsyncTask<String, Integer, String>{
+        String connectedOrNot, resultGetCities, msg, code;
+        JSONObject jObj;
+        ProgressDialog progressDialog;
+        @Override
+        protected void onPreExecute() {
+            progressDialog = ProgressDialog.show(SignUpActivity.this, "", "");
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+            try{
+                if(new CheckConnection(getApplicationContext()).isConnectingToInternet()) {
+                    connectedOrNot = "success";
+                    resultGetCities = getCitiesList();
+                    if (!resultGetCities.isEmpty()){
+                        Log.d("resultGetCountry", resultGetCities);
+                        jObj = new JSONObject(resultGetCities);
+                        if(jObj.has("success")){
+                            successResponseForCityList = new Gson().fromJson(resultGetCities, SuccessResponseForCityList.class);
+                        }else{
+                            JSONObject jObjError = jObj.getJSONObject("error");
+                            msg = jObjError.getString("message");
+                        }
+                    }
+                }
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+            return connectedOrNot;
+        }
+
+        @Override
+        protected void onPostExecute(String connectedOrNot) {
+            try{
+                progressDialog.dismiss();
+                if(connectedOrNot.equalsIgnoreCase("success")){
+                    if(!resultGetCities.isEmpty()){
+                        if(jObj.has("success")){
+                            cityListAdapter = new CityAreaListAdapter(getApplicationContext(), successResponseForCityList.getSuccess().getCity());
+                            city_spinner.setAdapter(cityListAdapter);
+                            city_spinner.setSelection(successResponseForCityList.getSuccess().getCity().indexOf(loadCityPreference()));
+                        }else{
+                            Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_LONG).show();
+                        }
+                    }else{
+                        Toast.makeText(getApplicationContext(), "Server is not responding, please try again later", Toast.LENGTH_LONG).show();
+                    }
+                }else{
+                    Toast.makeText(getApplicationContext(), "Please check your internet connection", Toast.LENGTH_LONG).show();
+                }
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+        }
+    }
+
+    class GetAreaListAsync extends AsyncTask<String, Integer, String>{
+        String connectedOrNot, resultGetArea, msg, code;
+        JSONObject jObj;
+        ProgressDialog progressDialog;
+        @Override
+        protected void onPreExecute() {
+            progressDialog = ProgressDialog.show(SignUpActivity.this, "", "");
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+            try{
+                if(new CheckConnection(getApplicationContext()).isConnectingToInternet()) {
+                    connectedOrNot = "success";
+                    resultGetArea = getAreaList();
+                    if (!resultGetArea.isEmpty()){
+                        Log.d("getArea", resultGetArea);
+                        jObj = new JSONObject(resultGetArea);
+                        if(jObj.has("success")){
+                            areaList.clear();
+                            successResponseForAreaList = new Gson().fromJson(resultGetArea, SuccessResponseForAreaList.class);
+                            areaList.addAll(successResponseForAreaList.getSuccess().getArea());
+                            Collections.sort(areaList, new CustomComparator());
+//                            listOfAreas.addAll(successResponseForAreaList.getSuccess().getArea());
+                        }else{
+                            JSONObject jObjError = jObj.getJSONObject("error");
+                            msg = jObjError.getString("message");
+                        }
+                    }
+                }
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+            return connectedOrNot;
+        }
+
+        @Override
+        protected void onPostExecute(String connectedOrNot) {
+            try{
+                progressDialog.dismiss();
+                if(connectedOrNot.equalsIgnoreCase("success")){
+                    if(!resultGetArea.isEmpty()){
+                        if(jObj.has("success")){
+
+                        }else{
+                            Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_LONG).show();
+                        }
+                    }else{
+                        Toast.makeText(getApplicationContext(), "Server is not responding, please try again later", Toast.LENGTH_LONG).show();
+                    }
+                }else{
+                    Toast.makeText(getApplicationContext(), "Please check your internet connection", Toast.LENGTH_LONG).show();
+                }
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+        }
+    }
+    class CustomComparator implements Comparator<String> {
+
+        @Override
+        public int compare(String s, String s2) {
+            return s.compareTo(s2);
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            return false;
         }
     }
 } 

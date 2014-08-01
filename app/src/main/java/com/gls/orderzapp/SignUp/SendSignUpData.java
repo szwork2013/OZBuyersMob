@@ -10,8 +10,17 @@ public class SendSignUpData {
     String username;
     String email;
     String usertype;
+    String firstname;
     Location location = new Location();
     String gcmregistrationid;
+
+    public String getFirstname() {
+        return firstname;
+    }
+
+    public void setFirstname(String firstname) {
+        this.firstname = firstname;
+    }
 
     public String getEmail() {
         return email;

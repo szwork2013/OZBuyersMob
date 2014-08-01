@@ -34,7 +34,7 @@ import org.json.JSONObject;
  * Created by prajyot on 23/4/14.
  */
 public class ForgotPasswordActivity extends Activity {
-    static TextView textOtp, otp;
+    public static TextView textOtp, otp;
     LinearLayout llMobileNumber, llOtp;
     EditText editMobileNumber, editOtp;
     //    TextView textRegenerateToken;

@@ -44,7 +44,7 @@ public class GridAdapterProviderCategories extends BaseAdapter {
     ProviderDetails providerDetails;
     BranchInfo branchDetails;
     ImageView imageProduct, close_dialog;
-    TextView textProductName, textProductDescription, textProductPrice, text_discount;
+    TextView textProductName, textProductDescription, textProductPrice;
     com.nostra13.universalimageloader.core.ImageLoader imageLoader;
     DisplayImageOptions options;
     ProductDetails productDetailsToAddIntoTheCart;

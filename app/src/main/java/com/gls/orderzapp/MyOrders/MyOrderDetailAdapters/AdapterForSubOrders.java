@@ -19,8 +19,6 @@ public class AdapterForSubOrders {
     public static LinearLayout ll;
     LinearLayout mainLayout;
     List<SubOrderDetails> subOrderDetailsList;
-    LayoutInflater li;
-
     public AdapterForSubOrders(Context context, List<SubOrderDetails> subOrderDetailsList) {
         this.context = context;
         this.subOrderDetailsList = subOrderDetailsList;

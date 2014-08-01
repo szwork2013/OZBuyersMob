@@ -37,7 +37,7 @@ import org.json.JSONObject;
 public class StartUpActivity extends Activity implements View.OnClickListener {
     public static LinearLayout linearLayoutCategories;
     public static String searchString;
-    static boolean isFirstTime = true;
+   public static boolean isFirstTime = true;
     ActionBar actionBar;
     ImageView adBanner;
     ProviderSuccessResponse providerSuccessResponse;

@@ -40,7 +40,7 @@ import java.util.Date;
  * Created by avinash on 10/4/14.
  */
 public class DeliveryAddressActivity extends Activity {
-    static boolean isload = false, date_selected = false;
+  public static boolean isload = false, date_selected = false;
     int yy, mm, dd, mYear, mMonth, mDay;
     String date;
     DatePicker datePicker;

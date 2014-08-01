@@ -37,13 +37,11 @@ import java.util.List;
 public class AdapterForProviderCategories {
     Context context;
     List<ProviderDetails> providerDetailsList = new ArrayList<>();
-    //    List<ProductDetails> productDetailsList = new ArrayList<>();
     LinearLayout linearLayoutCategoryDetails;
     TextView textProviderName, txtProviderArea;
     ImageView imageProvider;
     GridView categoryDetailsGridView;
     int i;
-    int textViewHeight;
     ImageLoader imageLoader;
     DisplayImageOptions options;
 

@@ -35,8 +35,8 @@ import java.util.ArrayList;
  * Created by prajyot on 2/4/14.
  */
 public class SettingsActivity extends ActionBarActivity {
-    static String userID;
-    static boolean avoidFirstClick = false;
+    public static String userID;
+    public static boolean avoidFirstClick = false;
     Spinner languageSpinner;
     EditText userNameEditText, passwordEditText, address1EditText,
             address2EditText, cityEditText, areaEditText, pincodeEditText, countryEditText, editTextState;

@@ -20,6 +20,7 @@ import com.gls.orderzapp.Payment.PaymentSuccessResponse;
 import com.gls.orderzapp.R;
 import com.gls.orderzapp.Utility.Cart;
 import com.gls.orderzapp.Utility.GoogleAnalyticsUtility;
+import com.gls.orderzapp.Utility.ResetStaticData;
 import com.google.gson.Gson;
 
 import java.text.DateFormat;
@@ -99,14 +100,9 @@ public class FinalOrderActivity extends Activity {
     @Override
     public void onBackPressed() {
         successResponseForCreateOrder = null;
-//        DeliveryPaymentActivity.delivery_type = "";
-        DeliveryPaymentActivity.payment_mode = "";
-        DeliveryAddressActivity.date_selected = false;
+        ResetStaticData.ResetData();
         Intent goToStartUpActivity = new Intent(FinalOrderActivity.this, StartUpActivity.class);
         startActivity(goToStartUpActivity);
-        StartUpActivity.isFirstTime = true;
-//        HomeDeliveryAddressAdapter.size=0;
-//        PickupAddressAdapter.p_size=0;
         finish();
     }
 
@@ -240,14 +236,9 @@ public class FinalOrderActivity extends Activity {
     }
     public void continueShopping(View view) {
         successResponseForCreateOrder = null;
-//        DeliveryPaymentActivity.delivery_type = "";
-        DeliveryPaymentActivity.payment_mode = "";
-        DeliveryAddressActivity.date_selected = false;
+        ResetStaticData.ResetData();
         Intent goToStartUpActivity = new Intent(FinalOrderActivity.this, StartUpActivity.class);
         startActivity(goToStartUpActivity);
-        StartUpActivity.isFirstTime = true;
-//        HomeDeliveryAddressAdapter.size=0;
-//        PickupAddressAdapter.p_size=0;
         finish();
     }
 

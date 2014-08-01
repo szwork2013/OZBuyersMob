@@ -43,11 +43,11 @@ public class ProductCartActivity extends ActionBarActivity {
     public static ListView lst_product_cart;
     public static TextView txt_sub_total;
     static Context context;
-    static Button btn_place_an_order;
-    static RelativeLayout summary_details;
-    static LinearLayout delivery_layout, lstview;
-    static TextView txt_summary, textDeliveryCharges;
-    static ProductCartAdapter productCartAdapter;
+    public static Button btn_place_an_order;
+    public static RelativeLayout summary_details;
+    public static LinearLayout delivery_layout, lstview;
+    public static TextView txt_summary, textDeliveryCharges;
+    public static ProductCartAdapter productCartAdapter;
     ActionBar actionBar;
     EditText editPincode;
     Boolean isEditTextVisible;
