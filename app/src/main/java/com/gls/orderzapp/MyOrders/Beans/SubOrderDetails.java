@@ -13,9 +13,18 @@ public class SubOrderDetails {
     String deliverytype;
     ProviderLocation delivery_address;
     ProviderLocation billing_address;
+    ProviderLocation pickup_address;
     ProductProviderDetails productprovider;
     List<ProductDetails> products = new ArrayList<>();
     List<ServerSideTracking> tracking = new ArrayList<>();
+
+    public ProviderLocation getPickup_address() {
+        return pickup_address;
+    }
+
+    public void setPickup_address(ProviderLocation pickup_address) {
+        this.pickup_address = pickup_address;
+    }
 
     public List<ServerSideTracking> getTracking() {
         return tracking;
