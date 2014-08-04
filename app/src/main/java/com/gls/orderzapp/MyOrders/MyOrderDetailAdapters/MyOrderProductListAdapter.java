@@ -2,9 +2,11 @@ package com.gls.orderzapp.MyOrders.MyOrderDetailAdapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.gls.orderzapp.MyOrders.Beans.ProductConfiguration;
 import com.gls.orderzapp.MyOrders.Beans.ProductDetails;
 import com.gls.orderzapp.R;
 
@@ -31,6 +33,17 @@ public class MyOrderProductListAdapter {
             TextView quantity = (TextView) llProductList.findViewById(R.id.quantity);
             TextView price = (TextView) llProductList.findViewById(R.id.price);
             TextView subtotal = (TextView) llProductList.findViewById(R.id.subtotal);
+            TextView special_message = (TextView) llProductList.findViewById(R.id.special_message);
+            TextView message = (TextView) llProductList.findViewById(R.id.message);
+            LinearLayout ll_special_message = (LinearLayout) llProductList.findViewById(R.id.ll_special_message);
+
+            if(productDetailsList.get(i).getProductconfiguration().size() > 0){
+                ll_special_message.setVisibility(View.VISIBLE);
+                message.setText(configurationPrice(productDetailsList.get(i).getProductconfiguration())+"");
+            }else{
+                ll_special_message.setVisibility(View.GONE);
+            }
+
             if (productDetailsList.get(i).getProductname() != null) {
                 product_name.setText(productDetailsList.get(i).getProductname());
             }
@@ -40,5 +53,17 @@ public class MyOrderProductListAdapter {
 
             AdapterForSubOrders.ll.addView(llProductList);
         }
+    }
+
+    public double configurationPrice(List<ProductConfiguration> list) {
+        double configurationPrice = 0.0;
+        try {
+            for (int i = 0; i < list.size(); i++) {
+                configurationPrice = configurationPrice + list.get(i).getProd_configprice().getValue();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return configurationPrice;
     }
 }

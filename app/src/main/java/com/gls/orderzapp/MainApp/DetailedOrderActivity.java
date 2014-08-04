@@ -2,6 +2,7 @@ package com.gls.orderzapp.MainApp;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -25,6 +26,7 @@ public class DetailedOrderActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.detailed_order);
         ((GoogleAnalyticsUtility) getApplication()).getTracker(GoogleAnalyticsUtility.TrackerName.APP_TRACKER);
+        Log.d("order details", getIntent().getStringExtra("ORDER"));
         findViewsById();
         setOrderData();
     }
