@@ -37,7 +37,7 @@ public class ProductConfigurationActivity extends Activity {
     Context context;
     final int SIGN_IN = 0;
     Button add_configuration;
-    public static List<ProductDetails> cakeproductDetailes = new ArrayList();
+    public List<ProductDetails> cakeproductDetailes = new ArrayList();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,6 +88,7 @@ public class ProductConfigurationActivity extends Activity {
             cakeproductDetailes.clear();
             for (int i = 0; i < keySize; i++) {
                 if (Cart.hm.get(keys[i]).getProductconfiguration().getConfiguration().size() > 0) {
+
                     cakeproductDetailes.add(Cart.hm.get(keys[i]));
                 }
             }

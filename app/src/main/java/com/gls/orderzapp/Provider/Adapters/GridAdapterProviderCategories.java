@@ -16,6 +16,9 @@ import android.widget.TextView;
 
 import com.gls.orderzapp.MainApp.MoreProductsListActivity;
 import com.gls.orderzapp.Provider.Beans.BranchInfo;
+import com.gls.orderzapp.Provider.Beans.ProductConfiguration;
+import com.gls.orderzapp.Provider.Beans.ProductConfigurationDetails;
+import com.gls.orderzapp.Provider.Beans.ProductConfigurationPrice;
 import com.gls.orderzapp.Provider.Beans.ProductDetails;
 import com.gls.orderzapp.Provider.Beans.ProductPrice;
 import com.gls.orderzapp.Provider.Beans.ProviderDetails;
@@ -89,7 +92,6 @@ public class GridAdapterProviderCategories extends BaseAdapter {
             }
 
             Typeface pName = Typeface.createFromAsset(context.getAssets(), "Roboto-Light.ttf");
-
             ImageView imageProduct = (ImageView) convertView.findViewById(R.id.image_product);
             ImageView vegImage = (ImageView) convertView.findViewById(R.id.veg);
             ImageView nonVegImage = (ImageView) convertView.findViewById(R.id.non_veg);
@@ -228,7 +230,21 @@ public class GridAdapterProviderCategories extends BaseAdapter {
                                 productDetailsToAddIntoTheCart.setLocation(branchDetails.getLocation());
                             }
                             if (providerDetails.getProducts().get(position).getProductconfiguration() != null) {
-                                productDetailsToAddIntoTheCart.setProductconfiguration(providerDetails.getProducts().get(position).getProductconfiguration());
+                                ProductConfiguration productConfiguration = new ProductConfiguration();
+                                productConfiguration.setCategoryid(providerDetails.getProducts().get(position).getProductconfiguration().getCategoryid());
+                                productConfiguration.setCategoryname(providerDetails.getProducts().get(position).getProductconfiguration().getCategoryname());
+                                for(int i = 0; i < providerDetails.getProducts().get(position).getProductconfiguration().getConfiguration().size(); i++){
+                                    ProductConfigurationDetails pcd = new ProductConfigurationDetails();
+                                    pcd.setProd_configtype(providerDetails.getProducts().get(position).getProductconfiguration().getConfiguration().get(i).getProd_configtype());
+                                    pcd.setProd_configname(providerDetails.getProducts().get(position).getProductconfiguration().getConfiguration().get(i).getProd_configname());
+                                    pcd.setChecked(providerDetails.getProducts().get(position).getProductconfiguration().getConfiguration().get(i).isChecked());
+                                    pcd.setProd_configprice(providerDetails.getProducts().get(position).getProductconfiguration().getConfiguration().get(i).getProd_configprice());
+                                    pcd.setFoodType(providerDetails.getProducts().get(position).getProductconfiguration().getConfiguration().get(i).getFoodType());
+
+                                    productConfiguration.getConfiguration().add(pcd);
+                                }
+//                                productConfiguration.setConfiguration(providerDetails.getProducts().get(position).getProductconfiguration().getConfiguration());
+                                productDetailsToAddIntoTheCart.setProductconfiguration(productConfiguration);
                             }
                             productDetailsToAddIntoTheCart.setMessageonproduct("none");
                             if (providerDetails.getProvider().getProviderid() != null) {

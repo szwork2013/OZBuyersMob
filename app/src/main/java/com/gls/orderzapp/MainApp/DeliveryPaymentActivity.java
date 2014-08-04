@@ -223,6 +223,7 @@ public class DeliveryPaymentActivity extends Activity {
         timePicker = (TimePicker) dialogView.findViewById(R.id.timePicker);
         select_date = (Button) dialogView.findViewById(R.id.select_date);
 
+
         if(!delivery_date.getText().toString().trim().isEmpty()){
             String date = delivery_date.getText().toString().trim().split(" ")[0];
             int year = Integer.parseInt(date.split("-")[0]);
@@ -232,6 +233,7 @@ public class DeliveryPaymentActivity extends Activity {
             datePicker.updateDate(year, month-1, day);
             Log.d("year", date.split("-")[0]);
         }
+
         select_date.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

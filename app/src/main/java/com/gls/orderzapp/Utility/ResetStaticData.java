@@ -116,7 +116,7 @@ public class ResetStaticData {
     }
     public static void staticProductConfigurationActivity() throws Exception
     {
-        ProductConfigurationActivity.cakeproductDetailes.clear();
+//        ProductConfigurationActivity.cakeproductDetailes.clear();
         ProductConfigurationActivity.product_configuration_list.removeAllViews();
     }
     public static void staticOrderDetailsActivity() throws Exception

@@ -18,6 +18,7 @@ import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.gls.orderzapp.Provider.Beans.ProductDetails;
 import com.gls.orderzapp.R;
@@ -76,6 +77,7 @@ public class ProductConfigurationListAdapter extends BaseAdapter {
 
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
+        final int position1 = position;
         if (convertView == null) {
             LayoutInflater li = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = li.inflate(R.layout.product_configuration_item_list, null);
@@ -110,16 +112,16 @@ public class ProductConfigurationListAdapter extends BaseAdapter {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 
                 if (isChecked) {
-                    for (int i = 0; i < cakeList.get(position).getProductconfiguration().getConfiguration().size(); i++) {
-                        if (cakeList.get(position).getProductconfiguration().getConfiguration().get(i).getProd_configtype().equalsIgnoreCase("msg")) {
-                            cakeList.get(position).getProductconfiguration().getConfiguration().get(i).setChecked(true);
-                            message_price.setText((cakeList.get(position).getProductconfiguration().getConfiguration().get(i).getProd_configprice().getValue() * Double.parseDouble(cakeList.get(position).getQuantity())) + "");
+                    for (int i = 0; i < cakeList.get(position1).getProductconfiguration().getConfiguration().size(); i++) {
+                        if (cakeList.get(position1).getProductconfiguration().getConfiguration().get(i).getProd_configtype().equalsIgnoreCase("msg")) {
+                            cakeList.get(position1).getProductconfiguration().getConfiguration().get(i).setChecked(true);
+                            message_price.setText((cakeList.get(position1).getProductconfiguration().getConfiguration().get(i).getProd_configprice().getValue() * Double.parseDouble(cakeList.get(position1).getQuantity())) + "");
                         }
                     }
                 } else {
-                    for (int i = 0; i < cakeList.get(position).getProductconfiguration().getConfiguration().size(); i++) {
-                        if (cakeList.get(position).getProductconfiguration().getConfiguration().get(i).getProd_configtype().equalsIgnoreCase("msg")) {
-                            cakeList.get(position).getProductconfiguration().getConfiguration().get(i).setChecked(false);
+                    for (int i = 0; i < cakeList.get(position1).getProductconfiguration().getConfiguration().size(); i++) {
+                        if (cakeList.get(position1).getProductconfiguration().getConfiguration().get(i).getProd_configtype().equalsIgnoreCase("msg")) {
+                            cakeList.get(position1).getProductconfiguration().getConfiguration().get(i).setChecked(false);
                         }
                     }
                     message_price.setText("0.0");
@@ -128,15 +130,23 @@ public class ProductConfigurationListAdapter extends BaseAdapter {
         });
 
 
+        Log.d("cartt before adding conf", new Gson().toJson(Cart.hm));
         egg_eggless_group.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 switch (checkedId) {
                     case R.id.eggless:
-                        for (int i = 0; i < cakeList.get(position).getProductconfiguration().getConfiguration().size(); i++) {
-                            if (cakeList.get(position).getProductconfiguration().getConfiguration().get(i).getProd_configtype().equalsIgnoreCase("ftp")) {
-                                cakeList.get(position).getProductconfiguration().getConfiguration().get(i).setFoodType("eggless");
-                                egg_price.setText((cakeList.get(position).getProductconfiguration().getConfiguration().get(i).getProd_configprice().getValue() * Double.parseDouble(cakeList.get(position).getQuantity())) + "");
+                        for (int i = 0; i < cakeList.get(position1).getProductconfiguration().getConfiguration().size(); i++) {
+                            if (cakeList.get(position1).getProductconfiguration().getConfiguration().get(i).getProd_configtype().equalsIgnoreCase("ftp")) {
+                                Toast.makeText(context, cakeList.get(position).getCartCount(), Toast.LENGTH_LONG).show();
+                                Cart.addFoodTypeConfiguration(cakeList.get(position1).getCartCount(),
+                                                              cakeList.get(position1).getProductconfiguration().getConfiguration().get(i).getProd_configtype(),
+                                                              cakeList.get(position1).getProductconfiguration().getConfiguration().get(i).getProd_configname(),
+                                                              cakeList.get(position1).getProductconfiguration().getConfiguration().get(i).getProd_configprice(),
+                                                              cakeList.get(position1).getProductconfiguration().getConfiguration().get(i).isChecked(),
+                                                              "eggless");
+//                                cakeList.get(position1).getProductconfiguration().getConfiguration().get(i).setFoodType("eggless");
+                                egg_price.setText((cakeList.get(position1).getProductconfiguration().getConfiguration().get(i).getProd_configprice().getValue() * Double.parseDouble(cakeList.get(position1).getQuantity())) + "");
                             }
                         }
 
@@ -144,10 +154,16 @@ public class ProductConfigurationListAdapter extends BaseAdapter {
                         break;
                     case R.id.egg:
                         egg_price.setText("0.0");
-                        for (int i = 0; i < cakeList.get(position).getProductconfiguration().getConfiguration().size(); i++) {
-                            if (cakeList.get(position).getProductconfiguration().getConfiguration().get(i).getProd_configtype().equalsIgnoreCase("ftp")) {
-                                cakeList.get(position).getProductconfiguration().getConfiguration().get(i).setFoodType("egg");
-                            }
+                        for (int i = 0; i < cakeList.get(position1).getProductconfiguration().getConfiguration().size(); i++) {
+                            Cart.addFoodTypeConfiguration(cakeList.get(position1).getCartCount(),
+                                    cakeList.get(position1).getProductconfiguration().getConfiguration().get(i).getProd_configtype(),
+                                    cakeList.get(position1).getProductconfiguration().getConfiguration().get(i).getProd_configname(),
+                                    cakeList.get(position1).getProductconfiguration().getConfiguration().get(i).getProd_configprice(),
+                                    cakeList.get(position1).getProductconfiguration().getConfiguration().get(i).isChecked(),
+                                    "egg");
+//                            if (cakeList.get(position1).getProductconfiguration().getConfiguration().get(i).getProd_configtype().equalsIgnoreCase("ftp")) {
+//                                cakeList.get(position1).getProductconfiguration().getConfiguration().get(i).setFoodType("egg");
+//                            }
                         }
                         break;
                 }
@@ -201,7 +217,7 @@ public class ProductConfigurationListAdapter extends BaseAdapter {
             @Override
             public void afterTextChanged(Editable s) {
 
-                Cart.addMessageOnCake(mKeys[position], cakeList.get(position), tempEditText.getText().toString().trim());
+                Cart.addMessageOnCake(mKeys[position1], cakeList.get(position1), tempEditText.getText().toString().trim());
             }
         };
 

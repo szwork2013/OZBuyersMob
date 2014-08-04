@@ -16,6 +16,7 @@ import com.gls.orderzapp.CreateOrder.CreateOrderBeans.ProductConfiguration;
 import com.gls.orderzapp.CreateOrder.CreateOrderBeans.SuccessResponseForDeliveryChargesAndType;
 import com.gls.orderzapp.MainApp.CartActivity;
 import com.gls.orderzapp.Provider.Beans.DeliveryType;
+import com.gls.orderzapp.Provider.Beans.ProductConfigurationPrice;
 import com.gls.orderzapp.Provider.Beans.ProductDetails;
 import com.gls.orderzapp.R;
 import com.google.gson.Gson;
@@ -390,6 +391,29 @@ public static int deleteConfigObject()
         for(int i = 0; i < hm.size(); i++){
             if(hm.get(keys[i]).getBranchid().equals(branchid)){
                 hm.get(keys[i]).getDeliveryType().setOrderinstructions(orderInstruction);
+            }
+        }
+    }
+
+
+    public static void addFoodTypeConfiguration(String cartCount,
+                                                String prod_configtype,
+                                                String prod_configname,
+                                                ProductConfigurationPrice prod_configprice,
+                                                boolean checked,
+                                                String foodType){
+        String[] keys = Cart.hm.keySet().toArray(new String[hm.size()]);
+        for(int i = 0 ; i < hm.size(); i++){
+            if(cartCount.equals(Cart.hm.get(keys[i]).getCartCount())){
+                for(int j = 0; j < hm.get(keys[i]).getProductconfiguration().getConfiguration().size(); j++){
+                    if(hm.get(keys[i]).getProductconfiguration().getConfiguration().get(j).getProd_configtype().equals("ftp")) {
+                        hm.get(keys[i]).getProductconfiguration().getConfiguration().get(j).setChecked(checked);
+                        hm.get(keys[i]).getProductconfiguration().getConfiguration().get(j).setFoodType(foodType);
+                        hm.get(keys[i]).getProductconfiguration().getConfiguration().get(j).setProd_configname(prod_configname);
+                        hm.get(keys[i]).getProductconfiguration().getConfiguration().get(j).setProd_configprice(prod_configprice);
+                        hm.get(keys[i]).getProductconfiguration().getConfiguration().get(j).setProd_configtype(prod_configtype);
+                    }
+                }
             }
         }
     }

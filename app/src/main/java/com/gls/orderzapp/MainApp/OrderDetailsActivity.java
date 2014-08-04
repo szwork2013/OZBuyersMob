@@ -188,6 +188,7 @@ public class OrderDetailsActivity extends Activity {
                     }
                 }
                 try {
+                    Log.d("configuration", new Gson().toJson(cartDetails.get(i).getProductconfiguration()));
                     if (cartDetails.get(i).getProductconfiguration().getConfiguration().size() > 0) {
                         for (int j = 0; j < cartDetails.get(i).getProductconfiguration().getConfiguration().size(); j++) {
                             if (cartDetails.get(i).getProductconfiguration().getConfiguration().get(j).getFoodType() != null) {
