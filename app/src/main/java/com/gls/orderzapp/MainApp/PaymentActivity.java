@@ -105,7 +105,7 @@ public class PaymentActivity extends Activity {
             public void onTransactionSuccess(Bundle inResponse) {
                 // After successful transaction this method gets called.
                 // Response bundle contains the merchant response parameters.
-                Toast.makeText(getApplicationContext(), "Transaction success", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "Payment Transaction Success", Toast.LENGTH_SHORT).show();
 
                     //successResponseForCreateOrder.getSuccess().getOrder().ge
 
