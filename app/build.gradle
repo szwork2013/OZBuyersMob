@@ -20,6 +20,21 @@ android {
         }
     }
     productFlavors {
+        devFlavor {
+            packageName "com.gls.orderzapp.dev"
+        }
+
+        demoFlavor {
+            packageName "com.gls.orderzapp.demo"
+        }
+
+        productionFlavor {
+            packageName "com.gls.orderzapp.prod"
+        }
+
+        productionSecureFlavor {
+            packageName "com.gls.orderzapp.prodsecure"
+        }
     }
 }
 

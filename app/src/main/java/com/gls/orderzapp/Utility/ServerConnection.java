@@ -3,6 +3,8 @@ package com.gls.orderzapp.Utility;
 import android.content.Context;
 import android.util.Log;
 
+import com.gls.orderzapp.OZConstants;
+
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -35,16 +37,8 @@ public class ServerConnection {
     //************Devlopment
 //    public static final String url = "http://ec2-54-254-210-45.ap-southeast-1.compute.amazonaws.com:5000";
     //************demo
-    public static final String url = "http://ec2-54-254-210-45.ap-southeast-1.compute.amazonaws.com:7000";
-    //****************Production-https
-//    public static final String url = "https://ec2-54-255-211-121.ap-southeast-1.compute.amazonaws.com";
-//****************Production-http
-//    public static final String url = "http://ec2-54-255-211-121.ap-southeast-1.compute.amazonaws.com";
-    //************test
-//    public static final String url = "http://192.168.1.39:8080";
-    //************Ext Test
-//    public static final String url = "http://ec2-54-254-210-45.ap-southeast-1.compute.amazonaws.com:6000";
-    //    public static final String url="http://192.168.1.40:5000";
+    public static String url = "";
+
     public static HttpClient getHttpClient() {
         if (httpClient == null) {
             httpClient = new DefaultHttpClient();
@@ -63,6 +57,15 @@ public class ServerConnection {
     }
 
     public static String getUrl() {
+        if ( OZConstants.OZ_ENVIRONMENT == "PRODUCTION SECURE" ) {
+            url = OZConstants.OZ_REST_URL;
+        } else if ( OZConstants.OZ_ENVIRONMENT == "PRODUCTION" ) {
+            url = OZConstants.OZ_REST_URL;
+        } else if ( OZConstants.OZ_ENVIRONMENT == "DEVELOPMENT" ) {
+            url = OZConstants.OZ_REST_URL;
+        } else if ( OZConstants.OZ_ENVIRONMENT == "DEMO" ) {
+            url = OZConstants.OZ_REST_URL;
+        }
         return url;
     }
 
