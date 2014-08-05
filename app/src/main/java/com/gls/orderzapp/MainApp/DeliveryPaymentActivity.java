@@ -166,26 +166,18 @@ public class DeliveryPaymentActivity extends Activity {
 
     public void proceedToPay(View view) {
         try {
-            Log.d("Condition","1");
             if (payment_mode.isEmpty()) {
                 Toast.makeText(getApplicationContext(), "Please select a payment mode", Toast.LENGTH_LONG).show();
                 return;
             }
-            Log.d("Condition","2");
             if (date.isEmpty()) {
                 Toast.makeText(getApplicationContext(), "Please select your expected delivery date", Toast.LENGTH_LONG).show();
                 return;
             }
-            Log.d("Condition","3");
             if (DisplayDeliveryChargesAndType.deliveryTypeCheck() ==false) {
-                Log.d("Condition","4");
-//                Toast.makeText(context, "Please select a Delivery Type", Toast.LENGTH_LONG).show();
-                DisplayDeliveryChargesAndType.deliveryTypeCheck();
                 return;
             }
-            Log.d("Condition","5");
             setDataForBillingAndDeliveryAddress();
-            Log.d("deliverytype", new Gson().toJson(DisplayDeliveryChargesAndType.deliveryType));
         } catch (Exception e) {
             e.printStackTrace();
         }
