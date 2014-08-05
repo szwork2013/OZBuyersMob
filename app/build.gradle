@@ -24,6 +24,10 @@ android {
             packageName "com.gls.orderzapp.dev"
         }
 
+        testFlavor {
+            packageName "com.gls.orderzapp.test"
+        }
+
         demoFlavor {
             packageName "com.gls.orderzapp.demo"
         }
