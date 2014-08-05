@@ -16,16 +16,18 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
-
 import com.gls.orderzapp.Cart.Adapters.CartAdapter;
+import com.gls.orderzapp.CreateOrder.CreateOrderBeans.CheckDeliveryTimeSlots;
 import com.gls.orderzapp.R;
 import com.gls.orderzapp.Utility.Cart;
 import com.gls.orderzapp.Utility.CheckConnection;
 import com.gls.orderzapp.Utility.ServerConnection;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -48,7 +50,9 @@ public class CartActivity extends Activity {
     Button delivery_date;
     AlertDialog alertDialog;
     String date = "";
-    boolean date_selected = false;
+    String productId = "";
+    ArrayList<String> listOfProductIdforDelivery = new ArrayList<>();
+    public CheckDeliveryTimeSlots productIdsForGettingTimeSlots;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,7 +62,99 @@ public class CartActivity extends Activity {
         findViewsById();
 
     }
+    public String getDeliverTimeSlots() {
+        String resultOfDeliveryTimeSlot = "";
+        String jsonToSendOverServer = "";
+        try {
+            GsonBuilder gBuild = new GsonBuilder();
+            Gson gson = gBuild.disableHtmlEscaping().create();
+            jsonToSendOverServer = gson.toJson(productIdsForGettingTimeSlots);
+            Log.d("jsonToSendOverServerProductIds", jsonToSendOverServer);
+            resultOfDeliveryTimeSlot = ServerConnection.executePost1(jsonToSendOverServer, "/api/deliverytimeslots");
 
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return resultOfDeliveryTimeSlot;
+    }
+
+
+    public class GetDeliveryTimeSlotsAsync extends AsyncTask<String, Integer, String> {
+        JSONObject jObj;
+        String connectedOrNot, resultOfDeliveryTimeSlots, msg, code;
+        ProgressDialog progressDialog;
+
+        @Override
+        protected void onPreExecute() {
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+            try {
+                if (new CheckConnection(context).isConnectingToInternet()) {
+                    connectedOrNot = "success";
+                    resultOfDeliveryTimeSlots = getDeliverTimeSlots();
+                    if (!resultOfDeliveryTimeSlots.isEmpty()) {
+                        Log.d("resultOfDeliveryTimeSlots", resultOfDeliveryTimeSlots);
+                        jObj = new JSONObject(resultOfDeliveryTimeSlots);
+                        if (jObj.has("success")) {
+
+                            Log.d("Successresponse for delivery time slots", resultOfDeliveryTimeSlots);
+                        } else {
+                            JSONObject jObjError = jObj.getJSONObject("error");
+                            msg = jObjError.getString("message");
+                            code = jObjError.getString("code");
+
+                        }
+                    }
+                } else {
+                    connectedOrNot = "error";
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return connectedOrNot;
+        }
+
+        @Override
+        protected void onPostExecute(String connectedOrNot) {
+//            progressDialog.dismiss();
+            try {
+                if (connectedOrNot.equalsIgnoreCase("success")) {
+                    if (!resultOfDeliveryTimeSlots.isEmpty()) {
+                        if (jObj.has("success")) {
+
+                        } else {
+                            Toast.makeText(context, msg, Toast.LENGTH_LONG).show();
+                        }
+                    } else {
+                        Toast.makeText(context, "Server is not responding please try again later", Toast.LENGTH_LONG).show();
+                    }
+                } else {
+                    Toast.makeText(context, "Please check your internet connection", Toast.LENGTH_LONG).show();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+    public void getProductIds() {
+        productIdsForGettingTimeSlots= new CheckDeliveryTimeSlots();
+        String[] mKeys = Cart.hm.keySet().toArray(new String[Cart.hm.size()]);
+        for (int i = 0; i < Cart.getCount(); i++) {
+            productId = Cart.hm.get(mKeys[i]).getProductid();
+            Log.d("productId",productId);
+            if (!listOfProductIdforDelivery.contains(productId)) {
+                listOfProductIdforDelivery.add(productId);
+            }
+        }
+        Log.d("Date",date);
+        Log.d("listOfProductIdforDelivery",new Gson().toJson(listOfProductIdforDelivery));
+        productIdsForGettingTimeSlots.setPreferred_delivery_date(date);
+        productIdsForGettingTimeSlots.setProductids(listOfProductIdforDelivery);
+        Log.d("productIdsForGettingTimeSlots",new Gson().toJson(productIdsForGettingTimeSlots));
+
+    }
     @Override
     public void onBackPressed() {
         super.onBackPressed();
@@ -114,9 +210,7 @@ public class CartActivity extends Activity {
             int year = Integer.parseInt(date.split("-")[0]);
             int month = Integer.parseInt(date.split("-")[1]);
             int day = Integer.parseInt(date.split("-")[2]);
-
             datePicker.updateDate(year, month - 1, day);
-            Log.d("year", date.split("-")[0]);
         }
         select_date.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -132,17 +226,16 @@ public class CartActivity extends Activity {
                 calendar.set(Calendar.DAY_OF_MONTH, dd);
                 calendar.set(Calendar.HOUR_OF_DAY, hh);
                 calendar.set(Calendar.MINUTE, min);
-
                 Date selectedDate = calendar.getTime();
                 Date TodaysDate = c.getTime();
-                Log.d("selected date", new Gson().toJson(selectedDate));
-                Log.d("current date", new Gson().toJson(TodaysDate));
                 if (selectedDate.before(TodaysDate)) {
                     Toast.makeText(getApplicationContext(), "Please select a valid date and time", Toast.LENGTH_LONG).show();
 
                 } else {
 
                     updateTime(yy, mm, dd, hh, min);
+//                    getProductIds();
+//                    new GetDeliveryTimeSlotsAsync().execute();
                 }
             }
         });
@@ -184,10 +277,7 @@ public class CartActivity extends Activity {
 
         //dialog.cancel();
         delivery_date.setText(date);
-
-        date_selected = true;
         alertDialog.dismiss();
-
     }
 
     public void selectArea(View view) {
@@ -201,7 +291,6 @@ public class CartActivity extends Activity {
             ll_noproducts.setVisibility(View.GONE);
             ll_products.setVisibility(View.VISIBLE);
             try {
-//                area_text.setText(loadPreferences());
                 Cart.deleteFromCartIfQuantityIsZero();
                 new CartAdapter(context);
                 grand_total.setText(Cart.subTotal() + "");

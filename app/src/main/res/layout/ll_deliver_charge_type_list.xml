@@ -90,9 +90,9 @@
                     android:textSize="14sp"
                     android:gravity="center"
                     android:padding="5dp"
-android:visibility="gone"
+                    android:visibility="gone"
                     android:background="@drawable/date_background"
-                    android:text="@string/select_pickup_address"
+                    android:hint="@string/select_pickup_address"
                     android:layout_height="30dp" />
                 </LinearLayout>
                 <LinearLayout

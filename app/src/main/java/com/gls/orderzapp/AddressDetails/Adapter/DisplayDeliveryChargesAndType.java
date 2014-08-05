@@ -23,6 +23,7 @@ import com.gls.orderzapp.MainApp.SelectPickUpAddressActivity;
 import com.gls.orderzapp.Provider.Beans.ProductDetails;
 import com.gls.orderzapp.R;
 import com.gls.orderzapp.Utility.Cart;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,7 +43,7 @@ public class DisplayDeliveryChargesAndType {
     public static List<Button> listPickUpButtons = new ArrayList<>();
     public String[] providerid;
     int i = 0;
-    static List<ProductDetails> checkForDeliveryModeList;
+    public static List<ProductDetails> checkForDeliveryModeList;
     EditText tempEditText = null;
     String tag = "";
 
@@ -60,6 +61,8 @@ public class DisplayDeliveryChargesAndType {
 
     public static boolean deliveryTypeCheck() {
         boolean deliverycheck = false;
+        Log.d("checkForDeliveryModeList.size()",checkForDeliveryModeList.size()+"");
+        Log.d("deliveryType.size()",deliveryType.size()+"");
         if(checkForDeliveryModeList.size()==deliveryType.size()) {
             for (int l = 0; l < checkForDeliveryModeList.size(); l++) {
                 if (deliveryType.get(l) != null) {
@@ -68,6 +71,8 @@ public class DisplayDeliveryChargesAndType {
                         {
                             deliverycheck = false;
                             Toast.makeText(context, "Please select your pickup address", Toast.LENGTH_LONG).show();
+                            Log.d("1", "1");
+                            break;
                         }else
                         {deliverycheck = true;}
 
@@ -77,13 +82,16 @@ public class DisplayDeliveryChargesAndType {
                     }
                 } else {
                     Toast.makeText(context, "Please select your delivery type", Toast.LENGTH_LONG).show();
+                    Log.d("2","2");
                     deliverycheck = false;
+                    break;
                 }
 
             }
         }else
         {
             Toast.makeText(context, "Please select your delivery type", Toast.LENGTH_LONG).show();
+            Log.d("3","3");
             deliverycheck = false;
         }
         return deliverycheck;
@@ -147,21 +155,19 @@ public class DisplayDeliveryChargesAndType {
                             btn_selct_pickup_address.setVisibility(View.VISIBLE);
                             for (int k = 0; k < deliveryType.size(); k++) {
                                 if (deliveryType.get(k).split("_")[0].equals(checkForDeliveryModeList.get(group.getId() - 200).getBranchid())) {
-                                    deliveryType.remove(checkForDeliveryModeList.get(group.getId() - 200));
+                                    deliveryType.remove(checkForDeliveryModeList.get(group.getId() - 200).getBranchid()+"_"+"home");
                                 }
                             }
                             deliveryType.add(checkForDeliveryModeList.get(group.getId() - 200).getBranchid() + "_" + "pickup");
-
                             break;
 
                         case R.id.home_delivery:
                             ll_delivery_charges.setVisibility(View.VISIBLE);
-//                            Toast.makeText(context, checkForDeliveryModeList.get(group.getId() - 200).getProviderName() , Toast.LENGTH_LONG).show();
                             Cart.saveDeliveryTypeInfoInCart(checkForDeliveryModeList.get(group.getId() - 200).getBranchid(), "home");
                             btn_selct_pickup_address.setVisibility(View.INVISIBLE);
                             for (int k = 0; k < deliveryType.size(); k++) {
                                 if (deliveryType.get(k).split("_")[0].equals(checkForDeliveryModeList.get(group.getId() - 200).getBranchid())) {
-                                    deliveryType.remove(checkForDeliveryModeList.get(group.getId() - 200));
+                                    deliveryType.remove(checkForDeliveryModeList.get(group.getId() - 200).getBranchid()+"_"+"pickup");
                                 }
                             }
                             deliveryType.add(checkForDeliveryModeList.get(group.getId() - 200).getBranchid() + "_" + "home");

@@ -104,7 +104,8 @@
     <string name="select">Select</string>
     <string name="areawithcolon">Area : </string>
     <string name="deliverdateandtime">Date and Time : </string>
-    <string name="delivery_date">Delivery Date : </string>
-    <string name="deliverytime_slot">Delivery Time Slots :</string>
+    <string name="delivery_date">Date : </string>
+    <string name="deliverytime_slot">Time Slots :</string>
+    <string name="availability">Availability : </string>
 
 </resources>

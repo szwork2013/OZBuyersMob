@@ -13,7 +13,6 @@ import com.gls.orderzapp.CreateOrder.CreateOrderAdapters.AdapterForMultipleProvi
 import com.gls.orderzapp.CreateOrder.OrderResponseAdapters.AdapterForFinalOrderMultipleProviders;
 import com.gls.orderzapp.MainApp.CartActivity;
 import com.gls.orderzapp.MainApp.ChangeAddressActivity;
-import com.gls.orderzapp.MainApp.DeliveryAddressActivity;
 import com.gls.orderzapp.MainApp.DeliveryPaymentActivity;
 import com.gls.orderzapp.MainApp.DetailedOrderActivity;
 import com.gls.orderzapp.MainApp.FinalOrderActivity;
@@ -48,7 +47,6 @@ public class ResetStaticData {
            staticAdapterForFinalOrderMultipleProviders();
            staticCartActivity();
            staticChangeAddressActivity();
-           staticDeliveryAddressActivity();
            staticDeliveryPaymentActivity();
            staticDetailedOrderActivity();
            staticFinalOrderActivity();
@@ -158,11 +156,7 @@ public class ResetStaticData {
         DeliveryPaymentActivity.billing_address_textview.setText("");
         DeliveryPaymentActivity.ll_deliver_charge_type.removeAllViews();
     }
-    public static void staticDeliveryAddressActivity() throws Exception
-    {
-        DeliveryAddressActivity.date_selected = false;
-        DeliveryAddressActivity.isload=false;
-    }
+
     public static void staticChangeAddressActivity() throws Exception
     {
 
@@ -212,9 +206,10 @@ public class ResetStaticData {
     public static void staticDisplayDeliveryChargesAndType() throws Exception
     {
         DisplayDeliveryChargesAndType.order_instruction=null;
-        DisplayDeliveryChargesAndType.deliveryType=null;
+        DisplayDeliveryChargesAndType.checkForDeliveryModeList.clear();
+        DisplayDeliveryChargesAndType.deliveryType.clear();
         DisplayDeliveryChargesAndType.listOfDeliveryCharges=null;
-        DisplayDeliveryChargesAndType.listOfPickupAddresses=null;
+//        DisplayDeliveryChargesAndType.listOfPickupAddresses=null;
         DisplayDeliveryChargesAndType.listPickUpButtons.clear();
     }
     public static void staticAdapterForPickUpAddressList() throws Exception
