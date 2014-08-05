@@ -11,12 +11,31 @@ public class SubOrderDetails {
     String suborderid;
     String suborder_price;
     String deliverytype;
+    String prefdeldtime;
+    double deliverycharge;
     ProviderLocation delivery_address;
     ProviderLocation billing_address;
     ProviderLocation pickup_address;
     ProductProviderDetails productprovider;
     List<ProductDetails> products = new ArrayList<>();
     List<ServerSideTracking> tracking = new ArrayList<>();
+
+
+    public String getPrefdeldtime() {
+        return prefdeldtime;
+    }
+
+    public void setPrefdeldtime(String prefdeldtime) {
+        this.prefdeldtime = prefdeldtime;
+    }
+
+    public double getDeliverycharge() {
+        return deliverycharge;
+    }
+
+    public void setDeliverycharge(double deliverycharge) {
+        this.deliverycharge = deliverycharge;
+    }
 
     public ProviderLocation getPickup_address() {
         return pickup_address;

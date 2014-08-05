@@ -10,10 +10,19 @@ public class ProductDetails {
     String productid;
     String productname;
     double qty;
+    double baseprice;
     double orderprice;
     String productlogo;
     String uom;
     List<ProductConfiguration> productconfiguration = new ArrayList<>();
+
+    public double getBaseprice() {
+        return baseprice;
+    }
+
+    public void setBaseprice(double baseprice) {
+        this.baseprice = baseprice;
+    }
 
     public List<ProductConfiguration> getProductconfiguration() {
         return productconfiguration;

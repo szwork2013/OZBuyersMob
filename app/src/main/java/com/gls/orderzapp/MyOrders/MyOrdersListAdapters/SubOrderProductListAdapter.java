@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.gls.orderzapp.MyOrders.Beans.ProductDetails;
 import com.gls.orderzapp.R;
@@ -32,6 +33,7 @@ public class SubOrderProductListAdapter extends BaseAdapter {
     ImageLoader imageLoader;
     DisplayImageOptions options;
     Typeface tfRobotoNormal;
+    boolean isVisible = false;
 
     public SubOrderProductListAdapter(Context context, List<ProductDetails> productDetailsList) {
         this.context = context;
@@ -74,6 +76,7 @@ public class SubOrderProductListAdapter extends BaseAdapter {
         TextView quantity = (TextView) convertView.findViewById(R.id.quantity);
         TextView uom = (TextView) convertView.findViewById(R.id.txt_uom);
         TextView actual_price = (TextView) convertView.findViewById(R.id.actual_price);
+        final ImageView image = (ImageView) convertView.findViewById(R.id.image);
 
         String imageLogo = new Gson().toJson(productDetailsList.get(position));
         try {
@@ -110,11 +113,24 @@ public class SubOrderProductListAdapter extends BaseAdapter {
             e.printStackTrace();
         }
 
+        convertView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(context, "clicked", Toast.LENGTH_LONG).show();
+                if(isVisible == false){
+                    isVisible = true;
+                    image.setVisibility(View.VISIBLE);
+                }else{
+                    isVisible = false;
+                    image.setVisibility(View.GONE);
+                }
+            }
+        });
         textProductPrice.setTypeface(tfRobotoNormal);
         quantity.setTypeface(tfRobotoNormal);
         actual_price.setTypeface(tfRobotoNormal);
         txt_product_name.setTypeface(tfRobotoNormal);
-        textProductPrice.setText(String.format("%.2f", productDetailsList.get(position).getOrderprice() / productDetailsList.get(position).getQty()));
+        textProductPrice.setText(String.format("%.2f", productDetailsList.get(position).getBaseprice()));
         quantity.setText(String.format("%.2f", productDetailsList.get(position).getQty()));
         uom.setText(productDetailsList.get(position).getUom());
         txt_product_name.setText(productDetailsList.get(position).getProductname());

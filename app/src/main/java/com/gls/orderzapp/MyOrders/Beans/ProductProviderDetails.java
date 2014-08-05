@@ -8,8 +8,18 @@ public class ProductProviderDetails {
     String providerid;
     String providerlogo;
     String providername;
+    String providerbrandname;
     String branchname;
     ProviderLocation location;
+
+
+    public String getProviderbrandname() {
+        return providerbrandname;
+    }
+
+    public void setProviderbrandname(String providerbrandname) {
+        this.providerbrandname = providerbrandname;
+    }
 
     public String getBranchname() {
         return branchname;

@@ -1,6 +1,7 @@
 package com.gls.orderzapp.MyOrders.MyOrderDetailAdapters;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -8,6 +9,8 @@ import android.widget.TextView;
 
 import com.gls.orderzapp.MyOrders.Beans.ProductConfiguration;
 import com.gls.orderzapp.MyOrders.Beans.ProductDetails;
+import com.gls.orderzapp.ProductConfiguration.Adapter.ConfigurationPopupMenuMyOrders;
+import com.gls.orderzapp.ProductConfiguration.Adapter.PopUpForDisplayProductConfigurationOnFinalOrder;
 import com.gls.orderzapp.R;
 
 import java.util.List;
@@ -48,9 +51,17 @@ public class MyOrderProductListAdapter {
                 product_name.setText(productDetailsList.get(i).getProductname());
             }
             quantity.setText(productDetailsList.get(i).getQty() + " " + productDetailsList.get(i).getUom());
-            price.setText(String.format("%.2f", productDetailsList.get(i).getOrderprice()));
-            subtotal.setText(String.format("%.2f", productDetailsList.get(i).getOrderprice()));
+            price.setText(String.format("%.2f", productDetailsList.get(i).getBaseprice()));
+            subtotal.setText(String.format("%.2f", productDetailsList.get(i).getBaseprice() * productDetailsList.get(i).getQty()));
 
+            ll_special_message.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Log.d("PopUp", "FinalOrder");
+                    new ConfigurationPopupMenuMyOrders(context,v,productDetailsList.get(v.getId()-1000).getProductconfiguration()).displayConfigurationCharges();
+                }
+            });
+            ll_special_message.setId(1000 + i);
             AdapterForSubOrders.ll.addView(llProductList);
         }
     }
