@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -94,6 +95,9 @@ public class CartAdapter {
                 TextView textProviderName = (TextView) llCartListItemView.findViewById(R.id.textProviderName);
                 TextView delivery_type = (TextView) llCartListItemView.findViewById(R.id.delivery_type);
                 TextView txt_provider_note = (TextView) llCartListItemView.findViewById(R.id.txt_provider_note);
+                TextView delivery_date_on_shoppingcart = (TextView) llCartListItemView.findViewById(R.id.delivery_date_on_shoppingcart);
+                Spinner spn_timeslot= (Spinner) llCartListItemView.findViewById(R.id.spn_timeslot);
+                TextView delivery_timeslot = (TextView) llCartListItemView.findViewById(R.id.delivery_timeslot);
                 Button btn_productcart_privacy = (Button)llCartListItemView.findViewById(R.id.btn_productcart_privacy);
                 sub_total = (TextView) llCartListItemView.findViewById(R.id.sub_total);
                 listText.add(sub_total);

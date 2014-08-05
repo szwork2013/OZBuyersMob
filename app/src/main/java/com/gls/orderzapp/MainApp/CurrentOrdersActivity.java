@@ -3,6 +3,7 @@ package com.gls.orderzapp.MainApp;
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.gls.orderzapp.MyOrders.Beans.SuccessResponseForMyOrders;
@@ -62,6 +63,7 @@ public class CurrentOrdersActivity extends MyOrdersListActivity {
                 if (new CheckConnection(getApplicationContext()).isConnectingToInternet()) {
                     connectedOrNot = "success";
                     resultOfMyOrders = getMyOrders("current");
+                    Log.d("myorders list", resultOfMyOrders);
                     if (!resultOfMyOrders.isEmpty()) {
                         jObj = new JSONObject(resultOfMyOrders);
                         if (jObj.has("success")) {

@@ -129,7 +129,11 @@ public class StartUpActivity extends Activity implements View.OnClickListener {
     }
 
     public void onCreateOptions(Menu menu) {
-        menu.findItem(R.id.cart).getActionView().setOnClickListener(this);
+        try {
+            menu.findItem(R.id.cart).getActionView().setOnClickListener(this);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
         Cart.cartCount(menu);
         if (SignInActivity.islogedin == true) {
             signin.setVisible(false);

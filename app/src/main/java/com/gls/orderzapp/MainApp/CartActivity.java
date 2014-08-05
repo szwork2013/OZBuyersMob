@@ -1,27 +1,35 @@
 package com.gls.orderzapp.MainApp;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.TimePicker;
 import android.widget.Toast;
-
 import com.gls.orderzapp.Cart.Adapters.CartAdapter;
+import com.gls.orderzapp.CreateOrder.CreateOrderBeans.CheckDeliveryTimeSlots;
 import com.gls.orderzapp.R;
 import com.gls.orderzapp.Utility.Cart;
 import com.gls.orderzapp.Utility.CheckConnection;
 import com.gls.orderzapp.Utility.ServerConnection;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 /**
  * Created by prajyot on 10/7/14.
@@ -29,12 +37,22 @@ import org.json.JSONObject;
 public class CartActivity extends Activity {
 
     public static LinearLayout llCartList;
+    public static TextView area_text, grand_total;
+    static Context context;
+    final int SIGN_IN = 0;
     LinearLayout ll_products;
     LinearLayout ll_noproducts;
-    static Context context;
     Button place_an_order_button;
-    public static TextView area_text, grand_total;
-    final int SIGN_IN = 0;
+    Calendar c;
+    int mYear, mMonth, mDay, yy, mm, dd, hh, min, cHH, cMin, cAm_Pm;
+    DatePicker datePicker;
+    TimePicker timePicker;
+    Button delivery_date;
+    AlertDialog alertDialog;
+    String date = "";
+    String productId = "";
+    ArrayList<String> listOfProductIdforDelivery = new ArrayList<>();
+    public CheckDeliveryTimeSlots productIdsForGettingTimeSlots;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,7 +62,99 @@ public class CartActivity extends Activity {
         findViewsById();
 
     }
+    public String getDeliverTimeSlots() {
+        String resultOfDeliveryTimeSlot = "";
+        String jsonToSendOverServer = "";
+        try {
+            GsonBuilder gBuild = new GsonBuilder();
+            Gson gson = gBuild.disableHtmlEscaping().create();
+            jsonToSendOverServer = gson.toJson(productIdsForGettingTimeSlots);
+            Log.d("jsonToSendOverServerProductIds", jsonToSendOverServer);
+            resultOfDeliveryTimeSlot = ServerConnection.executePost1(jsonToSendOverServer, "/api/deliverytimeslots");
 
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return resultOfDeliveryTimeSlot;
+    }
+
+
+    public class GetDeliveryTimeSlotsAsync extends AsyncTask<String, Integer, String> {
+        JSONObject jObj;
+        String connectedOrNot, resultOfDeliveryTimeSlots, msg, code;
+        ProgressDialog progressDialog;
+
+        @Override
+        protected void onPreExecute() {
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+            try {
+                if (new CheckConnection(context).isConnectingToInternet()) {
+                    connectedOrNot = "success";
+                    resultOfDeliveryTimeSlots = getDeliverTimeSlots();
+                    if (!resultOfDeliveryTimeSlots.isEmpty()) {
+                        Log.d("resultOfDeliveryTimeSlots", resultOfDeliveryTimeSlots);
+                        jObj = new JSONObject(resultOfDeliveryTimeSlots);
+                        if (jObj.has("success")) {
+
+                            Log.d("Successresponse for delivery time slots", resultOfDeliveryTimeSlots);
+                        } else {
+                            JSONObject jObjError = jObj.getJSONObject("error");
+                            msg = jObjError.getString("message");
+                            code = jObjError.getString("code");
+
+                        }
+                    }
+                } else {
+                    connectedOrNot = "error";
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return connectedOrNot;
+        }
+
+        @Override
+        protected void onPostExecute(String connectedOrNot) {
+//            progressDialog.dismiss();
+            try {
+                if (connectedOrNot.equalsIgnoreCase("success")) {
+                    if (!resultOfDeliveryTimeSlots.isEmpty()) {
+                        if (jObj.has("success")) {
+
+                        } else {
+                            Toast.makeText(context, msg, Toast.LENGTH_LONG).show();
+                        }
+                    } else {
+                        Toast.makeText(context, "Server is not responding please try again later", Toast.LENGTH_LONG).show();
+                    }
+                } else {
+                    Toast.makeText(context, "Please check your internet connection", Toast.LENGTH_LONG).show();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+    public void getProductIds() {
+        productIdsForGettingTimeSlots= new CheckDeliveryTimeSlots();
+        String[] mKeys = Cart.hm.keySet().toArray(new String[Cart.hm.size()]);
+        for (int i = 0; i < Cart.getCount(); i++) {
+            productId = Cart.hm.get(mKeys[i]).getProductid();
+            Log.d("productId",productId);
+            if (!listOfProductIdforDelivery.contains(productId)) {
+                listOfProductIdforDelivery.add(productId);
+            }
+        }
+        Log.d("Date",date);
+        Log.d("listOfProductIdforDelivery",new Gson().toJson(listOfProductIdforDelivery));
+        productIdsForGettingTimeSlots.setPreferred_delivery_date(date);
+        productIdsForGettingTimeSlots.setProductids(listOfProductIdforDelivery);
+        Log.d("productIdsForGettingTimeSlots",new Gson().toJson(productIdsForGettingTimeSlots));
+
+    }
     @Override
     public void onBackPressed() {
         super.onBackPressed();
@@ -57,21 +167,120 @@ public class CartActivity extends Activity {
         try {
 
             displayCart();
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     public void findViewsById() {
-        ll_products=(LinearLayout) findViewById(R.id.ll_products);
-        ll_noproducts=(LinearLayout) findViewById(R.id.ll_noproducts);
+        ll_products = (LinearLayout) findViewById(R.id.ll_products);
+        ll_noproducts = (LinearLayout) findViewById(R.id.ll_noproducts);
         llCartList = (LinearLayout) findViewById(R.id.llCartList);
         place_an_order_button = (Button) findViewById(R.id.place_an_order_button);
+        delivery_date = (Button) findViewById(R.id.btn_pick_date);
         area_text = (TextView) findViewById(R.id.area_text);
         grand_total = (TextView) findViewById(R.id.grand_total);
     }
+    public void selectDeliveryDate(View view) {
+        LayoutInflater li = LayoutInflater.from(CartActivity.this);
+        View dialogView = li.inflate(R.layout.calendar_view_dialog, null);
 
-    public void selectArea(View view){
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(CartActivity.this);
+
+        c = Calendar.getInstance();
+        mYear = c.get(Calendar.YEAR);
+        mMonth = c.get(Calendar.MONTH) + 1;
+        mDay = c.get(Calendar.DAY_OF_MONTH);
+        cHH = c.get(Calendar.HOUR_OF_DAY);
+        cMin = c.get(Calendar.MINUTE);
+        cAm_Pm = c.get(Calendar.AM_PM);
+
+        // set prompts.xml to alertdialog builder
+        alertDialogBuilder.setView(dialogView);
+
+
+        final Button select_date;
+        // create alert dialog
+        datePicker = (DatePicker) dialogView.findViewById(R.id.datePicker);
+        timePicker = (TimePicker) dialogView.findViewById(R.id.timePicker);
+        select_date = (Button) dialogView.findViewById(R.id.select_date);
+
+        if (!delivery_date.getText().toString().trim().isEmpty()) {
+            String date = delivery_date.getText().toString().trim().split(" ")[0];
+            int year = Integer.parseInt(date.split("-")[0]);
+            int month = Integer.parseInt(date.split("-")[1]);
+            int day = Integer.parseInt(date.split("-")[2]);
+            datePicker.updateDate(year, month - 1, day);
+        }
+        select_date.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                yy = datePicker.getYear();
+                mm = datePicker.getMonth();
+                dd = datePicker.getDayOfMonth();
+                hh = timePicker.getCurrentHour();
+                min = timePicker.getCurrentMinute();
+                Calendar calendar = Calendar.getInstance();
+                calendar.set(Calendar.YEAR, yy);
+                calendar.set(Calendar.MONTH, mm);
+                calendar.set(Calendar.DAY_OF_MONTH, dd);
+                calendar.set(Calendar.HOUR_OF_DAY, hh);
+                calendar.set(Calendar.MINUTE, min);
+                Date selectedDate = calendar.getTime();
+                Date TodaysDate = c.getTime();
+                if (selectedDate.before(TodaysDate)) {
+                    Toast.makeText(getApplicationContext(), "Please select a valid date and time", Toast.LENGTH_LONG).show();
+
+                } else {
+
+                    updateTime(yy, mm, dd, hh, min);
+//                    getProductIds();
+//                    new GetDeliveryTimeSlotsAsync().execute();
+                }
+            }
+        });
+
+        alertDialog = alertDialogBuilder.create();
+
+        alertDialog.setInverseBackgroundForced(true);
+
+        // show it
+        alertDialog.show();
+
+    }
+
+    // Used to convert 24hr format to 12hr format with AM/PM values
+    public void updateTime(int yy, int mm, int dd, int hours, int mins) {
+
+        String timeSet = "";
+        if (hours > 12) {
+            hours -= 12;
+            timeSet = "PM";
+        } else if (hours == 0) {
+            hours += 12;
+            timeSet = "AM";
+        } else if (hours == 12)
+            timeSet = "PM";
+        else
+            timeSet = "AM";
+
+
+        String minutes = "";
+        if (mins < 10)
+            minutes = "0" + mins;
+        else
+            minutes = String.valueOf(mins);
+
+
+        date = new StringBuilder().append(yy).append('-').append(mm + 1).append('-').append(dd).append("  ").append(hours).append(':')
+                .append(minutes).append(" ").append(timeSet).toString();
+
+        //dialog.cancel();
+        delivery_date.setText(date);
+        alertDialog.dismiss();
+    }
+
+    public void selectArea(View view) {
         Intent goToSelectAreaActivity = new Intent(CartActivity.this, CityAreaDetailsActivity.class);
         startActivity(goToSelectAreaActivity);
     }
@@ -82,11 +291,10 @@ public class CartActivity extends Activity {
             ll_noproducts.setVisibility(View.GONE);
             ll_products.setVisibility(View.VISIBLE);
             try {
-//                area_text.setText(loadPreferences());
                 Cart.deleteFromCartIfQuantityIsZero();
                 new CartAdapter(context);
                 grand_total.setText(Cart.subTotal() + "");
-            }catch (Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         } else {
@@ -98,17 +306,22 @@ public class CartActivity extends Activity {
     }
 
     public void placeAnOrder(View view) {
+        if (date.isEmpty()) {
+            Toast.makeText(getApplicationContext(), "Please select your expected delivery date", Toast.LENGTH_LONG).show();
+            return;
+        }
         if (Cart.deleteFromCartIfQuantityIsZero() > 0) {
             if (Cart.checkForPrductConfigurarion() == true) {
                 Intent product_config = new Intent(CartActivity.this, ProductConfigurationActivity.class);
                 startActivity(product_config);
-            }else{
+            } else {
                 new CheckSessionAsync().execute();
             }
-        }else{
+        } else {
             displayCart();
         }
     }
+
     public String getSessionStatus() throws Exception {
         String resultOfCheckSession = "";
         try {
@@ -137,8 +350,8 @@ public class CartActivity extends Activity {
     }
 
     public class CheckSessionAsync extends AsyncTask<String, Integer, String> {
-        String connectedOrNot, msg, code, resultOfCheckSession;
         public JSONObject jObj;
+        String connectedOrNot, msg, code, resultOfCheckSession;
         ProgressDialog progressDialog;
 
 

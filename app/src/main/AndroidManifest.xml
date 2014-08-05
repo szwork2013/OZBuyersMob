@@ -113,11 +113,6 @@
             android:alwaysRetainTaskState="true"
             android:configChanges="orientation|screenSize|keyboardHidden"></activity>
         <activity
-            android:name="com.gls.orderzapp.MainApp.DeliveryAddressActivity"
-            android:alwaysRetainTaskState="true"
-            android:label="Address"
-            android:configChanges="orientation|screenSize|keyboardHidden"></activity>
-        <activity
             android:name="com.gls.orderzapp.MainApp.VerifyUserActivity"
             android:alwaysRetainTaskState="true"
             android:label=" User Verification"

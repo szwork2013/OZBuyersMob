@@ -1,16 +1,27 @@
 package com.gls.orderzapp.MainApp;
 
 import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.ListAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.gls.orderzapp.MyOrders.Beans.OrderDetails;
 import com.gls.orderzapp.MyOrders.MyOrderDetailAdapters.AdapterForSubOrders;
+import com.gls.orderzapp.MyOrders.MyOrderDetailAdapters.DisplayPickupAddressesAdapter;
 import com.gls.orderzapp.R;
 import com.gls.orderzapp.Utility.GoogleAnalyticsUtility;
 import com.google.gson.Gson;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.TimeZone;
 
 /**
  * Created by prajyot on 7/5/14.
@@ -18,13 +29,20 @@ import com.google.gson.Gson;
 public class DetailedOrderActivity extends Activity {
     public static LinearLayout listProducts;
     OrderDetails orderDetails;
-    TextView order_no, billing_address_textview, shipping_address_textview, paymentMode, delivery_type, textDeliveryAddress;
+    Context context;
+    TextView order_no, billing_address_textview, shipping_address_textview, paymentMode, txt_expected_delivery_date, grand_total;
+    LinearLayout ll_home_delivery_address, linerlayout_pickup_address;
+    int pickupAddress = 0;
+    ListView address_list;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.detailed_order);
+        setTitle("Detailed Order");
+        context = DetailedOrderActivity.this;
         ((GoogleAnalyticsUtility) getApplication()).getTracker(GoogleAnalyticsUtility.TrackerName.APP_TRACKER);
+        Log.d("order details", getIntent().getStringExtra("ORDER"));
         findViewsById();
         setOrderData();
     }
@@ -49,8 +67,11 @@ public class DetailedOrderActivity extends Activity {
         billing_address_textview = (TextView) findViewById(R.id.billing_address_textview);
         shipping_address_textview = (TextView) findViewById(R.id.shipping_address_textview);
         paymentMode = (TextView) findViewById(R.id.payment_mode);
-        delivery_type = (TextView) findViewById(R.id.delivery_type);
-        textDeliveryAddress = (TextView) findViewById(R.id.textDeliveryAddress);
+        ll_home_delivery_address = (LinearLayout) findViewById(R.id.ll_home_delivery_address);
+        txt_expected_delivery_date = (TextView) findViewById(R.id.txt_expected_delivery_date);
+        linerlayout_pickup_address = (LinearLayout) findViewById(R.id.linerlayout_pickup_address);
+        address_list = (ListView) findViewById(R.id.address_list);
+        grand_total = (TextView) findViewById(R.id.grand_total);
     }
 
     public void setOrderData() {
@@ -63,6 +84,13 @@ public class DetailedOrderActivity extends Activity {
             e.printStackTrace();
         }
 
+        if (orderDetails.getSuborder() != null) {
+            new AdapterForSubOrders(context, orderDetails.getSuborder()).setMultipleProvidersList();
+        }
+
+        if(orderDetails.getTotal_order_price() != null){
+            grand_total.setText(String.format("%.2f", Double.parseDouble(orderDetails.getTotal_order_price())));
+        }
         try {
             if (orderDetails.getPayment().getMode() != null && orderDetails.getPayment().getMode().equals("COD")) {
                 paymentMode.setText("Cash On Delivery");
@@ -72,10 +100,34 @@ public class DetailedOrderActivity extends Activity {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        for (int i = 0; i < 1; i++) {
+        for (int i = 0; i < orderDetails.getSuborder().size(); i++) {
+                Log.d("billing address", new Gson().toJson(orderDetails.getSuborder().get(i).getBilling_address()));
 
+            if(orderDetails.getSuborder().get(i).getDeliverytype().equalsIgnoreCase("pickup")){
+                pickupAddress++;
+            }
+
+            if(orderDetails.getSuborder().get(0).getPrefdeldtime() != null) {
+                try {
+
+                    final DateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+                    inputFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
+
+                    final DateFormat outputFormat = new SimpleDateFormat("dd-MMM-yyyy HH:mm a");
+                    TimeZone tz = TimeZone.getTimeZone("Asia/Calcutta");
+
+                    outputFormat.setTimeZone(tz);
+
+                    Date order_date = inputFormat.parse(orderDetails.getSuborder().get(0).getPrefdeldtime());
+                    txt_expected_delivery_date.setText(outputFormat.format(order_date));
+
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
             try {
-                if (orderDetails.getSuborder().get(i).getBilling_address() != null) {
+                if (orderDetails.getSuborder().get(0).getBilling_address() != null) {
                     billing_address_textview.setText(orderDetails.getSuborder().get(i).getBilling_address().getAddress1() + "\n" +
                             orderDetails.getSuborder().get(i).getBilling_address().getAddress2() + "\n" +
                             orderDetails.getSuborder().get(i).getBilling_address().getArea() + "\n" +
@@ -87,36 +139,44 @@ public class DetailedOrderActivity extends Activity {
             }
             try {
                 if (orderDetails.getSuborder().get(i).getDelivery_address() != null) {
-                    shipping_address_textview.setText(orderDetails.getSuborder().get(i).getDelivery_address().getAddress1() + "\n" +
-                            orderDetails.getSuborder().get(i).getDelivery_address().getAddress2() + "\n" +
-                            orderDetails.getSuborder().get(i).getDelivery_address().getArea() + "\n" +
-                            orderDetails.getSuborder().get(i).getDelivery_address().getCity() + "\n" +
-                            orderDetails.getSuborder().get(i).getDelivery_address().getZipcode());
+                    ll_home_delivery_address.setVisibility(View.VISIBLE);
+//                    shipping_address_textview.setVisibility(View.VISIBLE);
+                    shipping_address_textview.setText(orderDetails.getSuborder().get(0).getDelivery_address().getAddress1() + "\n" +
+                            orderDetails.getSuborder().get(0).getDelivery_address().getAddress2() + "\n" +
+                            orderDetails.getSuborder().get(0).getDelivery_address().getArea() + "\n" +
+                            orderDetails.getSuborder().get(0).getDelivery_address().getCity() + "\n" +
+                            orderDetails.getSuborder().get(0).getDelivery_address().getZipcode());
                 }
             } catch (Exception e) {
                 e.printStackTrace();
             }
+        }
+        if(pickupAddress > 0){
+            linerlayout_pickup_address.setVisibility(View.VISIBLE);
+            address_list.setAdapter(new DisplayPickupAddressesAdapter(getApplicationContext(), orderDetails.getSuborder()));
+            setListViewHeightBasedOnChildren(address_list);
+        }
+    }
 
-            if (orderDetails.getSuborder().get(i).getDeliverytype() != null && orderDetails.getSuborder().get(i).getDeliverytype().equals("home")) {
-                try {
-                    delivery_type.setText("Home delivery");
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-                shipping_address_textview.setVisibility(View.VISIBLE);
-                textDeliveryAddress.setVisibility(View.VISIBLE);
-            } else {
-                try {
-                    delivery_type.setText(orderDetails.getSuborder().get(i).getDeliverytype());
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-                shipping_address_textview.setVisibility(View.GONE);
-                textDeliveryAddress.setVisibility(View.GONE);
-            }
+    public void setListViewHeightBasedOnChildren(ListView gridView) {
+        ListAdapter listAdapter = gridView.getAdapter();
+        if (listAdapter == null)
+            return;
+
+        int desiredWidth = View.MeasureSpec.makeMeasureSpec(gridView.getWidth(), View.MeasureSpec.UNSPECIFIED);
+        int totalHeight = 0;
+        View view = null;
+
+        for (int i = 0; i < listAdapter.getCount(); i++) {
+            view = listAdapter.getView(i, view, gridView);
+            if (i == 0)
+                view.setLayoutParams(new LinearLayout.LayoutParams(desiredWidth, LinearLayout.LayoutParams.WRAP_CONTENT));
+            view.measure(desiredWidth, View.MeasureSpec.UNSPECIFIED);
+            totalHeight += view.getMeasuredHeight();
         }
-        if (orderDetails.getSuborder() != null) {
-            new AdapterForSubOrders(getApplicationContext(), orderDetails.getSuborder()).setMultipleProvidersList();
-        }
+        ViewGroup.LayoutParams params = gridView.getLayoutParams();
+        params.height = totalHeight + (gridView.getDividerHeight());
+        gridView.setLayoutParams(params);
+        gridView.requestLayout();
     }
 }

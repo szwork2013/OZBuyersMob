@@ -41,9 +41,8 @@ public class DeliveryChargesAndTypeAdapter {
     ProductDetails[] checkForDeliveryModeValues;
     List<ProductDetails> checkForDeliveryModeList;
     List<ProductDetails> SortedProviderList = new ArrayList<>();
-    String branchId = "";
     public static LinearLayout llDeliveryChargeAndType;
-//    public static String delivery_type = "";
+    String branchId = "";
     ArrayList<String> branchIdforDelivery = new ArrayList<>();
     public static BranchIdsForGettingDeliveryCharges branchIdsForGettingDeliveryCharges;
     public static SuccessResponseForDeliveryChargesAndType successResponseForDeliveryCharges;
@@ -54,6 +53,8 @@ public class DeliveryChargesAndTypeAdapter {
         checkForDeliveryModeValues = Cart.hm.values().toArray(new ProductDetails[Cart.hm.size()]);
         checkForDeliveryModeList = new ArrayList<>(Arrays.asList(checkForDeliveryModeValues));
         Collections.sort(checkForDeliveryModeList, new DeliveryModeComparator());
+        successResponseForDeliveryCharges=null;
+        branchIdsForGettingDeliveryCharges=null;
         successResponseForDeliveryCharges = new SuccessResponseForDeliveryChargesAndType();
         branchIdsForGettingDeliveryCharges = new BranchIdsForGettingDeliveryCharges();
         getDeliveryCharges();
@@ -73,6 +74,7 @@ public class DeliveryChargesAndTypeAdapter {
 
     public void setBranchId(String getUserData) {
         try {
+            successResponseOfUserDeliveryAddresDetails=null;
             successResponseOfUserDeliveryAddresDetails = new Gson().fromJson(getUserData, SuccessResponseOfUser.class);
             branchIdsForGettingDeliveryCharges.setBranchids(branchIdforDelivery);
             if(successResponseOfUserDeliveryAddresDetails.getSuccess().getUser().getLocation().getArea()!=null
@@ -119,7 +121,7 @@ public class DeliveryChargesAndTypeAdapter {
             GsonBuilder gBuild = new GsonBuilder();
             Gson gson = gBuild.disableHtmlEscaping().create();
             jsonToSendOverServer = gson.toJson(branchIdsForGettingDeliveryCharges);
-            Log.d("jsonToSendOverServer", jsonToSendOverServer);
+            Log.d("jsonToSendOverServerBranchIds", jsonToSendOverServer);
             resultOfDeliveryCharges = ServerConnection.executePost1(jsonToSendOverServer, "/api/deliverycharge");
 
         } catch (Exception e) {
@@ -176,6 +178,7 @@ public class DeliveryChargesAndTypeAdapter {
                             LayoutInflater li = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                             llDeliveryChargeAndType = (LinearLayout) li.inflate(R.layout.delivery_charge_type, null);
 //                            new DisplayDeliveryChargesAndType(context, successResponseForDeliveryCharges, checkForDeliveryModeList);
+                            DisplayDeliveryChargesAndType.deliveryType.clear();
                             new DisplayDeliveryChargesAndType(context, successResponseForDeliveryCharges, SortedProviderList);
                             DeliveryPaymentActivity.ll_deliver_charge_type.removeAllViews();
                             DeliveryPaymentActivity.ll_deliver_charge_type.addView(llDeliveryChargeAndType);

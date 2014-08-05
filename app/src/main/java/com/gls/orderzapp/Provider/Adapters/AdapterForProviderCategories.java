@@ -117,7 +117,6 @@ public class AdapterForProviderCategories {
             categoryDetailsGridView.setTag(providerDetailsList.get(i));
 //            productDetailsList.clear();
             if (providerDetailsList.get(i).isLoadmoreproduct() == true) {
-
                 ProductDetails productDetails = new ProductDetails();
                 ProductPrice productPrice = new ProductPrice();
                 productPrice.setValue(0);

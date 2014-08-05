@@ -9,7 +9,16 @@ public class ProviderLocation {
     String area;
     String zipcode;
     String city;
+    String state;
     String country;
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
+    }
 
     public String getAddress1() {
         return address1;

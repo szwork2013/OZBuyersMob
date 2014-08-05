@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
+    <string name="app_name">OrderZapp Buyers</string>
+    <string name="appname">OrderZapp</string>
+
     <string name="area">Area</string>
     <string name="help">Help</string>
     <string name="help_description">Help Description</string>
@@ -86,7 +90,6 @@
     <string name="discount">Discount</string>
     <string name="persent">%</string>
     <string name="deliverdatentime">Date And Time</string>
-    <string name="delivertype_withcolon">Delivery Type :</string>
     <string name="select_your_area">Select your Area </string>
     <string name="select_pickup_address">Pick Up Address</string>
     <string name="delivery_type_with_colon">Delivery Type :</string>
@@ -98,6 +101,11 @@
     <string name="txn_amount">Amount : </string>
     <string name="txn_details">Transaction Details</string>
     <string name="product_configuration_price">Product Configuration Price : </string>
-
+    <string name="select">Select</string>
+    <string name="areawithcolon">Area : </string>
+    <string name="deliverdateandtime">Date and Time : </string>
+    <string name="delivery_date">Date : </string>
+    <string name="deliverytime_slot">Time Slots :</string>
+    <string name="availability">Availability : </string>
 
 </resources>

@@ -2,11 +2,9 @@ package com.gls.orderzapp.MainApp;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
@@ -31,12 +29,8 @@ import com.gls.orderzapp.Provider.Beans.ProductDetails;
 import com.gls.orderzapp.R;
 import com.gls.orderzapp.User.SuccessResponseOfUser;
 import com.gls.orderzapp.Utility.Cart;
-import com.gls.orderzapp.Utility.CheckConnection;
 import com.gls.orderzapp.Utility.GoogleAnalyticsUtility;
-import com.gls.orderzapp.Utility.ServerConnection;
 import com.google.gson.Gson;
-
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -50,18 +44,18 @@ import java.util.List;
  * Created by prajyot on 24/6/14.
  */
 public class DeliveryPaymentActivity extends Activity {
-    static Context context;
+    public final static int CHANGE_ADDRESS = 1;
+    public final static int PICKUP_ADDRESS = 2;
     public static TextView shipping_address_textview, billing_address_textview;
+    public static LinearLayout ll_deliver_charge_type;
+    public static String payment_mode = "", user_id = "";
+    static Context context;
+    final int SIGN_IN = 0;
     RadioGroup payment_mode_group;
     RadioButton cash_on_delivery, credit_card;
-    public static LinearLayout ll_deliver_charge_type;
     Button delivery_date, proceed_to_pay;
     SuccessResponseOfUser successResponseOfUserDeliveryAddresDetails, successResponseOfUserBillingAddress;
     ImageView popup_image;
-    public static String payment_mode = "", user_id = "";
-    final int SIGN_IN = 0;
-   public final static int  CHANGE_ADDRESS = 1;
-    public final static int  PICKUP_ADDRESS = 2;
     Calendar c;
     int mYear, mMonth, mDay, yy, mm, dd, hh, min, cHH, cMin, cAm_Pm;
     DatePicker datePicker;
@@ -73,6 +67,12 @@ public class DeliveryPaymentActivity extends Activity {
     ProductDetails[] checkForPaymentModeValues;
     List<ProductDetails> checkForPaymentModeList;
     Boolean cashOnDelivery = true;
+
+    public static void selectDeliveryType() {
+
+        new DeliveryChargesAndTypeAdapter(context);
+
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,7 +88,7 @@ public class DeliveryPaymentActivity extends Activity {
             setDeliveryAddress(loadPreferencesUserDataForDeliveryAddress());
             setBillingAddress(loadPreferencesUserDataForBillingAddress());
             selectDeliveryType();
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
@@ -120,19 +120,13 @@ public class DeliveryPaymentActivity extends Activity {
 
         for (int i = 0; i < Cart.hm.size(); i++) {
             if (checkForPaymentModeList.get(i).getPaymentmode() != null) {
-                if(checkForPaymentModeList.get(i).getPaymentmode().getCod() != null) {
+                if (checkForPaymentModeList.get(i).getPaymentmode().getCod() != null) {
                     if (checkForPaymentModeList.get(i).getPaymentmode().getCod() == false) {
                         cashOnDelivery = false;
                     }
                 }
             }
         }
-
-    }
-
-    public static void selectDeliveryType() {
-
-        new DeliveryChargesAndTypeAdapter(context);
 
     }
 
@@ -180,13 +174,10 @@ public class DeliveryPaymentActivity extends Activity {
                 Toast.makeText(getApplicationContext(), "Please select your expected delivery date", Toast.LENGTH_LONG).show();
                 return;
             }
-            if (DisplayDeliveryChargesAndType.deliveryTypeCheck() == false) {
-                Toast.makeText(context, "Please select a Delivery Type", Toast.LENGTH_LONG).show();
-                DisplayDeliveryChargesAndType.deliveryTypeCheck();
+            if (DisplayDeliveryChargesAndType.deliveryTypeCheck() ==false) {
                 return;
             }
             setDataForBillingAndDeliveryAddress();
-            Log.d("deliverytype", new Gson().toJson(DisplayDeliveryChargesAndType.deliveryType));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -223,17 +214,15 @@ public class DeliveryPaymentActivity extends Activity {
         timePicker = (TimePicker) dialogView.findViewById(R.id.timePicker);
         select_date = (Button) dialogView.findViewById(R.id.select_date);
 
-
-        if(!delivery_date.getText().toString().trim().isEmpty()){
+        if (!delivery_date.getText().toString().trim().isEmpty()) {
             String date = delivery_date.getText().toString().trim().split(" ")[0];
             int year = Integer.parseInt(date.split("-")[0]);
             int month = Integer.parseInt(date.split("-")[1]);
             int day = Integer.parseInt(date.split("-")[2]);
 
-            datePicker.updateDate(year, month-1, day);
+            datePicker.updateDate(year, month - 1, day);
             Log.d("year", date.split("-")[0]);
         }
-
         select_date.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -327,14 +316,13 @@ public class DeliveryPaymentActivity extends Activity {
 
             case CHANGE_ADDRESS:
                 if (resultCode == RESULT_OK) {
-                    Log.d("Change_address","Change_address");
-                   selectDeliveryType();
+                    Log.d("Change_address", "Change_address");
+                    selectDeliveryType();
                 }
                 break;
             case PICKUP_ADDRESS:
-                if(resultCode==RESULT_OK)
-                {
-                    Log.d("PICKUP_ADDRESS","PICKUP_ADDRESS");
+                if (resultCode == RESULT_OK) {
+                    Log.d("PICKUP_ADDRESS", "PICKUP_ADDRESS");
 //                    selectDeliveryType();
                 }
                 break;
@@ -390,9 +378,9 @@ public class DeliveryPaymentActivity extends Activity {
         try {
             successResponseOfUserBillingAddress = new Gson().fromJson(getUserData, SuccessResponseOfUser.class);
             if (successResponseOfUserBillingAddress.getSuccess().getUser().getLocation() != null
-                    && successResponseOfUserBillingAddress.getSuccess().getUser().getLocation().getArea()!=null
-                     && successResponseOfUserBillingAddress.getSuccess().getUser().getLocation().getCity()!=null
-                     &&  successResponseOfUserBillingAddress.getSuccess().getUser().getLocation().getZipcode()!=null) {
+                    && successResponseOfUserBillingAddress.getSuccess().getUser().getLocation().getArea() != null
+                    && successResponseOfUserBillingAddress.getSuccess().getUser().getLocation().getCity() != null
+                    && successResponseOfUserBillingAddress.getSuccess().getUser().getLocation().getZipcode() != null) {
                 billing_address_textview.setText(successResponseOfUserBillingAddress.getSuccess().getUser().getLocation().getAddress1() + ", " +
                         successResponseOfUserBillingAddress.getSuccess().getUser().getLocation().getAddress2() + ", " +
                         successResponseOfUserBillingAddress.getSuccess().getUser().getLocation().getArea() + ", \n" +
@@ -400,11 +388,9 @@ public class DeliveryPaymentActivity extends Activity {
                         successResponseOfUserBillingAddress.getSuccess().getUser().getLocation().getZipcode() + "\n" +
                         successResponseOfUserBillingAddress.getSuccess().getUser().getLocation().getState() + ", " +
                         successResponseOfUserBillingAddress.getSuccess().getUser().getLocation().getCountry() + ".");
-            }
-            else
-            {
+            } else {
                 Intent goToChangeAddressActivity = new Intent(context, ChangeAddressActivity.class);
-                goToChangeAddressActivity.putExtra("User_Address","UpdateSettings");
+                goToChangeAddressActivity.putExtra("User_Address", "UpdateSettings");
                 ((Activity) context).startActivityForResult(goToChangeAddressActivity, 1);
             }
         } catch (Exception e) {
@@ -428,39 +414,39 @@ public class DeliveryPaymentActivity extends Activity {
             createOrderBillingAddressDetails.setCountry(successResponseOfUserBillingAddress.getSuccess().getUser().getLocation().getCountry());
         }
 //        if (DeliveryChargesAndTypeAdapter.delivery_type.equalsIgnoreCase("Home Delivery")) {
-            if (ChangeAddressActivity.isAddressChanged == true) {
-                SelectAddressListActivity.isAddNewaddress = false;
-                ChangeAddressActivity.isAddressChanged = false;
-                createOrderDeliveryAddressDetails.setAddress1(ChangeAddressActivity.edittext_address1.getText().toString().trim());
-                createOrderDeliveryAddressDetails.setAddress2(ChangeAddressActivity.edittext_address2.getText().toString().trim());
-                createOrderDeliveryAddressDetails.setArea(ChangeAddressActivity.edittext_area.getText().toString().trim());
-                createOrderDeliveryAddressDetails.setCity(ChangeAddressActivity.edittext_city.getText().toString().trim());
-                createOrderDeliveryAddressDetails.setZipcode(ChangeAddressActivity.edittext_zipcode.getText().toString().trim());
-                createOrderDeliveryAddressDetails.setState(ChangeAddressActivity.edittext_state.getText().toString().trim());
-                createOrderDeliveryAddressDetails.setCountry(ChangeAddressActivity.edittext_country.getText().toString().trim());
-            } else if (SelectAddressListActivity.isAddNewaddress == true) {
-                SelectAddressListActivity.isAddNewaddress = false;
-                ChangeAddressActivity.isAddressChanged = false;
-                createOrderDeliveryAddressDetails.setDeliveryaddressid(AdapterForSelectaddressList.deliveryaddressid);
-                Log.d("createOrderDeliveryAddressDetails_ID",AdapterForSelectaddressList.deliveryaddressid);
-                createOrderDeliveryAddressDetails.setAddress1(AdapterForSelectaddressList.deliveryAddressList.getAddress().getAddress1());
-                createOrderDeliveryAddressDetails.setAddress2(AdapterForSelectaddressList.deliveryAddressList.getAddress().getAddress2());
-                createOrderDeliveryAddressDetails.setArea(AdapterForSelectaddressList.deliveryAddressList.getAddress().getArea());
-                createOrderDeliveryAddressDetails.setCity(AdapterForSelectaddressList.deliveryAddressList.getAddress().getCity());
-                createOrderDeliveryAddressDetails.setZipcode(AdapterForSelectaddressList.deliveryAddressList.getAddress().getZipcode());
-                createOrderDeliveryAddressDetails.setState(AdapterForSelectaddressList.deliveryAddressList.getAddress().getState());
-                createOrderDeliveryAddressDetails.setCountry(AdapterForSelectaddressList.deliveryAddressList.getAddress().getCountry());
-            } else {
-                if (successResponseOfUserDeliveryAddresDetails.getSuccess().getUser().getLocation() != null) {
-                    createOrderDeliveryAddressDetails.setAddress1(successResponseOfUserDeliveryAddresDetails.getSuccess().getUser().getLocation().getAddress1());
-                    createOrderDeliveryAddressDetails.setAddress2(successResponseOfUserDeliveryAddresDetails.getSuccess().getUser().getLocation().getAddress2());
-                    createOrderDeliveryAddressDetails.setArea(successResponseOfUserDeliveryAddresDetails.getSuccess().getUser().getLocation().getArea());
-                    createOrderDeliveryAddressDetails.setCity(successResponseOfUserDeliveryAddresDetails.getSuccess().getUser().getLocation().getCity());
-                    createOrderDeliveryAddressDetails.setZipcode(successResponseOfUserDeliveryAddresDetails.getSuccess().getUser().getLocation().getZipcode());
-                    createOrderDeliveryAddressDetails.setState(successResponseOfUserDeliveryAddresDetails.getSuccess().getUser().getLocation().getState());
-                    createOrderDeliveryAddressDetails.setCountry(successResponseOfUserDeliveryAddresDetails.getSuccess().getUser().getLocation().getCountry());
-                }
+        if (ChangeAddressActivity.isAddressChanged == true) {
+            SelectAddressListActivity.isAddNewaddress = false;
+            ChangeAddressActivity.isAddressChanged = false;
+            createOrderDeliveryAddressDetails.setAddress1(ChangeAddressActivity.edittext_address1.getText().toString().trim());
+            createOrderDeliveryAddressDetails.setAddress2(ChangeAddressActivity.edittext_address2.getText().toString().trim());
+            createOrderDeliveryAddressDetails.setArea(ChangeAddressActivity.edittext_area.getText().toString().trim());
+            createOrderDeliveryAddressDetails.setCity(ChangeAddressActivity.edittext_city.getText().toString().trim());
+            createOrderDeliveryAddressDetails.setZipcode(ChangeAddressActivity.edittext_zipcode.getText().toString().trim());
+            createOrderDeliveryAddressDetails.setState(ChangeAddressActivity.edittext_state.getText().toString().trim());
+            createOrderDeliveryAddressDetails.setCountry(ChangeAddressActivity.edittext_country.getText().toString().trim());
+        } else if (SelectAddressListActivity.isAddNewaddress == true) {
+            SelectAddressListActivity.isAddNewaddress = false;
+            ChangeAddressActivity.isAddressChanged = false;
+            createOrderDeliveryAddressDetails.setDeliveryaddressid(AdapterForSelectaddressList.deliveryaddressid);
+            Log.d("createOrderDeliveryAddressDetails_ID", AdapterForSelectaddressList.deliveryaddressid);
+            createOrderDeliveryAddressDetails.setAddress1(AdapterForSelectaddressList.deliveryAddressList.getAddress().getAddress1());
+            createOrderDeliveryAddressDetails.setAddress2(AdapterForSelectaddressList.deliveryAddressList.getAddress().getAddress2());
+            createOrderDeliveryAddressDetails.setArea(AdapterForSelectaddressList.deliveryAddressList.getAddress().getArea());
+            createOrderDeliveryAddressDetails.setCity(AdapterForSelectaddressList.deliveryAddressList.getAddress().getCity());
+            createOrderDeliveryAddressDetails.setZipcode(AdapterForSelectaddressList.deliveryAddressList.getAddress().getZipcode());
+            createOrderDeliveryAddressDetails.setState(AdapterForSelectaddressList.deliveryAddressList.getAddress().getState());
+            createOrderDeliveryAddressDetails.setCountry(AdapterForSelectaddressList.deliveryAddressList.getAddress().getCountry());
+        } else {
+            if (successResponseOfUserDeliveryAddresDetails.getSuccess().getUser().getLocation() != null) {
+                createOrderDeliveryAddressDetails.setAddress1(successResponseOfUserDeliveryAddresDetails.getSuccess().getUser().getLocation().getAddress1());
+                createOrderDeliveryAddressDetails.setAddress2(successResponseOfUserDeliveryAddresDetails.getSuccess().getUser().getLocation().getAddress2());
+                createOrderDeliveryAddressDetails.setArea(successResponseOfUserDeliveryAddresDetails.getSuccess().getUser().getLocation().getArea());
+                createOrderDeliveryAddressDetails.setCity(successResponseOfUserDeliveryAddresDetails.getSuccess().getUser().getLocation().getCity());
+                createOrderDeliveryAddressDetails.setZipcode(successResponseOfUserDeliveryAddresDetails.getSuccess().getUser().getLocation().getZipcode());
+                createOrderDeliveryAddressDetails.setState(successResponseOfUserDeliveryAddresDetails.getSuccess().getUser().getLocation().getState());
+                createOrderDeliveryAddressDetails.setCountry(successResponseOfUserDeliveryAddresDetails.getSuccess().getUser().getLocation().getCountry());
             }
+        }
 //        }
 //        else {
 //            createOrderDeliveryAddressDetails.setAddress1(successResponseOfUserDeliveryAddresDetails.getSuccess().getUser().getLocation().getAddress1());
@@ -477,6 +463,7 @@ public class DeliveryPaymentActivity extends Activity {
         goToOrderDetailsActivity.putExtra("DELIVERY_ADDRESS", new Gson().toJson(createOrderDeliveryAddressDetails));
         startActivity(goToOrderDetailsActivity);
     }
+
     private class PaymentModeComparator implements Comparator<ProductDetails> {
         @Override
         public int compare(ProductDetails o1, ProductDetails o2) {
