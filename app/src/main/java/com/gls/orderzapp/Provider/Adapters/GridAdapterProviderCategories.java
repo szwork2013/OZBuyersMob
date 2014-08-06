@@ -1,5 +1,6 @@
 package com.gls.orderzapp.Provider.Adapters;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -15,6 +16,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.gls.orderzapp.MainApp.MoreProductsListActivity;
+import com.gls.orderzapp.MainApp.ProductDetailsActivity;
 import com.gls.orderzapp.Provider.Beans.BranchInfo;
 import com.gls.orderzapp.Provider.Beans.ProductConfiguration;
 import com.gls.orderzapp.Provider.Beans.ProductConfigurationDetails;
@@ -295,7 +297,11 @@ public class GridAdapterProviderCategories extends BaseAdapter {
                     productDetails = productDetailsList.get(position);
                     if (productDetails.getProductname() != null && !productDetails.getProductname().equals("more")) {
                         productDetails.setBranchid(providerDetails.getBranch().getBranchid());
-                        popUp(productDetails);
+//                        popUp(productDetails);
+                        Intent goToProductDetailsActivity = new Intent(context, ProductDetailsActivity.class);
+                        goToProductDetailsActivity.putExtra("PRODUCT_DETAILS",new Gson().toJson(productDetails));
+                        context.startActivity(goToProductDetailsActivity);
+
                     }
                     return false;
                 }
@@ -306,76 +312,76 @@ public class GridAdapterProviderCategories extends BaseAdapter {
         return convertView;
     }
 
-    public void popUp(final ProductDetails productDetails) {
-        try {
-            LayoutInflater li = LayoutInflater.from(context);
-            View dialogView = li.inflate(R.layout.product_details, null);
-
-            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
-
-            // set prompts.xml to alertdialog builder
-            alertDialogBuilder.setView(dialogView);
-
-            imageProduct = (ImageView) dialogView.findViewById(R.id.image_product);
-            textProductName = (TextView) dialogView.findViewById(R.id.product_name);
-            textProductDescription = (TextView) dialogView.findViewById(R.id.product_description);
-            textProductPrice = (TextView) dialogView.findViewById(R.id.product_price);
-            close_dialog = (ImageView) dialogView.findViewById(R.id.close_dialog);
-
-            imageLoader = ImageLoader.getInstance();
-            imageLoader.init(ImageLoaderConfiguration.createDefault(context));
-            imageLoader.displayImage(productDetails.getProductlogo().getImage(), imageProduct, new SimpleImageLoadingListener() {
-                boolean cacheFound;
-
-                @Override
-                public void onLoadingStarted(String imageUri, View view) {
-                    List<String> memCache = MemoryCacheUtil.findCacheKeysForImageUri(imageUri, ImageLoader.getInstance().getMemoryCache());
-                    cacheFound = !memCache.isEmpty();
-                    if (!cacheFound) {
-                        File discCache = DiscCacheUtil.findInCache(imageUri, ImageLoader.getInstance().getDiscCache());
-                        if (discCache != null) {
-                            cacheFound = discCache.exists();
-                        }
-                    }
-                }
-
-                @Override
-                public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
-                    if (cacheFound) {
-//                        MemoryCacheUtil.removeFromCache(imageUri, ImageLoader.getInstance().getMemoryCache());
-//                        DiscCacheUtil.removeFromCache(imageUri, ImageLoader.getInstance().getDiscCache());
-
-                        ImageLoader.getInstance().displayImage(imageUri, (ImageView) view);
-                    }
-                }
-            });
-            if (productDetails.getProductname() != null) {
-                textProductName.setText(productDetails.getProductname());
-            }
-            if (productDetails.getProductdescription() != null) {
-                textProductDescription.setText(productDetails.getProductdescription());
-            }
-            textProductPrice.setText(String.format("%.2f", productDetails.getPrice().getValue()));
-
-            // create alert dialog
-            final AlertDialog alertDialog = alertDialogBuilder.create();
-
-            alertDialog.setInverseBackgroundForced(true);
-
-            // show it
-            alertDialog.show();
-
-            close_dialog.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    alertDialog.dismiss();
-                }
-            });
-        } catch (Exception e) {
-
-            e.printStackTrace();
-
-        }
-    }
+//    public void popUp(final ProductDetails productDetails) {
+//        try {
+//            LayoutInflater li = LayoutInflater.from(context);
+//            View dialogView = li.inflate(R.layout.product_details, null);
+//
+//            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
+//
+//            // set prompts.xml to alertdialog builder
+//            alertDialogBuilder.setView(dialogView);
+//
+//            imageProduct = (ImageView) dialogView.findViewById(R.id.image_product);
+//            textProductName = (TextView) dialogView.findViewById(R.id.product_name);
+//            textProductDescription = (TextView) dialogView.findViewById(R.id.product_description);
+//            textProductPrice = (TextView) dialogView.findViewById(R.id.product_price);
+//            close_dialog = (ImageView) dialogView.findViewById(R.id.close_dialog);
+//
+//            imageLoader = ImageLoader.getInstance();
+//            imageLoader.init(ImageLoaderConfiguration.createDefault(context));
+//            imageLoader.displayImage(productDetails.getProductlogo().getImage(), imageProduct, new SimpleImageLoadingListener() {
+//                boolean cacheFound;
+//
+//                @Override
+//                public void onLoadingStarted(String imageUri, View view) {
+//                    List<String> memCache = MemoryCacheUtil.findCacheKeysForImageUri(imageUri, ImageLoader.getInstance().getMemoryCache());
+//                    cacheFound = !memCache.isEmpty();
+//                    if (!cacheFound) {
+//                        File discCache = DiscCacheUtil.findInCache(imageUri, ImageLoader.getInstance().getDiscCache());
+//                        if (discCache != null) {
+//                            cacheFound = discCache.exists();
+//                        }
+//                    }
+//                }
+//
+//                @Override
+//                public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
+//                    if (cacheFound) {
+////                        MemoryCacheUtil.removeFromCache(imageUri, ImageLoader.getInstance().getMemoryCache());
+////                        DiscCacheUtil.removeFromCache(imageUri, ImageLoader.getInstance().getDiscCache());
+//
+//                        ImageLoader.getInstance().displayImage(imageUri, (ImageView) view);
+//                    }
+//                }
+//            });
+//            if (productDetails.getProductname() != null) {
+//                textProductName.setText(productDetails.getProductname());
+//            }
+//            if (productDetails.getProductdescription() != null) {
+//                textProductDescription.setText(productDetails.getProductdescription());
+//            }
+//            textProductPrice.setText(String.format("%.2f", productDetails.getPrice().getValue()));
+//
+//            // create alert dialog
+//            final AlertDialog alertDialog = alertDialogBuilder.create();
+//
+//            alertDialog.setInverseBackgroundForced(true);
+//
+//            // show it
+//            alertDialog.show();
+//
+//            close_dialog.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    alertDialog.dismiss();
+//                }
+//            });
+//        } catch (Exception e) {
+//
+//            e.printStackTrace();
+//
+//        }
+//    }
 
 }

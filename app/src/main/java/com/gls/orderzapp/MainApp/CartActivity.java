@@ -17,7 +17,8 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 import com.gls.orderzapp.Cart.Adapters.CartAdapter;
-import com.gls.orderzapp.CreateOrder.CreateOrderBeans.CheckDeliveryTimeSlots;
+import com.gls.orderzapp.CreateOrder.CreateOrderBeans.CheckDeliveryTimeSlotsProductIDs;
+import com.gls.orderzapp.CreateOrder.CreateOrderBeans.SuccesResponseCheckDeliveryTimingSlots;
 import com.gls.orderzapp.R;
 import com.gls.orderzapp.Utility.Cart;
 import com.gls.orderzapp.Utility.CheckConnection;
@@ -47,12 +48,14 @@ public class CartActivity extends Activity {
     int mYear, mMonth, mDay, yy, mm, dd, hh, min, cHH, cMin, cAm_Pm;
     DatePicker datePicker;
     TimePicker timePicker;
-    Button delivery_date;
+    public  Button delivery_date;
     AlertDialog alertDialog;
-    String date = "";
-    String productId = "";
-    ArrayList<String> listOfProductIdforDelivery = new ArrayList<>();
-    public CheckDeliveryTimeSlots productIdsForGettingTimeSlots;
+    public static String date = "";
+//    String productId = "";
+//    ArrayList<String> listOfProductIdforDelivery = new ArrayList<>();
+//    public CheckDeliveryTimeSlotsProductIDs productIdsForGettingTimeSlots;
+    public SuccesResponseCheckDeliveryTimingSlots succesResponseCheckDeliveryTimingSlots;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,99 +63,6 @@ public class CartActivity extends Activity {
         setContentView(R.layout.cart_activity);
         context = CartActivity.this;
         findViewsById();
-
-    }
-    public String getDeliverTimeSlots() {
-        String resultOfDeliveryTimeSlot = "";
-        String jsonToSendOverServer = "";
-        try {
-            GsonBuilder gBuild = new GsonBuilder();
-            Gson gson = gBuild.disableHtmlEscaping().create();
-            jsonToSendOverServer = gson.toJson(productIdsForGettingTimeSlots);
-            Log.d("jsonToSendOverServerProductIds", jsonToSendOverServer);
-            resultOfDeliveryTimeSlot = ServerConnection.executePost1(jsonToSendOverServer, "/api/deliverytimeslots");
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return resultOfDeliveryTimeSlot;
-    }
-
-
-    public class GetDeliveryTimeSlotsAsync extends AsyncTask<String, Integer, String> {
-        JSONObject jObj;
-        String connectedOrNot, resultOfDeliveryTimeSlots, msg, code;
-        ProgressDialog progressDialog;
-
-        @Override
-        protected void onPreExecute() {
-        }
-
-        @Override
-        protected String doInBackground(String... params) {
-            try {
-                if (new CheckConnection(context).isConnectingToInternet()) {
-                    connectedOrNot = "success";
-                    resultOfDeliveryTimeSlots = getDeliverTimeSlots();
-                    if (!resultOfDeliveryTimeSlots.isEmpty()) {
-                        Log.d("resultOfDeliveryTimeSlots", resultOfDeliveryTimeSlots);
-                        jObj = new JSONObject(resultOfDeliveryTimeSlots);
-                        if (jObj.has("success")) {
-
-                            Log.d("Successresponse for delivery time slots", resultOfDeliveryTimeSlots);
-                        } else {
-                            JSONObject jObjError = jObj.getJSONObject("error");
-                            msg = jObjError.getString("message");
-                            code = jObjError.getString("code");
-
-                        }
-                    }
-                } else {
-                    connectedOrNot = "error";
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            return connectedOrNot;
-        }
-
-        @Override
-        protected void onPostExecute(String connectedOrNot) {
-//            progressDialog.dismiss();
-            try {
-                if (connectedOrNot.equalsIgnoreCase("success")) {
-                    if (!resultOfDeliveryTimeSlots.isEmpty()) {
-                        if (jObj.has("success")) {
-
-                        } else {
-                            Toast.makeText(context, msg, Toast.LENGTH_LONG).show();
-                        }
-                    } else {
-                        Toast.makeText(context, "Server is not responding please try again later", Toast.LENGTH_LONG).show();
-                    }
-                } else {
-                    Toast.makeText(context, "Please check your internet connection", Toast.LENGTH_LONG).show();
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-    }
-    public void getProductIds() {
-        productIdsForGettingTimeSlots= new CheckDeliveryTimeSlots();
-        String[] mKeys = Cart.hm.keySet().toArray(new String[Cart.hm.size()]);
-        for (int i = 0; i < Cart.getCount(); i++) {
-            productId = Cart.hm.get(mKeys[i]).getProductid();
-            Log.d("productId",productId);
-            if (!listOfProductIdforDelivery.contains(productId)) {
-                listOfProductIdforDelivery.add(productId);
-            }
-        }
-        Log.d("Date",date);
-        Log.d("listOfProductIdforDelivery",new Gson().toJson(listOfProductIdforDelivery));
-        productIdsForGettingTimeSlots.setPreferred_delivery_date(date);
-        productIdsForGettingTimeSlots.setProductids(listOfProductIdforDelivery);
-        Log.d("productIdsForGettingTimeSlots",new Gson().toJson(productIdsForGettingTimeSlots));
 
     }
     @Override
@@ -234,6 +144,7 @@ public class CartActivity extends Activity {
                 } else {
 
                     updateTime(yy, mm, dd, hh, min);
+                    displayCart();
 //                    getProductIds();
 //                    new GetDeliveryTimeSlotsAsync().execute();
                 }
@@ -306,7 +217,7 @@ public class CartActivity extends Activity {
     }
 
     public void placeAnOrder(View view) {
-        if (date.isEmpty()) {
+        if (delivery_date.getText().toString().isEmpty()) {
             Toast.makeText(getApplicationContext(), "Please select your expected delivery date", Toast.LENGTH_LONG).show();
             return;
         }

@@ -447,17 +447,6 @@ public class DeliveryPaymentActivity extends Activity {
                 createOrderDeliveryAddressDetails.setCountry(successResponseOfUserDeliveryAddresDetails.getSuccess().getUser().getLocation().getCountry());
             }
         }
-//        }
-//        else {
-//            createOrderDeliveryAddressDetails.setAddress1(successResponseOfUserDeliveryAddresDetails.getSuccess().getUser().getLocation().getAddress1());
-//            createOrderDeliveryAddressDetails.setAddress2(successResponseOfUserDeliveryAddresDetails.getSuccess().getUser().getLocation().getAddress2());
-//            createOrderDeliveryAddressDetails.setArea(successResponseOfUserDeliveryAddresDetails.getSuccess().getUser().getLocation().getArea());
-//            createOrderDeliveryAddressDetails.setCity(successResponseOfUserDeliveryAddresDetails.getSuccess().getUser().getLocation().getCity());
-//            createOrderDeliveryAddressDetails.setZipcode(successResponseOfUserDeliveryAddresDetails.getSuccess().getUser().getLocation().getZipcode());
-//            createOrderDeliveryAddressDetails.setState(successResponseOfUserDeliveryAddresDetails.getSuccess().getUser().getLocation().getState());
-//            createOrderDeliveryAddressDetails.setCountry(successResponseOfUserDeliveryAddresDetails.getSuccess().getUser().getLocation().getCountry());
-//        }
-
         Intent goToOrderDetailsActivity = new Intent(DeliveryPaymentActivity.this, OrderDetailsActivity.class);
         goToOrderDetailsActivity.putExtra("BILLING_ADDRESS", new Gson().toJson(createOrderBillingAddressDetails));
         goToOrderDetailsActivity.putExtra("DELIVERY_ADDRESS", new Gson().toJson(createOrderDeliveryAddressDetails));

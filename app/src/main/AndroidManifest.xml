@@ -55,8 +55,12 @@
         <activity
             android:name=".MainApp.SelectPickUpAddressActivity"
             android:alwaysRetainTaskState="true"
-            android:configChanges="orientation|screenSize|keyboardHidden"
-            android:label="PickUp Address" />
+            android:label="PickUp Address"
+            android:configChanges="orientation|screenSize|keyboardHidden"></activity>
+        <activity android:name="com.gls.orderzapp.MainApp.ProductDetailsActivity"
+            android:alwaysRetainTaskState="true"
+            android:label="Product Details"
+            android:configChanges="orientation|screenSize|keyboardHidden"></activity>
         <activity
             android:name=".MainApp.SignUpActivity"
             android:alwaysRetainTaskState="true"

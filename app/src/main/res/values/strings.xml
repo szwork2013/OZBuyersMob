@@ -106,6 +106,7 @@
     <string name="delivery_date">Date : </string>
     <string name="deliverytime_slot">Time Slots :</string>
     <string name="availability">Availability : </string>
+    <string name="description">Description :</string>
     <string name="base_price">Base Price : </string>
     <string name="title_activity_tab">TabActivity</string>
     <string name="title_section1">Section 1</string>

@@ -6,7 +6,7 @@ import java.util.List;
 /**
  * Created by avi on 8/5/14.
  */
-public class CheckDeliveryTimeSlots {
+public class CheckDeliveryTimeSlotsProductIDs {
     String preferred_delivery_date;
 List<String> productids=new ArrayList<>();
 
