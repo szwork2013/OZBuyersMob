@@ -23,9 +23,24 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.protocol.BasicHttpContext;
 import org.apache.http.protocol.HttpContext;
 
+import java.io.BufferedInputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.security.KeyManagementException;
+import java.security.KeyStore;
+import java.security.KeyStoreException;
+import java.security.NoSuchAlgorithmException;
+import java.security.cert.CertificateFactory;
+import java.security.cert.Certificate;
+import java.security.cert.CertificateException;
+import java.io.FileNotFoundException;
+import java.security.cert.X509Certificate;
+
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.TrustManagerFactory;
+
 
 /**
  * Created by prajyot on 1/4/14.
@@ -45,6 +60,37 @@ public class ServerConnection {
         }
         return httpClient;
     }
+    public void handleHTTPS()
+            throws CertificateException, FileNotFoundException,IOException, KeyStoreException, NoSuchAlgorithmException, KeyManagementException {
+        // Load CAs from an InputStream
+        CertificateFactory cf = CertificateFactory.getInstance("X.509");
+
+        // From https://ec2-54-255-211-121.ap-southeast-1.compute.amazonaws.com/orderzapp.crt
+        InputStream caInput = new BufferedInputStream(new FileInputStream("orderzapp.crt"));
+        Certificate ca;
+        try {
+            ca = cf.generateCertificate(caInput);
+            System.out.println("ca=" + ((X509Certificate) ca).getSubjectDN());
+        } finally {
+            caInput.close();
+        }
+
+        // Create a KeyStore containing our trusted CAs
+        String keyStoreType = KeyStore.getDefaultType();
+        KeyStore keyStore = KeyStore.getInstance(keyStoreType);
+        keyStore.load(null, null);
+        keyStore.setCertificateEntry("ca", ca);
+
+        // Create a TrustManager that trusts the CAs in our KeyStore
+        String tmfAlgorithm = TrustManagerFactory.getDefaultAlgorithm();
+        TrustManagerFactory tmf = TrustManagerFactory.getInstance(tmfAlgorithm);
+        tmf.init(keyStore);
+
+        // Create an SSLContext that uses our TrustManager
+        SSLContext context = SSLContext.getInstance("TLS");
+        context.init(null, tmf.getTrustManagers(), null);
+
+    }
 
     public static void setHttpClient(HttpClient httpClient) {
         ServerConnection.httpClient = httpClient;
@@ -57,15 +103,8 @@ public class ServerConnection {
     }
 
     public static String getUrl() {
-        if ( OZConstants.OZ_ENVIRONMENT == "PRODUCTION SECURE" ) {
-            url = OZConstants.OZ_REST_URL;
-        } else if ( OZConstants.OZ_ENVIRONMENT == "PRODUCTION" ) {
-            url = OZConstants.OZ_REST_URL;
-        } else if ( OZConstants.OZ_ENVIRONMENT == "DEVELOPMENT" ) {
-            url = OZConstants.OZ_REST_URL;
-        } else if ( OZConstants.OZ_ENVIRONMENT == "DEMO" ) {
-            url = OZConstants.OZ_REST_URL;
-        }
+        url = OZConstants.OZ_REST_URL;
+
         return url;
     }
 
