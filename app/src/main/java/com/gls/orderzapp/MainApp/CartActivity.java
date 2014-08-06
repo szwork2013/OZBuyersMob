@@ -281,7 +281,7 @@ public class CartActivity extends Activity {
     }
 
     public void selectArea(View view) {
-        Intent goToSelectAreaActivity = new Intent(CartActivity.this, CityAreaDetailsActivity.class);
+        Intent goToSelectAreaActivity = new Intent(CartActivity.this, AreaListActivity.class);
         startActivity(goToSelectAreaActivity);
     }
 

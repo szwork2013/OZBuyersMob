@@ -92,7 +92,6 @@
             android:configChanges="orientation|screenSize|keyboardHidden" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -208,7 +207,16 @@
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:label="Product Configuration"
             android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".MainApp.AreaListActivity"
+            android:alwaysRetainTaskState="true"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:label=" Select Area" />
 
+        <activity
+            android:name=".MainApp.CityStateCountryActivity"
+            android:alwaysRetainTaskState="true"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:label=" Select Location" />
     </application>
-
 </manifest>

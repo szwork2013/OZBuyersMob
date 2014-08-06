@@ -46,10 +46,10 @@
           android:layout_height="wrap_content"
           android:id="@+id/state_spinner"/>
 
-        <View
-            android:layout_width="fill_parent"
-            android:layout_height="1dp"
-            android:background="#304f6c"/>
+      <View
+          android:layout_width="fill_parent"
+          android:layout_height="1dp"
+          android:background="#304f6c"/>
 
       <TextView
           android:layout_width="match_parent"
@@ -66,25 +66,24 @@
           android:layout_height="wrap_content"
           android:id="@+id/city_spinner"/>
 
-        <View
-            android:layout_width="fill_parent"
-            android:layout_height="1dp"
-            android:background="#304f6c"/>
+      <View
+          android:layout_width="fill_parent"
+          android:layout_height="1dp"
+          android:background="#304f6c"/>
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="18sp"
-            android:textColor="#000"
-            android:textStyle="bold"
-            android:text="Areas"
-            android:layout_marginBottom="5dp"
-            android:layout_marginTop="5dp"/>
+      <TextView
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:textSize="18sp"
+          android:textColor="#000"
+          android:textStyle="bold"
+          android:text="Areas"
+          android:layout_marginBottom="5dp"
+          android:layout_marginTop="5dp"/>
 
-        <ListView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/listOfAreas"/>
+      <ListView
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:id="@+id/listOfAreas"/>
     </LinearLayout>
-
 </LinearLayout>

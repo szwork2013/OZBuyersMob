@@ -98,7 +98,9 @@ public class StartUpActivity extends Activity implements View.OnClickListener {
         signin = menu.findItem(R.id.action_signin);
         signup = menu.findItem(R.id.action_signup);
         logout = menu.findItem(R.id.action_logout);
+        Log.d("oncreateoptions", "oncreateoptions");
         onCreateOptions(menu);
+
         if (SignInActivity.islogedin == true) {
             signin.setVisible(false);
             signup.setVisible(false);
@@ -115,9 +117,12 @@ public class StartUpActivity extends Activity implements View.OnClickListener {
     @Override
     protected void onResume() {
         super.onResume();
+        Log.d("onresume", "onresume");
         if (isFirstTime == true) {
+            Log.d("if", "if");
             isFirstTime = false;
         } else {
+            Log.d("else", "else");
             onCreateOptions(menu1);
         }
     }
