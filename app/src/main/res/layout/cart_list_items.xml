@@ -70,8 +70,10 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/ll_deliverylayout_cart"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:visibility="gone"
         android:orientation="vertical"
         android:padding="5dp"
         android:gravity="center_vertical">
@@ -98,7 +100,7 @@
             android:layout_height="wrap_content"
             android:textSize="16sp"
             android:textColor="#000"
-            android:text="@string/availability" />
+            android:text="@string/delivery_type_with_colon" />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -123,7 +125,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="#fff"
+                android:textColor="#000"
                 android:layout_marginLeft="2dp"
                 android:textSize="16sp"
                 android:id="@+id/delivery_date_on_shoppingcart" />
