@@ -73,60 +73,6 @@ public class AdapterForMultipleProviders {
 
                     }
 
-                    //**********
-//                    for(int j = 0; j < DisplayDeliveryChargesAndType.deliveryType.size(); j++){
-//                        Log.d("branchid and provider name inside for but outside if", branchid + "   "+providerName+ "   "+providerArea);
-//                        if(branchid.equals(DisplayDeliveryChargesAndType.deliveryType.get(j).split("_")[0])) {
-//
-//                            Log.d("branchid and provider name inside for but outside if", branchid + "   "+providerName+ "   "+providerArea);
-//                            if (DisplayDeliveryChargesAndType.deliveryType.get(j).split("_")[1].equalsIgnoreCase("home")) {
-//                                deliveryType = "Home Delivery";
-//                            } else {
-//                                deliveryType = "Pick-Up";
-//                            }
-//                            SellerDelivery sellerDelivery = new SellerDelivery();
-//                            sellerDelivery.setBranchid(branchid);
-//                            sellerDelivery.setDeliverytype(DisplayDeliveryChargesAndType.deliveryType.get(i).split("_")[1]);
-//                            sellerDelivery.setDelivery_address(orderDeliveryAddress);
-//                            if(DisplayDeliveryChargesAndType.deliveryType.get(j).split("_")[1].equalsIgnoreCase("pickup") && DisplayDeliveryChargesAndType.listOfPickupAddresses.getListPickUpAddress().size() > 0) {
-//                                for (int l = 0; l < DisplayDeliveryChargesAndType.listOfPickupAddresses.getListPickUpAddress().size(); l++) {
-//                                    if (branchid.equalsIgnoreCase(DisplayDeliveryChargesAndType.listOfPickupAddresses.getListPickUpAddress().get(l).getBranchid())) {
-//                                        sellerDelivery.setPickup_address(DisplayDeliveryChargesAndType.listOfPickupAddresses.getListPickUpAddress().get(l).getLocation());
-//                                    }
-//                                }
-//                            }
-//
-//                            sellerDelivery.setPrefdeldtime(prefferedDeliveryDate);
-//                            if(DisplayDeliveryChargesAndType.order_instruction.length > j && DisplayDeliveryChargesAndType.order_instruction[j] != null ) {
-//                                {
-//                                    if (!DisplayDeliveryChargesAndType.order_instruction[j].isEmpty()) {
-//                                        sellerDelivery.setOrderinstructions(DisplayDeliveryChargesAndType.order_instruction[j]);
-//                                    } else {
-//                                        sellerDelivery.setOrderinstructions("");
-//                                    }
-//                                }
-//                            }
-//
-//                            for(int k = 0; k < DeliveryChargesAndTypeAdapter.successResponseForDeliveryCharges.getSuccess().getDeliverycharge().size(); k++) {
-//                                if (branchid.equalsIgnoreCase(DeliveryChargesAndTypeAdapter.successResponseForDeliveryCharges.getSuccess().getDeliverycharge().get(k).getBranchid())) {
-//                                    DeliveryChargeDetails deliveryChargeDetails = new DeliveryChargeDetails();
-//                                    deliveryChargeDetails.setCharge(DeliveryChargesAndTypeAdapter.successResponseForDeliveryCharges.getSuccess().getDeliverycharge().get(k).getCharge());
-//                                    deliveryChargeDetails.setDelivery(DeliveryChargesAndTypeAdapter.successResponseForDeliveryCharges.getSuccess().getDeliverycharge().get(k).isDelivery());
-//                                    deliveryChargeDetails.setIsdeliverychargeinpercent(DeliveryChargesAndTypeAdapter.successResponseForDeliveryCharges.getSuccess().getDeliverycharge().get(k).isIsdeliverychargeinpercent());
-//
-//                                    sellerDelivery.setDeliverycharge(deliveryChargeDetails);
-//
-//                                }
-//                            }
-//                            OrderDetailsActivity.createOrderCartList.getSellerdelivery().add(sellerDelivery);
-////                            OrderDetailsActivity.createOrderCartList.getDeliverytypes().add(OrderDetailsActivity.deliveryTypes);
-//                            adddeliveryTypes.setBranchid(branchid);
-//                            adddeliveryTypes.setDeliverytype(DisplayDeliveryChargesAndType.deliveryType.get(j).split("_")[1]);
-//                            OrderDetailsActivity.createOrderCartList.getDeliverytypes().add(adddeliveryTypes);
-//
-//                        }
-//                    }
-
                     for(int j = 0; j < Cart.hm.size(); j++){
                         if(branchIds.contains(Cart.hm.get(keys[j]).getBranchid())){
 
@@ -163,16 +109,21 @@ public class AdapterForMultipleProviders {
                                     }
                                 }
 
+                            if(i > 0) {
+                                for (int k = 0; k < DeliveryChargesAndTypeAdapter.successResponseForDeliveryCharges.getSuccess().getDeliverycharge().size(); k++) {
+                                    if (branchid.equalsIgnoreCase(DeliveryChargesAndTypeAdapter.successResponseForDeliveryCharges.getSuccess().getDeliverycharge().get(k).getBranchid())) {
+                                        DeliveryChargeDetails deliveryChargeDetails = new DeliveryChargeDetails();
+                                        if (DeliveryChargesAndTypeAdapter.successResponseForDeliveryCharges.getSuccess().getDeliverycharge().get(k).isIsdeliverychargeinpercent() == true) {
+                                            deliveryChargeDetails.setCharge((Cart.currentProviderSubTotal(list) * DeliveryChargesAndTypeAdapter.successResponseForDeliveryCharges.getSuccess().getDeliverycharge().get(k).getCharge()) / 100);
+                                        } else {
+                                            deliveryChargeDetails.setCharge(DeliveryChargesAndTypeAdapter.successResponseForDeliveryCharges.getSuccess().getDeliverycharge().get(k).getCharge());
+                                        }
+                                        deliveryChargeDetails.setDelivery(DeliveryChargesAndTypeAdapter.successResponseForDeliveryCharges.getSuccess().getDeliverycharge().get(k).isDelivery());
+                                        deliveryChargeDetails.setIsdeliverychargeinpercent(DeliveryChargesAndTypeAdapter.successResponseForDeliveryCharges.getSuccess().getDeliverycharge().get(k).isIsdeliverychargeinpercent());
 
-                            for(int k = 0; k < DeliveryChargesAndTypeAdapter.successResponseForDeliveryCharges.getSuccess().getDeliverycharge().size(); k++) {
-                                if (branchid.equalsIgnoreCase(DeliveryChargesAndTypeAdapter.successResponseForDeliveryCharges.getSuccess().getDeliverycharge().get(k).getBranchid())) {
-                                    DeliveryChargeDetails deliveryChargeDetails = new DeliveryChargeDetails();
-                                    deliveryChargeDetails.setCharge(DeliveryChargesAndTypeAdapter.successResponseForDeliveryCharges.getSuccess().getDeliverycharge().get(k).getCharge());
-                                    deliveryChargeDetails.setDelivery(DeliveryChargesAndTypeAdapter.successResponseForDeliveryCharges.getSuccess().getDeliverycharge().get(k).isDelivery());
-                                    deliveryChargeDetails.setIsdeliverychargeinpercent(DeliveryChargesAndTypeAdapter.successResponseForDeliveryCharges.getSuccess().getDeliverycharge().get(k).isIsdeliverychargeinpercent());
+                                        sellerDelivery.setDeliverycharge(deliveryChargeDetails);
 
-                                    sellerDelivery.setDeliverycharge(deliveryChargeDetails);
-
+                                    }
                                 }
                             }
                                 OrderDetailsActivity.createOrderCartList.getSellerdelivery().add(sellerDelivery);

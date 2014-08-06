@@ -114,32 +114,32 @@ public class FinalOrderActivity extends Activity {
             if (successResponseForCreateOrder.getSuccess().getOrder().getTotal_order_price() != 0) {
                 grand_total.setText(String.format("%.2f", successResponseForCreateOrder.getSuccess().getOrder().getTotal_order_price()));
             }
-            if (successResponseForCreateOrder.getSuccess().getOrder().getPreferred_delivery_date() != null) {
-                txt_expected_delivery_date.setText(successResponseForCreateOrder.getSuccess().getOrder().getPreferred_delivery_date());
-            }
+//            if (successResponseForCreateOrder.getSuccess().getOrder().getPreferred_delivery_date() != null) {
+//                txt_expected_delivery_date.setText(successResponseForCreateOrder.getSuccess().getOrder().getPreferred_delivery_date());
+//            }
         } catch (Exception e) {
             e.printStackTrace();
         }
         //*****************
+        if(successResponseForCreateOrder.getSuccess().getOrder().getPreferred_delivery_date() != null) {
+            try {
 
-        try {
+                final DateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+                inputFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
 
-            final DateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
-            inputFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
+                final DateFormat outputFormat = new SimpleDateFormat("dd-MMM-yyyy HH:mm a");
+                TimeZone tz = TimeZone.getTimeZone("Asia/Calcutta");
 
-            final DateFormat outputFormat = new SimpleDateFormat("dd-MMM-yyyy HH:mm a");
-            TimeZone tz = TimeZone.getTimeZone("Asia/Calcutta");
+                outputFormat.setTimeZone(tz);
 
-            outputFormat.setTimeZone(tz);
-
-            Date order_date = inputFormat.parse(successResponseForCreateOrder.getSuccess().getOrder().getPreferred_delivery_date());
-            txt_expected_delivery_date.setText(outputFormat.format(order_date));
+                Date order_date = inputFormat.parse(successResponseForCreateOrder.getSuccess().getOrder().getPreferred_delivery_date());
+                txt_expected_delivery_date.setText(outputFormat.format(order_date));
 
 
-        } catch (Exception e) {
-            e.printStackTrace();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
-
 
         //*******************
         new AdapterForFinalOrderMultipleProviders(context, successResponseForCreateOrder.getSuccess().getOrder().getSuborder()).setMultipleProvidersList();

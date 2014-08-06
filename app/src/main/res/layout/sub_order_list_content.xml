@@ -161,9 +161,16 @@
                     android:id="@+id/actual_price" />
             </LinearLayout>
 
-
+            <ImageView
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:src="@drawable/ic_launcher"
+                android:visibility="gone"
+                android:id="@+id/image"/>
         </LinearLayout>
 
 
     </LinearLayout>
+
+
 </LinearLayout>
