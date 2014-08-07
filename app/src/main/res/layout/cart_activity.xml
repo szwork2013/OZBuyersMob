@@ -81,7 +81,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/deliverdateandtime"
+                        android:text="@string/delivery_date"
                         android:textColor="#000"
                         android:textSize="16sp" />
 
@@ -92,7 +92,7 @@
                         android:gravity="left"
                         android:layout_marginLeft="2dp"
                         android:background="@drawable/date_background"
-                        android:hint="@string/deliverdatentime"
+                        android:hint="@string/expected_delivery_date"
                         android:onClick="selectDeliveryDate"
                         android:textSize="16sp"
                         android:textStyle="bold" />

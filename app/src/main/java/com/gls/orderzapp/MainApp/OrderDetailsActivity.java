@@ -56,7 +56,7 @@ import java.util.List;
 public class OrderDetailsActivity extends Activity {
     public static LinearLayout llProductsList, llayout_delivery_address;
     public static TextView textGrandTotal, grandTotal, billingAddressTextView, shippingAddressTextView, delivery_type, payment_mode;
-    TextView expected_delivery_date, delivery_address_text;
+    TextView expected_delivery_date, delivery_address_text,expected_delivery_timeslot;
     CreateOrderAddressDetails orderBillingAddressDetails, orderDeliveryAddressDetails;
     public static CreateOrderCartList createOrderCartList;
     RadioGroup payment_mode_group;
@@ -84,6 +84,7 @@ public class OrderDetailsActivity extends Activity {
         orderDeliveryAddressDetails = new Gson().fromJson(getIntent().getStringExtra("DELIVERY_ADDRESS"), CreateOrderAddressDetails.class);
 
         setOrderAddressDetails();
+        Log.d("CartDetailsPayMent",new Gson().toJson(Cart.hm));
     }
 
     @Override
@@ -150,6 +151,7 @@ public class OrderDetailsActivity extends Activity {
         billingAddressTextView = (TextView) findViewById(R.id.billing_address_textview);
         shippingAddressTextView = (TextView) findViewById(R.id.shipping_address_textview);
         expected_delivery_date = (TextView) findViewById(R.id.expected_delivery_date);
+        expected_delivery_timeslot= (TextView) findViewById(R.id.expected_delivery_timeslot);
         payment_mode_group = (RadioGroup) findViewById(R.id.payment_mode_group);
         cash_on_delivery = (RadioButton) findViewById(R.id.cash_on_delivery);
         credit_card = (RadioButton) findViewById(R.id.credit_card);
@@ -236,9 +238,9 @@ public class OrderDetailsActivity extends Activity {
                 }
                 createOrderProductDetails.setCartCount(cartDetails.get(i).getCartCount());
 
-                if (!orderBillingAddressDetails.getDate().isEmpty()) {
-                    createOrderCartList.setPreferred_delivery_date(orderBillingAddressDetails.getDate());
-                }
+//                if (!orderBillingAddressDetails.getDate().isEmpty()) {
+////                    createOrderCartList.setPreferred_delivery_date(orderBillingAddressDetails.getDate());
+//                }
 
                 createOrderCartList.getCart().add(createOrderProductDetails);
             }
@@ -253,8 +255,7 @@ public class OrderDetailsActivity extends Activity {
                 createOrderCartList.setPaymentmode("PAYTM");
             }
             createOrderData.setOrderdata(createOrderCartList);
-            new AdapterForMultipleProviders(context, createOrderCartList.getCart(), orderDeliveryAddressDetails, orderBillingAddressDetails.getDate()).setMultipleProvidersList();
-//            createOrderCartList.setDeliverycharges(createOrderCartList.getDeliverycharges());
+            new AdapterForMultipleProviders(context, createOrderCartList.getCart(), orderDeliveryAddressDetails).setMultipleProvidersList();
             displayOrderData();
         } catch (Exception e) {
             e.printStackTrace();
@@ -265,7 +266,9 @@ public class OrderDetailsActivity extends Activity {
 
         textGrandTotal.setText("Grand Total:");
         payment_mode.setText(DeliveryPaymentActivity.payment_mode);
-        expected_delivery_date.setText(createOrderData.getOrderdata().getBilling_address().getDate());
+//        Log.d("Date and time slot",createOrderData.getOrderdata().getBilling_address().getDate()+" "+createOrderData.getOrderdata().getBilling_address().getTimeslot());
+//        expected_delivery_date.setText(createOrderData.getOrderdata().getBilling_address().getDate());
+//        expected_delivery_timeslot.setText(createOrderData.getOrderdata().getBilling_address().getTimeslot());
 
         billingAddressTextView.setText(createOrderData.getOrderdata().getBilling_address().getAddress1() + ", " +
                 createOrderData.getOrderdata().getBilling_address().getAddress2() + ", " +
@@ -291,15 +294,15 @@ public class OrderDetailsActivity extends Activity {
     }
 
     public void confirmOrder(View view) {
-        if (!createOrderData.getOrderdata().getBilling_address().getDate().isEmpty()) {
+//        if (!createOrderData.getOrderdata().getBilling_address().getDate().isEmpty()) {
 
             new PlaceOrderAsync().execute();
 
-        } else {
+//        } else {
 
-            Toast.makeText(getApplicationContext(), "Please Select a delivery date", Toast.LENGTH_LONG).show();
+//            Toast.makeText(getApplicationContext(), "Please Select a delivery date", Toast.LENGTH_LONG).show();
 
-        }
+//        }
     }
 
     public String placeAnOrder() {

@@ -9,6 +9,7 @@ public class SellerDelivery {
     String branchid;
     String deliverytype;
     String prefdeldtime;
+    AvailableDeliveryTimingSlots prefdeltimeslot;
     DeliveryChargeDetails deliverycharge;
     String orderinstructions;
     Location pickup_address;
@@ -36,6 +37,14 @@ public class SellerDelivery {
 
     public void setPrefdeldtime(String prefdeldtime) {
         this.prefdeldtime = prefdeldtime;
+    }
+
+    public AvailableDeliveryTimingSlots getPrefdeltimeslot() {
+        return prefdeltimeslot;
+    }
+
+    public void setPrefdeltimeslot(AvailableDeliveryTimingSlots prefdeltimeslot) {
+        this.prefdeltimeslot = prefdeltimeslot;
     }
 
     public DeliveryChargeDetails getDeliverycharge() {

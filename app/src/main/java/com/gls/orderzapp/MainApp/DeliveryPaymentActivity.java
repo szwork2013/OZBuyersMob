@@ -91,6 +91,7 @@ public class DeliveryPaymentActivity extends Activity {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        Log.d("CartDetailDeliveryPayment",new Gson().toJson(Cart.hm));
 
     }
 
@@ -170,10 +171,10 @@ public class DeliveryPaymentActivity extends Activity {
                 Toast.makeText(getApplicationContext(), "Please select a payment mode", Toast.LENGTH_LONG).show();
                 return;
             }
-            if (date.isEmpty()) {
-                Toast.makeText(getApplicationContext(), "Please select your expected delivery date", Toast.LENGTH_LONG).show();
-                return;
-            }
+//            if (date.isEmpty()) {
+//                Toast.makeText(getApplicationContext(), "Please select your expected delivery date", Toast.LENGTH_LONG).show();
+//                return;
+//            }
             if (DisplayDeliveryChargesAndType.deliveryTypeCheck() ==false) {
                 return;
             }
@@ -403,7 +404,7 @@ public class DeliveryPaymentActivity extends Activity {
         CreateOrderAddressDetails createOrderBillingAddressDetails = new CreateOrderAddressDetails();
         CreateOrderAddressDetails createOrderDeliveryAddressDetails = new CreateOrderAddressDetails();
 
-        createOrderBillingAddressDetails.setDate(date);
+//        createOrderBillingAddressDetails.setDate();
         if (successResponseOfUserBillingAddress.getSuccess().getUser().getLocation() != null) {
             createOrderBillingAddressDetails.setAddress1(successResponseOfUserBillingAddress.getSuccess().getUser().getLocation().getAddress1());
             createOrderBillingAddressDetails.setAddress2(successResponseOfUserBillingAddress.getSuccess().getUser().getLocation().getAddress2());

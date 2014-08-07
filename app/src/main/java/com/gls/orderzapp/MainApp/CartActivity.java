@@ -54,7 +54,7 @@ public class CartActivity extends Activity {
 //    String productId = "";
 //    ArrayList<String> listOfProductIdforDelivery = new ArrayList<>();
 //    public CheckDeliveryTimeSlotsProductIDs productIdsForGettingTimeSlots;
-    public SuccesResponseCheckDeliveryTimingSlots succesResponseCheckDeliveryTimingSlots;
+//    public SuccesResponseCheckDeliveryTimingSlots succesResponseCheckDeliveryTimingSlots;
 
 
     @Override
@@ -143,7 +143,7 @@ public class CartActivity extends Activity {
 
                 } else {
 
-                    updateTime(yy, mm, dd, hh, min);
+                    updateTime(yy, mm, dd);
                     displayCart();
 //                    getProductIds();
 //                    new GetDeliveryTimeSlotsAsync().execute();
@@ -160,31 +160,10 @@ public class CartActivity extends Activity {
 
     }
 
-    // Used to convert 24hr format to 12hr format with AM/PM values
-    public void updateTime(int yy, int mm, int dd, int hours, int mins) {
+    // Used to convert 24hr format to 12hr format with
+    public void updateTime(int yy, int mm, int dd) {
 
-        String timeSet = "";
-        if (hours > 12) {
-            hours -= 12;
-            timeSet = "PM";
-        } else if (hours == 0) {
-            hours += 12;
-            timeSet = "AM";
-        } else if (hours == 12)
-            timeSet = "PM";
-        else
-            timeSet = "AM";
-
-
-        String minutes = "";
-        if (mins < 10)
-            minutes = "0" + mins;
-        else
-            minutes = String.valueOf(mins);
-
-
-        date = new StringBuilder().append(yy).append('-').append(mm + 1).append('-').append(dd).append("  ").append(hours).append(':')
-                .append(minutes).append(" ").append(timeSet).toString();
+        date = new StringBuilder().append(yy).append('-').append(mm + 1).append('-').append(dd).toString();
 
         //dialog.cancel();
         delivery_date.setText(date);

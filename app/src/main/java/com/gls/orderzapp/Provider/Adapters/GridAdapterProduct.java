@@ -214,6 +214,20 @@ public class GridAdapterProduct extends BaseAdapter {
                             if (productDetailsList.get(position).getProductname() != null) {
                                 productDetailsToAddIntoTheCart.setProductname(productDetailsList.get(position).getProductname());
                             }
+
+                            if (providerDetails.getProducts().get(position).getPrefereddeliverydate() != null) {
+                                productDetailsToAddIntoTheCart.setPrefereddeliverydate(providerDetails.getProducts().get(position).getPrefereddeliverydate());
+                            }else{
+                                productDetailsToAddIntoTheCart.setPrefereddeliverydate("");
+                            }
+                            if (providerDetails.getProducts().get(position).getTimeslot() != null) {
+                                productDetailsToAddIntoTheCart.getTimeslot().setFrom(providerDetails.getProducts().get(position).getTimeslot().getFrom());
+                                productDetailsToAddIntoTheCart.getTimeslot().setTo(providerDetails.getProducts().get(position).getTimeslot().getTo());
+
+                            }else{
+                                productDetailsToAddIntoTheCart.getTimeslot().setFrom(0);
+                                productDetailsToAddIntoTheCart.getTimeslot().setTo(0);
+                            }
                             if (productDetailsList.get(position).getFoodtype() != null) {
                                 productDetailsToAddIntoTheCart.setFoodtype(productDetailsList.get(position).getFoodtype());
                             }

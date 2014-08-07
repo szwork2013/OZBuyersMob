@@ -9,7 +9,10 @@ import android.os.AsyncTask;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
@@ -17,6 +20,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.gls.orderzapp.Cart.Beans.BranchIdsForGettingDeliveryCharges;
+import com.gls.orderzapp.CreateOrder.CreateOrderBeans.AvailableDeliveryTimingSlots;
 import com.gls.orderzapp.CreateOrder.CreateOrderBeans.CheckDeliveryTimeSlotsProductIDs;
 import com.gls.orderzapp.CreateOrder.CreateOrderBeans.SuccesResponseCheckDeliveryTimingSlots;
 import com.gls.orderzapp.CreateOrder.CreateOrderBeans.SuccessResponseForDeliveryChargesAndType;
@@ -55,6 +59,7 @@ public class CartAdapter {
     List<ProductDetails> listProducts = new ArrayList<>();
     String branchId = "";
     String productId = "";
+    int i;
     public static List<TextView> listText = new ArrayList<>();
     public static TextView sub_total;
     List<ProductDetails> SortedProviderList = new ArrayList<>();
@@ -63,6 +68,8 @@ public class CartAdapter {
     public CheckDeliveryTimeSlotsProductIDs productIdsForGettingTimeSlots;
     public SuccesResponseCheckDeliveryTimingSlots succesResponseCheckDeliveryTimingSlots;
     ArrayList<String> arrayListTimeSlots;
+    AvailableDeliveryTimingSlots timeingslot;
+    ArrayList<AvailableDeliveryTimingSlots>arrayListTimeSlotsObject;
     ArrayList<String> listOfProductIdforDelivery = new ArrayList<>();
     ArrayList<String> branchIdforDelivery = new ArrayList<>();
 
@@ -72,9 +79,7 @@ public class CartAdapter {
         mKeys = Cart.hm.keySet().toArray(new String[Cart.hm.size()]);
         mValues = Cart.hm.values().toArray(new ProductDetails[Cart.hm.size()]);
         productList = new ArrayList<>(Arrays.asList(mValues));
-
         Collections.sort(productList, new CustomComparator());
-
         successResponseForDeliveryCharges = new SuccessResponseForDeliveryChargesAndType();
         branchIdsForGettingDeliveryCharges = new BranchIdsForGettingDeliveryCharges();
 
@@ -82,7 +87,7 @@ public class CartAdapter {
     }
 
     public void getCartView() {
-        for (int i = 0; i < Cart.hm.size(); i++) {
+        for ( i = 0; i < Cart.hm.size(); i++) {
             String branchid = productList.get(i).getBranchid();
 
             if (branchids.contains(branchid)) {
@@ -104,9 +109,8 @@ public class CartAdapter {
                 TextView delivery_type = (TextView) llCartListItemView.findViewById(R.id.delivery_type);
                 TextView txt_provider_note = (TextView) llCartListItemView.findViewById(R.id.txt_provider_note);
                 TextView delivery_date_on_shoppingcart = (TextView) llCartListItemView.findViewById(R.id.delivery_date_on_shoppingcart);
-                Spinner spn_timeslot = (Spinner) llCartListItemView.findViewById(R.id.spn_timeslot);
+                final Spinner spn_timeslot = (Spinner) llCartListItemView.findViewById(R.id.spn_timeslot);
                 LinearLayout ll_deliverylayout_cart = (LinearLayout) llCartListItemView.findViewById(R.id.ll_deliverylayout_cart);
-                TextView delivery_timeslot = (TextView) llCartListItemView.findViewById(R.id.delivery_timeslot);
                 Button btn_productcart_privacy = (Button) llCartListItemView.findViewById(R.id.btn_productcart_privacy);
                 sub_total = (TextView) llCartListItemView.findViewById(R.id.sub_total);
                 listText.add(sub_total);
@@ -120,9 +124,7 @@ public class CartAdapter {
                 if (productList.get(i).getProviderName() != null) {
 
                     textProviderName.setText(productList.get(i).getProviderName());
-
                 }
-
                 btn_productcart_privacy.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -146,6 +148,7 @@ public class CartAdapter {
                 });
                 if (!CartActivity.date.isEmpty()) {
                     arrayListTimeSlots = new ArrayList<>();
+                    arrayListTimeSlotsObject=new ArrayList<>();
                     ll_deliverylayout_cart.setVisibility(View.VISIBLE);
                     if (successResponseForDeliveryCharges.getSuccess().getDeliverycharge().size() > 0) {
                         for (int j = 0; j < successResponseForDeliveryCharges.getSuccess().getDeliverycharge().size(); j++) {
@@ -159,30 +162,22 @@ public class CartAdapter {
                                             if (successResponseForDeliveryCharges.getSuccess().getDeliverycharge().get(j).isDelivery() == true) {
                                                 delivery_type.setBackgroundColor(Color.parseColor("#009431"));
                                                 delivery_type.setText("Home/Pick-Up");
-                                                try {
-                                                    final DateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
-                                                    inputFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
-                                                    final DateFormat outputFormat = new SimpleDateFormat("dd-MMM-yyyy HH:mm a");
-                                                    TimeZone tz = TimeZone.getTimeZone("Asia/Calcutta");
-                                                    outputFormat.setTimeZone(tz);
-                                                    Date order_date = inputFormat.parse(succesResponseCheckDeliveryTimingSlots.getSuccess().getDoc().get(k).getExpected_date());
-                                                    delivery_date_on_shoppingcart.setText(outputFormat.format(order_date));
-                                                } catch (Exception e) {
-                                                    e.printStackTrace();
+                                                delivery_date_on_shoppingcart.setText(deliveryDateOnCart(succesResponseCheckDeliveryTimingSlots.getSuccess().getDoc().get(k).getExpected_date()));
+                                                deliveryTimeSlots(succesResponseCheckDeliveryTimingSlots.getSuccess().getDoc().get(j).getDeliverytimingslots());
+                                                productList.get(i).setPrefereddeliverydate(deliveryDateOnCart(succesResponseCheckDeliveryTimingSlots.getSuccess().getDoc().get(k).getExpected_date()));
+                                               Log.d("PrefDate",productList.get(i).getPrefereddeliverydate());
+                                                for (int m = 0; m < arrayListTimeSlots.size(); m++) {
+                                                    spn_timeslot.setAdapter(new ArrayAdapter<String>(context.getApplicationContext(), R.layout.weight_spinner_items, arrayListTimeSlots));
                                                 }
                                             } else {
                                                 delivery_type.setBackgroundColor(Color.parseColor("#d60027"));
                                                 delivery_type.setText("Pick-Up Only");
-                                                try {
-                                                    final DateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
-                                                    inputFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
-                                                    final DateFormat outputFormat = new SimpleDateFormat("dd-MMM-yyyy HH:mm a");
-                                                    TimeZone tz = TimeZone.getTimeZone("Asia/Calcutta");
-                                                    outputFormat.setTimeZone(tz);
-                                                    Date order_date = inputFormat.parse(succesResponseCheckDeliveryTimingSlots.getSuccess().getDoc().get(k).getExpected_date());
-                                                    delivery_date_on_shoppingcart.setText(outputFormat.format(order_date));
-                                                } catch (Exception e) {
-                                                    e.printStackTrace();
+                                                delivery_date_on_shoppingcart.setText(deliveryDateOnCart(succesResponseCheckDeliveryTimingSlots.getSuccess().getDoc().get(k).getExpected_date()));
+                                                deliveryTimeSlots(succesResponseCheckDeliveryTimingSlots.getSuccess().getDoc().get(j).getDeliverytimingslots());
+                                                productList.get(i).setPrefereddeliverydate(deliveryDateOnCart(succesResponseCheckDeliveryTimingSlots.getSuccess().getDoc().get(k).getExpected_date()));
+                                                Log.d("PrefDate",productList.get(i).getPrefereddeliverydate());
+                                                for (int m = 0; m < arrayListTimeSlots.size(); m++) {
+                                                    spn_timeslot.setAdapter(new ArrayAdapter<String>(context.getApplicationContext(), R.layout.weight_spinner_items, arrayListTimeSlots));
                                                 }
                                             }
 
@@ -192,12 +187,47 @@ public class CartAdapter {
                             }
                         }
                     }
+
                 } else {
                     ll_deliverylayout_cart.setVisibility(View.GONE);
                 }
-spn_timeslot.setId(i+3000);
+                spn_timeslot.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> adapterView, View view, int pos, long l) {
+
+                        for(int z=0;z<succesResponseCheckDeliveryTimingSlots.getSuccess().getDoc().size();z++) {
+                            for (int j = 0; j < productList.size(); j++) {
+                                if (productList.get(j).getBranchid().equals(succesResponseCheckDeliveryTimingSlots.getSuccess().getDoc().get(z).getBranchid()))
+                                {
+                                    AvailableDeliveryTimingSlots ts = new AvailableDeliveryTimingSlots();
+                                    ts.setFrom(arrayListTimeSlotsObject.get(adapterView.getId()-3000).getFrom());
+                                    ts.setTo(arrayListTimeSlotsObject.get(adapterView.getId()-3000).getTo());
+                                    productList.get(j).setTimeslot(ts);
+                                    Log.d("ProductList",new Gson().toJson(productList));
+                                    Log.d("TimeSlot", new Gson().toJson(ts));
+                                }
+                            }
+                        }
+
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> adapterView) {
+
+                    }
+                });
+
+                spn_timeslot.setOnTouchListener(new View.OnTouchListener() {
+                    @Override
+                    public boolean onTouch(View view, MotionEvent motionEvent) {
+
+                        return false;
+                    }
+                });
+                spn_timeslot.setId(i + 3000);
                 btn_productcart_privacy.setId(i + 2000);
                 CartActivity.llCartList.addView(llCartListItemView);
+
             }
 
             if (i == productList.size() - 1) {
@@ -205,7 +235,65 @@ spn_timeslot.setId(i+3000);
                 sub_total.setText(Cart.providerSubTotalInCart(listProducts) + "");
             }
 
+            Log.d("After date selected",new Gson().toJson(productList));
         }
+    }
+    public void deliveryTimeSlots(List<AvailableDeliveryTimingSlots> deliveryTimingslots)
+    {
+
+        String timeslots="";
+        for(int m=0;m<deliveryTimingslots.size();m++){
+            if(deliveryTimingslots.get(m).getFrom()<12)
+            {
+                timeslots=deliveryTimingslots.get(m).getFrom()+" AM";
+            }else if(deliveryTimingslots.get(m).getFrom()==12)
+            {
+                timeslots=deliveryTimingslots.get(m).getFrom()+" PM";
+            }
+            else if(deliveryTimingslots.get(m).getFrom()>12)
+            {
+                timeslots=(deliveryTimingslots.get(m).getFrom()-12)+" PM";
+            }
+
+            if(deliveryTimingslots.get(m).getTo()<12)
+            {
+                timeslots=timeslots.concat("-"+deliveryTimingslots.get(m).getTo()+" AM");
+            }else if(deliveryTimingslots.get(m).getTo()==12)
+            {
+                timeslots=timeslots.concat("-"+deliveryTimingslots.get(m).getTo()+" PM");
+            }
+            else if(deliveryTimingslots.get(m).getTo()>12)
+            {
+                timeslots=timeslots.concat("-"+(deliveryTimingslots.get(m).getTo()-12)+" PM");
+            }
+            if(deliveryTimingslots.get(m).getAvailable()==true)
+            {
+                timeingslot=new AvailableDeliveryTimingSlots();
+                timeingslot.setTo(deliveryTimingslots.get(m).getTo());
+                timeingslot.setFrom(deliveryTimingslots.get(m).getFrom());
+                arrayListTimeSlots.add(timeslots);
+                arrayListTimeSlotsObject.add(timeingslot);
+            }
+        }
+        Log.d("arrayListTimeSlots",new Gson().toJson(arrayListTimeSlots));
+        Log.d("arrayListTimeSlotsObject",new Gson().toJson(arrayListTimeSlotsObject));
+    }
+
+    public String deliveryDateOnCart(String date)
+    {
+        String deliveryDate="";
+        try {
+            final DateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+            inputFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
+            final DateFormat outputFormat = new SimpleDateFormat("dd-MMM-yyyy");
+            TimeZone tz = TimeZone.getTimeZone("Asia/Calcutta");
+            outputFormat.setTimeZone(tz);
+            Date order_date = inputFormat.parse(date);
+            deliveryDate=outputFormat.format(order_date);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return deliveryDate;
     }
 
     public String loadCityPreference() {
