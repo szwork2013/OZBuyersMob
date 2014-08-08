@@ -56,17 +56,17 @@ public class AdapterForFinalOrderMultipleProviders {
                 {  delivery_type.setText("Pick-Up");}
             }
             if(orderedSubOrderDetailsList.get(i).getPrefdeltimeslot()!=null){
-                String deliveryTime="Between ";
+                String deliveryTime="";
                 if(orderedSubOrderDetailsList.get(i).getPrefdeltimeslot().getFrom()<12)
                 {
-                    deliveryTime=deliveryTime.concat(String.format("%.2f",orderedSubOrderDetailsList.get(i).getPrefdeltimeslot().getFrom())+" AM");
+                    deliveryTime=String.format("%.2f",orderedSubOrderDetailsList.get(i).getPrefdeltimeslot().getFrom())+" AM";
                 }else if(orderedSubOrderDetailsList.get(i).getPrefdeltimeslot().getFrom()==12)
                 {
-                    deliveryTime=deliveryTime.concat(String.format("%.2f",orderedSubOrderDetailsList.get(i).getPrefdeltimeslot().getFrom())+" PM");
+                    deliveryTime=String.format("%.2f",orderedSubOrderDetailsList.get(i).getPrefdeltimeslot().getFrom())+" PM";
                 }
                 else if(orderedSubOrderDetailsList.get(i).getPrefdeltimeslot().getFrom()>12)
                 {
-                    deliveryTime=deliveryTime.concat(String.format("%.2f",(orderedSubOrderDetailsList.get(i).getPrefdeltimeslot().getFrom()-12))+" PM");
+                    deliveryTime=String.format("%.2f",(orderedSubOrderDetailsList.get(i).getPrefdeltimeslot().getFrom()-12))+" PM";
                 }
 
                 if(orderedSubOrderDetailsList.get(i).getPrefdeltimeslot().getTo()<12)
@@ -81,7 +81,7 @@ public class AdapterForFinalOrderMultipleProviders {
                     deliveryTime=deliveryTime.concat(" to "+String.format("%.2f",(orderedSubOrderDetailsList.get(i).getPrefdeltimeslot().getTo()-12))+" PM");
                 }
 
-                delivery_time_slot_final_order.setText(deliveryTime);
+                delivery_time_slot_final_order.setText("Between "+deliveryTime);
             }
             if (orderedSubOrderDetailsList.get(i).getProductprovider().getProviderbrandname() != null) {
                 providerName.setText(orderedSubOrderDetailsList.get(i).getProductprovider().getProviderbrandname());

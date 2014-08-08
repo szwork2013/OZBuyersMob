@@ -55,7 +55,7 @@ public class AdapterForMultipleProviders {
             String branchid = createOrderProductDetailsList.get(i).getBranchid();
             String providerName = createOrderProductDetailsList.get(i).getProvidername();
             String providerArea = createOrderProductDetailsList.get(i).getLocation().getArea();
-            String deliveryType = "",deliveryDate="",deliveryTime="Between ";
+            String deliveryType = "",deliveryDate="",deliveryTime="";
 
             if (providers != null) {
                 if (providers.contains(branchid)) {
@@ -92,14 +92,14 @@ public class AdapterForMultipleProviders {
                                 if(Cart.hm.get(keys[j]).getTimeslot()!=null){
                                         if(Cart.hm.get(keys[j]).getTimeslot().getFrom()<12)
                                         {
-                                            deliveryTime=deliveryTime.concat(String.format("%.2f",Cart.hm.get(keys[j]).getTimeslot().getFrom())+" AM");
+                                            deliveryTime=String.format("%.2f",Cart.hm.get(keys[j]).getTimeslot().getFrom())+" AM";
                                         }else if(Cart.hm.get(keys[j]).getTimeslot().getFrom()==12)
                                         {
-                                            deliveryTime=deliveryTime.concat(String.format("%.2f",Cart.hm.get(keys[j]).getTimeslot().getFrom())+" PM");
+                                            deliveryTime=String.format("%.2f",Cart.hm.get(keys[j]).getTimeslot().getFrom())+" PM";
                                         }
                                         else if(Cart.hm.get(keys[j]).getTimeslot().getFrom()>12)
                                         {
-                                            deliveryTime=deliveryTime.concat(String.format("%.2f",(Cart.hm.get(keys[j]).getTimeslot().getFrom()-12))+" PM");
+                                            deliveryTime=String.format("%.2f",(Cart.hm.get(keys[j]).getTimeslot().getFrom()-12))+" PM";
                                         }
 
                                         if(Cart.hm.get(keys[j]).getTimeslot().getTo()<12)
@@ -179,7 +179,7 @@ public class AdapterForMultipleProviders {
                     deliveryAddressText = (TextView) llProductsForProvider.findViewById(R.id.delivery_address);
 
                     deliveryTypeText.setText(deliveryType);
-                    deliveryTimeText.setText(deliveryTime);
+                    deliveryTimeText.setText("Between "+deliveryTime);
                     deliveryDateText.setText(deliveryDate);
                     deliveryAddressText.setText(orderDeliveryAddress.getAddress1()+","+orderDeliveryAddress.getAddress2()
                             +"\n"+orderDeliveryAddress.getArea()+","+orderDeliveryAddress.getCity()

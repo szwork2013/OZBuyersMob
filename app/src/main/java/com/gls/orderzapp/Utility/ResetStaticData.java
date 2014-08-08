@@ -120,9 +120,7 @@ public class ResetStaticData {
     public static void staticOrderDetailsActivity() throws Exception
     {
         OrderDetailsActivity.llProductsList.removeAllViews();
-        OrderDetailsActivity.llayout_delivery_address.removeAllViews();
         OrderDetailsActivity.textGrandTotal.setText("");OrderDetailsActivity.grandTotal.setText("");
-        OrderDetailsActivity.billingAddressTextView.setText("");OrderDetailsActivity.shippingAddressTextView.setText("");
         OrderDetailsActivity.delivery_type.setText("");OrderDetailsActivity.payment_mode.setText("");
         OrderDetailsActivity.createOrderCartList=null;
         OrderDetailsActivity.deliveryChargeDetails=null;
