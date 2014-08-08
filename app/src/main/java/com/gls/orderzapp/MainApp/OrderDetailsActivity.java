@@ -54,8 +54,8 @@ import java.util.List;
  * Created by prajyot on 24/4/14.
  */
 public class OrderDetailsActivity extends Activity {
-    public static LinearLayout llProductsList, llayout_delivery_address;
-    public static TextView textGrandTotal, grandTotal, billingAddressTextView, shippingAddressTextView, delivery_type, payment_mode;
+    public static LinearLayout llProductsList;
+    public static TextView textGrandTotal, grandTotal, billingAddressTextView,  delivery_type, payment_mode;
     TextView expected_delivery_date, delivery_address_text,expected_delivery_timeslot;
     CreateOrderAddressDetails orderBillingAddressDetails, orderDeliveryAddressDetails;
     public static CreateOrderCartList createOrderCartList;
@@ -145,19 +145,16 @@ public class OrderDetailsActivity extends Activity {
         llProductsList = (LinearLayout) findViewById(R.id.listProducts);
 //        txt_delivery_date=(TextView) findViewById(R.id.txt_delivery_date);
         textGrandTotal = (TextView) findViewById(R.id.grand_total_text);
-        llayout_delivery_address = (LinearLayout) findViewById(R.id.llayout_delivery_address);
+
         grandTotal = (TextView) findViewById(R.id.grand_total);
         delivery_type = (TextView) findViewById(R.id.delivery_type);
         billingAddressTextView = (TextView) findViewById(R.id.billing_address_textview);
-        shippingAddressTextView = (TextView) findViewById(R.id.shipping_address_textview);
-        expected_delivery_date = (TextView) findViewById(R.id.expected_delivery_date);
-        expected_delivery_timeslot= (TextView) findViewById(R.id.expected_delivery_timeslot);
+
         payment_mode_group = (RadioGroup) findViewById(R.id.payment_mode_group);
         cash_on_delivery = (RadioButton) findViewById(R.id.cash_on_delivery);
         credit_card = (RadioButton) findViewById(R.id.credit_card);
         payment_mode = (TextView) findViewById(R.id.payment_mode);
         address_list = (ListView) findViewById(R.id.address_list);
-        delivery_address_text = (TextView) findViewById(R.id.delivery_address_text);
     }
 
     @Override
@@ -277,18 +274,6 @@ public class OrderDetailsActivity extends Activity {
                 createOrderData.getOrderdata().getBilling_address().getZipcode() + "\n" +
                 createOrderData.getOrderdata().getBilling_address().getState() + ", " +
                 createOrderData.getOrderdata().getBilling_address().getCountry());
-
-                llayout_delivery_address.setVisibility(View.VISIBLE);
-                shippingAddressTextView.setVisibility(View.VISIBLE);
-                shippingAddressTextView.setText(createOrderData.getOrderdata().getDelivery_address().getAddress1() + ", " +
-                createOrderData.getOrderdata().getDelivery_address().getAddress2() + ", " +
-                createOrderData.getOrderdata().getDelivery_address().getArea() + ",\n" +
-                createOrderData.getOrderdata().getDelivery_address().getCity() + ". " +
-                createOrderData.getOrderdata().getDelivery_address().getZipcode() + "\n" +
-                createOrderData.getOrderdata().getDelivery_address().getState() + ", " +
-                createOrderData.getOrderdata().getDelivery_address().getCountry());
-
-
 //        }
 
     }

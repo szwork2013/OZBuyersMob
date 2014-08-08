@@ -326,5 +326,4 @@ public class GridAdapterProviderCategories extends BaseAdapter {
         }
         return convertView;
     }
-
 }

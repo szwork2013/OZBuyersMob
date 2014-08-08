@@ -1,3 +1,4 @@
+
 package com.gls.orderzapp.Cart.Adapters;
 
 import android.app.ProgressDialog;
@@ -59,7 +60,7 @@ public class CartAdapter {
     List<ProductDetails> listProducts = new ArrayList<>();
     String branchId = "";
     String productId = "";
-    int getid=0;
+    String date="";
     Spinner spn_timeslot,tempSpinner;
     public static List<TextView> listText = new ArrayList<>();
     public static TextView sub_total;
@@ -71,7 +72,7 @@ public class CartAdapter {
     ArrayList<String> arrayListTimeSlots;
     AvailableDeliveryTimingSlots timeingslot;
     ArrayList<ArrayList<AvailableDeliveryTimingSlots>> arrayListTimeSlotsObject ;
-//    ArrayList<AvailableDeliveryTimingSlots> arrayListTimeSlotsObject;
+    //    ArrayList<AvailableDeliveryTimingSlots> arrayListTimeSlotsObject;
     ArrayList<String> listOfProductIdforDelivery = new ArrayList<>();
     int a = 0;
     ArrayList<String> branchIdforDelivery = new ArrayList<>();
@@ -161,15 +162,15 @@ public class CartAdapter {
                                 if (successResponseForDeliveryCharges.getSuccess().getDeliverycharge().get(j).getBranchid().equals(branchid))
                                 {
 
-                                            if (successResponseForDeliveryCharges.getSuccess().getDeliverycharge().get(j).isDelivery() == true) {
-                                                delivery_type.setBackgroundColor(Color.parseColor("#009431"));
-                                                delivery_type.setText("Home/Pick-Up");
+                                    if (successResponseForDeliveryCharges.getSuccess().getDeliverycharge().get(j).isDelivery() == true) {
+                                        delivery_type.setBackgroundColor(Color.parseColor("#009431"));
+                                        delivery_type.setText("Home/Pick-Up");
 
-                                            } else {
-                                                delivery_type.setBackgroundColor(Color.parseColor("#d60027"));
-                                                delivery_type.setText("Pick-Up Only");
+                                    } else {
+                                        delivery_type.setBackgroundColor(Color.parseColor("#d60027"));
+                                        delivery_type.setText("Pick-Up Only");
 
-                                            }
+                                    }
 
                                 }
                             }
@@ -182,10 +183,10 @@ public class CartAdapter {
 
                             delivery_date_on_shoppingcart.setText(deliveryDateOnCart(succesResponseCheckDeliveryTimingSlots.getSuccess().getDoc().get(k).getExpected_date()));
 
-                            productList.get(i).setPrefereddeliverydate(deliveryDateOnCart(succesResponseCheckDeliveryTimingSlots.getSuccess().getDoc().get(k).getExpected_date()));
+                           date=deliveryDateOnCart(succesResponseCheckDeliveryTimingSlots.getSuccess().getDoc().get(k).getExpected_date());
                             Log.d("PrefDate",productList.get(i).getPrefereddeliverydate());
 //                            for (int m = 0; m < arrayListTimeSlots.size(); m++) {
-                                spn_timeslot.setAdapter(new ArrayAdapter<String>(context.getApplicationContext(), R.layout.weight_spinner_items, deliveryTimeSlots(succesResponseCheckDeliveryTimingSlots.getSuccess().getDoc().get(k).getDeliverytimingslots(), succesResponseCheckDeliveryTimingSlots.getSuccess().getDoc().get(k).getBranchid())));
+                            spn_timeslot.setAdapter(new ArrayAdapter<String>(context.getApplicationContext(), R.layout.weight_spinner_items, deliveryTimeSlots(succesResponseCheckDeliveryTimingSlots.getSuccess().getDoc().get(k).getDeliverytimingslots(), succesResponseCheckDeliveryTimingSlots.getSuccess().getDoc().get(k).getBranchid())));
 //                            }
                         }
                     }
@@ -211,7 +212,7 @@ public class CartAdapter {
                         ts.setFrom(arrayListTimeSlotsObject.get(adapterView.getId()-3000).get(pos).getFrom());
                         ts.setTo(arrayListTimeSlotsObject.get(adapterView.getId()-3000).get(pos).getTo());
 
-                        Cart.saveTimeSlot(arrayListTimeSlotsObject.get(adapterView.getId()-3000).get(pos).getBranchid(), ts);
+                        Cart.saveTimeSlot(arrayListTimeSlotsObject.get(adapterView.getId()-3000).get(pos).getBranchid(), ts,date);
 
                     }
 

@@ -1,5 +1,7 @@
 package com.gls.orderzapp.CreateOrder.OrderResponseBeans;
 
+import com.gls.orderzapp.CreateOrder.CreateOrderBeans.AvailableDeliveryTimingSlots;
+
 import java.util.List;
 
 /**
@@ -16,7 +18,24 @@ public class OrderedSubOrderDetails {
     double suborder_price;
     double deliverycharge;
     String deliverytype;
+    String prefdeldtime;
+    AvailableDeliveryTimingSlots prefdeltimeslot;
 
+    public String getPrefdeldtime() {
+        return prefdeldtime;
+    }
+
+    public void setPrefdeldtime(String prefdeldtime) {
+        this.prefdeldtime = prefdeldtime;
+    }
+
+    public AvailableDeliveryTimingSlots getPrefdeltimeslot() {
+        return prefdeltimeslot;
+    }
+
+    public void setPrefdeltimeslot(AvailableDeliveryTimingSlots prefdeltimeslot) {
+        this.prefdeltimeslot = prefdeltimeslot;
+    }
 
     public Address getPickup_address() {
         return pickup_address;

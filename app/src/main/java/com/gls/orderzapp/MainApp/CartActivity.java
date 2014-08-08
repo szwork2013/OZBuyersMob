@@ -45,9 +45,8 @@ public class CartActivity extends Activity {
     LinearLayout ll_noproducts;
     Button place_an_order_button;
     Calendar c;
-    int mYear, mMonth, mDay, yy, mm, dd, hh, min, cHH, cMin, cAm_Pm;
+    int mYear, mMonth, mDay, yy, mm, dd;//, hh, min, cHH, cMin, cAm_Pm;
     DatePicker datePicker;
-    TimePicker timePicker;
     public  Button delivery_date;
     AlertDialog alertDialog;
     public static String date = "";
@@ -102,9 +101,9 @@ public class CartActivity extends Activity {
         mYear = c.get(Calendar.YEAR);
         mMonth = c.get(Calendar.MONTH) + 1;
         mDay = c.get(Calendar.DAY_OF_MONTH);
-        cHH = c.get(Calendar.HOUR_OF_DAY);
-        cMin = c.get(Calendar.MINUTE);
-        cAm_Pm = c.get(Calendar.AM_PM);
+//        cHH = c.get(Calendar.HOUR_OF_DAY);
+//        cMin = c.get(Calendar.MINUTE);
+//        cAm_Pm = c.get(Calendar.AM_PM);
 
         // set prompts.xml to alertdialog builder
         alertDialogBuilder.setView(dialogView);
@@ -113,7 +112,6 @@ public class CartActivity extends Activity {
         final Button select_date;
         // create alert dialog
         datePicker = (DatePicker) dialogView.findViewById(R.id.datePicker);
-        timePicker = (TimePicker) dialogView.findViewById(R.id.timePicker);
         select_date = (Button) dialogView.findViewById(R.id.select_date);
 
         if (!delivery_date.getText().toString().trim().isEmpty()) {
@@ -129,14 +127,14 @@ public class CartActivity extends Activity {
                 yy = datePicker.getYear();
                 mm = datePicker.getMonth();
                 dd = datePicker.getDayOfMonth();
-                hh = timePicker.getCurrentHour();
-                min = timePicker.getCurrentMinute();
+//                hh = timePicker.getCurrentHour();
+//                min = timePicker.getCurrentMinute();
                 Calendar calendar = Calendar.getInstance();
                 calendar.set(Calendar.YEAR, yy);
                 calendar.set(Calendar.MONTH, mm);
                 calendar.set(Calendar.DAY_OF_MONTH, dd);
-                calendar.set(Calendar.HOUR_OF_DAY, hh);
-                calendar.set(Calendar.MINUTE, min);
+//                calendar.set(Calendar.HOUR_OF_DAY, hh);
+//                calendar.set(Calendar.MINUTE, min);
                 Date selectedDate = calendar.getTime();
                 Date TodaysDate = c.getTime();
                 if (selectedDate.before(TodaysDate)) {

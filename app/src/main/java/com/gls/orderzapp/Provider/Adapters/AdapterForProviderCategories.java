@@ -1,6 +1,7 @@
 package com.gls.orderzapp.Provider.Adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Typeface;
 import android.text.InputType;
@@ -14,12 +15,14 @@ import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.TextView;
 
+import com.gls.orderzapp.MainApp.ProviderDetailsActivity;
 import com.gls.orderzapp.MainApp.StartUpActivity;
 import com.gls.orderzapp.Provider.Beans.ProductDetails;
 import com.gls.orderzapp.Provider.Beans.ProductLogo;
 import com.gls.orderzapp.Provider.Beans.ProductPrice;
 import com.gls.orderzapp.Provider.Beans.ProviderDetails;
 import com.gls.orderzapp.R;
+import com.google.gson.Gson;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
@@ -128,11 +131,25 @@ public class AdapterForProviderCategories {
                 productDetails.setProductlogo(productLogo);
                 providerDetailsList.get(i).getProducts().add(productDetails);
             }
+            imageProvider.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View view) {
+                    Intent goToProviderDetailsActivity = new Intent(context , ProviderDetailsActivity.class);
+                    goToProviderDetailsActivity.putExtra("PROVIDER_DETAILS",new Gson().toJson(providerDetailsList.get(view.getId()-1000).getProvider()));
+                    goToProviderDetailsActivity.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    context.startActivity(goToProviderDetailsActivity);
+                    return false;
+                }
+            });
             categoryDetailsGridView.setAdapter(new GridAdapterProviderCategories(context, providerDetailsList.get(i).getProducts(), providerDetailsList.get(i).getBranch(), (ProviderDetails) categoryDetailsGridView.getTag()));
             setListViewHeightBasedOnChildren(categoryDetailsGridView);
+            imageProvider.setId(i+1000);
             if (providerDetailsList.get(i).getProducts().size() > 0) {
                 StartUpActivity.linearLayoutCategories.addView(linearLayoutCategoryDetails);
             }
+
+
+
         }
     }
 
