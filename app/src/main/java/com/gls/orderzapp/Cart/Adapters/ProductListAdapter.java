@@ -372,24 +372,26 @@ public class ProductListAdapter {
                                         }
                                     } else {
                                         if (min_weight == 0.0) {
-                                            if ((Double.parseDouble(tempEditText.getText().toString())) <= max_weight) {
-                                                Cart.updateCart(tag, tempEditText.getText().toString().trim(), uom);
-                                                for (int i = 0; i < list.size(); i++) {
-                                                    if (tag.equalsIgnoreCase(list.get(i).split("-")[0])) {
-                                                        CartAdapter.changeSubTotal(tag, list.get(i).split("-")[1]);
+
+                                                if ((Double.parseDouble(tempEditText.getText().toString())) <= max_weight) {
+                                                    Cart.updateCart(tag, tempEditText.getText().toString().trim(), uom);
+                                                    for (int i = 0; i < list.size(); i++) {
+                                                        if (tag.equalsIgnoreCase(list.get(i).split("-")[0])) {
+                                                            CartAdapter.changeSubTotal(tag, list.get(i).split("-")[1]);
+                                                        }
                                                     }
+
+                                                } else {
+                                                    Cart.updateCart(tag, "0", uom);
+                                                    for (int i = 0; i < list.size(); i++) {
+                                                        if (tag.equalsIgnoreCase(list.get(i).split("-")[0])) {
+                                                            CartAdapter.changeSubTotal(tag, list.get(i).split("-")[1]);
+                                                        }
+                                                    }
+                                                    tempEditText.setText("");
+                                                    Toast.makeText(context, "Cannot order more than " + max_weight + " " + measure + " of this product per order", Toast.LENGTH_LONG).show();
                                                 }
 
-                                            } else {
-                                                Cart.updateCart(tag, "0", uom);
-                                                for (int i = 0; i < list.size(); i++) {
-                                                    if (tag.equalsIgnoreCase(list.get(i).split("-")[0])) {
-                                                        CartAdapter.changeSubTotal(tag, list.get(i).split("-")[1]);
-                                                    }
-                                                }
-                                                tempEditText.setText("");
-                                                Toast.makeText(context, "Cannot order more than " + max_weight + " " + measure + " of this product per order", Toast.LENGTH_LONG).show();
-                                            }
                                         } else {
                                             if ((Double.parseDouble(tempEditText.getText().toString())) >= min_weight && (Double.parseDouble(tempEditText.getText().toString())) <= max_weight) {
 

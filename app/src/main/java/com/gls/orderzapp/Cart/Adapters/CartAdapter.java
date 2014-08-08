@@ -1,3 +1,4 @@
+
 package com.gls.orderzapp.Cart.Adapters;
 
 import android.app.ProgressDialog;
@@ -61,7 +62,6 @@ public class CartAdapter {
     String productId = "";
     int getid=0;
     Spinner spn_timeslot,tempSpinner;
-    int i;
     public static List<TextView> listText = new ArrayList<>();
     public static TextView sub_total;
     List<ProductDetails> SortedProviderList = new ArrayList<>();
@@ -71,7 +71,8 @@ public class CartAdapter {
     public SuccesResponseCheckDeliveryTimingSlots succesResponseCheckDeliveryTimingSlots;
     ArrayList<String> arrayListTimeSlots;
     AvailableDeliveryTimingSlots timeingslot;
-    ArrayList<AvailableDeliveryTimingSlots>arrayListTimeSlotsObject;
+    ArrayList<ArrayList<AvailableDeliveryTimingSlots>> arrayListTimeSlotsObject ;
+    //    ArrayList<AvailableDeliveryTimingSlots> arrayListTimeSlotsObject;
     ArrayList<String> listOfProductIdforDelivery = new ArrayList<>();
     ArrayList<String> branchIdforDelivery = new ArrayList<>();
 
@@ -89,7 +90,7 @@ public class CartAdapter {
     }
 
     public void getCartView() {
-        for ( i = 0; i < Cart.hm.size(); i++) {
+        for ( int i = 0; i < Cart.hm.size(); i++) {
             String branchid = productList.get(i).getBranchid();
 
             if (branchids.contains(branchid)) {
@@ -111,7 +112,7 @@ public class CartAdapter {
                 TextView delivery_type = (TextView) llCartListItemView.findViewById(R.id.delivery_type);
                 TextView txt_provider_note = (TextView) llCartListItemView.findViewById(R.id.txt_provider_note);
                 TextView delivery_date_on_shoppingcart = (TextView) llCartListItemView.findViewById(R.id.delivery_date_on_shoppingcart);
-                 spn_timeslot = (Spinner) llCartListItemView.findViewById(R.id.spn_timeslot);
+                spn_timeslot = (Spinner) llCartListItemView.findViewById(R.id.spn_timeslot);
                 LinearLayout ll_deliverylayout_cart = (LinearLayout) llCartListItemView.findViewById(R.id.ll_deliverylayout_cart);
                 Button btn_productcart_privacy = (Button) llCartListItemView.findViewById(R.id.btn_productcart_privacy);
                 sub_total = (TextView) llCartListItemView.findViewById(R.id.sub_total);
@@ -149,8 +150,8 @@ public class CartAdapter {
                     }
                 });
                 if (!CartActivity.date.isEmpty()) {
-                    arrayListTimeSlots = new ArrayList<>();
-                    arrayListTimeSlotsObject=new ArrayList<>();
+
+//                    arrayListTimeSlotsObject=new ArrayList<>();
                     ll_deliverylayout_cart.setVisibility(View.VISIBLE);
                     if (successResponseForDeliveryCharges.getSuccess().getDeliverycharge().size() > 0) {
                         for (int j = 0; j < successResponseForDeliveryCharges.getSuccess().getDeliverycharge().size(); j++) {
@@ -158,34 +159,33 @@ public class CartAdapter {
                             {
                                 if (successResponseForDeliveryCharges.getSuccess().getDeliverycharge().get(j).getBranchid().equals(branchid))
                                 {
-                                    for(int k = 0; k < succesResponseCheckDeliveryTimingSlots.getSuccess().getDoc().size(); k++){
-                                        if (succesResponseCheckDeliveryTimingSlots.getSuccess().getDoc().get(k).getBranchid().equals(branchid))
-                                        {
-                                            if (successResponseForDeliveryCharges.getSuccess().getDeliverycharge().get(j).isDelivery() == true) {
-                                                delivery_type.setBackgroundColor(Color.parseColor("#009431"));
-                                                delivery_type.setText("Home/Pick-Up");
-                                                delivery_date_on_shoppingcart.setText(deliveryDateOnCart(succesResponseCheckDeliveryTimingSlots.getSuccess().getDoc().get(k).getExpected_date()));
-                                                deliveryTimeSlots(succesResponseCheckDeliveryTimingSlots.getSuccess().getDoc().get(j).getDeliverytimingslots());
 
-                                                for (int m = 0; m < arrayListTimeSlots.size(); m++) {
-                                                    spn_timeslot.setAdapter(new ArrayAdapter<String>(context.getApplicationContext(), R.layout.weight_spinner_items, arrayListTimeSlots));
-                                                }
-                                            } else {
-                                                delivery_type.setBackgroundColor(Color.parseColor("#d60027"));
-                                                delivery_type.setText("Pick-Up Only");
-                                                delivery_date_on_shoppingcart.setText(deliveryDateOnCart(succesResponseCheckDeliveryTimingSlots.getSuccess().getDoc().get(k).getExpected_date()));
-                                                deliveryTimeSlots(succesResponseCheckDeliveryTimingSlots.getSuccess().getDoc().get(j).getDeliverytimingslots());
-//                                                productList.get(i).setPrefereddeliverydate(deliveryDateOnCart(succesResponseCheckDeliveryTimingSlots.getSuccess().getDoc().get(k).getExpected_date()));
+                                    if (successResponseForDeliveryCharges.getSuccess().getDeliverycharge().get(j).isDelivery() == true) {
+                                        delivery_type.setBackgroundColor(Color.parseColor("#009431"));
+                                        delivery_type.setText("Home/Pick-Up");
 
-                                                for (int m = 0; m < arrayListTimeSlots.size(); m++) {
-                                                    spn_timeslot.setAdapter(new ArrayAdapter<String>(context.getApplicationContext(), R.layout.weight_spinner_items, arrayListTimeSlots));
-                                                }
-                                            }
+                                    } else {
+                                        delivery_type.setBackgroundColor(Color.parseColor("#d60027"));
+                                        delivery_type.setText("Pick-Up Only");
 
-                                        }
                                     }
+
                                 }
                             }
+                        }
+                    }
+
+                    for(int k = 0; k < succesResponseCheckDeliveryTimingSlots.getSuccess().getDoc().size(); k++){
+
+                        if (succesResponseCheckDeliveryTimingSlots.getSuccess().getDoc().get(k).getBranchid().equals(branchid)){
+
+                            delivery_date_on_shoppingcart.setText(deliveryDateOnCart(succesResponseCheckDeliveryTimingSlots.getSuccess().getDoc().get(k).getExpected_date()));
+
+                            productList.get(i).setPrefereddeliverydate(deliveryDateOnCart(succesResponseCheckDeliveryTimingSlots.getSuccess().getDoc().get(k).getExpected_date()));
+                            Log.d("PrefDate",productList.get(i).getPrefereddeliverydate());
+//                            for (int m = 0; m < arrayListTimeSlots.size(); m++) {
+                            spn_timeslot.setAdapter(new ArrayAdapter<String>(context.getApplicationContext(), R.layout.weight_spinner_items, deliveryTimeSlots(succesResponseCheckDeliveryTimingSlots.getSuccess().getDoc().get(k).getDeliverytimingslots(), succesResponseCheckDeliveryTimingSlots.getSuccess().getDoc().get(k).getBranchid())));
+//                            }
                         }
                     }
 
@@ -196,21 +196,13 @@ public class CartAdapter {
                     @Override
                     public void onItemSelected(AdapterView<?> adapterView, View view, int pos, long l) {
 
-                        for(int z=0;z<succesResponseCheckDeliveryTimingSlots.getSuccess().getDoc().size();z++) {
-                            for (int j = 0; j < productList.size(); j++) {
-                                if (productList.get(j).getBranchid().equals(succesResponseCheckDeliveryTimingSlots.getSuccess().getDoc().get(z).getBranchid()))
-                                {
-                                    AvailableDeliveryTimingSlots ts = new AvailableDeliveryTimingSlots();
-                                    ts.setFrom(arrayListTimeSlotsObject.get(getid).getFrom());
-                                    ts.setTo(arrayListTimeSlotsObject.get(getid).getTo());
-                                    productList.get(j).setTimeslot(ts);
-                                    productList.get(j).setPrefereddeliverydate(deliveryDateOnCart(succesResponseCheckDeliveryTimingSlots.getSuccess().getDoc().get(z).getExpected_date()));
-                                    Log.d("ProductList",new Gson().toJson(productList));
-                                    Log.d("TimeSlot", new Gson().toJson(ts));
-                                    Log.d("PrefDate",productList.get(j).getPrefereddeliverydate());
-                                }
-                            }
-                        }
+                        Toast.makeText(context, new Gson().toJson(arrayListTimeSlotsObject.get(adapterView.getId()-3000).get(pos)), Toast.LENGTH_LONG).show();
+                        AvailableDeliveryTimingSlots ts = new AvailableDeliveryTimingSlots();
+                        ts.setAvailable(arrayListTimeSlotsObject.get(adapterView.getId()-3000).get(pos).getAvailable());
+                        ts.setFrom(arrayListTimeSlotsObject.get(adapterView.getId()-3000).get(pos).getFrom());
+                        ts.setTo(arrayListTimeSlotsObject.get(adapterView.getId()-3000).get(pos).getTo());
+
+                        Cart.saveTimeSlot(arrayListTimeSlotsObject.get(adapterView.getId()-3000).get(pos).getBranchid(), ts);
 
                     }
 
@@ -224,7 +216,7 @@ public class CartAdapter {
                     @Override
                     public boolean onTouch(View view, MotionEvent motionEvent) {
                         tempSpinner = ((Spinner) view);
-                        getid = view.getId();
+                        getid = view.getId() - 3000;
                         return false;
                     }
                 });
@@ -242,9 +234,10 @@ public class CartAdapter {
             Log.d("After date selected",new Gson().toJson(productList));
         }
     }
-    public void deliveryTimeSlots(List<AvailableDeliveryTimingSlots> deliveryTimingslots)
+    public ArrayList<String> deliveryTimeSlots(List<AvailableDeliveryTimingSlots> deliveryTimingslots, String branchid)
     {
-
+        ArrayList<AvailableDeliveryTimingSlots> innerArray = new ArrayList<>();
+        arrayListTimeSlots = new ArrayList<>();
         String timeslots="";
         for(int m=0;m<deliveryTimingslots.size();m++){
             if(deliveryTimingslots.get(m).getFrom()<12)
@@ -273,14 +266,20 @@ public class CartAdapter {
             if(deliveryTimingslots.get(m).getAvailable()==true)
             {
                 timeingslot=new AvailableDeliveryTimingSlots();
+                timeingslot.setAvailable(deliveryTimingslots.get(m).getAvailable());
                 timeingslot.setTo(deliveryTimingslots.get(m).getTo());
                 timeingslot.setFrom(deliveryTimingslots.get(m).getFrom());
+                timeingslot.setBranchid(branchid);
                 arrayListTimeSlots.add(timeslots);
-                arrayListTimeSlotsObject.add(timeingslot);
+
+                innerArray.add(timeingslot);
             }
         }
+        arrayListTimeSlotsObject.add(innerArray);
         Log.d("arrayListTimeSlots",new Gson().toJson(arrayListTimeSlots));
         Log.d("arrayListTimeSlotsObject",new Gson().toJson(arrayListTimeSlotsObject));
+
+        return arrayListTimeSlots;
     }
 
     public String deliveryDateOnCart(String date)
@@ -522,6 +521,7 @@ public class CartAdapter {
                         Log.d("resultOfDeliveryTimeSlots", resultOfDeliveryTimeSlots);
                         jObj = new JSONObject(resultOfDeliveryTimeSlots);
                         if (jObj.has("success")) {
+                            arrayListTimeSlotsObject = new ArrayList<>();
                             succesResponseCheckDeliveryTimingSlots = new Gson().fromJson(resultOfDeliveryTimeSlots, SuccesResponseCheckDeliveryTimingSlots.class);
                             Log.d("Successresponse for delivery time slots", resultOfDeliveryTimeSlots);
                         } else {

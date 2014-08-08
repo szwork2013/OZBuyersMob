@@ -221,6 +221,6 @@
             android:name=".MainApp.CityStateCountryActivity"
             android:alwaysRetainTaskState="true"
             android:configChanges="orientation|screenSize|keyboardHidden"
-            android:label=" Select Location" />
+            android:label="Location" />
     </application>
 </manifest>
