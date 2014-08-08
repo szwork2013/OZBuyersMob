@@ -359,6 +359,7 @@ public class StartUpActivity extends Activity implements View.OnClickListener {
                     connectedOrNot = "success";
                     if (searchProducts == null) {
                         resultGetProviderAndProduct = getProviderAndProductsList("");
+
                     } else {
                         if (searchProducts.getText().toString().trim().length() > 0) {
                             searchString = searchProducts.getText().toString().trim();
@@ -368,7 +369,7 @@ public class StartUpActivity extends Activity implements View.OnClickListener {
                         }
                     }
                     if (!resultGetProviderAndProduct.isEmpty()) {
-                        Log.d("search result", new Gson().toJson(resultGetProviderAndProduct));
+                        Log.d("search result", resultGetProviderAndProduct);
                         jObj = new JSONObject(resultGetProviderAndProduct);
                         if (jObj.has("success")) {
                             providerSuccessResponse = new Gson().fromJson(resultGetProviderAndProduct, ProviderSuccessResponse.class);

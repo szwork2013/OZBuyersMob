@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            android:scaleType="fitXY"
+            android:id="@+id/image_provider"
+            android:src="@drawable/ic_launcher" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:background="#ffc0c0d4"
+            android:orientation="horizontal"
+            android:padding="5dp"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="30sp"
+                android:textColor="#000"
+                android:textStyle="bold"
+                android:gravity="center_horizontal"
+                android:id="@+id/provider_name" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center_horizontal">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="18sp"
+                android:layout_marginLeft="5dp"
+                android:text="@string/description"
+                android:textColor="#000"
+                android:textStyle="bold"
+                android:layout_marginTop="5dp"
+                />
+            <View
+                android:layout_width="match_parent"
+                android:background="#ff9f9f9f"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginBottom="1dp"
+                android:layout_height="1dp"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:textColor="#000"
+                android:id="@+id/provider_description" />
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>

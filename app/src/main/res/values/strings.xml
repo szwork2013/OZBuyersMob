@@ -115,6 +115,7 @@
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     <string name="title_activity_country_state_city_tabs">Select Area</string>
+    <string name="title_activity_provider_details">ProviderDetailsActivity</string>
     <string name="expected_date_time">Expected Date And Time</string>
     <string name="deliverydetails">Delivery Details</string>
     <string name="type_colon">Type : </string>
