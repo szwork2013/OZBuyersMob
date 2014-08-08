@@ -9,7 +9,6 @@ import java.util.List;
  * Created by prajyot on 24/4/14.
  */
 public class CreateOrderProductDetails {
-    String preferred_delivery_date;
     String productid;
     String qty;
     String branchid;
@@ -45,16 +44,6 @@ public class CreateOrderProductDetails {
     public void setProductconfiguration(List<ProductConfiguration> productconfiguration) {
         this.productconfiguration = productconfiguration;
     }
-
-
-    public String getPreferred_delivery_date() {
-        return preferred_delivery_date;
-    }
-
-    public void setPreferred_delivery_date(String preferred_delivery_date) {
-        this.preferred_delivery_date = preferred_delivery_date;
-    }
-
     public Location getLocation() {
         return location;
     }

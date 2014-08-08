@@ -1,5 +1,6 @@
 package com.gls.orderzapp.Provider.Beans;
 
+import com.gls.orderzapp.CreateOrder.CreateOrderBeans.AvailableDeliveryTimingSlots;
 import com.gls.orderzapp.SignUp.Location;
 
 /**
@@ -18,6 +19,8 @@ public class ProductDetails {
     String cartCount;
     String productimage;
     String messageonproduct;
+    String prefereddeliverydate;
+    AvailableDeliveryTimingSlots timeslot   =   new AvailableDeliveryTimingSlots();
     ProductLogo productlogo = new ProductLogo();
     String quantity;
     String productdescription;
@@ -28,6 +31,23 @@ public class ProductDetails {
     DeliveryMode delivery = new DeliveryMode();
     PaymentMode paymentmode = new PaymentMode();
     DeliveryType deliveryType = new DeliveryType();
+
+    public AvailableDeliveryTimingSlots getTimeslot() {
+        return timeslot;
+    }
+
+    public void setTimeslot(AvailableDeliveryTimingSlots timeslot) {
+        this.timeslot = timeslot;
+    }
+
+    public String getPrefereddeliverydate() {
+        return prefereddeliverydate;
+    }
+
+    public void setPrefereddeliverydate(String prefereddeliverydate) {
+        this.prefereddeliverydate = prefereddeliverydate;
+    }
+
 
     public DeliveryType getDeliveryType() {
         return deliveryType;

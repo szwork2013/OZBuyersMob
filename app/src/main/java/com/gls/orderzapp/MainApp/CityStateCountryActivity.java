@@ -85,10 +85,14 @@ public class CityStateCountryActivity extends Activity {
     }
 
     public void saveCityStateCountryPreferences(View view){
-        storeCity();
-        storeState();
-        storeCountry();
-        finish();
+        try {
+            storeCity();
+            storeState();
+            storeCountry();
+            CityStateCountryActivity.this.finish();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
     public void findViewsById(){
@@ -116,42 +120,42 @@ public class CityStateCountryActivity extends Activity {
         return resultGetCountryList;
     }
 
-    public void storeCity(){
+    public void storeCity() throws Exception{
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         SharedPreferences.Editor editor= sp.edit();
         editor.putString("USER_CITY", city);
         editor.commit();
     }
 
-    public void storeState(){
+    public void storeState() throws Exception{
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         SharedPreferences.Editor editor = sp.edit();
         editor.putString("USER_STATE", state);
         editor.commit();
     }
 
-    public void storeCountry(){
+    public void storeCountry() throws Exception{
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         SharedPreferences.Editor editor = sp.edit();
         editor.putString("USER_COUNTRY", country);
         editor.commit();
     }
 
-    public String loadCountryPreference(){
+    public String loadCountryPreference() throws Exception{
         String userArea = "";
         SharedPreferences spLoad = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         userArea = spLoad.getString("USER_COUNTRY", "IN");
         return userArea;
     }
 
-    public String loadStatePreference(){
+    public String loadStatePreference() throws Exception{
         String userArea = "";
         SharedPreferences spLoad = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         userArea = spLoad.getString("USER_STATE", "Maharashtra");
         return userArea;
     }
 
-    public String loadCityPreference(){
+    public String loadCityPreference() throws Exception{
         String userArea = "";
         SharedPreferences spLoad = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         userArea = spLoad.getString("USER_CITY", "Pune");

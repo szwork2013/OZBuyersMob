@@ -33,18 +33,17 @@ public class AdapterForMultipleProviders {
     List<CreateOrderProductDetails> list = new ArrayList<>();
     List<String> branchIds = new ArrayList<>();
     LayoutInflater li;
-    TextView textGrandTotal, delivery_charge, deliveryTypeText;
+    TextView textGrandTotal, delivery_charge, deliveryTypeText,deliveryDateText,deliveryTimeText,deliveryAddressText;
     CreateOrderAddressDetails orderDeliveryAddress;
-    String prefferedDeliveryDate;
     String[] keys;
 
-    public AdapterForMultipleProviders(Context context, List<CreateOrderProductDetails> createOrderProductDetailsList, CreateOrderAddressDetails orderDeliveryAddress, String prefferedDeliveryDate) {
+    public AdapterForMultipleProviders(Context context, List<CreateOrderProductDetails> createOrderProductDetailsList, CreateOrderAddressDetails orderDeliveryAddress) {
         this.context = context;
         this.createOrderProductDetailsList = createOrderProductDetailsList;
         this.orderDeliveryAddress = orderDeliveryAddress;
-        this.prefferedDeliveryDate = prefferedDeliveryDate;
 
         keys = Cart.hm.keySet().toArray(new String[Cart.hm.size()]);
+        Log.d("CartDetails",new Gson().toJson(Cart.hm));
     }
 
     public void setMultipleProvidersList() {
@@ -56,7 +55,7 @@ public class AdapterForMultipleProviders {
             String branchid = createOrderProductDetailsList.get(i).getBranchid();
             String providerName = createOrderProductDetailsList.get(i).getProvidername();
             String providerArea = createOrderProductDetailsList.get(i).getLocation().getArea();
-            String deliveryType = "";
+            String deliveryType = "",deliveryDate="",deliveryTime="";
 
             if (providers != null) {
                 if (providers.contains(branchid)) {
@@ -86,8 +85,41 @@ public class AdapterForMultipleProviders {
                                     deliveryType = "Pick-Up";
                                 }
                                 Log.d("del type", deliveryType);
+                                deliveryDate=Cart.hm.get(keys[j]).getPrefereddeliverydate().toString();
+                                Log.d("del datentime",deliveryDate);
+                                //*******************
+
+                                if(Cart.hm.get(keys[j]).getTimeslot()!=null){
+                                        if(Cart.hm.get(keys[j]).getTimeslot().getFrom()<12)
+                                        {
+                                            deliveryTime=String.format("%.2f",Cart.hm.get(keys[j]).getTimeslot().getFrom())+" AM";
+                                        }else if(Cart.hm.get(keys[j]).getTimeslot().getFrom()==12)
+                                        {
+                                            deliveryTime=String.format("%.2f",Cart.hm.get(keys[j]).getTimeslot().getFrom())+" PM";
+                                        }
+                                        else if(Cart.hm.get(keys[j]).getTimeslot().getFrom()>12)
+                                        {
+                                            deliveryTime=String.format("%.2f",(Cart.hm.get(keys[j]).getTimeslot().getFrom()-12))+" PM";
+                                        }
+
+                                        if(Cart.hm.get(keys[j]).getTimeslot().getTo()<12)
+                                        {
+                                            deliveryTime=deliveryTime.concat(" to "+String.format("%.2f",Cart.hm.get(keys[j]).getTimeslot().getTo())+" AM");
+                                        }else if(Cart.hm.get(keys[j]).getTimeslot().getTo()==12)
+                                        {
+                                            deliveryTime=deliveryTime.concat(" to "+String.format("%.2f",Cart.hm.get(keys[j]).getTimeslot().getTo())+" PM");
+                                        }
+                                        else if(Cart.hm.get(keys[j]).getTimeslot().getTo()>12)
+                                        {
+                                            deliveryTime=deliveryTime.concat(" to "+String.format("%.2f",(Cart.hm.get(keys[j]).getTimeslot().getTo()-12))+" PM");
+                                        }
+
+                                }
+                                //********************
                                 SellerDelivery sellerDelivery = new SellerDelivery();
                                 sellerDelivery.setBranchid(branchid);
+                                sellerDelivery.setPrefdeldtime(deliveryDate);
+                                sellerDelivery.setPrefdeltimeslot(Cart.hm.get(keys[j]).getTimeslot());
                                 sellerDelivery.setDeliverytype(Cart.hm.get(keys[j]).getDeliveryType().getDeliveryType());
                                 sellerDelivery.setDelivery_address(orderDeliveryAddress);
 
@@ -99,7 +131,9 @@ public class AdapterForMultipleProviders {
                                 }
                             }
 
-                                sellerDelivery.setPrefdeldtime(prefferedDeliveryDate);
+                                sellerDelivery.setPrefdeldtime(Cart.hm.get(keys[j]).getPrefereddeliverydate());
+                                sellerDelivery.setPrefdeltimeslot(Cart.hm.get(keys[j]).getTimeslot());
+
                                 if(Cart.hm.get(keys[j]).getDeliveryType().getOrderinstructions() != null) {
                                     if (!Cart.hm.get(keys[j]).getDeliveryType().getOrderinstructions().isEmpty()) {
 
@@ -127,7 +161,6 @@ public class AdapterForMultipleProviders {
                                 }
                             }
                                 OrderDetailsActivity.createOrderCartList.getSellerdelivery().add(sellerDelivery);
-//                            OrderDetailsActivity.createOrderCartList.getDeliverytypes().add(OrderDetailsActivity.deliveryTypes);
                                 adddeliveryTypes.setBranchid(branchid);
                                 adddeliveryTypes.setDeliverytype(Cart.hm.get(keys[j]).getDeliveryType().getDeliveryType());
                                 OrderDetailsActivity.createOrderCartList.getDeliverytypes().add(adddeliveryTypes);
@@ -141,7 +174,16 @@ public class AdapterForMultipleProviders {
                     ((TextView) llProductsForProvider.findViewById(R.id.provider_name)).setText(providerName);
                     ((TextView) llProductsForProvider.findViewById(R.id.provider_area)).setText(providerArea);
                     deliveryTypeText = (TextView) llProductsForProvider.findViewById(R.id.delivery_type);
+                    deliveryDateText = (TextView) llProductsForProvider.findViewById(R.id.delivery_date_order_details);
+                    deliveryTimeText = (TextView) llProductsForProvider.findViewById(R.id.delivery_time_slot);
+                    deliveryAddressText = (TextView) llProductsForProvider.findViewById(R.id.delivery_address);
+
                     deliveryTypeText.setText(deliveryType);
+                    deliveryTimeText.setText("Between "+deliveryTime);
+                    deliveryDateText.setText(deliveryDate);
+                    deliveryAddressText.setText(orderDeliveryAddress.getAddress1()+","+orderDeliveryAddress.getAddress2()
+                            +"\n"+orderDeliveryAddress.getArea()+","+orderDeliveryAddress.getCity()
+                            +"\n"+orderDeliveryAddress.getState()+","+orderDeliveryAddress.getZipcode()+"("+orderDeliveryAddress.getCountry()+")");
 
                     if (i > 0) {
                         delivery_charge.setText(deliveryCharges + "");

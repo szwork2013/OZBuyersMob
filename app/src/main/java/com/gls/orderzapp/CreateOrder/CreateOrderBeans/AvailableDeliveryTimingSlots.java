@@ -4,23 +4,32 @@ package com.gls.orderzapp.CreateOrder.CreateOrderBeans;
  * Created by avi on 8/6/14.
  */
 public class AvailableDeliveryTimingSlots {
-    String from;
-    String to;
+    double from;
+    double to;
     Boolean available;
+    String branchid;
 
-    public String getFrom() {
+    public String getBranchid() {
+        return branchid;
+    }
+
+    public void setBranchid(String branchid) {
+        this.branchid = branchid;
+    }
+
+    public double getFrom() {
         return from;
     }
 
-    public void setFrom(String from) {
+    public void setFrom(double from) {
         this.from = from;
     }
 
-    public String getTo() {
+    public double getTo() {
         return to;
     }
 
-    public void setTo(String to) {
+    public void setTo(double to) {
         this.to = to;
     }
 

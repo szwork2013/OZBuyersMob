@@ -225,6 +225,8 @@
             android:label=" Select Location" />
         <activity
             android:name=".MainApp.ProviderDetailsActivity"
+            android:alwaysRetainTaskState="true"
+            android:configChanges="orientation|screenSize|keyboardHidden"
             android:label="@string/title_activity_provider_details" >
         </activity>
     </application>

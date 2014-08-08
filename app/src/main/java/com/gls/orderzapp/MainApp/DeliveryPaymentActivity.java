@@ -59,7 +59,6 @@ public class DeliveryPaymentActivity extends Activity {
     Calendar c;
     int mYear, mMonth, mDay, yy, mm, dd, hh, min, cHH, cMin, cAm_Pm;
     DatePicker datePicker;
-    TimePicker timePicker;
     String date = "";
     boolean date_selected = false;
     AlertDialog alertDialog;
@@ -91,6 +90,7 @@ public class DeliveryPaymentActivity extends Activity {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        Log.d("CartDetailDeliveryPayment",new Gson().toJson(Cart.hm));
 
     }
 
@@ -156,7 +156,6 @@ public class DeliveryPaymentActivity extends Activity {
         ll_deliver_charge_type = (LinearLayout) findViewById(R.id.ll_deliver_charge_type);
         shipping_address_textview = (TextView) findViewById(R.id.shipping_address_textview);
         popup_image = (ImageView) findViewById(R.id.popup_image);
-        delivery_date = (Button) findViewById(R.id.delivery_date);
         payment_mode_group = (RadioGroup) findViewById(R.id.payment_mode_group);
         cash_on_delivery = (RadioButton) findViewById(R.id.cash_on_delivery);
         credit_card = (RadioButton) findViewById(R.id.credit_card);
@@ -170,10 +169,10 @@ public class DeliveryPaymentActivity extends Activity {
                 Toast.makeText(getApplicationContext(), "Please select a payment mode", Toast.LENGTH_LONG).show();
                 return;
             }
-            if (date.isEmpty()) {
-                Toast.makeText(getApplicationContext(), "Please select your expected delivery date", Toast.LENGTH_LONG).show();
-                return;
-            }
+//            if (date.isEmpty()) {
+//                Toast.makeText(getApplicationContext(), "Please select your expected delivery date", Toast.LENGTH_LONG).show();
+//                return;
+//            }
             if (DisplayDeliveryChargesAndType.deliveryTypeCheck() ==false) {
                 return;
             }
@@ -211,7 +210,6 @@ public class DeliveryPaymentActivity extends Activity {
         final Button select_date;
         // create alert dialog
         datePicker = (DatePicker) dialogView.findViewById(R.id.datePicker);
-        timePicker = (TimePicker) dialogView.findViewById(R.id.timePicker);
         select_date = (Button) dialogView.findViewById(R.id.select_date);
 
         if (!delivery_date.getText().toString().trim().isEmpty()) {
@@ -229,8 +227,6 @@ public class DeliveryPaymentActivity extends Activity {
                 yy = datePicker.getYear();
                 mm = datePicker.getMonth();
                 dd = datePicker.getDayOfMonth();
-                hh = timePicker.getCurrentHour();
-                min = timePicker.getCurrentMinute();
                 Calendar calendar = Calendar.getInstance();
                 calendar.set(Calendar.YEAR, yy);
                 calendar.set(Calendar.MONTH, mm);
@@ -403,7 +399,7 @@ public class DeliveryPaymentActivity extends Activity {
         CreateOrderAddressDetails createOrderBillingAddressDetails = new CreateOrderAddressDetails();
         CreateOrderAddressDetails createOrderDeliveryAddressDetails = new CreateOrderAddressDetails();
 
-        createOrderBillingAddressDetails.setDate(date);
+//        createOrderBillingAddressDetails.setDate();
         if (successResponseOfUserBillingAddress.getSuccess().getUser().getLocation() != null) {
             createOrderBillingAddressDetails.setAddress1(successResponseOfUserBillingAddress.getSuccess().getUser().getLocation().getAddress1());
             createOrderBillingAddressDetails.setAddress2(successResponseOfUserBillingAddress.getSuccess().getUser().getLocation().getAddress2());

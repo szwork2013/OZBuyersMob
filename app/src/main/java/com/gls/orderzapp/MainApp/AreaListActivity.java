@@ -49,7 +49,7 @@ public class AreaListActivity extends Activity {
         setContentView(R.layout.area_details);
         findViewsById();
 
-        displayCurrentLocation();
+
 
         llEditCurrentLocation.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -97,6 +97,7 @@ public class AreaListActivity extends Activity {
     @Override
     protected void onResume() {
         super.onResume();
+        displayCurrentLocation();
         new GetAreaListAsync().execute();
     }
 

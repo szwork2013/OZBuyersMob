@@ -120,9 +120,7 @@ public class ResetStaticData {
     public static void staticOrderDetailsActivity() throws Exception
     {
         OrderDetailsActivity.llProductsList.removeAllViews();
-        OrderDetailsActivity.llayout_delivery_address.removeAllViews();
         OrderDetailsActivity.textGrandTotal.setText("");OrderDetailsActivity.grandTotal.setText("");
-        OrderDetailsActivity.billingAddressTextView.setText("");OrderDetailsActivity.shippingAddressTextView.setText("");
         OrderDetailsActivity.delivery_type.setText("");OrderDetailsActivity.payment_mode.setText("");
         OrderDetailsActivity.createOrderCartList=null;
         OrderDetailsActivity.deliveryChargeDetails=null;
@@ -171,6 +169,7 @@ public class ResetStaticData {
     }
     public static void staticCartActivity() throws Exception
     {
+        CartActivity.date=null;
         CartActivity.area_text.setText("");
         CartActivity.grand_total.setText("");
         CartActivity.llCartList.removeAllViews();
@@ -201,7 +200,7 @@ public class ResetStaticData {
         CartAdapter.llProductList.removeAllViews();
         CartAdapter.listText.clear();
         CartAdapter.sub_total.setText("");
-        CartAdapter.productList.clear();
+//        CartAdapter.productList.clear();
     }
     public static void staticDisplayDeliveryChargesAndType() throws Exception
     {
