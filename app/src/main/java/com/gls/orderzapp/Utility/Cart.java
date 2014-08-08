@@ -11,6 +11,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.gls.orderzapp.AddressDetails.Adapter.DisplayDeliveryChargesAndType;
+import com.gls.orderzapp.CreateOrder.CreateOrderBeans.AvailableDeliveryTimingSlots;
 import com.gls.orderzapp.CreateOrder.CreateOrderBeans.CreateOrderProductDetails;
 import com.gls.orderzapp.CreateOrder.CreateOrderBeans.ProductConfiguration;
 import com.gls.orderzapp.CreateOrder.CreateOrderBeans.SuccessResponseForDeliveryChargesAndType;
@@ -382,8 +383,15 @@ public static int deleteConfigObject()
         }
     }
 
-    public static void saveDeliveryChargesInfoInCart(){
+    public static void saveTimeSlot(String branchid, AvailableDeliveryTimingSlots availableDeliveryTimingSlots){
+        String[] keys = hm.keySet().toArray(new String[hm.size()]);
+        for(int i = 0 ; i < hm.size(); i++){
+            if(hm.get(keys[i]).getBranchid().equals(branchid)){
+                hm.get(keys[i]).setTimeslot(availableDeliveryTimingSlots);
+            }
+        }
 
+        Log.d("cart after adding timelots", new Gson().toJson(hm));
     }
 
     public static void saveOrderInstructions(String branchid, String orderInstruction){

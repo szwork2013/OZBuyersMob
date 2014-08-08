@@ -5,6 +5,7 @@ package com.gls.orderzapp.CreateOrder.CreateOrderBeans;
  */
 public class CreateOrderAddressDetails {
     String date;
+    String timeslot;
     String address1;
     String address2;
     String area;
@@ -13,6 +14,14 @@ public class CreateOrderAddressDetails {
     String state;
     String country;
     String deliveryaddressid;
+
+    public String getTimeslot() {
+        return timeslot;
+    }
+
+    public void setTimeslot(String timeslot) {
+        this.timeslot = timeslot;
+    }
 
     public String getDeliveryaddressid() {
         return deliveryaddressid;

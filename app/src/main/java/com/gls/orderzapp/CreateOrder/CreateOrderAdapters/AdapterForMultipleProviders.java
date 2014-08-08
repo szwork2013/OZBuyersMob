@@ -35,16 +35,15 @@ public class AdapterForMultipleProviders {
     LayoutInflater li;
     TextView textGrandTotal, delivery_charge, deliveryTypeText;
     CreateOrderAddressDetails orderDeliveryAddress;
-    String prefferedDeliveryDate;
     String[] keys;
 
-    public AdapterForMultipleProviders(Context context, List<CreateOrderProductDetails> createOrderProductDetailsList, CreateOrderAddressDetails orderDeliveryAddress, String prefferedDeliveryDate) {
+    public AdapterForMultipleProviders(Context context, List<CreateOrderProductDetails> createOrderProductDetailsList, CreateOrderAddressDetails orderDeliveryAddress) {
         this.context = context;
         this.createOrderProductDetailsList = createOrderProductDetailsList;
         this.orderDeliveryAddress = orderDeliveryAddress;
-        this.prefferedDeliveryDate = prefferedDeliveryDate;
 
         keys = Cart.hm.keySet().toArray(new String[Cart.hm.size()]);
+        Log.d("CartDetails",new Gson().toJson(Cart.hm));
     }
 
     public void setMultipleProvidersList() {
@@ -99,7 +98,9 @@ public class AdapterForMultipleProviders {
                                 }
                             }
 
-                                sellerDelivery.setPrefdeldtime(prefferedDeliveryDate);
+                                sellerDelivery.setPrefdeldtime(Cart.hm.get(keys[j]).getPrefereddeliverydate());
+                                sellerDelivery.setPrefdeltimeslot(Cart.hm.get(keys[j]).getTimeslot());
+
                                 if(Cart.hm.get(keys[j]).getDeliveryType().getOrderinstructions() != null) {
                                     if (!Cart.hm.get(keys[j]).getDeliveryType().getOrderinstructions().isEmpty()) {
 

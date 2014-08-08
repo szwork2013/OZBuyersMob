@@ -15,6 +15,7 @@ public class CreateOrderCartList {
     CreateOrderAddressDetails delivery_address;
     String deliverytype;
     String preferred_delivery_date;
+
     List<String> orderinstructions = new ArrayList<>();
     String paymentmode;
     List<SellerDelivery> sellerdelivery = new ArrayList<>();

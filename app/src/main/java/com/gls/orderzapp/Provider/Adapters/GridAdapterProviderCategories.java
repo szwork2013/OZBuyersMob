@@ -131,38 +131,37 @@ public class GridAdapterProviderCategories extends BaseAdapter {
                     textProductName.setText(productDetailsList.get(position).getProductname());
                     textRupees.setVisibility(View.GONE);
                 } else {
-                    try{
-                    imageLoader = com.nostra13.universalimageloader.core.ImageLoader.getInstance();
-                    imageLoader.init(ImageLoaderConfiguration.createDefault(context));
-                    imageLoader.displayImage(productDetailsList.get(position).getProductlogo().getImage(), imageProduct, options, new SimpleImageLoadingListener() {
-                        boolean cacheFound;
+                    try {
+                        Log.d("image uri", new Gson().toJson(productDetailsList.get(position).getProductlogo()));
+                        imageLoader = com.nostra13.universalimageloader.core.ImageLoader.getInstance();
+                        imageLoader.init(ImageLoaderConfiguration.createDefault(context));
+                        imageLoader.displayImage(productDetailsList.get(position).getProductlogo().getImage(), imageProduct, options, new SimpleImageLoadingListener() {
+                            boolean cacheFound;
 
-                        @Override
-                        public void onLoadingStarted(String imageUri, View view) {
-                            List<String> memCache = MemoryCacheUtil.findCacheKeysForImageUri(imageUri, ImageLoader.getInstance().getMemoryCache());
-                            cacheFound = !memCache.isEmpty();
-                            if (!cacheFound) {
-                                File discCache = DiscCacheUtil.findInCache(imageUri, ImageLoader.getInstance().getDiscCache());
-                                if (discCache != null) {
-                                    cacheFound = discCache.exists();
+                            @Override
+                            public void onLoadingStarted(String imageUri, View view) {
+                                List<String> memCache = MemoryCacheUtil.findCacheKeysForImageUri(imageUri, ImageLoader.getInstance().getMemoryCache());
+                                cacheFound = !memCache.isEmpty();
+                                if (!cacheFound) {
+                                    File discCache = DiscCacheUtil.findInCache(imageUri, ImageLoader.getInstance().getDiscCache());
+                                    if (discCache != null) {
+                                        cacheFound = discCache.exists();
+                                    }
                                 }
                             }
-                        }
 
-                        @Override
-                        public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
-                            if (cacheFound) {
+                            @Override
+                            public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
+                                if (cacheFound) {
 //                        MemoryCacheUtil.removeFromCache(imageUri, ImageLoader.getInstance().getMemoryCache());
 //                        DiscCacheUtil.removeFromCache(imageUri, ImageLoader.getInstance().getDiscCache());
 
-                                ImageLoader.getInstance().displayImage(imageUri, (ImageView) view);
+                                    ImageLoader.getInstance().displayImage(imageUri, (ImageView) view);
+                                }
                             }
-                        }
-                    });
-                    }catch (Exception e){
-                        e.printStackTrace();
-                    }
-
+                        });
+                    }catch (Exception e)
+                    {e.printStackTrace();}
                     if (productDetailsList.get(position).getProductname() != null) {
                         textProductName.setText(productDetailsList.get(position).getProductname());
                     }
@@ -209,6 +208,23 @@ public class GridAdapterProviderCategories extends BaseAdapter {
                             }else{
                                 productDetailsToAddIntoTheCart.setProviderName("");
                             }
+
+
+                            if (providerDetails.getProducts().get(position).getPrefereddeliverydate() != null) {
+                                productDetailsToAddIntoTheCart.setPrefereddeliverydate(providerDetails.getProducts().get(position).getPrefereddeliverydate());
+                            }else{
+                                productDetailsToAddIntoTheCart.setPrefereddeliverydate("");
+                            }
+
+                            if (providerDetails.getProducts().get(position).getTimeslot() != null) {
+                                productDetailsToAddIntoTheCart.getTimeslot().setFrom(providerDetails.getProducts().get(position).getTimeslot().getFrom());
+                                productDetailsToAddIntoTheCart.getTimeslot().setTo(providerDetails.getProducts().get(position).getTimeslot().getTo());
+                            }else{
+                                productDetailsToAddIntoTheCart.getTimeslot().setFrom(0);
+                                productDetailsToAddIntoTheCart.getTimeslot().setTo(0);
+                            }
+
+
                             if (providerDetails.getProducts().get(position).getMin_weight() != null) {
                                 Log.d("minweight", (providerDetails.getProducts().get(position).getMin_weight().getValue()+"").split("\\.")[0]);
                                 if(providerDetails.getProducts().get(position).getPrice().getUom().equalsIgnoreCase("no") || providerDetails.getProducts().get(position).getPrice().getUom().equalsIgnoreCase("lb")) {
@@ -220,6 +236,7 @@ public class GridAdapterProviderCategories extends BaseAdapter {
                             if (providerDetails.getBranch().getBranchid() != null) {
                                 productDetailsToAddIntoTheCart.setBranchid(providerDetails.getBranch().getBranchid());
                             }
+
                             if (providerDetails.getProducts().get(position).getPrice() != null) {
                                 ProductPrice price = new ProductPrice();
                                 price.setUom(providerDetails.getProducts().get(position).getPrice().getUom());

@@ -201,7 +201,7 @@ public class ResetStaticData {
         CartAdapter.llProductList.removeAllViews();
         CartAdapter.listText.clear();
         CartAdapter.sub_total.setText("");
-        CartAdapter.productList.clear();
+//        CartAdapter.productList.clear();
     }
     public static void staticDisplayDeliveryChargesAndType() throws Exception
     {
