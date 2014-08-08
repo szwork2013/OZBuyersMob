@@ -70,7 +70,8 @@ public class CartAdapter {
     public SuccesResponseCheckDeliveryTimingSlots succesResponseCheckDeliveryTimingSlots;
     ArrayList<String> arrayListTimeSlots;
     AvailableDeliveryTimingSlots timeingslot;
-    ArrayList<AvailableDeliveryTimingSlots>arrayListTimeSlotsObject;
+    ArrayList<ArrayList<AvailableDeliveryTimingSlots>> arrayListTimeSlotsObject ;
+//    ArrayList<AvailableDeliveryTimingSlots> arrayListTimeSlotsObject;
     ArrayList<String> listOfProductIdforDelivery = new ArrayList<>();
     ArrayList<String> branchIdforDelivery = new ArrayList<>();
 
@@ -148,8 +149,8 @@ public class CartAdapter {
                     }
                 });
                 if (!CartActivity.date.isEmpty()) {
-                    arrayListTimeSlots = new ArrayList<>();
-                    arrayListTimeSlotsObject=new ArrayList<>();
+
+//                    arrayListTimeSlotsObject=new ArrayList<>();
                     ll_deliverylayout_cart.setVisibility(View.VISIBLE);
                     if (successResponseForDeliveryCharges.getSuccess().getDeliverycharge().size() > 0) {
                         for (int j = 0; j < successResponseForDeliveryCharges.getSuccess().getDeliverycharge().size(); j++) {
@@ -174,15 +175,16 @@ public class CartAdapter {
                     }
 
                     for(int k = 0; k < succesResponseCheckDeliveryTimingSlots.getSuccess().getDoc().size(); k++){
-                        if (succesResponseCheckDeliveryTimingSlots.getSuccess().getDoc().get(k).getBranchid().equals(branchid))
-                        {
+
+                        if (succesResponseCheckDeliveryTimingSlots.getSuccess().getDoc().get(k).getBranchid().equals(branchid)){
+
                             delivery_date_on_shoppingcart.setText(deliveryDateOnCart(succesResponseCheckDeliveryTimingSlots.getSuccess().getDoc().get(k).getExpected_date()));
-                            deliveryTimeSlots(succesResponseCheckDeliveryTimingSlots.getSuccess().getDoc().get(k).getDeliverytimingslots());
+
                             productList.get(i).setPrefereddeliverydate(deliveryDateOnCart(succesResponseCheckDeliveryTimingSlots.getSuccess().getDoc().get(k).getExpected_date()));
                             Log.d("PrefDate",productList.get(i).getPrefereddeliverydate());
-                            for (int m = 0; m < arrayListTimeSlots.size(); m++) {
-                                spn_timeslot.setAdapter(new ArrayAdapter<String>(context.getApplicationContext(), R.layout.weight_spinner_items, arrayListTimeSlots));
-                            }
+//                            for (int m = 0; m < arrayListTimeSlots.size(); m++) {
+                                spn_timeslot.setAdapter(new ArrayAdapter<String>(context.getApplicationContext(), R.layout.weight_spinner_items, deliveryTimeSlots(succesResponseCheckDeliveryTimingSlots.getSuccess().getDoc().get(k).getDeliverytimingslots(), succesResponseCheckDeliveryTimingSlots.getSuccess().getDoc().get(k).getBranchid())));
+//                            }
                         }
                     }
 
@@ -193,13 +195,14 @@ public class CartAdapter {
                     @Override
                     public void onItemSelected(AdapterView<?> adapterView, View view, int pos, long l) {
 
-                        Toast.makeText(context, new Gson().toJson(succesResponseCheckDeliveryTimingSlots.getSuccess().getDoc().get(adapterView.getId()-3000).getDeliverytimingslots().get(pos)), Toast.LENGTH_LONG).show();
+                        Toast.makeText(context, new Gson().toJson(arrayListTimeSlotsObject.get(adapterView.getId()-3000).get(pos)), Toast.LENGTH_LONG).show();
                         AvailableDeliveryTimingSlots ts = new AvailableDeliveryTimingSlots();
-                        ts.setAvailable(succesResponseCheckDeliveryTimingSlots.getSuccess().getDoc().get(adapterView.getId()-3000).getDeliverytimingslots().get(pos).getAvailable());
-                        ts.setFrom(succesResponseCheckDeliveryTimingSlots.getSuccess().getDoc().get(adapterView.getId()-3000).getDeliverytimingslots().get(pos).getFrom());
-                        ts.setTo(succesResponseCheckDeliveryTimingSlots.getSuccess().getDoc().get(adapterView.getId()-3000).getDeliverytimingslots().get(pos).getTo());
+                        ts.setAvailable(arrayListTimeSlotsObject.get(adapterView.getId()-3000).get(pos).getAvailable());
+                        ts.setFrom(arrayListTimeSlotsObject.get(adapterView.getId()-3000).get(pos).getFrom());
+                        ts.setTo(arrayListTimeSlotsObject.get(adapterView.getId()-3000).get(pos).getTo());
 
-                        Cart.saveTimeSlot(succesResponseCheckDeliveryTimingSlots.getSuccess().getDoc().get(adapterView.getId()-3000).getBranchid(), ts);
+                        Cart.saveTimeSlot(arrayListTimeSlotsObject.get(adapterView.getId()-3000).get(pos).getBranchid(), ts);
+
                     }
 
                     @Override
@@ -230,9 +233,10 @@ public class CartAdapter {
             Log.d("After date selected",new Gson().toJson(productList));
         }
     }
-    public void deliveryTimeSlots(List<AvailableDeliveryTimingSlots> deliveryTimingslots)
+    public ArrayList<String> deliveryTimeSlots(List<AvailableDeliveryTimingSlots> deliveryTimingslots, String branchid)
     {
-
+        ArrayList<AvailableDeliveryTimingSlots> innerArray = new ArrayList<>();
+        arrayListTimeSlots = new ArrayList<>();
         String timeslots="";
         for(int m=0;m<deliveryTimingslots.size();m++){
             if(deliveryTimingslots.get(m).getFrom()<12)
@@ -261,14 +265,20 @@ public class CartAdapter {
             if(deliveryTimingslots.get(m).getAvailable()==true)
             {
                 timeingslot=new AvailableDeliveryTimingSlots();
+                timeingslot.setAvailable(deliveryTimingslots.get(m).getAvailable());
                 timeingslot.setTo(deliveryTimingslots.get(m).getTo());
                 timeingslot.setFrom(deliveryTimingslots.get(m).getFrom());
+                timeingslot.setBranchid(branchid);
                 arrayListTimeSlots.add(timeslots);
-                arrayListTimeSlotsObject.add(timeingslot);
+
+                innerArray.add(timeingslot);
             }
         }
+        arrayListTimeSlotsObject.add(innerArray);
         Log.d("arrayListTimeSlots",new Gson().toJson(arrayListTimeSlots));
         Log.d("arrayListTimeSlotsObject",new Gson().toJson(arrayListTimeSlotsObject));
+
+        return arrayListTimeSlots;
     }
 
     public String deliveryDateOnCart(String date)
@@ -510,6 +520,7 @@ public class CartAdapter {
                         Log.d("resultOfDeliveryTimeSlots", resultOfDeliveryTimeSlots);
                         jObj = new JSONObject(resultOfDeliveryTimeSlots);
                         if (jObj.has("success")) {
+                            arrayListTimeSlotsObject = new ArrayList<>();
                             succesResponseCheckDeliveryTimingSlots = new Gson().fromJson(resultOfDeliveryTimeSlots, SuccesResponseCheckDeliveryTimingSlots.class);
                             Log.d("Successresponse for delivery time slots", resultOfDeliveryTimeSlots);
                         } else {

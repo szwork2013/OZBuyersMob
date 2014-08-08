@@ -7,6 +7,15 @@ public class AvailableDeliveryTimingSlots {
     double from;
     double to;
     Boolean available;
+    String branchid;
+
+    public String getBranchid() {
+        return branchid;
+    }
+
+    public void setBranchid(String branchid) {
+        this.branchid = branchid;
+    }
 
     public double getFrom() {
         return from;
