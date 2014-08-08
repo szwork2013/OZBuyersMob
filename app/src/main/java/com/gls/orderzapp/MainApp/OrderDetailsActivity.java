@@ -54,7 +54,7 @@ import java.util.List;
  * Created by prajyot on 24/4/14.
  */
 public class OrderDetailsActivity extends Activity {
-    public static LinearLayout llProductsList, llayout_delivery_address;
+    public static LinearLayout llProductsList;
     public static TextView textGrandTotal, grandTotal, billingAddressTextView, shippingAddressTextView, delivery_type, payment_mode;
     TextView expected_delivery_date, delivery_address_text,expected_delivery_timeslot;
     CreateOrderAddressDetails orderBillingAddressDetails, orderDeliveryAddressDetails;
@@ -145,7 +145,7 @@ public class OrderDetailsActivity extends Activity {
         llProductsList = (LinearLayout) findViewById(R.id.listProducts);
 //        txt_delivery_date=(TextView) findViewById(R.id.txt_delivery_date);
         textGrandTotal = (TextView) findViewById(R.id.grand_total_text);
-        llayout_delivery_address = (LinearLayout) findViewById(R.id.llayout_delivery_address);
+
         grandTotal = (TextView) findViewById(R.id.grand_total);
         delivery_type = (TextView) findViewById(R.id.delivery_type);
         billingAddressTextView = (TextView) findViewById(R.id.billing_address_textview);
@@ -275,7 +275,7 @@ public class OrderDetailsActivity extends Activity {
                 createOrderData.getOrderdata().getBilling_address().getState() + ", " +
                 createOrderData.getOrderdata().getBilling_address().getCountry());
 
-                llayout_delivery_address.setVisibility(View.VISIBLE);
+
                 shippingAddressTextView.setVisibility(View.VISIBLE);
                 shippingAddressTextView.setText(createOrderData.getOrderdata().getDelivery_address().getAddress1() + ", " +
                 createOrderData.getOrderdata().getDelivery_address().getAddress2() + ", " +

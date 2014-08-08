@@ -55,7 +55,7 @@ public class AdapterForMultipleProviders {
             String branchid = createOrderProductDetailsList.get(i).getBranchid();
             String providerName = createOrderProductDetailsList.get(i).getProvidername();
             String providerArea = createOrderProductDetailsList.get(i).getLocation().getArea();
-            String deliveryType = "",deliveryDate="",deliveryTime="";
+            String deliveryType = "",deliveryDate="",deliveryTime="Between ";
 
             if (providers != null) {
                 if (providers.contains(branchid)) {
@@ -92,26 +92,26 @@ public class AdapterForMultipleProviders {
                                 if(Cart.hm.get(keys[j]).getTimeslot()!=null){
                                         if(Cart.hm.get(keys[j]).getTimeslot().getFrom()<12)
                                         {
-                                            deliveryTime=Cart.hm.get(keys[j]).getTimeslot()+" AM";
+                                            deliveryTime=deliveryTime.concat(String.format("%.2f",Cart.hm.get(keys[j]).getTimeslot().getFrom())+" AM");
                                         }else if(Cart.hm.get(keys[j]).getTimeslot().getFrom()==12)
                                         {
-                                            deliveryTime=Cart.hm.get(keys[j]).getTimeslot().getFrom()+" PM";
+                                            deliveryTime=deliveryTime.concat(String.format("%.2f",Cart.hm.get(keys[j]).getTimeslot().getFrom())+" PM");
                                         }
                                         else if(Cart.hm.get(keys[j]).getTimeslot().getFrom()>12)
                                         {
-                                            deliveryTime=(Cart.hm.get(keys[j]).getTimeslot().getFrom()-12)+" PM";
+                                            deliveryTime=deliveryTime.concat(String.format("%.2f",(Cart.hm.get(keys[j]).getTimeslot().getFrom()-12))+" PM");
                                         }
 
                                         if(Cart.hm.get(keys[j]).getTimeslot().getTo()<12)
                                         {
-                                            deliveryTime=deliveryTime.concat(" to "+Cart.hm.get(keys[j]).getTimeslot().getTo()+" AM");
+                                            deliveryTime=deliveryTime.concat(" to "+String.format("%.2f",Cart.hm.get(keys[j]).getTimeslot().getTo())+" AM");
                                         }else if(Cart.hm.get(keys[j]).getTimeslot().getTo()==12)
                                         {
-                                            deliveryTime=deliveryTime.concat(" to "+Cart.hm.get(keys[j]).getTimeslot().getTo()+" PM");
+                                            deliveryTime=deliveryTime.concat(" to "+String.format("%.2f",Cart.hm.get(keys[j]).getTimeslot().getTo())+" PM");
                                         }
                                         else if(Cart.hm.get(keys[j]).getTimeslot().getTo()>12)
                                         {
-                                            deliveryTime=deliveryTime.concat(" to "+(Cart.hm.get(keys[j]).getTimeslot().getTo()-12)+" PM");
+                                            deliveryTime=deliveryTime.concat(" to "+String.format("%.2f",(Cart.hm.get(keys[j]).getTimeslot().getTo()-12))+" PM");
                                         }
 
                                 }

@@ -383,12 +383,13 @@ public static int deleteConfigObject()
         }
     }
 
-    public static void saveTimeSlot(String branchid, AvailableDeliveryTimingSlots availableDeliveryTimingSlots){
+    public static void saveTimeSlot(String branchid, AvailableDeliveryTimingSlots availableDeliveryTimingSlots,String date){
 
         String[] keys = hm.keySet().toArray(new String[hm.size()]);
         for(int i = 0 ; i < hm.size(); i++){
             if(hm.get(keys[i]).getBranchid().equals(branchid)){
                 hm.get(keys[i]).setTimeslot(availableDeliveryTimingSlots);
+                hm.get(keys[i]).setPrefereddeliverydate(date);
             }
         }
 

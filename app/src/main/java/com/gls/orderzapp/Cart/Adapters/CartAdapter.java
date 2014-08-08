@@ -60,6 +60,7 @@ public class CartAdapter {
     List<ProductDetails> listProducts = new ArrayList<>();
     String branchId = "";
     String productId = "";
+    String date="";
     int getid=0;
     Spinner spn_timeslot,tempSpinner;
     public static List<TextView> listText = new ArrayList<>();
@@ -181,8 +182,8 @@ public class CartAdapter {
 
                             delivery_date_on_shoppingcart.setText(deliveryDateOnCart(succesResponseCheckDeliveryTimingSlots.getSuccess().getDoc().get(k).getExpected_date()));
 
-                            productList.get(i).setPrefereddeliverydate(deliveryDateOnCart(succesResponseCheckDeliveryTimingSlots.getSuccess().getDoc().get(k).getExpected_date()));
-                            Log.d("PrefDate",productList.get(i).getPrefereddeliverydate());
+                            date=deliveryDateOnCart(succesResponseCheckDeliveryTimingSlots.getSuccess().getDoc().get(k).getExpected_date());
+
 //                            for (int m = 0; m < arrayListTimeSlots.size(); m++) {
                             spn_timeslot.setAdapter(new ArrayAdapter<String>(context.getApplicationContext(), R.layout.weight_spinner_items, deliveryTimeSlots(succesResponseCheckDeliveryTimingSlots.getSuccess().getDoc().get(k).getDeliverytimingslots(), succesResponseCheckDeliveryTimingSlots.getSuccess().getDoc().get(k).getBranchid())));
 //                            }
@@ -196,13 +197,12 @@ public class CartAdapter {
                     @Override
                     public void onItemSelected(AdapterView<?> adapterView, View view, int pos, long l) {
 
-                        Toast.makeText(context, new Gson().toJson(arrayListTimeSlotsObject.get(adapterView.getId()-3000).get(pos)), Toast.LENGTH_LONG).show();
+//                        Toast.makeText(context, new Gson().toJson(arrayListTimeSlotsObject.get(adapterView.getId()-3000).get(pos)), Toast.LENGTH_LONG).show();
                         AvailableDeliveryTimingSlots ts = new AvailableDeliveryTimingSlots();
                         ts.setAvailable(arrayListTimeSlotsObject.get(adapterView.getId()-3000).get(pos).getAvailable());
                         ts.setFrom(arrayListTimeSlotsObject.get(adapterView.getId()-3000).get(pos).getFrom());
                         ts.setTo(arrayListTimeSlotsObject.get(adapterView.getId()-3000).get(pos).getTo());
-
-                        Cart.saveTimeSlot(arrayListTimeSlotsObject.get(adapterView.getId()-3000).get(pos).getBranchid(), ts);
+                        Cart.saveTimeSlot(arrayListTimeSlotsObject.get(adapterView.getId()-3000).get(pos).getBranchid(), ts,date);
 
                     }
 
@@ -245,23 +245,23 @@ public class CartAdapter {
                 timeslots=deliveryTimingslots.get(m).getFrom()+" AM";
             }else if(deliveryTimingslots.get(m).getFrom()==12)
             {
-                timeslots=deliveryTimingslots.get(m).getFrom()+" PM";
+                timeslots=String.format("%.2f",deliveryTimingslots.get(m).getFrom())+" PM";
             }
             else if(deliveryTimingslots.get(m).getFrom()>12)
             {
-                timeslots=(deliveryTimingslots.get(m).getFrom()-12)+" PM";
+                timeslots=String.format("%.2f",(deliveryTimingslots.get(m).getFrom()-12))+" PM";
             }
 
             if(deliveryTimingslots.get(m).getTo()<12)
             {
-                timeslots=timeslots.concat("-"+deliveryTimingslots.get(m).getTo()+" AM");
+                timeslots=timeslots.concat("-"+String.format("%.2f",deliveryTimingslots.get(m).getTo())+" AM");
             }else if(deliveryTimingslots.get(m).getTo()==12)
             {
-                timeslots=timeslots.concat("-"+deliveryTimingslots.get(m).getTo()+" PM");
+                timeslots=timeslots.concat("-"+String.format("%.2f",deliveryTimingslots.get(m).getTo())+" PM");
             }
             else if(deliveryTimingslots.get(m).getTo()>12)
             {
-                timeslots=timeslots.concat("-"+(deliveryTimingslots.get(m).getTo()-12)+" PM");
+                timeslots=timeslots.concat("-"+String.format("%.2f",(deliveryTimingslots.get(m).getTo()-12))+" PM");
             }
             if(deliveryTimingslots.get(m).getAvailable()==true)
             {
