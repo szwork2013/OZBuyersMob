@@ -56,12 +56,11 @@ public class CartAdapter {
     ProductDetails[] mValues;
     public static LinearLayout llCartListItemView, llProductList;
     public static List<ProductDetails> productList;
-    List<String> branchids = new ArrayList<>();
+    List<String> branchids;
     List<ProductDetails> listProducts = new ArrayList<>();
     String branchId = "";
     String productId = "";
     String date="";
-    int getid=0;
     Spinner spn_timeslot,tempSpinner;
     public static List<TextView> listText = new ArrayList<>();
     public static TextView sub_total;
@@ -75,6 +74,7 @@ public class CartAdapter {
     ArrayList<ArrayList<AvailableDeliveryTimingSlots>> arrayListTimeSlotsObject ;
     //    ArrayList<AvailableDeliveryTimingSlots> arrayListTimeSlotsObject;
     ArrayList<String> listOfProductIdforDelivery = new ArrayList<>();
+    int a = 0;
     ArrayList<String> branchIdforDelivery = new ArrayList<>();
 
     public CartAdapter(Context context) {
@@ -91,9 +91,10 @@ public class CartAdapter {
     }
 
     public void getCartView() {
+        branchids = new ArrayList<>();
         for ( int i = 0; i < Cart.hm.size(); i++) {
             String branchid = productList.get(i).getBranchid();
-
+            a++;
             if (branchids.contains(branchid)) {
 
                 listProducts.add(productList.get(i));
@@ -182,8 +183,8 @@ public class CartAdapter {
 
                             delivery_date_on_shoppingcart.setText(deliveryDateOnCart(succesResponseCheckDeliveryTimingSlots.getSuccess().getDoc().get(k).getExpected_date()));
 
-                            date=deliveryDateOnCart(succesResponseCheckDeliveryTimingSlots.getSuccess().getDoc().get(k).getExpected_date());
-
+                           date=deliveryDateOnCart(succesResponseCheckDeliveryTimingSlots.getSuccess().getDoc().get(k).getExpected_date());
+                            Log.d("PrefDate",productList.get(i).getPrefereddeliverydate());
 //                            for (int m = 0; m < arrayListTimeSlots.size(); m++) {
                             spn_timeslot.setAdapter(new ArrayAdapter<String>(context.getApplicationContext(), R.layout.weight_spinner_items, deliveryTimeSlots(succesResponseCheckDeliveryTimingSlots.getSuccess().getDoc().get(k).getDeliverytimingslots(), succesResponseCheckDeliveryTimingSlots.getSuccess().getDoc().get(k).getBranchid())));
 //                            }
@@ -193,15 +194,26 @@ public class CartAdapter {
                 } else {
                     ll_deliverylayout_cart.setVisibility(View.GONE);
                 }
+
+
+                spn_timeslot.setId((branchids.size()-1) + 3000);
+                btn_productcart_privacy.setId(i + 2000);
+                CartActivity.llCartList.addView(llCartListItemView);
+
+                Log.d("i", i+"");
                 spn_timeslot.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                     @Override
                     public void onItemSelected(AdapterView<?> adapterView, View view, int pos, long l) {
 
+                        Log.d("ids", adapterView.getId()-3000+"");
+//                        Toast.makeText(context, new Gson().toJson(arrayListTimeSlotsObject.get(adapterView.getId()-3000)), Toast.LENGTH_LONG).show();
+//
 //                        Toast.makeText(context, new Gson().toJson(arrayListTimeSlotsObject.get(adapterView.getId()-3000).get(pos)), Toast.LENGTH_LONG).show();
                         AvailableDeliveryTimingSlots ts = new AvailableDeliveryTimingSlots();
                         ts.setAvailable(arrayListTimeSlotsObject.get(adapterView.getId()-3000).get(pos).getAvailable());
                         ts.setFrom(arrayListTimeSlotsObject.get(adapterView.getId()-3000).get(pos).getFrom());
                         ts.setTo(arrayListTimeSlotsObject.get(adapterView.getId()-3000).get(pos).getTo());
+
                         Cart.saveTimeSlot(arrayListTimeSlotsObject.get(adapterView.getId()-3000).get(pos).getBranchid(), ts,date);
 
                     }
@@ -211,19 +223,6 @@ public class CartAdapter {
 
                     }
                 });
-
-                spn_timeslot.setOnTouchListener(new View.OnTouchListener() {
-                    @Override
-                    public boolean onTouch(View view, MotionEvent motionEvent) {
-                        tempSpinner = ((Spinner) view);
-                        getid = view.getId() - 3000;
-                        return false;
-                    }
-                });
-                spn_timeslot.setId(i + 3000);
-                btn_productcart_privacy.setId(i + 2000);
-                CartActivity.llCartList.addView(llCartListItemView);
-
             }
 
             if (i == productList.size() - 1) {
@@ -245,23 +244,23 @@ public class CartAdapter {
                 timeslots=deliveryTimingslots.get(m).getFrom()+" AM";
             }else if(deliveryTimingslots.get(m).getFrom()==12)
             {
-                timeslots=String.format("%.2f",deliveryTimingslots.get(m).getFrom())+" PM";
+                timeslots=deliveryTimingslots.get(m).getFrom()+" PM";
             }
             else if(deliveryTimingslots.get(m).getFrom()>12)
             {
-                timeslots=String.format("%.2f",(deliveryTimingslots.get(m).getFrom()-12))+" PM";
+                timeslots=(deliveryTimingslots.get(m).getFrom()-12)+" PM";
             }
 
             if(deliveryTimingslots.get(m).getTo()<12)
             {
-                timeslots=timeslots.concat("-"+String.format("%.2f",deliveryTimingslots.get(m).getTo())+" AM");
+                timeslots=timeslots.concat("-"+deliveryTimingslots.get(m).getTo()+" AM");
             }else if(deliveryTimingslots.get(m).getTo()==12)
             {
-                timeslots=timeslots.concat("-"+String.format("%.2f",deliveryTimingslots.get(m).getTo())+" PM");
+                timeslots=timeslots.concat("-"+deliveryTimingslots.get(m).getTo()+" PM");
             }
             else if(deliveryTimingslots.get(m).getTo()>12)
             {
-                timeslots=timeslots.concat("-"+String.format("%.2f",(deliveryTimingslots.get(m).getTo()-12))+" PM");
+                timeslots=timeslots.concat("-"+(deliveryTimingslots.get(m).getTo()-12)+" PM");
             }
             if(deliveryTimingslots.get(m).getAvailable()==true)
             {
