@@ -55,7 +55,7 @@ public class CartAdapter {
     ProductDetails[] mValues;
     public static LinearLayout llCartListItemView, llProductList;
     public static List<ProductDetails> productList;
-    List<String> branchids = new ArrayList<>();
+    List<String> branchids;
     List<ProductDetails> listProducts = new ArrayList<>();
     String branchId = "";
     String productId = "";
@@ -73,6 +73,7 @@ public class CartAdapter {
     ArrayList<ArrayList<AvailableDeliveryTimingSlots>> arrayListTimeSlotsObject ;
 //    ArrayList<AvailableDeliveryTimingSlots> arrayListTimeSlotsObject;
     ArrayList<String> listOfProductIdforDelivery = new ArrayList<>();
+    int a = 0;
     ArrayList<String> branchIdforDelivery = new ArrayList<>();
 
     public CartAdapter(Context context) {
@@ -89,9 +90,10 @@ public class CartAdapter {
     }
 
     public void getCartView() {
+        branchids = new ArrayList<>();
         for ( int i = 0; i < Cart.hm.size(); i++) {
             String branchid = productList.get(i).getBranchid();
-
+            a++;
             if (branchids.contains(branchid)) {
 
                 listProducts.add(productList.get(i));
@@ -191,11 +193,21 @@ public class CartAdapter {
                 } else {
                     ll_deliverylayout_cart.setVisibility(View.GONE);
                 }
+
+
+                spn_timeslot.setId((branchids.size()-1) + 3000);
+                btn_productcart_privacy.setId(i + 2000);
+                CartActivity.llCartList.addView(llCartListItemView);
+
+                Log.d("i", i+"");
                 spn_timeslot.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                     @Override
                     public void onItemSelected(AdapterView<?> adapterView, View view, int pos, long l) {
 
-                        Toast.makeText(context, new Gson().toJson(arrayListTimeSlotsObject.get(adapterView.getId()-3000).get(pos)), Toast.LENGTH_LONG).show();
+                        Log.d("ids", adapterView.getId()-3000+"");
+//                        Toast.makeText(context, new Gson().toJson(arrayListTimeSlotsObject.get(adapterView.getId()-3000)), Toast.LENGTH_LONG).show();
+//
+//                        Toast.makeText(context, new Gson().toJson(arrayListTimeSlotsObject.get(adapterView.getId()-3000).get(pos)), Toast.LENGTH_LONG).show();
                         AvailableDeliveryTimingSlots ts = new AvailableDeliveryTimingSlots();
                         ts.setAvailable(arrayListTimeSlotsObject.get(adapterView.getId()-3000).get(pos).getAvailable());
                         ts.setFrom(arrayListTimeSlotsObject.get(adapterView.getId()-3000).get(pos).getFrom());
@@ -210,19 +222,6 @@ public class CartAdapter {
 
                     }
                 });
-
-                spn_timeslot.setOnTouchListener(new View.OnTouchListener() {
-                    @Override
-                    public boolean onTouch(View view, MotionEvent motionEvent) {
-                        tempSpinner = ((Spinner) view);
-                        getid = view.getId() - 3000;
-                        return false;
-                    }
-                });
-                spn_timeslot.setId(i + 3000);
-                btn_productcart_privacy.setId(i + 2000);
-                CartActivity.llCartList.addView(llCartListItemView);
-
             }
 
             if (i == productList.size() - 1) {
