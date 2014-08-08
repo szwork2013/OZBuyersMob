@@ -24,6 +24,9 @@ import com.google.gson.Gson;
 
 import org.json.JSONObject;
 
+import java.util.Collections;
+import java.util.Comparator;
+
 /**
  * Created by prajyot on 6/8/14.
  */
@@ -320,6 +323,7 @@ public class CityStateCountryActivity extends Activity {
                 if(connectedOrNot.equalsIgnoreCase("success")){
                     if(!resultGetCities.isEmpty()){
                         if(jObj.has("success")){
+                            Collections.sort(successResponseForCityList.getSuccess().getCity(), new CustomComparator());
                             cityListAdapter = new CityAreaListAdapter(getApplicationContext(), successResponseForCityList.getSuccess().getCity());
                             city_spinner.setAdapter(cityListAdapter);
                             city_spinner.setSelection(successResponseForCityList.getSuccess().getCity().indexOf(loadCityPreference()));
@@ -335,6 +339,19 @@ public class CityStateCountryActivity extends Activity {
             }catch (Exception e){
                 e.printStackTrace();
             }
+        }
+    }
+
+    class CustomComparator implements Comparator<String> {
+
+        @Override
+        public int compare(String s, String s2) {
+            return s.compareTo(s2);
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            return false;
         }
     }
 }

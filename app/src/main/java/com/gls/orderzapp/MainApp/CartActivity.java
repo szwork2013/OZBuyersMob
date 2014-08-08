@@ -69,6 +69,7 @@ public class CartActivity extends Activity {
     public void onBackPressed() {
         super.onBackPressed();
         Cart.deleteFromCartIfQuantityIsZero();
+        date = "";
     }
 
     @Override

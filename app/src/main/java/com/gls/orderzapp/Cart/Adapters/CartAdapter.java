@@ -198,8 +198,6 @@ public class CartAdapter {
                 spn_timeslot.setId((branchids.size()-1) + 3000);
                 btn_productcart_privacy.setId(i + 2000);
                 CartActivity.llCartList.addView(llCartListItemView);
-
-                Log.d("i", i+"");
                 spn_timeslot.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                     @Override
                     public void onItemSelected(AdapterView<?> adapterView, View view, int pos, long l) {
