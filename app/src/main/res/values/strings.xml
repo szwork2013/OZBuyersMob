@@ -115,5 +115,6 @@
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     <string name="title_activity_country_state_city_tabs">Select Area</string>
+    <string name="title_activity_provider_details">ProviderDetailsActivity</string>
 
 </resources>
