@@ -59,6 +59,8 @@ public class CartAdapter {
     List<ProductDetails> listProducts = new ArrayList<>();
     String branchId = "";
     String productId = "";
+    int getid=0;
+    Spinner spn_timeslot,tempSpinner;
     int i;
     public static List<TextView> listText = new ArrayList<>();
     public static TextView sub_total;
@@ -109,7 +111,7 @@ public class CartAdapter {
                 TextView delivery_type = (TextView) llCartListItemView.findViewById(R.id.delivery_type);
                 TextView txt_provider_note = (TextView) llCartListItemView.findViewById(R.id.txt_provider_note);
                 TextView delivery_date_on_shoppingcart = (TextView) llCartListItemView.findViewById(R.id.delivery_date_on_shoppingcart);
-                final Spinner spn_timeslot = (Spinner) llCartListItemView.findViewById(R.id.spn_timeslot);
+                 spn_timeslot = (Spinner) llCartListItemView.findViewById(R.id.spn_timeslot);
                 LinearLayout ll_deliverylayout_cart = (LinearLayout) llCartListItemView.findViewById(R.id.ll_deliverylayout_cart);
                 Button btn_productcart_privacy = (Button) llCartListItemView.findViewById(R.id.btn_productcart_privacy);
                 sub_total = (TextView) llCartListItemView.findViewById(R.id.sub_total);
@@ -200,8 +202,8 @@ public class CartAdapter {
                                 if (productList.get(j).getBranchid().equals(succesResponseCheckDeliveryTimingSlots.getSuccess().getDoc().get(z).getBranchid()))
                                 {
                                     AvailableDeliveryTimingSlots ts = new AvailableDeliveryTimingSlots();
-                                    ts.setFrom(arrayListTimeSlotsObject.get(adapterView.getId()-3000).getFrom());
-                                    ts.setTo(arrayListTimeSlotsObject.get(adapterView.getId()-3000).getTo());
+                                    ts.setFrom(arrayListTimeSlotsObject.get(getid).getFrom());
+                                    ts.setTo(arrayListTimeSlotsObject.get(getid).getTo());
                                     productList.get(j).setTimeslot(ts);
                                     Log.d("ProductList",new Gson().toJson(productList));
                                     Log.d("TimeSlot", new Gson().toJson(ts));
@@ -220,7 +222,8 @@ public class CartAdapter {
                 spn_timeslot.setOnTouchListener(new View.OnTouchListener() {
                     @Override
                     public boolean onTouch(View view, MotionEvent motionEvent) {
-
+                        tempSpinner = ((Spinner) view);
+                        getid = view.getId();
                         return false;
                     }
                 });
