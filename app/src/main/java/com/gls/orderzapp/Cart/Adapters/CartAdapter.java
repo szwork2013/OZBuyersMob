@@ -166,8 +166,7 @@ public class CartAdapter {
                                                 delivery_type.setText("Home/Pick-Up");
                                                 delivery_date_on_shoppingcart.setText(deliveryDateOnCart(succesResponseCheckDeliveryTimingSlots.getSuccess().getDoc().get(k).getExpected_date()));
                                                 deliveryTimeSlots(succesResponseCheckDeliveryTimingSlots.getSuccess().getDoc().get(j).getDeliverytimingslots());
-                                                productList.get(i).setPrefereddeliverydate(deliveryDateOnCart(succesResponseCheckDeliveryTimingSlots.getSuccess().getDoc().get(k).getExpected_date()));
-                                               Log.d("PrefDate",productList.get(i).getPrefereddeliverydate());
+
                                                 for (int m = 0; m < arrayListTimeSlots.size(); m++) {
                                                     spn_timeslot.setAdapter(new ArrayAdapter<String>(context.getApplicationContext(), R.layout.weight_spinner_items, arrayListTimeSlots));
                                                 }
@@ -176,8 +175,8 @@ public class CartAdapter {
                                                 delivery_type.setText("Pick-Up Only");
                                                 delivery_date_on_shoppingcart.setText(deliveryDateOnCart(succesResponseCheckDeliveryTimingSlots.getSuccess().getDoc().get(k).getExpected_date()));
                                                 deliveryTimeSlots(succesResponseCheckDeliveryTimingSlots.getSuccess().getDoc().get(j).getDeliverytimingslots());
-                                                productList.get(i).setPrefereddeliverydate(deliveryDateOnCart(succesResponseCheckDeliveryTimingSlots.getSuccess().getDoc().get(k).getExpected_date()));
-                                                Log.d("PrefDate",productList.get(i).getPrefereddeliverydate());
+//                                                productList.get(i).setPrefereddeliverydate(deliveryDateOnCart(succesResponseCheckDeliveryTimingSlots.getSuccess().getDoc().get(k).getExpected_date()));
+
                                                 for (int m = 0; m < arrayListTimeSlots.size(); m++) {
                                                     spn_timeslot.setAdapter(new ArrayAdapter<String>(context.getApplicationContext(), R.layout.weight_spinner_items, arrayListTimeSlots));
                                                 }
@@ -205,8 +204,10 @@ public class CartAdapter {
                                     ts.setFrom(arrayListTimeSlotsObject.get(getid).getFrom());
                                     ts.setTo(arrayListTimeSlotsObject.get(getid).getTo());
                                     productList.get(j).setTimeslot(ts);
+                                    productList.get(j).setPrefereddeliverydate(deliveryDateOnCart(succesResponseCheckDeliveryTimingSlots.getSuccess().getDoc().get(z).getExpected_date()));
                                     Log.d("ProductList",new Gson().toJson(productList));
                                     Log.d("TimeSlot", new Gson().toJson(ts));
+                                    Log.d("PrefDate",productList.get(j).getPrefereddeliverydate());
                                 }
                             }
                         }

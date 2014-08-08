@@ -150,14 +150,11 @@ public class OrderDetailsActivity extends Activity {
         delivery_type = (TextView) findViewById(R.id.delivery_type);
         billingAddressTextView = (TextView) findViewById(R.id.billing_address_textview);
         shippingAddressTextView = (TextView) findViewById(R.id.shipping_address_textview);
-        expected_delivery_date = (TextView) findViewById(R.id.expected_delivery_date);
-        expected_delivery_timeslot= (TextView) findViewById(R.id.expected_delivery_timeslot);
         payment_mode_group = (RadioGroup) findViewById(R.id.payment_mode_group);
         cash_on_delivery = (RadioButton) findViewById(R.id.cash_on_delivery);
         credit_card = (RadioButton) findViewById(R.id.credit_card);
         payment_mode = (TextView) findViewById(R.id.payment_mode);
         address_list = (ListView) findViewById(R.id.address_list);
-        delivery_address_text = (TextView) findViewById(R.id.delivery_address_text);
     }
 
     @Override

@@ -164,42 +164,7 @@
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="left"
-                    android:textSize="16sp"
-                    android:textStyle="bold"
-                    android:text="@string/deliverdatentime"
-                    android:layout_marginLeft="10dp"
-                    android:visibility="visible"
-                    android:layout_marginTop="5dp" />
-            </LinearLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="#fd9717" />
-
-            <Button
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:background="@drawable/date_background"
-                android:textStyle="bold"
-                android:hint="Select a Delivery date And Time"
-                android:id="@+id/delivery_date"
-                android:onClick="selectDeliveryDate"
-                android:layout_marginTop="10dp"
-                android:padding="5dp"
-                android:textSize="18sp"
-                android:layout_marginBottom="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginLeft="10dp" />
 
             <LinearLayout
                 android:id="@+id/ll_deliver_charge_type"

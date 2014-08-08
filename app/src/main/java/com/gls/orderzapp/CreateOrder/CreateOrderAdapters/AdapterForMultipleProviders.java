@@ -33,7 +33,7 @@ public class AdapterForMultipleProviders {
     List<CreateOrderProductDetails> list = new ArrayList<>();
     List<String> branchIds = new ArrayList<>();
     LayoutInflater li;
-    TextView textGrandTotal, delivery_charge, deliveryTypeText;
+    TextView textGrandTotal, delivery_charge, deliveryTypeText,deliveryDateText,deliveryTimeText,deliveryAddressText;
     CreateOrderAddressDetails orderDeliveryAddress;
     String[] keys;
 
@@ -55,7 +55,7 @@ public class AdapterForMultipleProviders {
             String branchid = createOrderProductDetailsList.get(i).getBranchid();
             String providerName = createOrderProductDetailsList.get(i).getProvidername();
             String providerArea = createOrderProductDetailsList.get(i).getLocation().getArea();
-            String deliveryType = "";
+            String deliveryType = "",deliveryDate="",deliveryTime="";
 
             if (providers != null) {
                 if (providers.contains(branchid)) {
@@ -85,8 +85,41 @@ public class AdapterForMultipleProviders {
                                     deliveryType = "Pick-Up";
                                 }
                                 Log.d("del type", deliveryType);
+                                deliveryDate=Cart.hm.get(keys[j]).getPrefereddeliverydate().toString();
+                                Log.d("del datentime",deliveryDate);
+                                //*******************
+
+                                if(Cart.hm.get(keys[j]).getTimeslot()!=null){
+                                        if(Cart.hm.get(keys[j]).getTimeslot().getFrom()<12)
+                                        {
+                                            deliveryTime=Cart.hm.get(keys[j]).getTimeslot()+" AM";
+                                        }else if(Cart.hm.get(keys[j]).getTimeslot().getFrom()==12)
+                                        {
+                                            deliveryTime=Cart.hm.get(keys[j]).getTimeslot().getFrom()+" PM";
+                                        }
+                                        else if(Cart.hm.get(keys[j]).getTimeslot().getFrom()>12)
+                                        {
+                                            deliveryTime=(Cart.hm.get(keys[j]).getTimeslot().getFrom()-12)+" PM";
+                                        }
+
+                                        if(Cart.hm.get(keys[j]).getTimeslot().getTo()<12)
+                                        {
+                                            deliveryTime=deliveryTime.concat(" to "+Cart.hm.get(keys[j]).getTimeslot().getTo()+" AM");
+                                        }else if(Cart.hm.get(keys[j]).getTimeslot().getTo()==12)
+                                        {
+                                            deliveryTime=deliveryTime.concat(" to "+Cart.hm.get(keys[j]).getTimeslot().getTo()+" PM");
+                                        }
+                                        else if(Cart.hm.get(keys[j]).getTimeslot().getTo()>12)
+                                        {
+                                            deliveryTime=deliveryTime.concat(" to "+(Cart.hm.get(keys[j]).getTimeslot().getTo()-12)+" PM");
+                                        }
+
+                                }
+                                //********************
                                 SellerDelivery sellerDelivery = new SellerDelivery();
                                 sellerDelivery.setBranchid(branchid);
+                                sellerDelivery.setPrefdeldtime(deliveryDate);
+                                sellerDelivery.setPrefdeltimeslot(Cart.hm.get(keys[j]).getTimeslot());
                                 sellerDelivery.setDeliverytype(Cart.hm.get(keys[j]).getDeliveryType().getDeliveryType());
                                 sellerDelivery.setDelivery_address(orderDeliveryAddress);
 
@@ -128,7 +161,6 @@ public class AdapterForMultipleProviders {
                                 }
                             }
                                 OrderDetailsActivity.createOrderCartList.getSellerdelivery().add(sellerDelivery);
-//                            OrderDetailsActivity.createOrderCartList.getDeliverytypes().add(OrderDetailsActivity.deliveryTypes);
                                 adddeliveryTypes.setBranchid(branchid);
                                 adddeliveryTypes.setDeliverytype(Cart.hm.get(keys[j]).getDeliveryType().getDeliveryType());
                                 OrderDetailsActivity.createOrderCartList.getDeliverytypes().add(adddeliveryTypes);
@@ -142,7 +174,16 @@ public class AdapterForMultipleProviders {
                     ((TextView) llProductsForProvider.findViewById(R.id.provider_name)).setText(providerName);
                     ((TextView) llProductsForProvider.findViewById(R.id.provider_area)).setText(providerArea);
                     deliveryTypeText = (TextView) llProductsForProvider.findViewById(R.id.delivery_type);
+                    deliveryDateText = (TextView) llProductsForProvider.findViewById(R.id.delivery_date_order_details);
+                    deliveryTimeText = (TextView) llProductsForProvider.findViewById(R.id.delivery_time_slot);
+                    deliveryAddressText = (TextView) llProductsForProvider.findViewById(R.id.delivery_address);
+
                     deliveryTypeText.setText(deliveryType);
+                    deliveryTimeText.setText(deliveryTime);
+                    deliveryDateText.setText(deliveryDate);
+                    deliveryAddressText.setText(orderDeliveryAddress.getAddress1()+","+orderDeliveryAddress.getAddress2()
+                            +"\n"+orderDeliveryAddress.getArea()+","+orderDeliveryAddress.getCity()
+                            +"\n"+orderDeliveryAddress.getState()+","+orderDeliveryAddress.getZipcode()+"("+orderDeliveryAddress.getCountry()+")");
 
                     if (i > 0) {
                         delivery_charge.setText(deliveryCharges + "");
