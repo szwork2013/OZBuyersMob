@@ -169,7 +169,7 @@ public class ResetStaticData {
     }
     public static void staticCartActivity() throws Exception
     {
-        CartActivity.date=null;
+        CartActivity.date="";
         CartActivity.area_text.setText("");
         CartActivity.grand_total.setText("");
         CartActivity.llCartList.removeAllViews();
