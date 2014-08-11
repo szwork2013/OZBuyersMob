@@ -131,7 +131,7 @@
             android:name=".MainApp.ForgotPasswordActivity"
             android:alwaysRetainTaskState="true"
             android:configChanges="orientation|screenSize|keyboardHidden"
-            android:label="Forgor Password" />
+            android:label="Forgot Password" />
         <activity
             android:name=".MainApp.RegenerateVerificationToken"
             android:alwaysRetainTaskState="true"
@@ -227,7 +227,8 @@
             android:name=".MainApp.ProviderDetailsActivity"
             android:alwaysRetainTaskState="true"
             android:configChanges="orientation|screenSize|keyboardHidden"
-            android:label="@string/title_activity_provider_details" >
+            android:label="@string/title_activity_provider_details"
+            >
         </activity>
     </application>
 

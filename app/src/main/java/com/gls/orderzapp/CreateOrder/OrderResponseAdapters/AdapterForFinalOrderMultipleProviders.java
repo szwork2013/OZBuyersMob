@@ -57,29 +57,59 @@ public class AdapterForFinalOrderMultipleProviders {
             }
             if(orderedSubOrderDetailsList.get(i).getPrefdeltimeslot()!=null){
                 String deliveryTime="";
-                if(orderedSubOrderDetailsList.get(i).getPrefdeltimeslot().getFrom()<12)
+                int getFromHrs=0,getFromMin=0,getToHrs=0,getToMin=0;
+                getFromHrs=(int)orderedSubOrderDetailsList.get(i).getPrefdeltimeslot().getFrom();
+                getFromMin=Math.round((int)((orderedSubOrderDetailsList.get(i).getPrefdeltimeslot().getFrom()-getFromHrs)*60)*100)/100;
+                getToHrs=(int)orderedSubOrderDetailsList.get(i).getPrefdeltimeslot().getTo();
+                getToMin=Math.round((int)((orderedSubOrderDetailsList.get(i).getPrefdeltimeslot().getTo()-getToHrs)*60)*100)/100;
+
+                if(getFromHrs<12)
                 {
-                    deliveryTime=String.format("%.2f",orderedSubOrderDetailsList.get(i).getPrefdeltimeslot().getFrom())+" AM";
-                }else if(orderedSubOrderDetailsList.get(i).getPrefdeltimeslot().getFrom()==12)
+                    deliveryTime=getFromHrs+":"+getFromMin+" AM";
+                }else if(getFromHrs==12)
                 {
-                    deliveryTime=String.format("%.2f",orderedSubOrderDetailsList.get(i).getPrefdeltimeslot().getFrom())+" PM";
+                    deliveryTime=getFromHrs+":"+getFromMin+" PM";
                 }
-                else if(orderedSubOrderDetailsList.get(i).getPrefdeltimeslot().getFrom()>12)
+                else if(getFromHrs>12)
                 {
-                    deliveryTime=String.format("%.2f",(orderedSubOrderDetailsList.get(i).getPrefdeltimeslot().getFrom()-12))+" PM";
+                    deliveryTime=(getFromHrs-12)+":"+getFromMin+" PM";
                 }
 
-                if(orderedSubOrderDetailsList.get(i).getPrefdeltimeslot().getTo()<12)
+                if(getToHrs<12)
                 {
-                    deliveryTime=deliveryTime.concat(" to "+String.format("%.2f",orderedSubOrderDetailsList.get(i).getPrefdeltimeslot().getTo())+" AM");
-                }else if(orderedSubOrderDetailsList.get(i).getPrefdeltimeslot().getTo()==12)
+                    deliveryTime=deliveryTime.concat(" - "+getToHrs+":"+getToMin+" AM");
+                }else if(getToHrs==12)
                 {
-                    deliveryTime=deliveryTime.concat(" to "+String.format("%.2f",orderedSubOrderDetailsList.get(i).getPrefdeltimeslot().getTo())+" PM");
+                    deliveryTime=deliveryTime.concat(" - "+getToHrs+":"+getToMin+" PM");
                 }
-                else if(orderedSubOrderDetailsList.get(i).getPrefdeltimeslot().getTo()>12)
+                else if(getToHrs>12)
                 {
-                    deliveryTime=deliveryTime.concat(" to "+String.format("%.2f",(orderedSubOrderDetailsList.get(i).getPrefdeltimeslot().getTo()-12))+" PM");
+                    deliveryTime=deliveryTime.concat(" - "+(getToHrs-12)+":"+getToMin+" PM");
                 }
+
+//                if(orderedSubOrderDetailsList.get(i).getPrefdeltimeslot().getFrom()<12)
+//                {
+//                    deliveryTime=String.format("%.2f",orderedSubOrderDetailsList.get(i).getPrefdeltimeslot().getFrom())+" AM";
+//                }else if(orderedSubOrderDetailsList.get(i).getPrefdeltimeslot().getFrom()==12)
+//                {
+//                    deliveryTime=String.format("%.2f",orderedSubOrderDetailsList.get(i).getPrefdeltimeslot().getFrom())+" PM";
+//                }
+//                else if(orderedSubOrderDetailsList.get(i).getPrefdeltimeslot().getFrom()>12)
+//                {
+//                    deliveryTime=String.format("%.2f",(orderedSubOrderDetailsList.get(i).getPrefdeltimeslot().getFrom()-12))+" PM";
+//                }
+//
+//                if(orderedSubOrderDetailsList.get(i).getPrefdeltimeslot().getTo()<12)
+//                {
+//                    deliveryTime=deliveryTime.concat(" to "+String.format("%.2f",orderedSubOrderDetailsList.get(i).getPrefdeltimeslot().getTo())+" AM");
+//                }else if(orderedSubOrderDetailsList.get(i).getPrefdeltimeslot().getTo()==12)
+//                {
+//                    deliveryTime=deliveryTime.concat(" to "+String.format("%.2f",orderedSubOrderDetailsList.get(i).getPrefdeltimeslot().getTo())+" PM");
+//                }
+//                else if(orderedSubOrderDetailsList.get(i).getPrefdeltimeslot().getTo()>12)
+//                {
+//                    deliveryTime=deliveryTime.concat(" to "+String.format("%.2f",(orderedSubOrderDetailsList.get(i).getPrefdeltimeslot().getTo()-12))+" PM");
+//                }
 
                 delivery_time_slot_final_order.setText("Between "+deliveryTime);
             }
