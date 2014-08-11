@@ -86,8 +86,12 @@
                 android:textSize="16sp"
                 android:textColor="#000"
                 android:textStyle="bold"
-                android:text="@string/delivery" />
+                android:text="@string/deliverydetails" />
             </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#ff938d89" />
 <LinearLayout
     android:layout_width="match_parent"
     android:orientation="horizontal"

@@ -236,30 +236,61 @@ public class CartAdapter {
         ArrayList<AvailableDeliveryTimingSlots> innerArray = new ArrayList<>();
         arrayListTimeSlots = new ArrayList<>();
         String timeslots="";
+        int getFromHrs=0,getFromMin=0,getToHrs=0,getToMin=0;
+
         for(int m=0;m<deliveryTimingslots.size();m++){
-            if(deliveryTimingslots.get(m).getFrom()<12)
+            getFromHrs=(int)deliveryTimingslots.get(m).getFrom();
+            getFromMin=Math.round((int)((deliveryTimingslots.get(m).getFrom()-getFromHrs)*60)*100)/100;
+            getToHrs=(int)deliveryTimingslots.get(m).getTo();
+            getToMin=Math.round((int)((deliveryTimingslots.get(m).getTo()-getToHrs)*60)*100)/100;
+
+            if(getFromHrs<12)
             {
-                timeslots=deliveryTimingslots.get(m).getFrom()+" AM";
-            }else if(deliveryTimingslots.get(m).getFrom()==12)
+                timeslots=getFromHrs+":"+getFromMin+" AM";
+            }else if(getFromHrs==12)
             {
-                timeslots=deliveryTimingslots.get(m).getFrom()+" PM";
+                timeslots=getFromHrs+":"+getFromMin+" PM";
             }
-            else if(deliveryTimingslots.get(m).getFrom()>12)
+            else if(getFromHrs>12)
             {
-                timeslots=(deliveryTimingslots.get(m).getFrom()-12)+" PM";
+                timeslots=(getFromHrs-12)+":"+getFromMin+" PM";
             }
 
-            if(deliveryTimingslots.get(m).getTo()<12)
+            if(getToHrs<12)
             {
-                timeslots=timeslots.concat("-"+deliveryTimingslots.get(m).getTo()+" AM");
-            }else if(deliveryTimingslots.get(m).getTo()==12)
+                timeslots=timeslots.concat(" - "+getToHrs+":"+getToMin+" AM");
+            }else if(getToHrs==12)
             {
-                timeslots=timeslots.concat("-"+deliveryTimingslots.get(m).getTo()+" PM");
+                timeslots=timeslots.concat(" - "+getToHrs+":"+getToMin+" PM");
             }
-            else if(deliveryTimingslots.get(m).getTo()>12)
+            else if(getToHrs>12)
             {
-                timeslots=timeslots.concat("-"+(deliveryTimingslots.get(m).getTo()-12)+" PM");
+                timeslots=timeslots.concat(" - "+(getToHrs-12)+":"+getToMin+" PM");
             }
+
+//            if(deliveryTimingslots.get(m).getFrom()<12)
+//            {
+//                timeslots=deliveryTimingslots.get(m).getFrom()+" AM";
+//            }else if(deliveryTimingslots.get(m).getFrom()==12)
+//            {
+//                timeslots=deliveryTimingslots.get(m).getFrom()+" PM";
+//            }
+//            else if(deliveryTimingslots.get(m).getFrom()>12)
+//            {
+//                timeslots=(deliveryTimingslots.get(m).getFrom()-12)+" PM";
+//            }
+//
+//            if(deliveryTimingslots.get(m).getTo()<12)
+//            {
+//                timeslots=timeslots.concat(" - "+deliveryTimingslots.get(m).getTo()+" AM");
+//            }else if(deliveryTimingslots.get(m).getTo()==12)
+//            {
+//                timeslots=timeslots.concat(" - "+deliveryTimingslots.get(m).getTo()+" PM");
+//            }
+//            else if(deliveryTimingslots.get(m).getTo()>12)
+//            {
+//                timeslots=timeslots.concat(" - "+(deliveryTimingslots.get(m).getTo()-12)+" PM");
+//            }
             if(deliveryTimingslots.get(m).getAvailable()==true)
             {
                 timeingslot=new AvailableDeliveryTimingSlots();

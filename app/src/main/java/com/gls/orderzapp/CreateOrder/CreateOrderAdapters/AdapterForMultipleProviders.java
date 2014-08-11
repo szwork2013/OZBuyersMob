@@ -57,6 +57,7 @@ public class AdapterForMultipleProviders {
             String providerName = createOrderProductDetailsList.get(i).getProvidername();
             String providerArea = createOrderProductDetailsList.get(i).getLocation().getArea();
             String deliveryType = "",deliveryDate="",deliveryTime="";
+            int getFromHrs=0,getFromMin=0,getToHrs=0,getToMin=0;
 
             if (providers != null) {
                 if (providers.contains(branchid)) {
@@ -90,30 +91,60 @@ public class AdapterForMultipleProviders {
                                 Log.d("del datentime",deliveryDate);
                                 //*******************
 
-                                if(Cart.hm.get(keys[j]).getTimeslot()!=null){
-                                        if(Cart.hm.get(keys[j]).getTimeslot().getFrom()<12)
-                                        {
-                                            deliveryTime=String.format("%.2f",Cart.hm.get(keys[j]).getTimeslot().getFrom())+" AM";
-                                        }else if(Cart.hm.get(keys[j]).getTimeslot().getFrom()==12)
-                                        {
-                                            deliveryTime=String.format("%.2f",Cart.hm.get(keys[j]).getTimeslot().getFrom())+" PM";
-                                        }
-                                        else if(Cart.hm.get(keys[j]).getTimeslot().getFrom()>12)
-                                        {
-                                            deliveryTime=String.format("%.2f",(Cart.hm.get(keys[j]).getTimeslot().getFrom()-12))+" PM";
-                                        }
 
-                                        if(Cart.hm.get(keys[j]).getTimeslot().getTo()<12)
-                                        {
-                                            deliveryTime=deliveryTime.concat(" to "+String.format("%.2f",Cart.hm.get(keys[j]).getTimeslot().getTo())+" AM");
-                                        }else if(Cart.hm.get(keys[j]).getTimeslot().getTo()==12)
-                                        {
-                                            deliveryTime=deliveryTime.concat(" to "+String.format("%.2f",Cart.hm.get(keys[j]).getTimeslot().getTo())+" PM");
-                                        }
-                                        else if(Cart.hm.get(keys[j]).getTimeslot().getTo()>12)
-                                        {
-                                            deliveryTime=deliveryTime.concat(" to "+String.format("%.2f",(Cart.hm.get(keys[j]).getTimeslot().getTo()-12))+" PM");
-                                        }
+                                if(Cart.hm.get(keys[j]).getTimeslot()!=null){
+                                    getFromHrs=(int)Cart.hm.get(keys[j]).getTimeslot().getFrom();
+                                    getFromMin=Math.round((int)((Cart.hm.get(keys[j]).getTimeslot().getFrom()-getFromHrs)*60)*100)/100;
+                                    getToHrs=(int)Cart.hm.get(keys[j]).getTimeslot().getTo();
+                                    getToMin=Math.round((int)((Cart.hm.get(keys[j]).getTimeslot().getTo()-getToHrs)*60)*100)/100;
+
+                                    if(getFromHrs<12)
+                                    {
+                                        deliveryTime=getFromHrs+":"+getFromMin+" AM";
+                                    }else if(getFromHrs==12)
+                                    {
+                                        deliveryTime=getFromHrs+":"+getFromMin+" PM";
+                                    }
+                                    else if(getFromHrs>12)
+                                    {
+                                        deliveryTime=(getFromHrs-12)+":"+getFromMin+" PM";
+                                    }
+
+                                    if(getToHrs<12)
+                                    {
+                                        deliveryTime=deliveryTime.concat(" to "+getToHrs+":"+getToMin+" AM");
+                                    }else if(getToHrs==12)
+                                    {
+                                        deliveryTime=deliveryTime.concat(" to "+getToHrs+":"+getToMin+" PM");
+                                    }
+                                    else if(getToHrs>12)
+                                    {
+                                        deliveryTime=deliveryTime.concat(" to "+(getToHrs-12)+":"+getToMin+" PM");
+                                    }
+//
+//                                    if(Cart.hm.get(keys[j]).getTimeslot().getFrom()<12)
+//                                        {
+//                                            deliveryTime=String.format("%.2f",Cart.hm.get(keys[j]).getTimeslot().getFrom())+" AM";
+//                                        }else if(Cart.hm.get(keys[j]).getTimeslot().getFrom()==12)
+//                                        {
+//                                            deliveryTime=String.format("%.2f",Cart.hm.get(keys[j]).getTimeslot().getFrom())+" PM";
+//                                        }
+//                                        else if(Cart.hm.get(keys[j]).getTimeslot().getFrom()>12)
+//                                        {
+//                                            deliveryTime=String.format("%.2f",(Cart.hm.get(keys[j]).getTimeslot().getFrom()-12))+" PM";
+//                                        }
+//
+//                                        if(Cart.hm.get(keys[j]).getTimeslot().getTo()<12)
+//                                        {
+//                                            deliveryTime=deliveryTime.concat(" to "+String.format("%.2f",Cart.hm.get(keys[j]).getTimeslot().getTo())+" AM");
+//                                        }else if(Cart.hm.get(keys[j]).getTimeslot().getTo()==12)
+//                                        {
+//                                            deliveryTime=deliveryTime.concat(" to "+String.format("%.2f",Cart.hm.get(keys[j]).getTimeslot().getTo())+" PM");
+//                                        }
+//                                        else if(Cart.hm.get(keys[j]).getTimeslot().getTo()>12)
+//                                        {
+//                                            deliveryTime=deliveryTime.concat(" to "+String.format("%.2f",(Cart.hm.get(keys[j]).getTimeslot().getTo()-12))+" PM");
+//                                        }
 
                                 }
                                 //********************
