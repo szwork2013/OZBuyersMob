@@ -138,7 +138,7 @@ public class ProductConfigurationListAdapter extends BaseAdapter {
                     case R.id.eggless:
                         for (int i = 0; i < cakeList.get(position1).getProductconfiguration().getConfiguration().size(); i++) {
                             if (cakeList.get(position1).getProductconfiguration().getConfiguration().get(i).getProd_configtype().equalsIgnoreCase("ftp")) {
-                                Toast.makeText(context, cakeList.get(position).getCartCount(), Toast.LENGTH_LONG).show();
+//                                Toast.makeText(context, cakeList.get(position).getCartCount(), Toast.LENGTH_LONG).show();
                                 Cart.addFoodTypeConfiguration(cakeList.get(position1).getCartCount(),
                                                               cakeList.get(position1).getProductconfiguration().getConfiguration().get(i).getProd_configtype(),
                                                               cakeList.get(position1).getProductconfiguration().getConfiguration().get(i).getProd_configname(),

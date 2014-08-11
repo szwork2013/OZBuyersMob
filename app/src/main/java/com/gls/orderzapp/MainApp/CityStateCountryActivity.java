@@ -265,6 +265,7 @@ public class CityStateCountryActivity extends Activity {
                 if(connectedOrNot.equalsIgnoreCase("success")){
                     if(!resultGetStates.isEmpty()){
                         if(jObj.has("success")){
+                            Collections.sort(successResponseForStatesList.getSuccess().getStates(), new CustomComparator());
                             stateslistAdapter = new CityAreaListAdapter(getApplicationContext(), successResponseForStatesList.getSuccess().getStates());
                             state_spinner.setAdapter(stateslistAdapter);
                             state_spinner.setSelection(successResponseForStatesList.getSuccess().getStates().indexOf(loadStatePreference()));

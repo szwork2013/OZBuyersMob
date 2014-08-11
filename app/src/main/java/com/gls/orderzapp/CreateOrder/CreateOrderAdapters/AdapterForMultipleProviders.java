@@ -44,7 +44,7 @@ public class AdapterForMultipleProviders {
         this.orderDeliveryAddress = orderDeliveryAddress;
 
         keys = Cart.hm.keySet().toArray(new String[Cart.hm.size()]);
-        Log.d("CartDetails",new Gson().toJson(Cart.hm));
+
     }
 
     public void setMultipleProvidersList() {

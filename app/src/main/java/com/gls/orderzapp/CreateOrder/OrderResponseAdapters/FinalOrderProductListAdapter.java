@@ -40,6 +40,10 @@ public class FinalOrderProductListAdapter {
             TextView quantity = (TextView) llProductList.findViewById(R.id.quantity);
             TextView price = (TextView) llProductList.findViewById(R.id.price);
             TextView subtotal = (TextView) llProductList.findViewById(R.id.subtotal);
+            LinearLayout ll_special_message = (LinearLayout) llProductList.findViewById(R.id.ll_special_message);
+            TextView special_message = (TextView) llProductList.findViewById(R.id.special_message);
+            TextView message = (TextView) llProductList.findViewById(R.id.message);
+
 
             if (orderedProductDetailsList.get(i).getProductname() != null) {
                 product_name.setText(orderedProductDetailsList.get(i).getProductname());
@@ -47,9 +51,7 @@ public class FinalOrderProductListAdapter {
 
             quantity.setText(String.format("%.2f", orderedProductDetailsList.get(i).getQty()) + " " + orderedProductDetailsList.get(i).getUom());
             price.setText(String.format("%.2f", (orderedProductDetailsList.get(i).getOrderprice() / orderedProductDetailsList.get(i).getQty()) - (configurationPrice(orderedProductDetailsList.get(i).getProductconfiguration()) / orderedProductDetailsList.get(i).getQty())));
-            LinearLayout ll_special_message = (LinearLayout) llProductList.findViewById(R.id.ll_special_message);
-            TextView special_message = (TextView) llProductList.findViewById(R.id.special_message);
-            TextView message = (TextView) llProductList.findViewById(R.id.message);
+
 
             if (orderedProductDetailsList.get(i).getProductconfiguration().size() > 0) {
                 ll_special_message.setVisibility(View.VISIBLE);
