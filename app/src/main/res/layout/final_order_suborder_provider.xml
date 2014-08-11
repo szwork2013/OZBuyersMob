@@ -270,14 +270,14 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="16sp"
+                android:textSize="14sp"
                 android:textColor="#000"
                 android:text="@string/delivery_date"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="16sp"
+                android:textSize="14sp"
                 android:textColor="#000"
                 android:layout_marginLeft="2dp"
                 android:id="@+id/delivery_date_final_order" />
@@ -291,14 +291,14 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="16sp"
+                android:textSize="14sp"
                 android:textColor="#000"
                 android:text="@string/time_colon"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="16sp"
+                android:textSize="14sp"
                 android:textColor="#000"
                 android:layout_marginLeft="2dp"
                 android:id="@+id/delivery_time_slot_final_order" />
@@ -312,14 +312,14 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="16sp"
+                android:textSize="14sp"
                 android:textColor="#000"
                 android:text="@string/type_colon"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="16sp"
+                android:textSize="14sp"
                 android:textColor="#000"
                 android:layout_marginLeft="2dp"
                 android:id="@+id/delivery_type" />
@@ -333,7 +333,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="16sp"
+                android:textSize="14sp"
                 android:textColor="#000"
                 android:text="@string/address_colon"/>
 
@@ -347,5 +347,9 @@
         </LinearLayout>
 
     </LinearLayout>
-
+    <View
+        android:layout_width="match_parent"
+        android:layout_marginLeft="5dp"
+        android:background="#ffa3a3a3"
+        android:layout_height="1dp"></View>
 </LinearLayout>
