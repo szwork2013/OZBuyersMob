@@ -31,7 +31,7 @@
     </screenName>
     <screenName name="com.gls.orderzapp.MainApp.DeliveryAddressActivity">Delivery Address Screen
     </screenName>
-    <screenName name="com.gls.orderzapp.MainApp.DetailedOrderActivity">Detail Order Screen
+    <screenName name="com.gls.orderzapp.MainApp.DetailedMyOrderActivity">Detail Order Screen
     </screenName>
     <screenName name="com.gls.orderzapp.MainApp.FinalOrderActivity">Final Order Screen</screenName>
     <screenName name="com.gls.orderzapp.MainApp.ForgotPasswordActivity">Forgot Password Screen

@@ -64,6 +64,8 @@ public class CartActivity extends Activity {
         context = CartActivity.this;
         findViewsById();
 
+        Log.d("CArt", new Gson().toJson(Cart.hm));
+
     }
     @Override
     public void onBackPressed() {
@@ -181,7 +183,7 @@ public class CartActivity extends Activity {
             ll_noproducts.setVisibility(View.GONE);
             ll_products.setVisibility(View.VISIBLE);
             try {
-                Cart.deleteFromCartIfQuantityIsZero();
+//                Cart.deleteFromCartIfQuantityIsZero();
                 new CartAdapter(context);
                 grand_total.setText(Cart.subTotal() + "");
             } catch (Exception e) {

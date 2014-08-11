@@ -157,7 +157,7 @@
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:label="Final Order" />
         <activity
-            android:name=".MainApp.DetailedOrderActivity"
+            android:name=".MainApp.DetailedMyOrderActivity"
             android:alwaysRetainTaskState="true"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:label="Order" />

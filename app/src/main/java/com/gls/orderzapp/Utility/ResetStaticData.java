@@ -1,7 +1,5 @@
 package com.gls.orderzapp.Utility;
 
-import android.content.Intent;
-
 import com.gls.orderzapp.AddressDetails.Adapter.AdapterForPickUpAddressList;
 import com.gls.orderzapp.AddressDetails.Adapter.AdapterForSelectaddressList;
 import com.gls.orderzapp.AddressDetails.Adapter.DeliveryChargesAndTypeAdapter;
@@ -14,7 +12,7 @@ import com.gls.orderzapp.CreateOrder.OrderResponseAdapters.AdapterForFinalOrderM
 import com.gls.orderzapp.MainApp.CartActivity;
 import com.gls.orderzapp.MainApp.ChangeAddressActivity;
 import com.gls.orderzapp.MainApp.DeliveryPaymentActivity;
-import com.gls.orderzapp.MainApp.DetailedOrderActivity;
+import com.gls.orderzapp.MainApp.DetailedMyOrderActivity;
 import com.gls.orderzapp.MainApp.FinalOrderActivity;
 import com.gls.orderzapp.MainApp.ForgotPasswordActivity;
 import com.gls.orderzapp.MainApp.MyOrdersListActivity;
@@ -144,7 +142,7 @@ public class ResetStaticData {
     }
     public static void staticDetailedOrderActivity() throws Exception
     {
-        DetailedOrderActivity.listProducts.removeAllViews();
+        DetailedMyOrderActivity.listProducts.removeAllViews();
     }
     public static void staticDeliveryPaymentActivity() throws Exception
     {

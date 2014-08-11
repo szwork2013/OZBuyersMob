@@ -16,10 +16,18 @@ public class SubOrderDetails {
     ProviderLocation delivery_address;
     ProviderLocation billing_address;
     ProviderLocation pickup_address;
+    DeliveryTimeSlot prefdeltimeslot;
     ProductProviderDetails productprovider;
     List<ProductDetails> products = new ArrayList<>();
     List<ServerSideTracking> tracking = new ArrayList<>();
 
+    public DeliveryTimeSlot getPrefdeltimeslot() {
+        return prefdeltimeslot;
+    }
+
+    public void setPrefdeltimeslot(DeliveryTimeSlot prefdeltimeslot) {
+        this.prefdeltimeslot = prefdeltimeslot;
+    }
 
     public String getPrefdeldtime() {
         return prefdeldtime;

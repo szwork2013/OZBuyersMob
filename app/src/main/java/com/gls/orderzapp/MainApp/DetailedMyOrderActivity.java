@@ -26,7 +26,7 @@ import java.util.TimeZone;
 /**
  * Created by prajyot on 7/5/14.
  */
-public class DetailedOrderActivity extends Activity {
+public class DetailedMyOrderActivity extends Activity {
     public static LinearLayout listProducts;
     OrderDetails orderDetails;
     Context context;
@@ -40,7 +40,7 @@ public class DetailedOrderActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.detailed_order);
         setTitle("Detailed Order");
-        context = DetailedOrderActivity.this;
+        context = DetailedMyOrderActivity.this;
         ((GoogleAnalyticsUtility) getApplication()).getTracker(GoogleAnalyticsUtility.TrackerName.APP_TRACKER);
         Log.d("order details", getIntent().getStringExtra("ORDER"));
         findViewsById();
