@@ -102,22 +102,22 @@ public class AdapterForFinalOrderMultipleProviders {
                         e.printStackTrace();
                     }
             }
-if(orderedSubOrderDetailsList.get(i).getDeliverytype().equalsIgnoreCase("home")) {
-    if (orderedSubOrderDetailsList.get(i).getDelivery_address() != null) {
-        delivery_address_final_order.setText(orderedSubOrderDetailsList.get(i).getDelivery_address().getAddress1() + "," + orderedSubOrderDetailsList.get(i).getDelivery_address().getAddress2()
-                + "\n" + orderedSubOrderDetailsList.get(i).getDelivery_address().getArea() + "," + orderedSubOrderDetailsList.get(i).getDelivery_address().getCity()
-                + "\n" + orderedSubOrderDetailsList.get(i).getDelivery_address().getState() + "," + orderedSubOrderDetailsList.get(i).getDelivery_address().getZipcode()
-                + "," + orderedSubOrderDetailsList.get(i).getDelivery_address().getCountry());
-    }
-}else{
-    if (orderedSubOrderDetailsList.get(i).getPickup_address() != null) {
-        delivery_address_final_order.setText(orderedSubOrderDetailsList.get(i).getPickup_address().getAddress1() + "," + orderedSubOrderDetailsList.get(i).getPickup_address().getAddress2()
-                + "\n" + orderedSubOrderDetailsList.get(i).getPickup_address().getArea() + "," + orderedSubOrderDetailsList.get(i).getPickup_address().getCity()
-                + "\n" + orderedSubOrderDetailsList.get(i).getPickup_address().getState() + "," + orderedSubOrderDetailsList.get(i).getPickup_address().getZipcode()
-                + "," + orderedSubOrderDetailsList.get(i).getPickup_address().getCountry());
-    }
-}
 
+            if(orderedSubOrderDetailsList.get(i).getDeliverytype().equalsIgnoreCase("home")) {
+                if (orderedSubOrderDetailsList.get(i).getDelivery_address() != null) {
+                    delivery_address_final_order.setText(orderedSubOrderDetailsList.get(i).getDelivery_address().getAddress1() + "," + orderedSubOrderDetailsList.get(i).getDelivery_address().getAddress2()
+                            + "\n" + orderedSubOrderDetailsList.get(i).getDelivery_address().getArea() + "," + orderedSubOrderDetailsList.get(i).getDelivery_address().getCity()
+                            + "\n" + orderedSubOrderDetailsList.get(i).getDelivery_address().getState() + "," + orderedSubOrderDetailsList.get(i).getDelivery_address().getZipcode()
+                            + "," + orderedSubOrderDetailsList.get(i).getDelivery_address().getCountry());
+                }
+            }else{
+                if (orderedSubOrderDetailsList.get(i).getPickup_address() != null) {
+                    delivery_address_final_order.setText(orderedSubOrderDetailsList.get(i).getPickup_address().getAddress1() + "," + orderedSubOrderDetailsList.get(i).getPickup_address().getAddress2()
+                            + "\n" + orderedSubOrderDetailsList.get(i).getPickup_address().getArea() + "," + orderedSubOrderDetailsList.get(i).getPickup_address().getCity()
+                            + "\n" + orderedSubOrderDetailsList.get(i).getPickup_address().getState() + "," + orderedSubOrderDetailsList.get(i).getPickup_address().getZipcode()
+                            + "," + orderedSubOrderDetailsList.get(i).getPickup_address().getCountry());
+                }
+            }
 
             if (orderedSubOrderDetailsList.get(i).getProductprovider().getLocation().getArea() != null) {
                 providerArea.setText(orderedSubOrderDetailsList.get(i).getProductprovider().getLocation().getArea());
