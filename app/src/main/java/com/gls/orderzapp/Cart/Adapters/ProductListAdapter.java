@@ -113,11 +113,11 @@ public class ProductListAdapter {
                 uomSpinnerActions();
                 quantityEditTextActions();
                 deleteProduct();
-                try {
-//                    edittext_quantity.setSelection(edittext_quantity.getText().toString().trim().length() + 1);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+//                try {
+////                    edittext_quantity.setSelection(edittext_quantity.getText().toString().trim().length() + 1);
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                }
                 min_weight = productDetailsList.get(i).getMin_weight().getValue();
                 max_weight = productDetailsList.get(i).getMax_weight().getValue();
 
@@ -392,7 +392,8 @@ public class ProductListAdapter {
                                                     Toast.makeText(context, "Cannot order more than " + max_weight + " " + measure + " of this product per order", Toast.LENGTH_LONG).show();
                                                 }
 
-                                        } else {
+                                        } else
+                                        {
                                             if ((Double.parseDouble(tempEditText.getText().toString())) >= min_weight && (Double.parseDouble(tempEditText.getText().toString())) <= max_weight) {
 
                                                 Cart.updateCart(tag, tempEditText.getText().toString().trim(), uom);
@@ -409,7 +410,7 @@ public class ProductListAdapter {
                                                         CartAdapter.changeSubTotal(tag, list.get(i).split("-")[1]);
                                                     }
                                                 }
-                                                tempEditText.setText("");
+//                                                tempEditText.setText("");
                                                 Toast.makeText(context, "Enter weight between  " + min_weight + " " + measure + " and " + max_weight + " " + measure, Toast.LENGTH_LONG).show();
                                             }
                                         }
