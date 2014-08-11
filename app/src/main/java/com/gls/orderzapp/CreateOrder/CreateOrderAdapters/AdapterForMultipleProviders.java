@@ -33,6 +33,7 @@ public class AdapterForMultipleProviders {
     List<CreateOrderProductDetails> list = new ArrayList<>();
     List<String> branchIds = new ArrayList<>();
     LayoutInflater li;
+    String pickupaddress="";
     TextView textGrandTotal, delivery_charge, deliveryTypeText,deliveryDateText,deliveryTimeText,deliveryAddressText;
     CreateOrderAddressDetails orderDeliveryAddress;
     String[] keys;
@@ -127,6 +128,13 @@ public class AdapterForMultipleProviders {
                                 for (int l = 0; l < DisplayDeliveryChargesAndType.listOfPickupAddresses.getListPickUpAddress().size(); l++) {
                                     if (branchid.equalsIgnoreCase(DisplayDeliveryChargesAndType.listOfPickupAddresses.getListPickUpAddress().get(l).getBranchid())) {
                                         sellerDelivery.setPickup_address(DisplayDeliveryChargesAndType.listOfPickupAddresses.getListPickUpAddress().get(l).getLocation());
+                                        pickupaddress=DisplayDeliveryChargesAndType.listOfPickupAddresses.getListPickUpAddress().get(l).getLocation().getAddress1()
+                                                +","+DisplayDeliveryChargesAndType.listOfPickupAddresses.getListPickUpAddress().get(l).getLocation().getAddress2()
+                                                +"\n"+DisplayDeliveryChargesAndType.listOfPickupAddresses.getListPickUpAddress().get(l).getLocation().getArea()
+                                                +","+DisplayDeliveryChargesAndType.listOfPickupAddresses.getListPickUpAddress().get(l).getLocation().getCity()
+                                                +"\n"+DisplayDeliveryChargesAndType.listOfPickupAddresses.getListPickUpAddress().get(l).getLocation().getState()
+                                                +","+DisplayDeliveryChargesAndType.listOfPickupAddresses.getListPickUpAddress().get(l).getLocation().getZipcode()
+                                                +" ("+DisplayDeliveryChargesAndType.listOfPickupAddresses.getListPickUpAddress().get(l).getLocation().getCountry()+")";
                                     }
                                 }
                             }
@@ -181,9 +189,15 @@ public class AdapterForMultipleProviders {
                     deliveryTypeText.setText(deliveryType);
                     deliveryTimeText.setText("Between "+deliveryTime);
                     deliveryDateText.setText(deliveryDate);
-                    deliveryAddressText.setText(orderDeliveryAddress.getAddress1()+","+orderDeliveryAddress.getAddress2()
-                            +"\n"+orderDeliveryAddress.getArea()+","+orderDeliveryAddress.getCity()
-                            +"\n"+orderDeliveryAddress.getState()+","+orderDeliveryAddress.getZipcode()+"("+orderDeliveryAddress.getCountry()+")");
+                    if(deliveryType.equalsIgnoreCase("Pick-Up"))
+                    {
+                        deliveryAddressText.setText(pickupaddress);
+                    }
+                    else {
+                        deliveryAddressText.setText(orderDeliveryAddress.getAddress1() + "," + orderDeliveryAddress.getAddress2()
+                                + "\n" + orderDeliveryAddress.getArea() + "," + orderDeliveryAddress.getCity()
+                                + "\n" + orderDeliveryAddress.getState() + "," + orderDeliveryAddress.getZipcode() + "(" + orderDeliveryAddress.getCountry() + ")");
+                    }
 
                     if (i > 0) {
                         delivery_charge.setText(deliveryCharges + "");

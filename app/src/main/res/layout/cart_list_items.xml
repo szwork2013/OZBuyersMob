@@ -73,7 +73,6 @@
         android:id="@+id/ll_deliverylayout_cart"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:visibility="gone"
         android:orientation="vertical"
         android:padding="5dp"
         android:gravity="center_vertical">
@@ -93,12 +92,11 @@
     android:layout_width="match_parent"
     android:orientation="horizontal"
     android:layout_marginLeft="15dp"
-    android:padding="2dp"
     android:layout_height="wrap_content">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="16sp"
+            android:textSize="15sp"
             android:textColor="#000"
             android:text="@string/delivery_type_with_colon" />
         <TextView
@@ -107,19 +105,19 @@
             android:textColor="#fff"
             android:layout_marginLeft="2dp"
             android:padding="2dp"
-            android:textSize="16sp"
+            android:text="dsfsdfs"
+            android:textSize="14sp"
             android:id="@+id/delivery_type" />
 </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
             android:orientation="horizontal"
             android:layout_marginLeft="15dp"
-            android:padding="2dp"
             android:layout_height="wrap_content">
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="16sp"
+                android:textSize="15sp"
                 android:textColor="#000"
                 android:text="@string/delivery_date" />
             <TextView
@@ -127,19 +125,18 @@
                 android:layout_height="wrap_content"
                 android:textColor="#000"
                 android:layout_marginLeft="2dp"
-                android:textSize="16sp"
+                android:textSize="15sp"
                 android:id="@+id/delivery_date_on_shoppingcart" />
         </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
             android:orientation="horizontal"
             android:layout_marginLeft="15dp"
-            android:padding="2dp"
             android:layout_height="wrap_content">
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="16sp"
+                android:textSize="15sp"
                 android:textColor="#000"
                 android:text="@string/deliverytime_slot" />
             <Spinner
