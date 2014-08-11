@@ -12,6 +12,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -39,6 +40,7 @@ public class AreaListActivity extends Activity {
     TextView city, state, country;
     LinearLayout llEditCurrentLocation;
     ListView areaListView;
+    String area = "";
     List<String> areaList = new ArrayList<>();
     SuccessResponseForAreaList successResponseForAreaList;
     CityAreaListAdapter areaListAdapter;
@@ -92,6 +94,14 @@ public class AreaListActivity extends Activity {
             }
         });
 
+        areaListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                area = parent.getItemAtPosition(position)+"";
+                storeArea();
+                finish();
+            }
+        });
     }
 
     @Override
@@ -99,6 +109,13 @@ public class AreaListActivity extends Activity {
         super.onResume();
         displayCurrentLocation();
         new GetAreaListAsync().execute();
+    }
+
+    public void storeArea(){
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        SharedPreferences.Editor editor = sp.edit();
+        editor.putString("USER_AREA", area);
+        editor.commit();
     }
 
     public void findViewsById(){

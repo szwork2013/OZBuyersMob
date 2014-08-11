@@ -100,7 +100,7 @@
     <string name="txn_amount">Amount : </string>
     <string name="txn_details">Transaction Details</string>
     <string name="product_configuration_price">Product Configuration Price : </string>
-    <string name="select">Select</string>
+    <string name="select_delivery_area_date">Select Delivery Area and Date</string>
     <string name="areawithcolon">Area : </string>
     <string name="deliverdateandtime">Date and Time : </string>
     <string name="delivery_date">Date : </string>

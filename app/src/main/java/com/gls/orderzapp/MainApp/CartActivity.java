@@ -60,6 +60,7 @@ public class CartActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.cart_activity);
+        date="";
         context = CartActivity.this;
         findViewsById();
 
@@ -68,6 +69,7 @@ public class CartActivity extends Activity {
     public void onBackPressed() {
         super.onBackPressed();
         Cart.deleteFromCartIfQuantityIsZero();
+        date = "";
     }
 
     @Override
