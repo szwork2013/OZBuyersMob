@@ -24,7 +24,7 @@
                 android:background="@drawable/rounded_white_color"
                 android:gravity="center"
                 android:text="@string/no_products_in_cart"
-                android:textSize="36sp" />
+                android:textSize="25sp" />
         </LinearLayout>
 
         <LinearLayout
@@ -95,7 +95,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="22dp"
                         android:layout_marginLeft="2dp"
-                        android:gravity="start"
+                        android:gravity="center"
                         android:background="@drawable/date_background"
                         android:hint="@string/expected_delivery_date"
                         android:onClick="selectDeliveryDate"
