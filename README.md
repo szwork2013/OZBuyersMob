@@ -1,4 +1,4 @@
-HelpingHand-App-SP
-==================
+OrderZapp Buyers Mobile Application
+====================================
 
-HelpingHand Service Providers
+OrderZapp Buyers
