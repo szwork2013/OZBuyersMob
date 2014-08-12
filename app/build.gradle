@@ -21,23 +21,23 @@ android {
     }
     productFlavors {
         devFlavor {
-            packageName "com.gls.orderzapp.dev"
+            applicationId "com.gls.orderzapp.dev"
         }
 
         testFlavor {
-            packageName "com.gls.orderzapp.test"
+            applicationId "com.gls.orderzapp.test"
         }
 
         demoFlavor {
-            packageName "com.gls.orderzapp.demo"
+            applicationId "com.gls.orderzapp.demo"
         }
 
         productionFlavor {
-            packageName "com.gls.orderzapp.prod"
+            applicationId "com.gls.orderzapp.prod"
         }
 
         productionSecureFlavor {
-            packageName "com.gls.orderzapp.prodsecure"
+            applicationId "com.gls.orderzapp.prodsecure"
         }
     }
 }
@@ -47,6 +47,7 @@ dependencies {
     compile files('libs/pgsdknew.jar')
     compile files('libs/GoogleAnalyticsServicesAndroid_3.02.zip')
     compile files('libs/httpmime-4.2.1.jar')
+    // You must install or update the Support Repository through the SDK manager to use this dependency.
     // You must install or update the Support Repository through the SDK manager to use this dependency.
     // You must install or update the Support Repository through the SDK manager to use this dependency.
     compile 'com.android.support:appcompat-v7:19.0.+'

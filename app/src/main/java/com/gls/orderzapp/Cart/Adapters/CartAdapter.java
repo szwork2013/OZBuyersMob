@@ -187,7 +187,7 @@ public class CartAdapter {
                            date=deliveryDateOnCart(succesResponseCheckDeliveryTimingSlots.getSuccess().getDoc().get(k).getExpected_date());
                             Log.d("PrefDate",productList.get(i).getPrefereddeliverydate());
 //                            for (int m = 0; m < arrayListTimeSlots.size(); m++) {
-                            spn_timeslot.setAdapter(new ArrayAdapter<String>(context.getApplicationContext(), R.layout.weight_spinner_items, deliveryTimeSlots(succesResponseCheckDeliveryTimingSlots.getSuccess().getDoc().get(k).getDeliverytimingslots(), succesResponseCheckDeliveryTimingSlots.getSuccess().getDoc().get(k).getBranchid())));
+                            spn_timeslot.setAdapter(new SpinnerAdapter(context.getApplicationContext(), deliveryTimeSlots(succesResponseCheckDeliveryTimingSlots.getSuccess().getDoc().get(k).getDeliverytimingslots(), succesResponseCheckDeliveryTimingSlots.getSuccess().getDoc().get(k).getBranchid())));
 //                            }
                         }
                     }

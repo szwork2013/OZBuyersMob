@@ -94,6 +94,7 @@
         <activity
             android:name=".MainApp.StartUpActivity"
             android:alwaysRetainTaskState="true"
+            android:screenOrientation="portrait"
             android:configChanges="orientation|screenSize|keyboardHidden" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -227,8 +228,11 @@
             android:name=".MainApp.ProviderDetailsActivity"
             android:alwaysRetainTaskState="true"
             android:configChanges="orientation|screenSize|keyboardHidden"
-            android:label="@string/title_activity_provider_details"
-            >
+            android:label="@string/title_activity_provider_details" >
+        </activity>
+        <activity
+            android:name=".MainApp.FeedBackActivity"
+            android:label="@string/title_activity_feed_back" >
         </activity>
     </application>
 

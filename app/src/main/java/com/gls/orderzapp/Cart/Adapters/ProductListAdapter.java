@@ -184,7 +184,7 @@ public class ProductListAdapter {
                 edittext_quantity.setInputType(InputType.TYPE_CLASS_NUMBER );
             }
             for (int i = 0; i < arrayListweight.size(); i++) {
-                spinner_weight.setAdapter(new ArrayAdapter<String>(context.getApplicationContext(), R.layout.weight_spinner_items, arrayListweight));
+                spinner_weight.setAdapter(new SpinnerAdapter(context.getApplicationContext(), arrayListweight));
             }
         }
 
