@@ -5,7 +5,7 @@ import com.gls.orderzapp.AddressDetails.Adapter.AdapterForSelectaddressList;
 import com.gls.orderzapp.AddressDetails.Adapter.DeliveryChargesAndTypeAdapter;
 import com.gls.orderzapp.AddressDetails.Adapter.DisplayDeliveryChargesAndType;
 import com.gls.orderzapp.Cart.Adapters.CartAdapter;
-import com.gls.orderzapp.Cart.Adapters.ProductCartAdapter;
+//import com.gls.orderzapp.Cart.Adapters.ProductCartAdapter;
 import com.gls.orderzapp.Cart.Adapters.ProductListAdapter;
 import com.gls.orderzapp.CreateOrder.CreateOrderAdapters.AdapterForMultipleProviders;
 import com.gls.orderzapp.CreateOrder.OrderResponseAdapters.AdapterForFinalOrderMultipleProviders;
@@ -188,9 +188,9 @@ public class ResetStaticData {
     }
     public static void staticProductCartAdapter() throws Exception
     {
-        ProductCartAdapter.measure=null;
-        ProductCartAdapter.max_weight=0;
-        ProductCartAdapter.min_weight=0;
+//        ProductCartAdapter.measure=null;
+//        ProductCartAdapter.max_weight=0;
+//        ProductCartAdapter.min_weight=0;
     }
     public static void staticCartAdapter() throws Exception
     {

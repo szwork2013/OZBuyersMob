@@ -102,12 +102,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".MainApp.ProductCartActivity"
-            android:alwaysRetainTaskState="true"
-            android:configChanges="orientation|screenSize|keyboardHidden"
-            android:label="Shopping Cart"
-            android:windowSoftInputMode="adjustResize" />
+
         <activity
             android:name=".MainApp.SettingsActivity"
             android:alwaysRetainTaskState="true"
