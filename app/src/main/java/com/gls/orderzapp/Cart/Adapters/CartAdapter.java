@@ -38,6 +38,7 @@ import com.google.gson.GsonBuilder;
 import org.json.JSONObject;
 
 import java.text.DateFormat;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -186,7 +187,7 @@ public class CartAdapter {
                            date=deliveryDateOnCart(succesResponseCheckDeliveryTimingSlots.getSuccess().getDoc().get(k).getExpected_date());
                             Log.d("PrefDate",productList.get(i).getPrefereddeliverydate());
 //                            for (int m = 0; m < arrayListTimeSlots.size(); m++) {
-                            spn_timeslot.setAdapter(new ArrayAdapter<String>(context.getApplicationContext(), R.layout.weight_spinner_items, deliveryTimeSlots(succesResponseCheckDeliveryTimingSlots.getSuccess().getDoc().get(k).getDeliverytimingslots(), succesResponseCheckDeliveryTimingSlots.getSuccess().getDoc().get(k).getBranchid())));
+                            spn_timeslot.setAdapter(new SpinnerAdapter(context.getApplicationContext(), deliveryTimeSlots(succesResponseCheckDeliveryTimingSlots.getSuccess().getDoc().get(k).getDeliverytimingslots(), succesResponseCheckDeliveryTimingSlots.getSuccess().getDoc().get(k).getBranchid())));
 //                            }
                         }
                     }
@@ -236,14 +237,15 @@ public class CartAdapter {
         ArrayList<AvailableDeliveryTimingSlots> innerArray = new ArrayList<>();
         arrayListTimeSlots = new ArrayList<>();
         String timeslots="";
-        int getFromHrs=0,getFromMin=0,getToHrs=0,getToMin=0;
+        int getFromHrs=0,getToHrs=0;
+        String getFromMin="",getToMin="";
 
         for(int m=0;m<deliveryTimingslots.size();m++){
+            DecimalFormat formatter = new DecimalFormat("00");
             getFromHrs=(int)deliveryTimingslots.get(m).getFrom();
-            getFromMin=Math.round((int)((deliveryTimingslots.get(m).getFrom()-getFromHrs)*60)*100)/100;
+            getFromMin= formatter.format(Math.round((int) ((deliveryTimingslots.get(m).getFrom() - getFromHrs) * 60) * 100) / 100);
             getToHrs=(int)deliveryTimingslots.get(m).getTo();
-            getToMin=Math.round((int)((deliveryTimingslots.get(m).getTo()-getToHrs)*60)*100)/100;
-
+            getToMin=formatter.format(Math.round((int)((deliveryTimingslots.get(m).getTo()-getToHrs)*60)*100)/100);
             if(getFromHrs<12)
             {
                 timeslots=getFromHrs+":"+getFromMin+" AM";

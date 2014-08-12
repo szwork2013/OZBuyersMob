@@ -221,6 +221,10 @@ public class StartUpActivity extends Activity implements View.OnClickListener {
             startActivity(goToWebViewSellersAgreement);
             return true;
         }
+        if(id == R.id.feed_back){
+            new CheckSessionAsync().execute();
+            return true;
+        }
         if (id == R.id.menu_search) {
             if (isEditTextVisible == false) {
                 isEditTextVisible = true;
@@ -264,6 +268,104 @@ public class StartUpActivity extends Activity implements View.OnClickListener {
             e.printStackTrace();
         }
         return resultLogOut;
+    }
+
+    public String getSessionStatus() throws Exception {
+        String resultOfCheckSession = "";
+        try {
+            resultOfCheckSession = ServerConnection.executeGet(getApplicationContext(), "/api/isloggedin");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return resultOfCheckSession;
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+            case 1:
+                if (resultCode == RESULT_OK) {
+                    Intent feedBack = new Intent(StartUpActivity.this, FeedBackActivity.class);
+                    startActivity(feedBack);
+//                    finish();
+
+                } else if (resultCode == RESULT_CANCELED) {
+                    finish();
+                }
+                break;
+        }
+    }
+
+    public class CheckSessionAsync extends AsyncTask<String, Integer, String> {
+        String connectedOrNot, msg, code, resultOfCheckSession;
+        public JSONObject jObj;
+        ProgressDialog progressDialog;
+
+
+        @Override
+        protected void onPreExecute() {
+            progressDialog = ProgressDialog.show(StartUpActivity.this, "", "");
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+            try {
+                if (new CheckConnection(getApplicationContext()).isConnectingToInternet()) {
+                    connectedOrNot = "success";
+                    resultOfCheckSession = getSessionStatus();
+                    if (!resultOfCheckSession.isEmpty()) {
+                        Log.d("check session", resultOfCheckSession);
+                        jObj = new JSONObject(resultOfCheckSession);
+
+                        if (jObj.has("success")) {
+                            JSONObject jObjSuccess = jObj.getJSONObject("success");
+                            msg = jObjSuccess.getString("message");
+                            Log.d("Login success", "In doinbck");
+                        } else {
+                            Log.d("Login not success", "In doinbck");
+                            JSONObject jObjError = jObj.getJSONObject("error");
+                            msg = jObjError.getString("message");
+                            code = jObjError.getString("code");
+                        }
+                    }
+                } else {
+                    connectedOrNot = "error";
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return connectedOrNot;
+        }
+
+        @Override
+        protected void onPostExecute(String connectedOrNot) {
+            try {
+                progressDialog.dismiss();
+                if (connectedOrNot.equals("success")) {
+                    if (!resultOfCheckSession.isEmpty()) {
+                        if (jObj.has("success")) {
+                            Intent deliveryPayment = new Intent(StartUpActivity.this, FeedBackActivity.class);
+                            startActivity(deliveryPayment);
+//                            finish();
+
+                        } else {
+                            Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_LONG).show();
+                            if (code.equals("AL001")) {
+                                Intent goToSignin = new Intent(StartUpActivity.this, SignInActivity.class);
+                                startActivityForResult(goToSignin, 1);
+                            }
+                        }
+                    } else {
+                        Toast.makeText(getApplicationContext(), "Server is not responding please try again later", Toast.LENGTH_LONG).show();
+                    }
+                } else {
+                    Toast.makeText(getApplicationContext(), "Please check your internet connection", Toast.LENGTH_LONG).show();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     class LogOutAsync extends AsyncTask<String, Integer, String> {

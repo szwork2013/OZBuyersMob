@@ -91,6 +91,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
+            android:layout_marginBottom="2dp"
             android:background="#ff938d89" />
 <LinearLayout
     android:layout_width="match_parent"
@@ -146,7 +147,7 @@
             <Spinner
                 android:id="@+id/spn_timeslot"
                 android:layout_width="wrap_content"
-                android:layout_height="35dp"></Spinner>
+                android:layout_height="wrap_content"></Spinner>
         </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
@@ -176,6 +177,7 @@
             android:background="#d3d3d3"
             android:text="Policy"
             android:textSize="12dp"
+            android:layout_marginTop="2dp"
             android:gravity="center"
             android:layout_marginRight="10dp"
             android:layout_marginLeft="10dp"

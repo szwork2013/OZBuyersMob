@@ -69,4 +69,8 @@
         android:icon="@drawable/cart_black"
         android:showAsAction="always"
         android:title="Cart" />
+
+    <item
+        android:id="@+id/feed_back"
+        android:title="Feed Back" />
 </menu>

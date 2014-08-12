@@ -127,7 +127,6 @@ public class AdapterForProviderCategories {
                 productDetails.setPrice(productPrice);
                 productDetails.setProductname("more");
                 productDetails.setFoodtype("none");
-                Log.d("LoadMore Product","Added");
                 ProductLogo productLogo = new ProductLogo();
                 ProductDiscount discount=new ProductDiscount();
                 discount.setCode("none");

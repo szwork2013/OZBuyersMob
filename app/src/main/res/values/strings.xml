@@ -121,5 +121,6 @@
     <string name="type_colon">Type : </string>
     <string name="time_colon">Time :</string>
     <string name="address_colon">Address :</string>
+    <string name="title_activity_feed_back">Feed Back</string>
 
 </resources>

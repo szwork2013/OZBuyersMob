@@ -46,12 +46,12 @@ public class ProductListAdapter {
     String measure = "";
     EditText edittext_quantity;
     LinearLayout llDeleteImage;
-    public static double min_weight, max_weight;
+    public static double min_weight, max_weight,user_min_weight,user_max_weight;
     Spinner spinner_weight, tempSpinner;
     ImageView delete_image;
     int parentIndex;
     List<String> list = new ArrayList<>();
-    String uom;
+    String uom,user_uom;
     String tag = "";
 
     public ProductListAdapter(Context context, List<ProductDetails> productDetailsList, int parentIndex) {
@@ -96,14 +96,11 @@ public class ProductListAdapter {
                     unit_price.setText(productDetailsList.get(i).getPrice().getValue() + "");
                     if (productDetailsList.get(i).getPrice().getUom() != null) {
                         measure = productDetailsList.get(i).getPrice().getUom();
+                        user_uom=productDetailsList.get(i).getPrice().getUom();
                     }
                 }
                 if (productDetailsList.get(i).getQuantity() != null) {
-                    if(measure.equalsIgnoreCase("no")){
                         edittext_quantity.setText(productDetailsList.get(i).getQuantity());
-                    }else {
-                        edittext_quantity.setText(productDetailsList.get(i).getQuantity());
-                    }
                 }
 
                 if (productDetailsList.get(i).getPrice().getUom() != null) {
@@ -113,13 +110,10 @@ public class ProductListAdapter {
                 uomSpinnerActions();
                 quantityEditTextActions();
                 deleteProduct();
-//                try {
-////                    edittext_quantity.setSelection(edittext_quantity.getText().toString().trim().length() + 1);
-//                } catch (Exception e) {
-//                    e.printStackTrace();
-//                }
                 min_weight = productDetailsList.get(i).getMin_weight().getValue();
                 max_weight = productDetailsList.get(i).getMax_weight().getValue();
+                user_max_weight= productDetailsList.get(i).getMax_weight().getValue();
+                user_min_weight= productDetailsList.get(i).getMin_weight().getValue();
 
                 spinner_weight.setTag(productDetailsList.get(i).getCartCount());
                 edittext_quantity.setTag(productDetailsList.get(i).getCartCount());
@@ -184,7 +178,7 @@ public class ProductListAdapter {
                 edittext_quantity.setInputType(InputType.TYPE_CLASS_NUMBER );
             }
             for (int i = 0; i < arrayListweight.size(); i++) {
-                spinner_weight.setAdapter(new ArrayAdapter<String>(context.getApplicationContext(), R.layout.weight_spinner_items, arrayListweight));
+                spinner_weight.setAdapter(new SpinnerAdapter(context.getApplicationContext(), arrayListweight));
             }
         }
 
@@ -194,7 +188,6 @@ public class ProductListAdapter {
             public void onItemSelected(AdapterView<?> parent, View view, int position1, long id) {
 
                 tempEditText = (EditText) ((LinearLayout) parent.getParent()).getChildAt(3);
-
 
                     if (((TextView) view).getText().toString().equalsIgnoreCase("Kg")) {
                         if (tempEditText.getText().toString().trim().length() > 0) {
@@ -343,6 +336,20 @@ public class ProductListAdapter {
                         } else if (uom.equalsIgnoreCase("No")) {
                             tempText.setText(String.format("%.2f", ((Double.parseDouble(tempEditText.getText().toString())) * (Double.parseDouble(fixed_rate)))));
                         }
+                        if(uom.equalsIgnoreCase("kg")&&user_uom.equalsIgnoreCase("kg") ||uom.equalsIgnoreCase("gm")&&user_uom.equalsIgnoreCase("gm"))
+                        {
+                            min_weight=user_min_weight;
+                            max_weight=user_max_weight;
+                        }else if(uom.equalsIgnoreCase("kg")&&user_uom.equalsIgnoreCase("gm"))
+                        {
+                            min_weight=(user_min_weight/1000);
+                                max_weight=(user_max_weight/1000);
+                        }
+                        else if(uom.equalsIgnoreCase("gm")&&user_uom.equalsIgnoreCase("kg"))
+                        {
+                            min_weight=(user_min_weight/0.001);
+                            max_weight=(user_max_weight/0.001);
+                        }
 
                                 if (min_weight == max_weight) {
                                     Cart.updateCart(tag, tempEditText.getText().toString().trim(), uom);
@@ -410,7 +417,6 @@ public class ProductListAdapter {
                                                         CartAdapter.changeSubTotal(tag, list.get(i).split("-")[1]);
                                                     }
                                                 }
-//                                                tempEditText.setText("");
                                                 Toast.makeText(context, "Enter weight between  " + min_weight + " " + measure + " and " + max_weight + " " + measure, Toast.LENGTH_LONG).show();
                                             }
                                         }

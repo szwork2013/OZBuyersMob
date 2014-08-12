@@ -18,6 +18,7 @@ import com.gls.orderzapp.R;
 import com.gls.orderzapp.Utility.Cart;
 import com.google.gson.Gson;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -57,7 +58,8 @@ public class AdapterForMultipleProviders {
             String providerName = createOrderProductDetailsList.get(i).getProvidername();
             String providerArea = createOrderProductDetailsList.get(i).getLocation().getArea();
             String deliveryType = "",deliveryDate="",deliveryTime="";
-            int getFromHrs=0,getFromMin=0,getToHrs=0,getToMin=0;
+            int getFromHrs=0,getToHrs=0;
+            String getFromMin="",getToMin="";
 
             if (providers != null) {
                 if (providers.contains(branchid)) {
@@ -93,10 +95,11 @@ public class AdapterForMultipleProviders {
 
 
                                 if(Cart.hm.get(keys[j]).getTimeslot()!=null){
+                                    DecimalFormat formatter = new DecimalFormat("00");
                                     getFromHrs=(int)Cart.hm.get(keys[j]).getTimeslot().getFrom();
-                                    getFromMin=Math.round((int)((Cart.hm.get(keys[j]).getTimeslot().getFrom()-getFromHrs)*60)*100)/100;
+                                    getFromMin=formatter.format(Math.round(((Cart.hm.get(keys[j]).getTimeslot().getFrom()-getFromHrs)*60)*100)/100);
                                     getToHrs=(int)Cart.hm.get(keys[j]).getTimeslot().getTo();
-                                    getToMin=Math.round((int)((Cart.hm.get(keys[j]).getTimeslot().getTo()-getToHrs)*60)*100)/100;
+                                    getToMin=formatter.format(Math.round(((Cart.hm.get(keys[j]).getTimeslot().getTo()-getToHrs)*60)*100)/100);
 
                                     if(getFromHrs<12)
                                     {
