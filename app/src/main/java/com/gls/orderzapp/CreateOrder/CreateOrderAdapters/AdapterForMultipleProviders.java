@@ -185,7 +185,7 @@ public class AdapterForMultipleProviders {
                                     }
                                 }
 
-                            if(i > 0) {
+//                            if(i > 0) {
                                 for (int k = 0; k < DeliveryChargesAndTypeAdapter.successResponseForDeliveryCharges.getSuccess().getDeliverycharge().size(); k++) {
                                     if (branchid.equalsIgnoreCase(DeliveryChargesAndTypeAdapter.successResponseForDeliveryCharges.getSuccess().getDeliverycharge().get(k).getBranchid())) {
                                         DeliveryChargeDetails deliveryChargeDetails = new DeliveryChargeDetails();
@@ -201,7 +201,7 @@ public class AdapterForMultipleProviders {
 
                                     }
                                 }
-                            }
+//                            }
                                 OrderDetailsActivity.createOrderCartList.getSellerdelivery().add(sellerDelivery);
                                 adddeliveryTypes.setBranchid(branchid);
                                 adddeliveryTypes.setDeliverytype(Cart.hm.get(keys[j]).getDeliveryType().getDeliveryType());
@@ -274,7 +274,6 @@ public class AdapterForMultipleProviders {
 
             if (i == createOrderProductDetailsList.size() - 1) {
                 new ConfirmOrderProductListAdapter(context, list).setProductList();
-
                 delivery_charge.setText(deliveryCharges + "");
                 textGrandTotal.setText((Cart.currentProviderSubTotal(list) + deliveryCharges) + "");
                 OrderDetailsActivity.grandTotal.setText(String.format("%.2f", Cart.subTotal() + Cart.configurredProductPrice(createOrderProductDetailsList) + Cart.returnDeliveryCharges(DeliveryChargesAndTypeAdapter.successResponseForDeliveryCharges)));
