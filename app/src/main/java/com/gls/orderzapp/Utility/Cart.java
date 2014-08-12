@@ -355,18 +355,33 @@ public static int deleteConfigObject()
 
     public static double returnDeliveryCharges(SuccessResponseForDeliveryChargesAndType succesResponseForDeliveryChargesAndType) {
         double deliveryCharges = 0.0;
+        Log.d("delivery charges", new Gson().toJson(succesResponseForDeliveryChargesAndType));
+
         try {
             for (int i = 0; i < succesResponseForDeliveryChargesAndType.getSuccess().getDeliverycharge().size(); i++) {
-                if (DisplayDeliveryChargesAndType.deliveryType.get(i).split("_")[1].equalsIgnoreCase("home")) {
-                    deliveryCharges = deliveryCharges + succesResponseForDeliveryChargesAndType.getSuccess().getDeliverycharge().get(i).getCharge();
-                } else {
-                    deliveryCharges = deliveryCharges + 0.0;
-                }
+//                Log.d("ddddddddddType", DisplayDeliveryChargesAndType.deliveryType.get(i).split("_")[1]);
+//                if (DisplayDeliveryChargesAndType.deliveryType.get(i).split("_")[1].equalsIgnoreCase("home")) {
+//                    Log.d("hhhhhhhhhhome", deliveryCharges+"");
+//                    deliveryCharges = deliveryCharges + succesResponseForDeliveryChargesAndType.getSuccess().getDeliverycharge().get(i).getCharge();
+//                } else {
+//                    Log.d("pppppppppppickup", deliveryCharges+"");
+//                    deliveryCharges = deliveryCharges + 0.0;
+//                }
 
+                for(int j = 0; j < DisplayDeliveryChargesAndType.deliveryType.size(); j++){
+                    if(DisplayDeliveryChargesAndType.deliveryType.get(j).split("_")[0].equals(succesResponseForDeliveryChargesAndType.getSuccess().getDeliverycharge().get(i).getBranchid())){
+                        if(DisplayDeliveryChargesAndType.deliveryType.get(j).split("_")[1].equalsIgnoreCase("home")){
+                            deliveryCharges = deliveryCharges + succesResponseForDeliveryChargesAndType.getSuccess().getDeliverycharge().get(i).getCharge();
+                        }else{
+                            deliveryCharges = deliveryCharges + 0.0;
+                        }
+                    }
+                }
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
+        Log.d("charge", deliveryCharges+"");
         return deliveryCharges;
     }
 
