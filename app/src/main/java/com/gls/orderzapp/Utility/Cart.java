@@ -47,6 +47,8 @@ public class Cart {
 
             hm.put(productCount +"" , localProduct);
             setTextOnCartCount();
+
+            Log.d("after adding to cart", new Gson().toJson(hm));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -321,6 +323,7 @@ public static int deleteConfigObject()
     }
 
     public static List<ProductConfiguration> configurationList(CreateOrderProductDetails list) {
+        Log.d("create order product details", new Gson().toJson(list));
         List<ProductConfiguration> configurationList = new ArrayList<>();
         try {
             for (int j = 0; j < list.getProductconfiguration().size(); j++) {

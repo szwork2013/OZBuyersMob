@@ -11,7 +11,7 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.gls.orderzapp.MainApp.DetailedOrderActivity;
+import com.gls.orderzapp.MainApp.DetailedMyOrderActivity;
 import com.gls.orderzapp.MyOrders.Beans.OrderDetails;
 import com.gls.orderzapp.R;
 import com.google.gson.Gson;
@@ -69,7 +69,7 @@ public class MainOrderListAdapter extends BaseAdapter {
         convertView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(context, DetailedOrderActivity.class);
+                Intent i = new Intent(context, DetailedMyOrderActivity.class);
                 i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 i.putExtra("ORDER", new Gson().toJson(myOrderList.get(position1)));
                 context.startActivity(i);
