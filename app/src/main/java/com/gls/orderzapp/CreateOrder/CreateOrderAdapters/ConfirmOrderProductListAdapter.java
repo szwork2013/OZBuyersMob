@@ -9,6 +9,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.gls.orderzapp.CreateOrder.CreateOrderBeans.CreateOrderProductDetails;
+import com.gls.orderzapp.CreateOrder.CreateOrderBeans.ProductConfiguration;
 import com.gls.orderzapp.ProductConfiguration.Adapter.PopUpForConfigurationCharges;
 import com.gls.orderzapp.R;
 import com.gls.orderzapp.Utility.Cart;
@@ -52,8 +53,8 @@ public class ConfirmOrderProductListAdapter {
             textPrice.setTypeface(tfRobotoNormal);
             textSubTotal.setTypeface(tfRobotoNormal);
 
-// ll_special_message.setVisibility(View.GONE);
-// view_special_message.setVisibility(View.GONE);
+            // ll_special_message.setVisibility(View.GONE);
+            // view_special_message.setVisibility(View.GONE);
             message.setText(Cart.configurationPrice(createOrderProductDetailsList.get(i)) + "");
             if (createOrderProductDetailsList.get(i).getProductconfiguration().size() > 0) {
                 ll_special_message.setVisibility(View.VISIBLE);
@@ -80,13 +81,7 @@ public class ConfirmOrderProductListAdapter {
                 view_special_message.setVisibility(View.GONE);
             }
 
-            ll_special_message.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Log.d("PopUp","OrderDetails");
-                    new PopUpForConfigurationCharges(context, v, Cart.configurationList(createOrderProductDetailsList.get(v.getId() - 1000))).displayConfigurationCharges();
-                }
-            });
+
 
             if (createOrderProductDetailsList.get(i).getUom() != null) {
                 if (createOrderProductDetailsList.get(i).getUom().equalsIgnoreCase("Kg")) {
@@ -99,8 +94,16 @@ public class ConfirmOrderProductListAdapter {
                     textSubTotal.setText(String.format("%.2f", (Double.parseDouble(createOrderProductDetailsList.get(i).getOrderprice())) - Cart.configurationPrice(createOrderProductDetailsList.get(i))));
                 }
             }
-            ll_special_message.setId(1000 + i);
 
+            ll_special_message.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Log.d("PopUp","OrderDetails");
+                    new PopUpForConfigurationCharges(context, v, Cart.configurationList((CreateOrderProductDetails)v.getTag()));
+                }
+            });
+
+            ll_special_message.setTag(createOrderProductDetailsList.get(i));
             AdapterForMultipleProviders.ll.addView(llProductList);
         }
     }

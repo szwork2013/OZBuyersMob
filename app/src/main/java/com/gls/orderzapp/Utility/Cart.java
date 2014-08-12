@@ -415,6 +415,7 @@ public static int deleteConfigObject()
                                                 ProductConfigurationPrice prod_configprice,
                                                 boolean checked,
                                                 String foodType){
+
         String[] keys = Cart.hm.keySet().toArray(new String[hm.size()]);
         for(int i = 0 ; i < hm.size(); i++){
             if(cartCount.equals(Cart.hm.get(keys[i]).getCartCount())){
@@ -429,5 +430,7 @@ public static int deleteConfigObject()
                 }
             }
         }
+
+
     }
 }

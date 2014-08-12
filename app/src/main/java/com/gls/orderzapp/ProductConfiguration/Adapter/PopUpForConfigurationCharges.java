@@ -22,6 +22,8 @@ public class PopUpForConfigurationCharges {
         this.context = context;
         this.view = view;
         this.productConfigurationList = productConfigurationList;
+
+        displayConfigurationCharges();
     }
 
     public void displayConfigurationCharges() {

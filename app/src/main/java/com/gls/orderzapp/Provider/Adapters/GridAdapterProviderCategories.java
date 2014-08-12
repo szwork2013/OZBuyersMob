@@ -128,7 +128,6 @@ public class GridAdapterProviderCategories extends BaseAdapter {
                 if (productDetailsList.get(position).getProductlogo().getImage().equals("more_image_to_load_more")) {
                     imageProduct.setImageDrawable(context.getResources().getDrawable(R.drawable.add_icon));
                     textProductName.setTypeface(pName);
-
                     textProductName.setText(productDetailsList.get(position).getProductname());
                     textRupees.setVisibility(View.GONE);
                 } else {

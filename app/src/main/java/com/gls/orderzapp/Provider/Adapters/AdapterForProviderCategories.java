@@ -132,7 +132,7 @@ public class AdapterForProviderCategories {
                 ProductDiscount discount=new ProductDiscount();
                 discount.setCode("none");
                 discount.setPercent(0);
-productDetails.setDiscount(discount);
+                productDetails.setDiscount(discount);
                 productLogo.setImage("more_image_to_load_more");
                 productDetails.setProductlogo(productLogo);
                 providerDetailsList.get(i).getProducts().add(productDetails);
