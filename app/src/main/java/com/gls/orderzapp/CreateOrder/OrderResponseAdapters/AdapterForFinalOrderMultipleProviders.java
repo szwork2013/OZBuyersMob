@@ -11,6 +11,7 @@ import com.gls.orderzapp.R;
 import com.gls.orderzapp.Utility.Cart;
 
 import java.text.DateFormat;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -56,12 +57,13 @@ public class AdapterForFinalOrderMultipleProviders {
                 {  delivery_type.setText("Pick-Up");}
             }
             if(orderedSubOrderDetailsList.get(i).getPrefdeltimeslot()!=null){
-                String deliveryTime="";
-                int getFromHrs=0,getFromMin=0,getToHrs=0,getToMin=0;
+                String deliveryTime="",getFromMin="",getToMin="";
+                int getFromHrs=0,getToHrs=0;
+                DecimalFormat formatter = new DecimalFormat("00");
                 getFromHrs=(int)orderedSubOrderDetailsList.get(i).getPrefdeltimeslot().getFrom();
-                getFromMin=Math.round((int)((orderedSubOrderDetailsList.get(i).getPrefdeltimeslot().getFrom()-getFromHrs)*60)*100)/100;
+                getFromMin=formatter.format(Math.round((int)((orderedSubOrderDetailsList.get(i).getPrefdeltimeslot().getFrom()-getFromHrs)*60)*100)/100);
                 getToHrs=(int)orderedSubOrderDetailsList.get(i).getPrefdeltimeslot().getTo();
-                getToMin=Math.round((int)((orderedSubOrderDetailsList.get(i).getPrefdeltimeslot().getTo()-getToHrs)*60)*100)/100;
+                getToMin=formatter.format(Math.round((int)((orderedSubOrderDetailsList.get(i).getPrefdeltimeslot().getTo()-getToHrs)*60)*100)/100);
 
                 if(getFromHrs<12)
                 {

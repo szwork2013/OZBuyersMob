@@ -128,12 +128,10 @@ public class GridAdapterProviderCategories extends BaseAdapter {
                 if (productDetailsList.get(position).getProductlogo().getImage().equals("more_image_to_load_more")) {
                     imageProduct.setImageDrawable(context.getResources().getDrawable(R.drawable.add_icon));
                     textProductName.setTypeface(pName);
-
                     textProductName.setText(productDetailsList.get(position).getProductname());
                     textRupees.setVisibility(View.GONE);
                 } else {
                     try {
-                        Log.d("image uri", new Gson().toJson(productDetailsList.get(position).getProductlogo()));
                         imageLoader = com.nostra13.universalimageloader.core.ImageLoader.getInstance();
                         imageLoader.init(ImageLoaderConfiguration.createDefault(context));
                         imageLoader.displayImage(productDetailsList.get(position).getProductlogo().getImage(), imageProduct, options, new SimpleImageLoadingListener() {
