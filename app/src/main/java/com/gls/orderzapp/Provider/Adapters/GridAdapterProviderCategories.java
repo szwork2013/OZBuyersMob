@@ -132,7 +132,6 @@ public class GridAdapterProviderCategories extends BaseAdapter {
                     textRupees.setVisibility(View.GONE);
                 } else {
                     try {
-                        Log.d("image uri", new Gson().toJson(productDetailsList.get(position).getProductlogo()));
                         imageLoader = com.nostra13.universalimageloader.core.ImageLoader.getInstance();
                         imageLoader.init(ImageLoaderConfiguration.createDefault(context));
                         imageLoader.displayImage(productDetailsList.get(position).getProductlogo().getImage(), imageProduct, options, new SimpleImageLoadingListener() {

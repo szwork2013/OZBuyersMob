@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Typeface;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -60,6 +61,8 @@ public class GridAdapterProduct extends BaseAdapter {
                 .cacheInMemory()
                 .cacheOnDisc()
                 .build();
+        Log.d("ProvderDetails",new Gson().toJson(providerDetails));
+        Log.d("productDetailsList",new Gson().toJson(productDetailsList));
 
     }
 
@@ -200,11 +203,14 @@ public class GridAdapterProduct extends BaseAdapter {
                             if (providerDetails.getProvider().getPaymentmode().getCod() != null) {
                                 productDetailsToAddIntoTheCart.getPaymentmode().setCod(providerDetails.getProvider().getPaymentmode().getCod());
                             }
+                            Log.d("homedel",providerDetails.getBranch().getDelivery().getIsprovidehomedelivery()+"");
+                            if (providerDetails.getBranch().getDelivery() != null) {
                                 productDetailsToAddIntoTheCart.getDelivery().setIsprovidehomedelivery(providerDetails.getBranch().getDelivery().getIsprovidehomedelivery());
 
                                 productDetailsToAddIntoTheCart.getDelivery().setIsprovidepickup(providerDetails.getBranch().getDelivery().getIsprovidepickup());
 
                                 productDetailsToAddIntoTheCart.getDelivery().setIsdeliverychargeinpercent(providerDetails.getBranch().getDelivery().isIsdeliverychargeinpercent());
+                            }
                             if (providerDetails.getBranch().getNote() != null) {
                                 productDetailsToAddIntoTheCart.setNote(providerDetails.getBranch().getNote());
                             }
