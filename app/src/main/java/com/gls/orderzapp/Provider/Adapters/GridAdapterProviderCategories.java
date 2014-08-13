@@ -240,6 +240,7 @@ public class GridAdapterProviderCategories extends BaseAdapter {
                                 ProductPrice price = new ProductPrice();
                                 price.setUom(providerDetails.getProducts().get(position).getPrice().getUom());
                                 price.setValue(providerDetails.getProducts().get(position).getPrice().getValue());
+                                productDetailsToAddIntoTheCart.setOrignalUom(providerDetails.getProducts().get(position).getPrice().getUom());
                                 productDetailsToAddIntoTheCart.setPrice(price);
                             }
                             if (branchDetails.getLocation() != null) {

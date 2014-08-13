@@ -25,12 +25,21 @@ public class ProductDetails {
     String quantity;
     String productdescription;
     ProductPrice price = new ProductPrice();
+    String orignalUom;
     String note;
     Location location = new Location();
     ProductDiscount discount = new ProductDiscount();
     DeliveryMode delivery = new DeliveryMode();
     PaymentMode paymentmode = new PaymentMode();
     DeliveryType deliveryType = new DeliveryType();
+
+    public String getOrignalUom() {
+        return orignalUom;
+    }
+
+    public void setOrignalUom(String orignalUom) {
+        this.orignalUom = orignalUom;
+    }
 
     public AvailableDeliveryTimingSlots getTimeslot() {
         return timeslot;
