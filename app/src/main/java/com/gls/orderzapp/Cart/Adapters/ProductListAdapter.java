@@ -189,7 +189,7 @@ public class ProductListAdapter {
 
                 tempEditText = (EditText) ((LinearLayout) parent.getParent()).getChildAt(3);
 
-                    if (((TextView) view).getText().toString().equalsIgnoreCase("Kg")) {
+                    if (((TextView)((LinearLayout) view).getChildAt(0)).getText().toString().equalsIgnoreCase("Kg")) {
                         if (tempEditText.getText().toString().trim().length() > 0) {
                             if (isDouble(tempEditText.getText().toString().trim()) == true) {
                                 String fixed_rate = ((TextView) (((LinearLayout) (tempEditText.getParent())).getChildAt(1))).getText().toString();
@@ -207,7 +207,7 @@ public class ProductListAdapter {
                             measure = "Kg";
                             Cart.updateCart(tag, "0", measure);
                         }
-                    } else if (((TextView) view).getText().toString().equalsIgnoreCase("lb")) {
+                    } else if (((TextView)((LinearLayout) view).getChildAt(0)).getText().toString().equalsIgnoreCase("lb")) {
                         if (tempEditText.getText().toString().trim().length() > 0) {
                             if (isDouble(tempEditText.getText().toString().trim()) == true) {
                                 String fixed_rate = ((TextView) (((LinearLayout) (tempEditText.getParent())).getChildAt(1))).getText().toString();
@@ -225,7 +225,7 @@ public class ProductListAdapter {
                             measure = "lb";
                             Cart.updateCart(tag, "0", measure);
                         }
-                    } else if (((TextView) view).getText().toString().equalsIgnoreCase("Gm")) {
+                    } else if (((TextView)((LinearLayout) view).getChildAt(0)).getText().toString().equalsIgnoreCase("Gm")) {
                         if (tempEditText.getText().toString().trim().length() > 0) {
                             if (isDouble(tempEditText.getText().toString().trim()) == true) {
                                 String fixed_rate = ((TextView) (((LinearLayout) (tempEditText.getParent())).getChildAt(1))).getText().toString();
@@ -243,7 +243,7 @@ public class ProductListAdapter {
                             measure = "Gm";
                             Cart.updateCart(tag, "0", measure);
                         }
-                    } else if (((TextView) view).getText().toString().equalsIgnoreCase("No")) {
+                    } else if (((TextView)((LinearLayout) view).getChildAt(0)).getText().toString().equalsIgnoreCase("No")) {
 
                         if (tempEditText.getText().toString().trim().length() > 0) {
                             if (isDouble(tempEditText.getText().toString().trim()) == true) {
@@ -399,8 +399,7 @@ public class ProductListAdapter {
                                                     Toast.makeText(context, "Cannot order more than " + max_weight + " " + measure + " of this product per order", Toast.LENGTH_LONG).show();
                                                 }
 
-                                        } else
-                                        {
+                                        } else {
                                             if ((Double.parseDouble(tempEditText.getText().toString())) >= min_weight && (Double.parseDouble(tempEditText.getText().toString())) <= max_weight) {
 
                                                 Cart.updateCart(tag, tempEditText.getText().toString().trim(), uom);
