@@ -104,7 +104,10 @@ public class ProductListAdapter {
                 }
 
                 if (productDetailsList.get(i).getPrice().getUom() != null) {
+                    Log.d("Product qty",productDetailsList.get(i).getQuantity());
+                    Log.d("Product price",productDetailsList.get(i).getPrice().getValue()+"");
                     calculated_price.setText(String.format("%.2f", productDetailsList.get(i).getPrice().getValue() * Double.parseDouble(productDetailsList.get(i).getQuantity())));
+                    Log.d("Text",calculated_price.getText().toString());
                 }
 
                 uomSpinnerActions();

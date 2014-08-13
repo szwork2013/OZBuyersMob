@@ -61,8 +61,6 @@ public class DisplayDeliveryChargesAndType {
 
     public static boolean deliveryTypeCheck() {
         boolean deliverycheck = false;
-        Log.d("checkForDeliveryModeList.size()",checkForDeliveryModeList.size()+"");
-        Log.d("deliveryType.size()",deliveryType.size()+"");
         if(checkForDeliveryModeList.size()==deliveryType.size()) {
             for (int l = 0; l < checkForDeliveryModeList.size(); l++) {
                 if (deliveryType.get(l) != null) {
@@ -71,7 +69,6 @@ public class DisplayDeliveryChargesAndType {
                         {
                             deliverycheck = false;
                             Toast.makeText(context, "Please select your pickup address", Toast.LENGTH_LONG).show();
-                            Log.d("1", "1");
                             break;
                         }else
                         {deliverycheck = true;}
@@ -82,7 +79,6 @@ public class DisplayDeliveryChargesAndType {
                     }
                 } else {
                     Toast.makeText(context, "Please select your delivery type", Toast.LENGTH_LONG).show();
-                    Log.d("2","2");
                     deliverycheck = false;
                     break;
                 }

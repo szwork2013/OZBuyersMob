@@ -61,7 +61,6 @@ public class MainOrderListAdapter extends BaseAdapter {
 
         TextView textOrderNumber = (TextView) convertView.findViewById(R.id.text_order_no);
         TextView txt_order_date = (TextView) convertView.findViewById(R.id.txt_order_date);
-        TextView txt_expected_delivery_date = (TextView) convertView.findViewById(R.id.txt_expected_delivery_date);
         TextView orderNumber = (TextView) convertView.findViewById(R.id.order_no);
         TextView grandTotal = (TextView) convertView.findViewById(R.id.grand_total);
         subOrderList = (ListView) convertView.findViewById(R.id.subOrderList);
@@ -91,8 +90,6 @@ public class MainOrderListAdapter extends BaseAdapter {
             outputFormat.setTimeZone(tz);
             Date order_date = inputFormat.parse(myOrderList.get(position).getCreatedate());
             txt_order_date.setText(outputFormat.format(order_date));
-            Date preferd_delivery_date = inputFormat.parse(myOrderList.get(position).getPreferred_delivery_date());
-            txt_expected_delivery_date.setText(outputFormat.format(preferd_delivery_date));
 
         } catch (Exception e) {
             e.printStackTrace();

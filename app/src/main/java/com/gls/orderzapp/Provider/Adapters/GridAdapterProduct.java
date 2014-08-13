@@ -176,7 +176,16 @@ public class GridAdapterProduct extends BaseAdapter {
                             }else{
                                 productDetailsToAddIntoTheCart.setProviderName("");
                             }
-                            if (productDetailsList.get(position).getMin_weight().getValue() != 0) {
+
+//                            if (providerDetails.getProducts().get(position).getMin_weight() != null) {
+//                                Log.d("minweight", (providerDetails.getProducts().get(position).getMin_weight().getValue()+"").split("\\.")[0]);
+//                                if(providerDetails.getProducts().get(position).getPrice().getUom().equalsIgnoreCase("no") || providerDetails.getProducts().get(position).getPrice().getUom().equalsIgnoreCase("lb")) {
+//                                    productDetailsToAddIntoTheCart.setQuantity((providerDetails.getProducts().get(position).getMin_weight().getValue() + "").split("\\.")[0]);
+//                                }else{
+//                                    productDetailsToAddIntoTheCart.setQuantity(providerDetails.getProducts().get(position).getMin_weight().getValue() + "");
+//                                }
+//                            }
+                            if (productDetailsList.get(position).getMin_weight() != null) {
                                 productDetailsToAddIntoTheCart.setQuantity(productDetailsList.get(position).getMin_weight().getValue() + "");
                             }
                             if (providerDetails.getBranch().getBranchid() != null) {
