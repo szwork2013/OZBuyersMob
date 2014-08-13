@@ -113,20 +113,29 @@ public class Cart {
 
     public static double subTotal() {
         double sub_total = 0.00;
+        double temp_product_price = 0.0;
         try {
             String[] keys = hm.keySet().toArray(new String[hm.size()]);
             for (int i = 0; i < getCount(); i++) {
                 if (hm.get(keys[i]).getPrice().getUom().equalsIgnoreCase("Kg")) {
-                    double temp_product_price = hm.get(keys[i]).getPrice().getValue() * Double.parseDouble(hm.get(keys[i]).getQuantity());
+                    if(hm.get(keys[i]).getOrignalUom().equalsIgnoreCase("kg")) {
+                        temp_product_price = hm.get(keys[i]).getPrice().getValue() * Double.parseDouble(hm.get(keys[i]).getQuantity());
+                    }else{
+                        temp_product_price = (hm.get(keys[i]).getPrice().getValue() * Double.parseDouble(hm.get(keys[i]).getQuantity())) * 1000;
+                    }
                     sub_total = sub_total + temp_product_price;
                 } else if (hm.get(keys[i]).getPrice().getUom().equalsIgnoreCase("lb")) {
-                    double temp_product_price = hm.get(keys[i]).getPrice().getValue() * Double.parseDouble(hm.get(keys[i]).getQuantity());
+                    temp_product_price = hm.get(keys[i]).getPrice().getValue() * Double.parseDouble(hm.get(keys[i]).getQuantity());
                     sub_total = sub_total + temp_product_price;
                 } else if (hm.get(keys[i]).getPrice().getUom().equalsIgnoreCase("Gm")) {
-                    double temp_product_price = ((Double.parseDouble(hm.get(keys[i]).getPrice().getValue() + "")) * (Double.parseDouble(hm.get(keys[i]).getQuantity()))) / 1000;
+                    if(hm.get(keys[i]).getOrignalUom().equalsIgnoreCase("kg")) {
+                        temp_product_price = ((Double.parseDouble(hm.get(keys[i]).getPrice().getValue() + "")) * (Double.parseDouble(hm.get(keys[i]).getQuantity()))) / 1000;
+                    }else{
+                        temp_product_price = ((Double.parseDouble(hm.get(keys[i]).getPrice().getValue() + "")) * (Double.parseDouble(hm.get(keys[i]).getQuantity()))) ;
+                    }
                     sub_total = sub_total + temp_product_price;
                 } else if (hm.get(keys[i]).getPrice().getUom().equalsIgnoreCase("No")) {
-                    double temp_product_price = hm.get(keys[i]).getPrice().getValue() * Double.parseDouble(hm.get(keys[i]).getQuantity());
+                    temp_product_price = hm.get(keys[i]).getPrice().getValue() * Double.parseDouble(hm.get(keys[i]).getQuantity());
                     sub_total = sub_total + temp_product_price;
                 }
 
@@ -159,9 +168,17 @@ public class Cart {
         try {
             for (int i = 0; i < list.size(); i++) {
                 if (list.get(i).getPrice().getUom().equalsIgnoreCase("kg") || list.get(i).getPrice().getUom().equalsIgnoreCase("no") || list.get(i).getPrice().getUom().equalsIgnoreCase("lb")) {
-                    total = total + Double.parseDouble(list.get(i).getQuantity()) * list.get(i).getPrice().getValue();
+                   if(list.get(i).getOrignalUom().equalsIgnoreCase("gm")){
+                       total = total + Double.parseDouble(list.get(i).getQuantity()) * list.get(i).getPrice().getValue() * 1000;
+                   }else {
+                       total = total + Double.parseDouble(list.get(i).getQuantity()) * list.get(i).getPrice().getValue();
+                   }
                 } else {
-                    total = total + (Double.parseDouble(list.get(i).getQuantity()) * list.get(i).getPrice().getValue()) / 1000;
+                    if(list.get(i).getOrignalUom().equalsIgnoreCase("kg")) {
+                        total = total + (Double.parseDouble(list.get(i).getQuantity()) * list.get(i).getPrice().getValue()) / 1000;
+                    }else{
+                        total = total + (Double.parseDouble(list.get(i).getQuantity()) * list.get(i).getPrice().getValue());
+                    }
                 }
             }
         } catch (Exception e) {
@@ -207,10 +224,12 @@ public class Cart {
     //*********
     public static String returnOrignalUom(String cartCount){
         String orinalUom = "";
+        Log.d("original uom", cartCount);
         String[] mKeys = Cart.hm.keySet().toArray(new String[hm.size()]);
         try{
             for(int i = 0; i < mKeys.length; i++){
                 if(mKeys[i].equalsIgnoreCase(cartCount)){
+
                     orinalUom = Cart.hm.get(mKeys[i]).getOrignalUom();
                 }
             }

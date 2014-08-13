@@ -186,14 +186,18 @@ public class ProductListAdapter {
             public void onItemSelected(AdapterView<?> parent, View view, int position1, long id) {
 
                 tempEditText = (EditText) ((LinearLayout) parent.getParent()).getChildAt(3);
-
+                orignal_uom = Cart.returnOrignalUom(tag);
                     if (((TextView)((LinearLayout) view).getChildAt(0)).getText().toString().equalsIgnoreCase("Kg")) {
                         if (tempEditText.getText().toString().trim().length() > 0) {
                             if (isDouble(tempEditText.getText().toString().trim()) == true) {
                                 String fixed_rate = ((TextView) (((LinearLayout) (tempEditText.getParent())).getChildAt(1))).getText().toString();
                                 TextView tempText = (TextView) (((LinearLayout) (tempEditText.getParent())).getChildAt(7));
                                 measure = "Kg";
-                                tempText.setText(String.format("%.2f", ((Double.parseDouble(tempEditText.getText().toString())) * (Double.parseDouble(fixed_rate)))));
+                                if(orignal_uom.equalsIgnoreCase("gm")){
+                                    tempText.setText(String.format("%.2f", (((Double.parseDouble(tempEditText.getText().toString())) * 1000) * (Double.parseDouble(fixed_rate)))));
+                                }else {
+                                    tempText.setText(String.format("%.2f", ((Double.parseDouble(tempEditText.getText().toString())) * (Double.parseDouble(fixed_rate)))));
+                                }
                                 Cart.updateCart(tag, tempEditText.getText().toString().trim(), measure);
                                 for (int i = 0; i < list.size(); i++) {
                                     if (tag.equalsIgnoreCase(list.get(i).split("-")[0])) {
@@ -229,7 +233,13 @@ public class ProductListAdapter {
                                 String fixed_rate = ((TextView) (((LinearLayout) (tempEditText.getParent())).getChildAt(1))).getText().toString();
                                 TextView tempText = (TextView) (((LinearLayout) (tempEditText.getParent())).getChildAt(7));
                                 measure = "Gm";
-                                tempText.setText(String.format("%.2f", (((Double.parseDouble(tempEditText.getText().toString())) / 1000) * (Double.parseDouble(fixed_rate)))));
+                                Log.d("original", orignal_uom);
+                                if(orignal_uom.equalsIgnoreCase("kg")) {
+                                    tempText.setText(String.format("%.2f", (((Double.parseDouble(tempEditText.getText().toString())) / 1000) * (Double.parseDouble(fixed_rate)))));
+
+                                }else{
+                                    tempText.setText(String.format("%.2f", ((Double.parseDouble(tempEditText.getText().toString())) * (Double.parseDouble(fixed_rate)))));
+                                }
                                 Cart.updateCart(tag, tempEditText.getText().toString().trim(), measure);
                                 for (int i = 0; i < list.size(); i++) {
                                     if (tag.equalsIgnoreCase(list.get(i).split("-")[0])) {
