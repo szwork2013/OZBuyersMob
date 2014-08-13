@@ -26,8 +26,12 @@ import com.nostra13.universalimageloader.core.assist.MemoryCacheUtil;
 import com.nostra13.universalimageloader.core.assist.SimpleImageLoadingListener;
 
 import java.io.File;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 
 /**
  * Created by prajyot on 3/6/14.
@@ -85,6 +89,7 @@ public class SubOrderListAdapter extends BaseAdapter {
 
         TextView textSubOrderNumber = (TextView) convertView.findViewById(R.id.text_suborder_no);
         TextView subOrderNumber = (TextView) convertView.findViewById(R.id.sub_order_no);
+        TextView txt_expected_delivery_date = (TextView) convertView.findViewById(R.id.txt_expected_delivery_date);
         ListView listSubOrders = (ListView) convertView.findViewById(R.id.sub_order_list);
         TextView textSeller = (TextView) convertView.findViewById(R.id.text_seller);
         TextView seller = (TextView) convertView.findViewById(R.id.seller);
@@ -306,6 +311,21 @@ public class SubOrderListAdapter extends BaseAdapter {
         textSeller.setTypeface(tfRobotoBold);
         textSubTotal.setTypeface(tfRobotoBold);
         subOrderNumber.setText(subOrderDetailsList.get(position).getSuborderid());
+        try {
+
+            final DateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+            inputFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
+
+            final DateFormat outputFormat = new SimpleDateFormat("dd-MMM-yyyy");
+            TimeZone tz = TimeZone.getTimeZone("Asia/Calcutta");
+
+            outputFormat.setTimeZone(tz);
+            Date preferd_delivery_date = inputFormat.parse(subOrderDetailsList.get(position).getPrefdeldtime());
+            txt_expected_delivery_date.setText(outputFormat.format(preferd_delivery_date));
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         seller.setText(subOrderDetailsList.get(position).getProductprovider().getProvidername());
         subTotal.setText(String.format("%.2f", Double.parseDouble(subOrderDetailsList.get(position).getSuborder_price())));
         listSubOrders.setAdapter(new SubOrderProductListAdapter(context, subOrderDetailsList.get(position).getProducts()));
