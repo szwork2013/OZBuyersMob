@@ -183,8 +183,8 @@ public class ResetStaticData {
     }
     public static void staticProductListAdapter() throws Exception
     {
-        ProductListAdapter.min_weight=0;
-        ProductListAdapter.max_weight=0;
+//        ProductListAdapter.min_weight=0;
+//        ProductListAdapter.max_weight=0;
     }
     public static void staticProductCartAdapter() throws Exception
     {
