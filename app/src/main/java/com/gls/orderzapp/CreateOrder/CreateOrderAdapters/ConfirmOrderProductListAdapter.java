@@ -26,10 +26,9 @@ public class ConfirmOrderProductListAdapter {
     LinearLayout llProductList;
 
     public ConfirmOrderProductListAdapter(Context context, List<CreateOrderProductDetails> createOrderProductDetailsList) {
+
         this.context = context;
         this.createOrderProductDetailsList = createOrderProductDetailsList;
-// Log.d("create order details", createOrderProductDetailsList.size()+"");
-
 
     }
 
@@ -68,10 +67,10 @@ public class ConfirmOrderProductListAdapter {
                 textProduct.setText(createOrderProductDetailsList.get(i).getProductname());
             }
             if (createOrderProductDetailsList.get(i).getQty() != null && createOrderProductDetailsList.get(i).getUom() != null) {
-                textQuantity.setText(String.format("%.2f", Double.parseDouble(createOrderProductDetailsList.get(i).getQty())) + " " + createOrderProductDetailsList.get(i).getUom());
+                textQuantity.setText(String.format("%.3f", Double.parseDouble(createOrderProductDetailsList.get(i).getQty())) + " " + createOrderProductDetailsList.get(i).getUom());
             }
             if (createOrderProductDetailsList.get(i).getOrderprice() != null && createOrderProductDetailsList.get(i).getQty() != null) {
-                textPrice.setText(String.format("%.2f", (Double.parseDouble(createOrderProductDetailsList.get(i).getOrderprice()) / Double.parseDouble(createOrderProductDetailsList.get(i).getQty())) - (Cart.configurationPrice(createOrderProductDetailsList.get(i)) / Double.parseDouble(createOrderProductDetailsList.get(i).getQty()))));
+                textPrice.setText(String.format("%.3f", (Double.parseDouble(createOrderProductDetailsList.get(i).getOrderprice()) / Double.parseDouble(createOrderProductDetailsList.get(i).getQty())) - (Cart.configurationPrice(createOrderProductDetailsList.get(i)) / Double.parseDouble(createOrderProductDetailsList.get(i).getQty()))));
             }
 
 
@@ -85,13 +84,13 @@ public class ConfirmOrderProductListAdapter {
 
             if (createOrderProductDetailsList.get(i).getUom() != null) {
                 if (createOrderProductDetailsList.get(i).getUom().equalsIgnoreCase("Kg")) {
-                    textSubTotal.setText(String.format("%.2f", (Double.parseDouble(createOrderProductDetailsList.get(i).getOrderprice())) - Cart.configurationPrice(createOrderProductDetailsList.get(i))));
+                    textSubTotal.setText(String.format("%.3f", (Double.parseDouble(createOrderProductDetailsList.get(i).getOrderprice())) - Cart.configurationPrice(createOrderProductDetailsList.get(i))));
                 } else if (createOrderProductDetailsList.get(i).getUom().equalsIgnoreCase("lb")) {
-                    textSubTotal.setText(String.format("%.2f", (Double.parseDouble(createOrderProductDetailsList.get(i).getOrderprice())) - Cart.configurationPrice(createOrderProductDetailsList.get(i))));
+                    textSubTotal.setText(String.format("%.3f", (Double.parseDouble(createOrderProductDetailsList.get(i).getOrderprice())) - Cart.configurationPrice(createOrderProductDetailsList.get(i))));
                 } else if (createOrderProductDetailsList.get(i).getUom().equalsIgnoreCase("Gm")) {
-                    textSubTotal.setText(String.format("%.2f", (((Double.parseDouble(createOrderProductDetailsList.get(i).getOrderprice()))) / 1000) - Cart.configurationPrice(createOrderProductDetailsList.get(i))));
+                    textSubTotal.setText(String.format("%.3f", (((Double.parseDouble(createOrderProductDetailsList.get(i).getOrderprice()))) / 1000) - Cart.configurationPrice(createOrderProductDetailsList.get(i))));
                 } else if (createOrderProductDetailsList.get(i).getUom().equalsIgnoreCase("No")) {
-                    textSubTotal.setText(String.format("%.2f", (Double.parseDouble(createOrderProductDetailsList.get(i).getOrderprice())) - Cart.configurationPrice(createOrderProductDetailsList.get(i))));
+                    textSubTotal.setText(String.format("%.3f", (Double.parseDouble(createOrderProductDetailsList.get(i).getOrderprice())) - Cart.configurationPrice(createOrderProductDetailsList.get(i))));
                 }
             }
 
