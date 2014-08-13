@@ -183,7 +183,6 @@ public class OrderDetailsActivity extends Activity {
                         createOrderProductDetails.setOrderprice(((cartDetails.get(i).getPrice().getValue()) / 1000 * Double.parseDouble(cartDetails.get(i).getQuantity())) + "");
                         createOrderProductDetails.setQty(Double.parseDouble(cartDetails.get(i).getQuantity()) / 1000.00 + "");
                         createOrderProductDetails.setUom("kg");
-
                     }
                 }
                 try {
@@ -221,6 +220,7 @@ public class OrderDetailsActivity extends Activity {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
+
                 if (cartDetails.get(i).getProductid() != null) {
                     createOrderProductDetails.setProductid(cartDetails.get(i).getProductid());
                 }
