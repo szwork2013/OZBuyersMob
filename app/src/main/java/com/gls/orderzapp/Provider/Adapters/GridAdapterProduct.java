@@ -184,6 +184,7 @@ public class GridAdapterProduct extends BaseAdapter {
                             }
                             if (productDetailsList.get(position).getPrice() != null) {
                                 productDetailsToAddIntoTheCart.setPrice(productDetailsList.get(position).getPrice());
+                                productDetailsToAddIntoTheCart.setOrignalUom(productDetailsList.get(position).getPrice().getUom());
                             }
                             if (branchDetails.getLocation() != null) {
                                 productDetailsToAddIntoTheCart.setLocation(branchDetails.getLocation());

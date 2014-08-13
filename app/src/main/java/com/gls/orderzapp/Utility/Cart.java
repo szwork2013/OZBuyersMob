@@ -32,7 +32,6 @@ import java.util.List;
 public class Cart {
 
     public static HashMap<String, ProductDetails> hm = new HashMap<String, ProductDetails>();
-
     static TextView numberTextOnCart;
     public static int productCount = 0;
 //    static Animation zoomin, zoomout;
@@ -205,6 +204,52 @@ public class Cart {
         }
         return uom;
     }
+    //*********
+    public static String returnOrignalUom(String cartCount){
+        String orinalUom = "";
+        String[] mKeys = Cart.hm.keySet().toArray(new String[hm.size()]);
+        try{
+            for(int i = 0; i < mKeys.length; i++){
+                if(mKeys[i].equalsIgnoreCase(cartCount)){
+                    orinalUom = Cart.hm.get(mKeys[i]).getOrignalUom();
+                }
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return orinalUom;
+    }
+
+    public static double returnMinWeight(String cartCount){
+        double min_weight =0;
+        String[] mKeys = Cart.hm.keySet().toArray(new String[hm.size()]);
+        try{
+            for(int i = 0; i < mKeys.length; i++){
+                if(mKeys[i].equalsIgnoreCase(cartCount)){
+                    min_weight =Cart.hm.get(mKeys[i]).getMin_weight().getValue();
+                }
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return min_weight;
+    }
+    public static double returnMaxWeight(String cartCount){
+        double max_weight = 0;
+        String[] mKeys = Cart.hm.keySet().toArray(new String[hm.size()]);
+        try{
+            for(int i = 0; i < mKeys.length; i++){
+                if(mKeys[i].equalsIgnoreCase(cartCount)){
+                    max_weight =Cart.hm.get(mKeys[i]).getMax_weight().getValue();
+                }
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return max_weight;
+    }
+
+//*******************
 
     public static void addMessageOnCake(String position, ProductDetails productDetails, String messageoncake) {
         try {
