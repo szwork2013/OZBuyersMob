@@ -50,7 +50,15 @@ public class MyOrderProductListAdapter {
             if (productDetailsList.get(i).getProductname() != null) {
                 product_name.setText(productDetailsList.get(i).getProductname());
             }
-            quantity.setText(productDetailsList.get(i).getQty() + " " + productDetailsList.get(i).getUom());
+
+            if(productDetailsList.get(i).getUom().equalsIgnoreCase("kg") && productDetailsList.get(i).getQty() < 1){
+                quantity.setText(productDetailsList.get(i).getQty() * 1000+ " " + "gm");
+            }else if(productDetailsList.get(i).getUom().equalsIgnoreCase("gm") && productDetailsList.get(i).getQty() >= 1000){
+                quantity.setText(productDetailsList.get(i).getQty() / 1000+ " " + "kg");
+            }else{
+                quantity.setText(productDetailsList.get(i).getQty() + " " + productDetailsList.get(i).getUom());
+            }
+
             price.setText(String.format("%.2f", productDetailsList.get(i).getBaseprice()));
             subtotal.setText(String.format("%.2f", productDetailsList.get(i).getBaseprice() * productDetailsList.get(i).getQty()));
 

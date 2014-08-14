@@ -10,7 +10,7 @@ public class OZConstants {
     //Paytm merchant specific attributes
     public static final String PAYTM_MERCHANT_ID = "GiantL66431191194091";
     public static final String PAYTM_INDUSTRY_TYPE_ID = "Retail115";
-    public static final String PAYTM_STAGING_OR_PRODUCTION = "STAGING";
+    public static final String PAYTM_STAGING_OR_PRODUCTION = "PRODUCTION";
 
     //OrderZapp REST server URL - Production HTTPS Secure  server
     public static String OZ_ENVIRONMENT = "PRODUCTION SECURE";

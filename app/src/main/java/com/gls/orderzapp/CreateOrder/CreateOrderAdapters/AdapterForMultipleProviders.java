@@ -65,8 +65,6 @@ public class AdapterForMultipleProviders {
                 if (providers.contains(branchid)) {
 
                     list.add(createOrderProductDetailsList.get(i));
-
-
                 } else {
 
                     if (i > 0) {
@@ -262,6 +260,7 @@ public class AdapterForMultipleProviders {
                             OrderDetailsActivity.createOrderCartList.getDeliverycharges().add(OrderDetailsActivity.deliveryChargeDetails);
                         }
                     }
+
                     textGrandTotal = ((TextView) llProductsForProvider.findViewById(R.id.grandtoatal));
                     delivery_charge = (TextView) llProductsForProvider.findViewById(R.id.delivery_charge);
                     list.clear();
