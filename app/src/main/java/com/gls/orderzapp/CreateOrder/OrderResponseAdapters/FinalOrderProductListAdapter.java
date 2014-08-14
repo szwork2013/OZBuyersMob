@@ -49,8 +49,8 @@ public class FinalOrderProductListAdapter {
                 product_name.setText(orderedProductDetailsList.get(i).getProductname());
             }
 
-            quantity.setText(String.format("%.2f", orderedProductDetailsList.get(i).getQty()) + " " + orderedProductDetailsList.get(i).getUom());
-            price.setText(String.format("%.2f", (orderedProductDetailsList.get(i).getOrderprice() / orderedProductDetailsList.get(i).getQty()) - (configurationPrice(orderedProductDetailsList.get(i).getProductconfiguration()) / orderedProductDetailsList.get(i).getQty())));
+            quantity.setText(String.format("%.3f", orderedProductDetailsList.get(i).getQty()) + " " + orderedProductDetailsList.get(i).getUom());
+            price.setText(String.format("%.3f", (orderedProductDetailsList.get(i).getOrderprice() / orderedProductDetailsList.get(i).getQty()) - (configurationPrice(orderedProductDetailsList.get(i).getProductconfiguration()) / orderedProductDetailsList.get(i).getQty())));
 
 
             if (orderedProductDetailsList.get(i).getProductconfiguration().size() > 0) {

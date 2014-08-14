@@ -176,13 +176,23 @@ public class OrderDetailsActivity extends Activity {
                 }
                 if (cartDetails.get(i).getPrice().getUom() != null) {
                     if (cartDetails.get(i).getPrice().getUom().equalsIgnoreCase("kg") || cartDetails.get(i).getPrice().getUom().equalsIgnoreCase("no") || cartDetails.get(i).getPrice().getUom().equalsIgnoreCase("lb")) {
-                        createOrderProductDetails.setOrderprice((cartDetails.get(i).getPrice().getValue() * Double.parseDouble(cartDetails.get(i).getQuantity())) + "");
-                        createOrderProductDetails.setUom(cartDetails.get(i).getPrice().getUom());
+                        if(cartDetails.get(i).getOrignalUom().equalsIgnoreCase("kg")) {
+                            createOrderProductDetails.setOrderprice((cartDetails.get(i).getPrice().getValue() * Double.parseDouble(cartDetails.get(i).getQuantity())) + "");
+
+                        }else{
+                            createOrderProductDetails.setOrderprice((cartDetails.get(i).getPrice().getValue() * Double.parseDouble(cartDetails.get(i).getQuantity())) * 1000 + "");
+                        }
                         createOrderProductDetails.setQty(Double.parseDouble(cartDetails.get(i).getQuantity()) + "");
+                        createOrderProductDetails.setUom(cartDetails.get(i).getPrice().getUom());
                     } else if (cartDetails.get(i).getPrice().getUom().equalsIgnoreCase("Gm")) {
-                        createOrderProductDetails.setOrderprice(((cartDetails.get(i).getPrice().getValue()) / 1000 * Double.parseDouble(cartDetails.get(i).getQuantity())) + "");
+                        if(cartDetails.get(i).getOrignalUom().equalsIgnoreCase("kg")) {
+                            createOrderProductDetails.setOrderprice(((cartDetails.get(i).getPrice().getValue()) / 1000 * Double.parseDouble(cartDetails.get(i).getQuantity())) + "");
+                        }else{
+                            createOrderProductDetails.setOrderprice(((cartDetails.get(i).getPrice().getValue()) * Double.parseDouble(cartDetails.get(i).getQuantity())) + "");
+                        }
                         createOrderProductDetails.setQty(Double.parseDouble(cartDetails.get(i).getQuantity()) / 1000.00 + "");
                         createOrderProductDetails.setUom("kg");
+
                     }
                 }
                 try {
