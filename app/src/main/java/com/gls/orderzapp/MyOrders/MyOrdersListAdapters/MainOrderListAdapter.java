@@ -1,20 +1,34 @@
 package com.gls.orderzapp.MyOrders.MyOrdersListAdapters;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.gls.orderzapp.MainApp.CurrentOrdersActivity;
 import com.gls.orderzapp.MainApp.DetailedMyOrderActivity;
+import com.gls.orderzapp.MainApp.TabActivityForOrders;
 import com.gls.orderzapp.MyOrders.Beans.OrderDetails;
+import com.gls.orderzapp.MyOrders.Beans.PostSubOrderId;
+import com.gls.orderzapp.MyOrders.MyOrderDetailAdapters.CancelOrderItemAdapter;
 import com.gls.orderzapp.R;
+import com.gls.orderzapp.Utility.CheckConnection;
+import com.gls.orderzapp.Utility.ServerConnection;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
+import org.json.JSONObject;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -30,6 +44,9 @@ public class MainOrderListAdapter extends BaseAdapter {
     Context context;
     List<OrderDetails> myOrderList;
     ListView subOrderList;
+    public static LinearLayout list_cancel_order;
+    PostSubOrderId data;
+    AlertDialog alertDialog;
 
     public MainOrderListAdapter(Context context, List<OrderDetails> myOrderList) {
         this.context = context;
@@ -52,7 +69,7 @@ public class MainOrderListAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
 
         final int position1 = position;
         LayoutInflater li = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -63,7 +80,9 @@ public class MainOrderListAdapter extends BaseAdapter {
         TextView txt_order_date = (TextView) convertView.findViewById(R.id.txt_order_date);
         TextView orderNumber = (TextView) convertView.findViewById(R.id.order_no);
         TextView grandTotal = (TextView) convertView.findViewById(R.id.grand_total);
+        Button btn_cancel_order=(Button)convertView.findViewById(R.id.btn_cancel_order);
         subOrderList = (ListView) convertView.findViewById(R.id.subOrderList);
+
 
         convertView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -78,7 +97,46 @@ public class MainOrderListAdapter extends BaseAdapter {
             orderNumber.setText(myOrderList.get(position).getOrderid());
         }
         grandTotal.setText(String.format("%.2f", Double.parseDouble(myOrderList.get(position).getTotal_order_price())));
+        btn_cancel_order.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.d("myOrderSubOrder1",new Gson().toJson(myOrderList.get(position).getSuborder()));
+                LayoutInflater li = LayoutInflater.from(context);
+                View dialogView = li.inflate(R.layout.cancel_order_view, null);
 
+                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
+                alertDialogBuilder.setView(dialogView);
+
+                 list_cancel_order= (LinearLayout) dialogView.findViewById(R.id.ll_suborder_ids);
+                final Button btn_confirm_cancel_order=(Button) dialogView.findViewById(R.id.btn_confirm_cancel_order);
+                list_cancel_order.removeAllViews();
+                Log.d("myOrderSubOrder",new Gson().toJson(myOrderList.get(position).getSuborder()));
+//                CancelOrderItemAdapter.suborderid.clear();
+                new CancelOrderItemAdapter(context,myOrderList.get(position).getSuborder(),myOrderList.get(position).getOrderid()).getView();
+                // set prompts.xml to alertdialog builder
+
+
+                btn_confirm_cancel_order.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                    getSubOrderIds();
+                    new GetCancelOrderAsync().execute();
+                        alertDialog.hide();
+                    }
+
+                });
+
+                alertDialog = alertDialogBuilder.create();
+
+                alertDialog.setInverseBackgroundForced(true);
+
+                // show it
+                alertDialog.show();
+
+
+            }
+        });
         try {
 
             final DateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
@@ -101,6 +159,92 @@ public class MainOrderListAdapter extends BaseAdapter {
 
         return convertView;
     }
+    public void getSubOrderIds()
+    {
+         data=new PostSubOrderId();
+        data.setSuborderids(CancelOrderItemAdapter.suborderid);
+
+    }
+    public String getCancelOrder() {
+        String resultOfCancelOrder = "";
+        String jsonToSendOverServer = "";
+        try {
+
+            GsonBuilder gBuild = new GsonBuilder();
+            Gson gson = gBuild.disableHtmlEscaping().create();
+            jsonToSendOverServer = gson.toJson(data);
+            Log.d("jsonToSendOverServer", jsonToSendOverServer+"    ---"+CancelOrderItemAdapter.mainOrderId);
+            resultOfCancelOrder = ServerConnection.executePost1(jsonToSendOverServer, "/api/cancelorder/"+CancelOrderItemAdapter.mainOrderId);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return resultOfCancelOrder;
+    }
+    private class GetCancelOrderAsync extends AsyncTask<String, Integer, String> {
+        JSONObject jObj;
+        String connectedOrNot, resultOfCancelOrder, msg, code;
+//        ProgressDialog progressDialog;
+
+
+        @Override
+        protected void onPreExecute() {
+
+//            progressDialog = ProgressDialog.show(context, "", "");
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+            try {
+                if (new CheckConnection(context).isConnectingToInternet()) {
+                    connectedOrNot = "success";
+                    resultOfCancelOrder = getCancelOrder();
+                    if (!resultOfCancelOrder.isEmpty()) {
+                        Log.d("resultOfCancelOrder", resultOfCancelOrder);
+                        jObj = new JSONObject(resultOfCancelOrder);
+                        if (jObj.has("success")) {
+                            Log.d("Successresponse for resultOfCancelOrder", resultOfCancelOrder);
+                        } else {
+                            JSONObject jObjError = jObj.getJSONObject("error");
+                            msg = jObjError.getString("message");
+                            code = jObjError.getString("code");
+                        }
+                    }
+                } else {
+                    connectedOrNot = "error";
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return connectedOrNot;
+        }
+
+        @Override
+        protected void onPostExecute(String connectedOrNot) {
+//            progressDialog.dismiss();
+            try {
+                if (connectedOrNot.equalsIgnoreCase("success")) {
+                    if (!resultOfCancelOrder.isEmpty()) {
+                        if (jObj.has("success")) {
+                            Intent intent=new Intent(context,TabActivityForOrders.class);
+                            (context).startActivity(intent);
+                        } else {
+
+                            Toast.makeText(context, msg, Toast.LENGTH_LONG).show();
+                        }
+                    } else {
+                        Toast.makeText(context, "Server is not responding please try again later", Toast.LENGTH_LONG).show();
+                    }
+                } else {
+                    Toast.makeText(context, "Please check your internet connection", Toast.LENGTH_LONG).show();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+
 
     public static void setListViewHeightBasedOnChildren(ListView gridView) {
         ListAdapter listAdapter = gridView.getAdapter();

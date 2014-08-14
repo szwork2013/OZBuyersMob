@@ -97,6 +97,7 @@ public class SubOrderListAdapter extends BaseAdapter {
         TextView textSubTotal = (TextView) convertView.findViewById(R.id.text_sub_total);
         TextView subTotal = (TextView) convertView.findViewById(R.id.sub_total);
         TextView text_order_cancelled = (TextView) convertView.findViewById(R.id.text_order_cancelled);
+        LinearLayout ll_show_order= (LinearLayout) convertView.findViewById(R.id.ll_show_order);
         final ImageView imageApproval = (ImageView) convertView.findViewById(R.id.imageApproval);
         final ImageView imageOrderProcessing = (ImageView) convertView.findViewById(R.id.imageOrderProcessing);
         final ImageView imageDelivery = (ImageView) convertView.findViewById(R.id.imageDelivery);
@@ -113,10 +114,16 @@ public class SubOrderListAdapter extends BaseAdapter {
 
 
 //        if(MyOrdersListActivity.actualList.get(pos).get(position).equals("cancelled")){
-        if (subOrderDetailsList.get(position).getStatus() != null && subOrderDetailsList.get(position).getStatus().equals("cancelled")) {
+        if (subOrderDetailsList.get(position).getStatus() != null && subOrderDetailsList.get(position).getStatus().equals("cancelledbyconsumer"))
+        {
+            text_order_cancelled.setVisibility(View.VISIBLE);
+            text_order_cancelled.setText("Order cancelled By User");
+            ll_show_order.setVisibility(View.GONE);
+        }
+        else if (subOrderDetailsList.get(position).getStatus() != null && subOrderDetailsList.get(position).getStatus().equals("cancelled")) {
             String prevStatus = "";
             text_order_cancelled.setVisibility(View.VISIBLE);
-            text_order_cancelled.setText("Order cancelled on");
+            text_order_cancelled.setText("Order cancelled By Seller");
             Log.d("if", "if");
             Log.d("MyOrdersAct", subOrderDetailsList.get(position).getStatus());
 //            Log.d("track", subOrderDetailsList.get(position).getTracking().get(subOrderDetailsList.get(position).getTracking().size()-2).getStatus());

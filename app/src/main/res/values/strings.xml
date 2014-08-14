@@ -122,5 +122,8 @@
     <string name="time_colon">Time :</string>
     <string name="address_colon">Address :</string>
     <string name="title_activity_feed_back">Feed Back</string>
+    <string name="cancel_order"> Cancel Order </string>
+    <string name="confirm_cancel_order"> Confirm Cancel Order</string>
+    <string name="cancel_order_lbl">Select SubOrder ID you want to cancel</string>
 
 </resources>

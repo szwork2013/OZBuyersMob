@@ -66,12 +66,16 @@
                     android:id="@+id/grand_total" />
             </LinearLayout>
         </LinearLayout>
-
+<LinearLayout
+    android:layout_width="match_parent"
+    android:orientation="horizontal"
+    android:layout_marginLeft="5dp"
+    android:layout_height="wrap_content">
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_marginLeft="5dp"
-            android:layout_height="wrap_content">
+            android:layout_weight="1">
 
             <TextView
                 android:text="@string/create_date"
@@ -98,7 +102,24 @@
                 android:layout_marginLeft="2dp"
                 android:layout_height="wrap_content" />
         </LinearLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginRight="5dp">
 
+       <Button
+           android:id="@+id/btn_cancel_order"
+           android:layout_width="wrap_content"
+           android:layout_height="22dp"
+           android:layout_marginLeft="2dp"
+           android:layout_marginRight="2dp"
+           android:background="@drawable/date_background"
+           android:text="@string/cancel_order"
+           android:textSize="16sp"
+            />
+    </LinearLayout>
+</LinearLayout>
 
     </LinearLayout>
 
