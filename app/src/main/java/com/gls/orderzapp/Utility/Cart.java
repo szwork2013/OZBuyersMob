@@ -151,11 +151,11 @@ public class Cart {
         double total = 0.00;
         try {
             for (int i = 0; i < list.size(); i++) {
-                if (list.get(i).getUom().equalsIgnoreCase("kg") || list.get(i).getUom().equalsIgnoreCase("no") || list.get(i).getUom().equalsIgnoreCase("lb")) {
+//                if (list.get(i).getUom().equalsIgnoreCase("kg") || list.get(i).getUom().equalsIgnoreCase("no") || list.get(i).getUom().equalsIgnoreCase("lb")) {
                     total = total + Double.parseDouble(list.get(i).getOrderprice());
-                } else {
-                    total = total + (Double.parseDouble(list.get(i).getOrderprice())) / 1000;
-                }
+//                } else {
+//                    total = total + (Double.parseDouble(list.get(i).getOrderprice())) / 1000;
+//                }
             }
         } catch (Exception e) {
             e.printStackTrace();

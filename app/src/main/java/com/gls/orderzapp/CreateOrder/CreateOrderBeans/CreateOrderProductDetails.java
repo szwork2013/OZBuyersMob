@@ -13,6 +13,7 @@ public class CreateOrderProductDetails {
     String qty;
     String branchid;
     String uom;
+    String selectedUom;
     String orderprice;
     String productname;
     String cartCount;
@@ -20,6 +21,13 @@ public class CreateOrderProductDetails {
     List<ProductConfiguration> productconfiguration = new ArrayList<>();
     Location location;
 
+    public String getSelectedUom() {
+        return selectedUom;
+    }
+
+    public void setSelectedUom(String selectedUom) {
+        this.selectedUom = selectedUom;
+    }
 
     public String getBranchid() {
         return branchid;
