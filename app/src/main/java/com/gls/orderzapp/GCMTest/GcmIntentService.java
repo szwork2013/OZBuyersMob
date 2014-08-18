@@ -67,14 +67,14 @@ public class GcmIntentService extends IntentService {
                 }
                 Log.i("GCMDemo", "Completed work @ " + SystemClock.elapsedRealtime());
                 // Post notification of received message.
-                sendNotification("Your order No: "+extras.get("suborderid").toString()+" has " + extras.get("status").toString());
+                sendNotification("Your order No: "+extras.get("suborderid").toString()+" has \n" + extras.get("status").toString());
                 Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
                 Ringtone r = RingtoneManager.getRingtone(getApplicationContext(), notification);
                 r.play();
                 vibrator = (Vibrator)getSystemService(Context.VIBRATOR_SERVICE);
                 //start vibration with repeated count, use -1 if you don't want to repeat the vibration
                 vibrator.vibrate(1500);
-                Log.i("GCMDemo", "Received: " + extras.toString());
+
             }
         }
         // Release the wake lock provided by the WakefulBroadcastReceiver.
