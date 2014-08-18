@@ -5,8 +5,12 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.media.Ringtone;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.SystemClock;
+import android.os.Vibrator;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
@@ -15,6 +19,7 @@ import com.gls.orderzapp.MainApp.SignUpActivity;
 import com.gls.orderzapp.MainApp.TabActivityForOrders;
 import com.gls.orderzapp.R;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
+import com.google.gson.Gson;
 
 /**
  * Created by avinash on 27/5/14.
@@ -22,8 +27,8 @@ import com.google.android.gms.gcm.GoogleCloudMessaging;
 public class GcmIntentService extends IntentService {
     public static final int NOTIFICATION_ID = 1;
     private NotificationManager mNotificationManager;
+    public Vibrator vibrator;
     NotificationCompat.Builder builder;
-
     public GcmIntentService() {
         super("GcmIntentService");
     }
@@ -35,9 +40,8 @@ public class GcmIntentService extends IntentService {
         // The getMessageType() intent parameter must be the intent you received
         // in your BroadcastReceiver.
         String messageType = gcm.getMessageType(intent);
-
         if (!extras.isEmpty()) {  // has effect of unparcelling Bundle
-            /*
+            /* GCMNotificationPOJO
              * Filter messages based on message type. Since it is likely that GCM
              * will be extended in the future with new message types, just ignore
              * any message types you're not interested in, or that you don't
@@ -63,7 +67,13 @@ public class GcmIntentService extends IntentService {
                 }
                 Log.i("GCMDemo", "Completed work @ " + SystemClock.elapsedRealtime());
                 // Post notification of received message.
-                sendNotification("Received: " + extras.toString());
+                sendNotification("Your order No: "+extras.get("suborderid").toString()+" has " + extras.get("status").toString());
+                Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+                Ringtone r = RingtoneManager.getRingtone(getApplicationContext(), notification);
+                r.play();
+                vibrator = (Vibrator)getSystemService(Context.VIBRATOR_SERVICE);
+                //start vibration with repeated count, use -1 if you don't want to repeat the vibration
+                vibrator.vibrate(1500);
                 Log.i("GCMDemo", "Received: " + extras.toString());
             }
         }
@@ -84,9 +94,10 @@ public class GcmIntentService extends IntentService {
         NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(this)
                         .setSmallIcon(R.drawable.ic_launcher)
-                        .setContentTitle("GCM Notification")
+                        .setContentTitle("OrderZapp notification")
                         .setStyle(new NotificationCompat.BigTextStyle()
                                 .bigText(msg))
+                        .setAutoCancel(true)
                         .setContentText(msg);
 
         mBuilder.setContentIntent(contentIntent);
