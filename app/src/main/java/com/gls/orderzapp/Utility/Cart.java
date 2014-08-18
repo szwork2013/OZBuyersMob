@@ -270,7 +270,7 @@ public class Cart {
 
 //*******************
 
-    public static void addMessageOnCake(String position, ProductDetails productDetails, String messageoncake) {
+    public static void addMessageOnCake( ProductDetails productDetails, String messageoncake) {
         try {
             int hmSize = hm.size();
             String[] keys = hm.keySet().toArray(new String[hmSize]);
