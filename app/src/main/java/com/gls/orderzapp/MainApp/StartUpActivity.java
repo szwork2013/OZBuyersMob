@@ -209,18 +209,18 @@ public class StartUpActivity extends Activity implements View.OnClickListener {
             startActivity(goToMyOrdersActivity);
             return true;
         }
-        if (id == R.id.action_get_social) {
-            Intent goToGetSocialActivity = new Intent(StartUpActivity.this, GetSocialActivity.class);
-            startActivity(goToGetSocialActivity);
-            return true;
-        }
-        if (id == R.id.action_sellers_agreement) {
-            Intent goToWebViewSellersAgreement = new Intent(StartUpActivity.this, WebViewActivity.class);
-            goToWebViewSellersAgreement.putExtra("URL", ServerConnection.url + "/api/statictemplates?type=SA");
-            goToWebViewSellersAgreement.putExtra("ACTIVITY_NAME", "Sellers Agreement");
-            startActivity(goToWebViewSellersAgreement);
-            return true;
-        }
+//        if (id == R.id.action_get_social) {
+//            Intent goToGetSocialActivity = new Intent(StartUpActivity.this, GetSocialActivity.class);
+//            startActivity(goToGetSocialActivity);
+//            return true;
+//        }
+//        if (id == R.id.action_sellers_agreement) {
+//            Intent goToWebViewSellersAgreement = new Intent(StartUpActivity.this, WebViewActivity.class);
+//            goToWebViewSellersAgreement.putExtra("URL", ServerConnection.url + "/api/statictemplates?type=SA");
+//            goToWebViewSellersAgreement.putExtra("ACTIVITY_NAME", "Sellers Agreement");
+//            startActivity(goToWebViewSellersAgreement);
+//            return true;
+//        }
         if(id == R.id.feed_back){
             new CheckSessionAsync().execute();
             return true;

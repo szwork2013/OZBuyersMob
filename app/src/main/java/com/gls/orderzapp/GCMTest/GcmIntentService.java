@@ -12,6 +12,7 @@ import android.util.Log;
 
 import com.gls.orderzapp.MainApp.GCMTestActivity;
 import com.gls.orderzapp.MainApp.SignUpActivity;
+import com.gls.orderzapp.MainApp.TabActivityForOrders;
 import com.gls.orderzapp.R;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 
@@ -78,7 +79,7 @@ public class GcmIntentService extends IntentService {
                 this.getSystemService(Context.NOTIFICATION_SERVICE);
 
         PendingIntent contentIntent = PendingIntent.getActivity(this, 0,
-                new Intent(this, SignUpActivity.class), 0);
+                new Intent(this, TabActivityForOrders.class), 0);
 
         NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(this)
