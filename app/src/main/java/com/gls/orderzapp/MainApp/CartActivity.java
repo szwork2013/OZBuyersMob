@@ -63,9 +63,6 @@ public class CartActivity extends Activity {
         date="";
         context = CartActivity.this;
         findViewsById();
-
-        Log.d("CArt", new Gson().toJson(Cart.hm));
-
     }
     @Override
     public void onBackPressed() {
