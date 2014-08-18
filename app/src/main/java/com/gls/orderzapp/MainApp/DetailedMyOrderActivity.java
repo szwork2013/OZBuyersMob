@@ -31,7 +31,7 @@ public class DetailedMyOrderActivity extends Activity {
     OrderDetails orderDetails;
     Context context;
     TextView order_no, billing_address_textview, shipping_address_textview, paymentMode, txt_expected_delivery_date, grand_total;
-    LinearLayout ll_home_delivery_address, linerlayout_pickup_address;
+    LinearLayout ll_home_delivery_address;
     int pickupAddress = 0;
     ListView address_list;
 
@@ -69,7 +69,6 @@ public class DetailedMyOrderActivity extends Activity {
         paymentMode = (TextView) findViewById(R.id.payment_mode);
         ll_home_delivery_address = (LinearLayout) findViewById(R.id.ll_home_delivery_address);
         txt_expected_delivery_date = (TextView) findViewById(R.id.txt_expected_delivery_date);
-        linerlayout_pickup_address = (LinearLayout) findViewById(R.id.linerlayout_pickup_address);
         address_list = (ListView) findViewById(R.id.address_list);
         grand_total = (TextView) findViewById(R.id.grand_total);
     }
@@ -152,7 +151,6 @@ public class DetailedMyOrderActivity extends Activity {
             }
         }
         if(pickupAddress > 0){
-            linerlayout_pickup_address.setVisibility(View.VISIBLE);
             address_list.setAdapter(new DisplayPickupAddressesAdapter(getApplicationContext(), orderDetails.getSuborder()));
             setListViewHeightBasedOnChildren(address_list);
         }
