@@ -124,7 +124,7 @@ public class SubOrderListAdapter extends BaseAdapter {
             String prevStatus = "";
             text_order_cancelled.setVisibility(View.VISIBLE);
             text_order_cancelled.setText("Order cancelled By Seller");
-            Log.d("if", "if");
+            ll_show_order.setVisibility(View.GONE);
             Log.d("MyOrdersAct", subOrderDetailsList.get(position).getStatus());
 //            Log.d("track", subOrderDetailsList.get(position).getTracking().get(subOrderDetailsList.get(position).getTracking().size()-2).getStatus());
             //TrackingView.trackOrder(context, MyOrdersListActivity.serverTrackingStatus.get(pos).get(position).get(MyOrdersListActivity.serverTrackingStatus.get(pos).get(position).size()-2));

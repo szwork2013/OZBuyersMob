@@ -36,26 +36,32 @@
         android:id="@+id/action_termncondition"
         android:orderInCategory="100"
         android:title="Terms and Conditions" />
-    <item
-        android:id="@+id/action_sellers_agreement"
-        android:orderInCategory="100"
-        android:showAsAction="never"
-        android:title="Sellers Agreement" />
+    <!--<item-->
+        <!--android:id="@+id/action_sellers_agreement"-->
+        <!--android:orderInCategory="100"-->
+        <!--android:showAsAction="never"-->
+        <!--android:title="Sellers Agreement" />-->
 
+
+    <item
+        android:id="@+id/action_help"
+        android:orderInCategory="100"
+        android:title="Help" />
+
+    <item
+        android:orderInCategory="100"
+        android:id="@+id/feed_back"
+        android:title="Feed Back" />
     <item
         android:id="@+id/action_about"
         android:orderInCategory="100"
         android:showAsAction="never"
         android:title="About" />
-    <item
-        android:id="@+id/action_help"
-        android:orderInCategory="100"
-        android:title="Help" />
-    <item
-        android:id="@+id/action_get_social"
-        android:orderInCategory="100"
-        android:showAsAction="never"
-        android:title="Get Social" />
+    <!--<item-->
+        <!--android:id="@+id/action_get_social"-->
+        <!--android:orderInCategory="100"-->
+        <!--android:showAsAction="never"-->
+        <!--android:title="Get Social" />-->
 
     <item
         android:id="@+id/menu_search"
@@ -70,7 +76,4 @@
         android:showAsAction="always"
         android:title="Cart" />
 
-    <item
-        android:id="@+id/feed_back"
-        android:title="Feed Back" />
 </menu>
