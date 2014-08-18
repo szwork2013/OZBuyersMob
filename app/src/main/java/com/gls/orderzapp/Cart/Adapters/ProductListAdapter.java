@@ -239,7 +239,6 @@ public class ProductListAdapter {
                                 Log.d("original", orignal_uom);
                                 if(orignal_uom.equalsIgnoreCase("kg")) {
                                     tempText.setText(String.format("%.2f", (((Double.parseDouble(tempEditText.getText().toString())) / 1000) * (Double.parseDouble(fixed_rate)))));
-
                                 }else{
                                     tempText.setText(String.format("%.2f", ((Double.parseDouble(tempEditText.getText().toString())) * (Double.parseDouble(fixed_rate)))));
                                 }
@@ -274,7 +273,6 @@ public class ProductListAdapter {
                         measure = "No";
                         Cart.updateCart(tag, "0", measure);
                     }
-
             }
 
             @Override
@@ -343,11 +341,19 @@ public class ProductListAdapter {
                         min_weight=Cart.returnMinWeight(tag);
                         max_weight=Cart.returnMaxWeight(tag);
                         if (uom.equalsIgnoreCase("Kg")) {
-                            tempText.setText(String.format("%.2f", ((Double.parseDouble(tempEditText.getText().toString())) * (Double.parseDouble(fixed_rate)))));
+                            if(orignal_uom.equalsIgnoreCase("kg")) {
+                                tempText.setText(String.format("%.2f", ((Double.parseDouble(tempEditText.getText().toString())) * (Double.parseDouble(fixed_rate)))));
+                            }else{
+                                tempText.setText(String.format("%.2f", ((Double.parseDouble(tempEditText.getText().toString())) * (Double.parseDouble(fixed_rate))) * 1000));
+                            }
                         } else if (uom.equalsIgnoreCase("lb")) {
                             tempText.setText(String.format("%.2f", ((Double.parseDouble(tempEditText.getText().toString())) * (Double.parseDouble(fixed_rate)))));
                         } else if (uom.equalsIgnoreCase("Gm")) {
-                            tempText.setText(String.format("%.2f", (((Double.parseDouble(tempEditText.getText().toString())) * (Double.parseDouble(fixed_rate))) / 1000)));
+                            if(orignal_uom.equalsIgnoreCase("kg")) {
+                                tempText.setText(String.format("%.2f", (((Double.parseDouble(tempEditText.getText().toString())) * (Double.parseDouble(fixed_rate))) / 1000)));
+                            }else{
+                                tempText.setText(String.format("%.2f", (((Double.parseDouble(tempEditText.getText().toString())) * (Double.parseDouble(fixed_rate))))));
+                            }
                         } else if (uom.equalsIgnoreCase("No")) {
                             tempText.setText(String.format("%.2f", ((Double.parseDouble(tempEditText.getText().toString())) * (Double.parseDouble(fixed_rate)))));
                         }
