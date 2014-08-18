@@ -103,9 +103,9 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="16sp"
+            android:textSize="14sp"
             android:id="@+id/special_message"
-            android:text="Product Configuration Price : "
+            android:text="@string/product_configuration_price"
             android:background="#d3d3d3"
             android:textStyle="bold"
             android:textColor="#000" />
@@ -113,7 +113,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="16sp"
+            android:textSize="14sp"
             android:textColor="#000"
             android:layout_gravity="right"
             android:layout_marginRight="2dp"
@@ -126,7 +126,7 @@
             android:layout_gravity="right"
             android:gravity="right"
             android:layout_marginRight="5dp"
-            android:textSize="16sp"
+            android:textSize="14sp"
             android:textColor="#000" />
     </LinearLayout>
 
