@@ -69,20 +69,24 @@ public class ConfirmOrderProductListAdapter {
             if (createOrderProductDetailsList.get(i).getQty() != null && createOrderProductDetailsList.get(i).getUom() != null) {
                 if(createOrderProductDetailsList.get(i).getUom().equalsIgnoreCase("kg") || createOrderProductDetailsList.get(i).getUom().equalsIgnoreCase("no") || createOrderProductDetailsList.get(i).getUom().equalsIgnoreCase("lb")) {
                     if(createOrderProductDetailsList.get(i).getUom().equalsIgnoreCase("kg") && Double.parseDouble(createOrderProductDetailsList.get(i).getQty()) < 1){
-                        textQuantity.setText(String.format("%.3f", Double.parseDouble(createOrderProductDetailsList.get(i).getQty()) * 1000) + " " + "gm");
+                        textQuantity.setText(String.format("%.2f", Double.parseDouble(createOrderProductDetailsList.get(i).getQty()) * 1000) + " " + "gm");
                     }else {
-                        textQuantity.setText(String.format("%.3f", Double.parseDouble(createOrderProductDetailsList.get(i).getQty())) + " " + createOrderProductDetailsList.get(i).getUom());
+                        if(createOrderProductDetailsList.get(i).getUom().equalsIgnoreCase("no") || createOrderProductDetailsList.get(i).getUom().equalsIgnoreCase("lb")){
+                            textQuantity.setText((Double.parseDouble(createOrderProductDetailsList.get(i).getQty())) + " " + createOrderProductDetailsList.get(i).getUom());
+                        }else {
+                            textQuantity.setText(String.format("%.2f", Double.parseDouble(createOrderProductDetailsList.get(i).getQty())) + " " + createOrderProductDetailsList.get(i).getUom());
+                        }
                     }
                 } else {
                     if(Double.parseDouble(createOrderProductDetailsList.get(i).getQty()) >= 1000){
-                        textQuantity.setText(String.format("%.3f", Double.parseDouble(createOrderProductDetailsList.get(i).getQty()) / 1000) + " " + "kg");
+                        textQuantity.setText(String.format("%.2f", Double.parseDouble(createOrderProductDetailsList.get(i).getQty()) / 1000) + " " + "kg");
                     }else{
-                        textQuantity.setText(String.format("%.3f", Double.parseDouble(createOrderProductDetailsList.get(i).getQty())) + " " + createOrderProductDetailsList.get(i).getUom());
+                        textQuantity.setText(String.format("%.2f", Double.parseDouble(createOrderProductDetailsList.get(i).getQty())) + " " + createOrderProductDetailsList.get(i).getUom());
                     }
                 }
             }
             if (createOrderProductDetailsList.get(i).getOrderprice() != null && createOrderProductDetailsList.get(i).getQty() != null) {
-                textPrice.setText(String.format("%.3f", (Double.parseDouble(createOrderProductDetailsList.get(i).getOrderprice()) / Double.parseDouble(createOrderProductDetailsList.get(i).getQty())) - (Cart.configurationPrice(createOrderProductDetailsList.get(i)) / Double.parseDouble(createOrderProductDetailsList.get(i).getQty()))));
+                textPrice.setText(String.format("%.2f", (Double.parseDouble(createOrderProductDetailsList.get(i).getOrderprice()) / Double.parseDouble(createOrderProductDetailsList.get(i).getQty())) - (Cart.configurationPrice(createOrderProductDetailsList.get(i)) / Double.parseDouble(createOrderProductDetailsList.get(i).getQty()))));
             }
 
 
@@ -96,13 +100,13 @@ public class ConfirmOrderProductListAdapter {
 
             if (createOrderProductDetailsList.get(i).getUom() != null) {
                 if (createOrderProductDetailsList.get(i).getUom().equalsIgnoreCase("Kg")) {
-                    textSubTotal.setText(String.format("%.3f", (Double.parseDouble(createOrderProductDetailsList.get(i).getOrderprice())) - Cart.configurationPrice(createOrderProductDetailsList.get(i))));
+                    textSubTotal.setText(String.format("%.2f", (Double.parseDouble(createOrderProductDetailsList.get(i).getOrderprice())) - Cart.configurationPrice(createOrderProductDetailsList.get(i))));
                 } else if (createOrderProductDetailsList.get(i).getUom().equalsIgnoreCase("lb")) {
-                    textSubTotal.setText(String.format("%.3f", (Double.parseDouble(createOrderProductDetailsList.get(i).getOrderprice())) - Cart.configurationPrice(createOrderProductDetailsList.get(i))));
+                    textSubTotal.setText(String.format("%.2f", (Double.parseDouble(createOrderProductDetailsList.get(i).getOrderprice())) - Cart.configurationPrice(createOrderProductDetailsList.get(i))));
                 } else if (createOrderProductDetailsList.get(i).getUom().equalsIgnoreCase("Gm")) {
-                    textSubTotal.setText(String.format("%.3f", (Double.parseDouble(createOrderProductDetailsList.get(i).getOrderprice())) - Cart.configurationPrice(createOrderProductDetailsList.get(i))));
+                    textSubTotal.setText(String.format("%.2f", (Double.parseDouble(createOrderProductDetailsList.get(i).getOrderprice())) - Cart.configurationPrice(createOrderProductDetailsList.get(i))));
                 } else if (createOrderProductDetailsList.get(i).getUom().equalsIgnoreCase("No")) {
-                    textSubTotal.setText(String.format("%.3f", (Double.parseDouble(createOrderProductDetailsList.get(i).getOrderprice())) - Cart.configurationPrice(createOrderProductDetailsList.get(i))));
+                    textSubTotal.setText(String.format("%.2f", (Double.parseDouble(createOrderProductDetailsList.get(i).getOrderprice())) - Cart.configurationPrice(createOrderProductDetailsList.get(i))));
                 }
             }
 

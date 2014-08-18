@@ -41,7 +41,7 @@ public class ProductConfigurationListAdapter extends BaseAdapter {
     Context context;
     List<ProductDetails> cakeList;
     DisplayImageOptions options;
-    String[] mKeys;
+//    String[] mKeys;
     ImageLoader imageLoader;
     EditText edttxt_message_on_cake;
     EditText tempEditText = null;
@@ -50,7 +50,7 @@ public class ProductConfigurationListAdapter extends BaseAdapter {
     public ProductConfigurationListAdapter(Context context, List<ProductDetails> cakeList) {
         this.context = context;
         this.cakeList = cakeList;
-        mKeys = Cart.hm.keySet().toArray(new String[Cart.hm.size()]);
+//        mKeys = Cart.hm.keySet().toArray(new String[Cart.hm.size()]);
         options = new DisplayImageOptions.Builder()
                 .showStubImage(R.drawable.ic_launcher)
                 .showImageForEmptyUri(R.drawable.ic_launcher)

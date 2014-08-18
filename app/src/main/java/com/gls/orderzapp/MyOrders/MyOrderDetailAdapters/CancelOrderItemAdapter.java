@@ -1,6 +1,7 @@
 package com.gls.orderzapp.MyOrders.MyOrderDetailAdapters;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -50,8 +51,11 @@ public class CancelOrderItemAdapter {
             {
             if (subOrderDetailsList.get(i).getStatus().equalsIgnoreCase("orderreceived") || subOrderDetailsList.get(i).getStatus().equalsIgnoreCase("accepted")) {
                 cancel_suborderid_list_iteam.setClickable(true);
+                cancel_suborderid_list_iteam.setEnabled(true);
             } else {
                 cancel_suborderid_list_iteam.setClickable(false);
+                cancel_suborderid_list_iteam.setEnabled(false);
+                cancel_suborderid_list_iteam.setTextColor(Color.GRAY);
             }
             cancel_suborderid_list_iteam.setId(1000 + i);
             cancel_suborderid_list_iteam.setText(subOrderDetailsList.get(i).getSuborderid());

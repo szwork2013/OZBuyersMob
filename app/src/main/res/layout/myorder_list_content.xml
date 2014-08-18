@@ -37,6 +37,7 @@
                     android:layout_height="wrap_content"
                     android:textSize="16sp"
                     android:id="@+id/order_no"
+                    android:background="#66B032"
                     android:textColor="#000"
                     android:layout_marginLeft="2dp" />
             </LinearLayout>
@@ -111,10 +112,10 @@
        <Button
            android:id="@+id/btn_cancel_order"
            android:layout_width="wrap_content"
-           android:layout_height="22dp"
+           android:layout_height="30dp"
            android:layout_marginLeft="2dp"
            android:layout_marginRight="2dp"
-           android:background="@drawable/date_background"
+           android:background="#d3d3d3"
            android:text="@string/cancel_order"
            android:textSize="16sp"
             />
