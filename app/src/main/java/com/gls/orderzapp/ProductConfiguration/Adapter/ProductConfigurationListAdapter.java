@@ -216,7 +216,6 @@ public class ProductConfigurationListAdapter extends BaseAdapter {
 
             @Override
             public void afterTextChanged(Editable s) {
-
                 Cart.addMessageOnCake(mKeys[position1], cakeList.get(position1), tempEditText.getText().toString().trim());
             }
         };
@@ -229,7 +228,6 @@ public class ProductConfigurationListAdapter extends BaseAdapter {
                     tempEditText.removeTextChangedListener(textWatcher);
                 }
                 tempEditText = ((EditText) view);
-
                 tempEditText.addTextChangedListener(textWatcher);
                 return false;
             }

@@ -187,8 +187,9 @@ public class ProductListAdapter {
         spinner_weight.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position1, long id) {
-
+                tag = ((Spinner)parent).getTag() + "";
                 tempEditText = (EditText) ((LinearLayout) parent.getParent()).getChildAt(3);
+                uom = Cart.returnUom(tag);
                 orignal_uom = Cart.returnOrignalUom(tag);
                     if (((TextView)((LinearLayout) view).getChildAt(0)).getText().toString().equalsIgnoreCase("Kg")) {
                         if (tempEditText.getText().toString().trim().length() > 0) {
@@ -281,14 +282,14 @@ public class ProductListAdapter {
             }
         });
 
-        spinner_weight.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                tempSpinner = ((Spinner) v);
-                tag = v.getTag() + "";
-                return false;
-            }
-        });
+//        spinner_weight.setOnTouchListener(new View.OnTouchListener() {
+//            @Override
+//            public boolean onTouch(View v, MotionEvent event) {
+//                tempSpinner = ((Spinner) v);
+//                tag = v.getTag() + "";
+//                return false;
+//            }
+//        });
     }
 
     public void deleteProduct() {
@@ -397,7 +398,7 @@ public class ProductListAdapter {
                                                     CartAdapter.changeSubTotal(tag, list.get(i).split("-")[1]);
                                                 }
                                             }
-                                            tempEditText.setText("");
+//                                            tempEditText.setText("");
                                             Toast.makeText(context, "minimum order of " + min_weight + " " + uom + " is required to place the order for this product", Toast.LENGTH_LONG).show();
                                         }
                                     } else {
@@ -417,7 +418,7 @@ public class ProductListAdapter {
                                                             CartAdapter.changeSubTotal(tag, list.get(i).split("-")[1]);
                                                         }
                                                     }
-                                                    tempEditText.setText("");
+//                                                    tempEditText.setText("");
                                                     Toast.makeText(context, "Cannot order more than " + max_weight + " " + uom + " of this product per order", Toast.LENGTH_LONG).show();
                                                 }
 

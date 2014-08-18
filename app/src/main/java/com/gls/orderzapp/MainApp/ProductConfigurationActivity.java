@@ -54,9 +54,7 @@ public class ProductConfigurationActivity extends Activity {
         add_configuration.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Log.d("hm after configuration", new Gson().toJson(Cart.hm));
-//                Cart.deleteConfigObject();
-//                Log.d("hm after deletconfiguration", new Gson().toJson(Cart.hm));
+                Cart.deleteConfigObject();
                 new CheckSessionAsync().execute();
             }
         });
@@ -148,9 +146,7 @@ public class ProductConfigurationActivity extends Activity {
                         if (jObj.has("success")) {
                             JSONObject jObjSuccess = jObj.getJSONObject("success");
                             msg = jObjSuccess.getString("message");
-                            Log.d("Login success", "In doinbck");
                         } else {
-                            Log.d("Login not success", "In doinbck");
                             JSONObject jObjError = jObj.getJSONObject("error");
                             msg = jObjError.getString("message");
                             code = jObjError.getString("code");

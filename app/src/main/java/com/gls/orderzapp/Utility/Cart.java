@@ -309,7 +309,7 @@ public static int deleteConfigObject()
         String[] keys = hm.keySet().toArray(new String[hm.size()]);
         final int keySize = keys.length;
         for (int i = 0; i < keySize; i++) {
-//            if (Cart.hm.get(keys[i]).getMessageonproduct().equalsIgnoreCase("none")) {
+            if (Cart.hm.get(keys[i]).getProductconfiguration().getConfiguration().size() > 0) {
                 for(int k=0;k<Cart.hm.get(keys[i]).getProductconfiguration().getConfiguration().size();k++)
                 {
                 if(Cart.hm.get(keys[i]).getProductconfiguration().getConfiguration().get(k).getProd_configtype().equalsIgnoreCase("msg")){
@@ -320,7 +320,7 @@ public static int deleteConfigObject()
                         }
                 }
                 }
-//            }
+            }
         }
 
         Log.d("delete conig", new Gson().toJson(hm));
