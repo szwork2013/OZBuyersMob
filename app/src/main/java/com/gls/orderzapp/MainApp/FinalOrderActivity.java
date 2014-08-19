@@ -34,12 +34,9 @@ import java.util.TimeZone;
 public class FinalOrderActivity extends Activity {
     Context context;
     public static LinearLayout listProducts,  ll_txn_details;
-    public  LinearLayout  linerlayout_delivery_address,ll_home_delivery_address;
-    TextView orderNumber, billing_address_textview, shipping_address_textview, paymentMode, grand_total, delivery_type,
+    TextView orderNumber, billing_address_textview,  paymentMode, grand_total,
             txt_expected_delivery_date, bank_name, transaction_id, card_type, txn_amount;
     SuccessResponseForCreateOrder successResponseForCreateOrder;
-    ListView address_list,lst_selller_name_homedelivery;
-    int homedelivery=0,pickupdelivery=0;
     PaymentSuccessResponse paymentSuccessResponse;
     String paymentResponse;
 
@@ -80,17 +77,11 @@ public class FinalOrderActivity extends Activity {
     public void findViewsById() {
         listProducts = (LinearLayout) findViewById(R.id.listProducts);
         orderNumber = (TextView) findViewById(R.id.order_no);
-        linerlayout_delivery_address = (LinearLayout) findViewById(R.id.linerlayout_delivery_address);
-        ll_home_delivery_address = (LinearLayout) findViewById(R.id.ll_home_delivery_address);
          ll_txn_details = (LinearLayout) findViewById(R.id.ll_txn_details);
         billing_address_textview = (TextView) findViewById(R.id.billing_address_textview);
-        shipping_address_textview = (TextView) findViewById(R.id.shipping_address_textview);
         paymentMode = (TextView) findViewById(R.id.payment_mode);
-        delivery_type = (TextView) findViewById(R.id.delivery_type);
         grand_total = (TextView) findViewById(R.id.grand_total);
         txt_expected_delivery_date = (TextView) findViewById(R.id.txt_expected_delivery_date);
-        address_list = (ListView) findViewById(R.id.address_list);
-        lst_selller_name_homedelivery= (ListView) findViewById(R.id.lst_selller_name_homedelivery);
         bank_name = (TextView) findViewById(R.id.bank_name);
         transaction_id = (TextView) findViewById(R.id.transaction_id);
         card_type = (TextView) findViewById(R.id.card_type);
@@ -114,9 +105,6 @@ public class FinalOrderActivity extends Activity {
             if (successResponseForCreateOrder.getSuccess().getOrder().getTotal_order_price() != 0) {
                 grand_total.setText(String.format("%.2f", successResponseForCreateOrder.getSuccess().getOrder().getTotal_order_price()));
             }
-//            if (successResponseForCreateOrder.getSuccess().getOrder().getPreferred_delivery_date() != null) {
-//                txt_expected_delivery_date.setText(successResponseForCreateOrder.getSuccess().getOrder().getPreferred_delivery_date());
-//            }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -173,30 +161,7 @@ public class FinalOrderActivity extends Activity {
             e.printStackTrace();
         }
         try {
-            for (int k = 0; k < successResponseForCreateOrder.getSuccess().getOrder().getSuborder().size(); k++) {
-                if(successResponseForCreateOrder.getSuccess().getOrder().getSuborder().get(k).getDeliverytype().equalsIgnoreCase("pickup"))
-                {
-                    pickupdelivery++;
-                    Log.d("pickupdelivery size",pickupdelivery+"");
-                }else if(successResponseForCreateOrder.getSuccess().getOrder().getSuborder().get(k).getDeliverytype().equalsIgnoreCase("home"))
-                {
-                    homedelivery++;
-                    Log.d("homedelivery size",homedelivery+"");
-                }
-            }
             for (int i = 0; i < successResponseForCreateOrder.getSuccess().getOrder().getSuborder().size(); i++) {
-//                Log.d("delivery type", successResponseForCreateOrder.getSuccess().getOrder().getSuborder().get(i).getDeliverytype());
-                try {
-                    if (i == 0) {
-                        if (successResponseForCreateOrder.getSuccess().getOrder().getSuborder().get(i).getDeliverytype().equalsIgnoreCase("home")) {
-                            delivery_type.setText("Home delivery");
-                        } else {
-                            delivery_type.setText("Pick-Up");
-                        }
-                    }
-                } catch (NullPointerException npe) {
-                    npe.printStackTrace();
-                }
 
                 if (successResponseForCreateOrder.getSuccess().getOrder().getSuborder().get(i).getBilling_address() != null && i == 0) {
                     billing_address_textview.setText(successResponseForCreateOrder.getSuccess().getOrder().getSuborder().get(i).getBilling_address().getAddress1() + ", " +
@@ -207,27 +172,6 @@ public class FinalOrderActivity extends Activity {
                             successResponseForCreateOrder.getSuccess().getOrder().getSuborder().get(i).getBilling_address().getState() + ", " +
                             successResponseForCreateOrder.getSuccess().getOrder().getSuborder().get(i).getBilling_address().getCountry());
                 }
-                if (homedelivery > 0 &&
-                        successResponseForCreateOrder.getSuccess().getOrder().getSuborder().get(i).getDeliverytype().equalsIgnoreCase("home")) {
-                    ll_home_delivery_address.setVisibility(View.VISIBLE);
-//                    lst_selller_name_homedelivery.setAdapter(new HomeDeliveryAddressAdapter(getApplicationContext(), successResponseForCreateOrder.getSuccess().getOrder().getSuborder()));
-//                    setListViewHeightBasedOnChildren(lst_selller_name_homedelivery);
-                    shipping_address_textview.setText(successResponseForCreateOrder.getSuccess().getOrder().getSuborder().get(i).getDelivery_address().getAddress1() + ", " +
-                            successResponseForCreateOrder.getSuccess().getOrder().getSuborder().get(i).getDelivery_address().getAddress2() + ", " +
-                            successResponseForCreateOrder.getSuccess().getOrder().getSuborder().get(i).getDelivery_address().getArea() + ",\n" +
-                            successResponseForCreateOrder.getSuccess().getOrder().getSuborder().get(i).getDelivery_address().getCity() + ", " +
-                            successResponseForCreateOrder.getSuccess().getOrder().getSuborder().get(i).getDelivery_address().getZipcode() + "\n" +
-                            successResponseForCreateOrder.getSuccess().getOrder().getSuborder().get(i).getDelivery_address().getState() + ", " +
-                            successResponseForCreateOrder.getSuccess().getOrder().getSuborder().get(i).getDelivery_address().getCountry());
-                } else {
-                if( pickupdelivery > 0 &&
-                        successResponseForCreateOrder.getSuccess().getOrder().getSuborder().get(i).getDeliverytype().equalsIgnoreCase("pickup")){
-                    linerlayout_delivery_address.setVisibility(View.VISIBLE);
-                    Log.d("PickUpAddress", new Gson().toJson(successResponseForCreateOrder.getSuccess().getOrder().getSuborder().get(i).getPickup_address()));
-                    address_list.setAdapter(new PickupAddressAdapter(context, successResponseForCreateOrder.getSuccess().getOrder().getSuborder()));
-                    setListViewHeightBasedOnChildren(address_list);
-                }
-            }
             }
 
         } catch (Exception exc) {
@@ -240,27 +184,5 @@ public class FinalOrderActivity extends Activity {
         Intent goToStartUpActivity = new Intent(FinalOrderActivity.this, StartUpActivity.class);
         startActivity(goToStartUpActivity);
         finish();
-    }
-
-    public void setListViewHeightBasedOnChildren(ListView gridView) {
-        ListAdapter listAdapter = gridView.getAdapter();
-        if (listAdapter == null)
-            return;
-
-        int desiredWidth = View.MeasureSpec.makeMeasureSpec(gridView.getWidth(), View.MeasureSpec.UNSPECIFIED);
-        int totalHeight = 0;
-        View view = null;
-
-        for (int i = 0; i < listAdapter.getCount(); i++) {
-            view = listAdapter.getView(i, view, gridView);
-            if (i == 0)
-                view.setLayoutParams(new LinearLayout.LayoutParams(desiredWidth, LinearLayout.LayoutParams.WRAP_CONTENT));
-            view.measure(desiredWidth, View.MeasureSpec.UNSPECIFIED);
-            totalHeight += view.getMeasuredHeight();
-        }
-        ViewGroup.LayoutParams params = gridView.getLayoutParams();
-        params.height = totalHeight + (gridView.getDividerHeight());
-        gridView.setLayoutParams(params);
-        gridView.requestLayout();
     }
 }

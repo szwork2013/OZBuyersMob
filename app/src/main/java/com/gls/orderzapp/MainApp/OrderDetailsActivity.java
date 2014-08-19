@@ -67,7 +67,7 @@ public class OrderDetailsActivity extends Activity {
     Context context;
     ArrayList<ProductDetails> cartDetails = new ArrayList<>();
     SuccessResponseOfUser successResponseOfUserBillingAddresDetails, successResponseOfUserDeliveryAddresDetails;
-    ListView address_list;
+//    ListView address_list;
     ProductConfiguration productConfiguration;
 
     @Override
@@ -154,7 +154,7 @@ public class OrderDetailsActivity extends Activity {
         cash_on_delivery = (RadioButton) findViewById(R.id.cash_on_delivery);
         credit_card = (RadioButton) findViewById(R.id.credit_card);
         payment_mode = (TextView) findViewById(R.id.payment_mode);
-        address_list = (ListView) findViewById(R.id.address_list);
+//        address_list = (ListView) findViewById(R.id.address_list);
     }
 
     @Override

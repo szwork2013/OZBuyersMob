@@ -135,26 +135,26 @@ public class SubOrderListAdapter extends BaseAdapter {
             prevStatus = subOrderDetailsList.get(position).getTracking().get(subOrderDetailsList.get(position).getTracking().size() - 2).getStatus();
 
             Log.d("prevsattus", prevStatus);
-            if (prevStatus.equals("orderreceived")) {
+            if (prevStatus.equalsIgnoreCase("orderreceived")) {
                 imageApproval.setVisibility(View.VISIBLE);
                 imageOrderProcessing.setVisibility(View.INVISIBLE);
                 imageDelivery.setVisibility(View.INVISIBLE);
 
                 TrackingView.orderDetailsWhenCancelled(context, "orderreceived", subOrderDetailsList.get(position), position, pos);
-            } else if (prevStatus.equals("accepted")) {
+            } else if (prevStatus.equalsIgnoreCase("accepted")) {
                 imageApproval.setVisibility(View.VISIBLE);
                 imageOrderProcessing.setVisibility(View.INVISIBLE);
                 imageDelivery.setVisibility(View.INVISIBLE);
 
                 TrackingView.orderDetailsWhenCancelled(context, "accepted", subOrderDetailsList.get(position), position, pos);
-            } else if (prevStatus.equals("inproduction") || subOrderDetailsList.get(position).getStatus().equals("packing")) {
+            } else if (prevStatus.equalsIgnoreCase("inproduction") || subOrderDetailsList.get(position).getStatus().equals("packing")) {
                 imageApproval.setVisibility(View.INVISIBLE);
                 imageOrderProcessing.setVisibility(View.VISIBLE);
                 imageDelivery.setVisibility(View.INVISIBLE);
                 Log.d("prevsattus", prevStatus);
 
                 TrackingView.orderDetailsWhenCancelled(context, "orderprocessing", subOrderDetailsList.get(position), position, pos);
-            } else if (prevStatus.equals("factorytostore")) {
+            } else if (prevStatus.equalsIgnoreCase("factorytostore")) {
                 imageApproval.setVisibility(View.INVISIBLE);
                 imageOrderProcessing.setVisibility(View.INVISIBLE);
                 imageDelivery.setVisibility(View.INVISIBLE);
@@ -203,6 +203,7 @@ public class SubOrderListAdapter extends BaseAdapter {
         } else {
 
             Log.d("else", "else");
+            Log.d("accepted stattus", "sssssssssssssssssssssssssssssss");
             text_order_cancelled.setVisibility(View.GONE);
             TrackingView.trackOrder(context, MyOrdersListActivity.actualList.get(pos).get(position));
 
@@ -245,13 +246,16 @@ public class SubOrderListAdapter extends BaseAdapter {
                     imageApproval.setVisibility(View.VISIBLE);
                     imageOrderProcessing.setVisibility(View.INVISIBLE);
                     imageDelivery.setVisibility(View.INVISIBLE);
-                    if (MyOrdersListActivity.actualList.get(pos).get(position).equals("accepted")) {
+//                    if (MyOrdersListActivity.actualList.get(pos).get(position).equalsIgnoreCase("accepted")) {
+//                        Log.d("accepted stattus", "sssssssssssssssssssssssssssssss");
                         TrackingView.detailedTrackWhenClicked(context, "accepted", position, pos);
-                    } else if (MyOrdersListActivity.actualList.get(pos).get(position).equals("orderreceived")) {
-                        TrackingView.detailedTrackWhenClicked(context, "orderreceived", position, pos);
-                    } else if (MyOrdersListActivity.actualList.get(pos).get(position).equals("rejected")) {
-                        TrackingView.detailedTrackWhenClicked(context, "rejected", position, pos);
-                    }
+//                    } else if (MyOrdersListActivity.actualList.get(pos).get(position).equalsIgnoreCase("orderreceived")) {
+//                        Log.d("recievd stattus", "sssssssssssssssssssssssssssssss");
+//                        TrackingView.detailedTrackWhenClicked(context, "orderreceived", position, pos);
+//                    } else if (MyOrdersListActivity.actualList.get(pos).get(position).equalsIgnoreCase("rejected")) {
+//                        Log.d("rejectexd stattus", "sssssssssssssssssssssssssssssss");
+//                        TrackingView.detailedTrackWhenClicked(context, "rejected", position, pos);
+//                    }
                 }
             });
 
@@ -333,7 +337,9 @@ public class SubOrderListAdapter extends BaseAdapter {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        seller.setText(subOrderDetailsList.get(position).getProductprovider().getProvidername());
+        if(subOrderDetailsList.get(position).getProductprovider().getProviderbrandname() != null) {
+            seller.setText(subOrderDetailsList.get(position).getProductprovider().getProviderbrandname());
+        }
         subTotal.setText(String.format("%.2f", Double.parseDouble(subOrderDetailsList.get(position).getSuborder_price())));
         listSubOrders.setAdapter(new SubOrderProductListAdapter(context, subOrderDetailsList.get(position).getProducts()));
         setListViewHeightBasedOnChildren(listSubOrders);
