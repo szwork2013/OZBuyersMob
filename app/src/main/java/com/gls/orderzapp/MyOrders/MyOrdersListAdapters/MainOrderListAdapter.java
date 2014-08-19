@@ -48,11 +48,24 @@ public class MainOrderListAdapter extends BaseAdapter {
     public static LinearLayout list_cancel_order;
     PostSubOrderId data;
     AlertDialog alertDialog;
+    int showCancelOrderButton=0;
 
 
     public MainOrderListAdapter(Context context, List<OrderDetails> myOrderList) {
         this.context = context;
         this.myOrderList = myOrderList;
+        for(int i=0;i<myOrderList.size();i++)
+        {
+            for(int j=0;j<myOrderList.get(i).getSuborder().size();j++)
+            {
+                if(myOrderList.get(i).getSuborder().get(j).getStatus().equalsIgnoreCase("ordercomplete")
+                        || myOrderList.get(i).getSuborder().get(j).getStatus().equalsIgnoreCase("cancelledbyconsumer")
+                        || myOrderList.get(i).getSuborder().get(j).getStatus().equalsIgnoreCase("cancelled"))
+                {
+                }else{ showCancelOrderButton++;}
+
+            }
+        }
 
     }
 
@@ -83,8 +96,12 @@ public class MainOrderListAdapter extends BaseAdapter {
         TextView txt_order_date = (TextView) convertView.findViewById(R.id.txt_order_date);
         TextView orderNumber = (TextView) convertView.findViewById(R.id.order_no);
         TextView grandTotal = (TextView) convertView.findViewById(R.id.grand_total);
-        Button btn_cancel_order=(Button)convertView.findViewById(R.id.btn_cancel_order);
+        final Button btn_cancel_order=(Button)convertView.findViewById(R.id.btn_cancel_order);
         subOrderList = (ListView) convertView.findViewById(R.id.subOrderList);
+        if(showCancelOrderButton>0)
+        {
+            btn_cancel_order.setVisibility(View.VISIBLE);
+        }else{btn_cancel_order.setVisibility(View.GONE);}
 
         convertView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -125,8 +142,10 @@ public class MainOrderListAdapter extends BaseAdapter {
 
                 if(isOrderCancellable == true){
                     llNoOrderToCancel.setVisibility(View.GONE);
+                    btn_confirm_cancel_order.setText("Confirm Cancel Order");
                 }else{
                     llNoOrderToCancel.setVisibility(View.VISIBLE);
+                    btn_confirm_cancel_order.setText("Close");
                 }
                 new CancelOrderItemAdapter(context,myOrderList.get(position).getSuborder(),myOrderList.get(position).getOrderid()).getView();
                 // set prompts.xml to alertdialog builder
@@ -135,10 +154,13 @@ public class MainOrderListAdapter extends BaseAdapter {
                 btn_confirm_cancel_order.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-
-                    getSubOrderIds();
-                    new GetCancelOrderAsync().execute();
-                        alertDialog.hide();
+if(btn_confirm_cancel_order.getText().toString().equalsIgnoreCase("Close")){
+    alertDialog.dismiss();
+}else {
+    getSubOrderIds();
+    new GetCancelOrderAsync().execute();
+    alertDialog.dismiss();
+}
                     }
 
                 });

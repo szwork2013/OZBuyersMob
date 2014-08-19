@@ -108,8 +108,6 @@ public class PastOrdersActivity extends MyOrdersListActivity {
                     if (!resultOfMyOrders.isEmpty()) {
                         if (jObj.has("success")) {
                             orderExists();
-                            Intent mainOrderStatus = new Intent();
-                            mainOrderStatus.putExtra("MainOrderStatus", "PastOrder");
                             mainOrderList.setAdapter(new MainOrderListAdapter(context, successResponseForMyOrders.getSuccess().getOrders()));
                         } else {
                             Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_LONG).show();

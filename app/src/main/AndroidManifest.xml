@@ -80,11 +80,6 @@
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:label="Sign In" />
         <activity
-            android:name=".MainApp.HelpActivity"
-            android:alwaysRetainTaskState="true"
-            android:configChanges="orientation|screenSize|keyboardHidden"
-            android:label="Help" />
-        <activity
             android:name=".MainApp.WebViewActivity"
             android:alwaysRetainTaskState="true"
             android:configChanges="orientation|screenSize|keyboardHidden" />
@@ -109,11 +104,6 @@
             android:alwaysRetainTaskState="true"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:label="Settings" />
-        <activity
-            android:name=".MainApp.AboutUsActivity"
-            android:alwaysRetainTaskState="true"
-            android:configChanges="orientation|screenSize|keyboardHidden"
-            android:label="About Us" />
         <activity
             android:name=".MainApp.VerifyUserActivity"
             android:alwaysRetainTaskState="true"
