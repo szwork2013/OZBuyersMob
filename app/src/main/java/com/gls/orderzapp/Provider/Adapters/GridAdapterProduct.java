@@ -1,5 +1,6 @@
 package com.gls.orderzapp.Provider.Adapters;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -38,12 +39,12 @@ import java.util.List;
  */
 public class GridAdapterProduct extends BaseAdapter {
     Context context;
-    List<ProductDetails> productDetailsList = new ArrayList<>();
+     List<ProductDetails> productDetailsList = new ArrayList<>();
     ProductDetails productDetails;
-    ProviderDetails providerDetails;
+     ProviderDetails providerDetails;
     BranchInfo branchDetails;
-    ImageView imageProduct, close_dialog;
-    TextView textProductName, textProductDescription, textProductPrice;
+//    ImageView imageProduct, close_dialog;
+//    TextView textProductName, textProductDescription, textProductPrice;
     com.nostra13.universalimageloader.core.ImageLoader imageLoader;
     DisplayImageOptions options;
 
@@ -62,7 +63,7 @@ public class GridAdapterProduct extends BaseAdapter {
                 .cacheOnDisc()
                 .build();
         Log.d("ProvderDetails",new Gson().toJson(providerDetails));
-        Log.d("productDetailsList",new Gson().toJson(productDetailsList));
+        Log.d("productDetailsList size",productDetailsList.size()+"");
 
     }
 
@@ -176,7 +177,7 @@ public class GridAdapterProduct extends BaseAdapter {
                             }else{
                                 productDetailsToAddIntoTheCart.setProviderName("");
                             }
-                            if (productDetailsList.get(position).getMin_weight().getValue() != 0) {
+                            if (productDetailsList.get(position).getMin_weight() != null) {
                                 productDetailsToAddIntoTheCart.setQuantity(productDetailsList.get(position).getMin_weight().getValue() + "");
                             }
                             if (providerDetails.getBranch().getBranchid() != null) {
@@ -221,20 +222,21 @@ public class GridAdapterProduct extends BaseAdapter {
                             if (productDetailsList.get(position).getProductname() != null) {
                                 productDetailsToAddIntoTheCart.setProductname(productDetailsList.get(position).getProductname());
                             }
-
-                            if (providerDetails.getProducts().get(position).getPrefereddeliverydate() != null) {
-                                productDetailsToAddIntoTheCart.setPrefereddeliverydate(providerDetails.getProducts().get(position).getPrefereddeliverydate());
+                            if (productDetailsList.get(position).getPrefereddeliverydate() != null) {
+                                productDetailsToAddIntoTheCart.setPrefereddeliverydate(productDetailsList.get(position).getPrefereddeliverydate());
                             }else{
                                 productDetailsToAddIntoTheCart.setPrefereddeliverydate("");
                             }
-                            if (providerDetails.getProducts().get(position).getTimeslot() != null) {
-                                productDetailsToAddIntoTheCart.getTimeslot().setFrom(providerDetails.getProducts().get(position).getTimeslot().getFrom());
-                                productDetailsToAddIntoTheCart.getTimeslot().setTo(providerDetails.getProducts().get(position).getTimeslot().getTo());
+                            if (productDetailsList.get(position).getTimeslot() != null) {
+                                productDetailsToAddIntoTheCart.getTimeslot().setFrom(productDetailsList.get(position).getTimeslot().getFrom());
+                                productDetailsToAddIntoTheCart.getTimeslot().setTo(productDetailsList.get(position).getTimeslot().getTo());
 
                             }else{
                                 productDetailsToAddIntoTheCart.getTimeslot().setFrom(0);
                                 productDetailsToAddIntoTheCart.getTimeslot().setTo(0);
                             }
+
+
                             if (productDetailsList.get(position).getFoodtype() != null) {
                                 productDetailsToAddIntoTheCart.setFoodtype(productDetailsList.get(position).getFoodtype());
                             }

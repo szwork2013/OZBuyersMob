@@ -54,7 +54,6 @@ public class AdapterForSubOrders {
                 }
             }
 
-
             if(subOrderDetailsList.get(i).getPrefdeldtime() != null){
                 try {
                     final DateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
@@ -68,7 +67,6 @@ public class AdapterForSubOrders {
                 }catch (Exception e){
                     e.printStackTrace();
                 }
-
             }
 
             if(subOrderDetailsList.get(i).getDeliverytype().equalsIgnoreCase("home")) {

@@ -37,6 +37,7 @@
                     android:layout_height="wrap_content"
                     android:textSize="16sp"
                     android:id="@+id/order_no"
+                    android:background="#66B032"
                     android:textColor="#000"
                     android:layout_marginLeft="2dp" />
             </LinearLayout>
@@ -66,12 +67,16 @@
                     android:id="@+id/grand_total" />
             </LinearLayout>
         </LinearLayout>
-
+<LinearLayout
+    android:layout_width="match_parent"
+    android:orientation="horizontal"
+    android:layout_marginLeft="5dp"
+    android:layout_height="wrap_content">
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_marginLeft="5dp"
-            android:layout_height="wrap_content">
+            android:layout_weight="1">
 
             <TextView
                 android:text="@string/create_date"
@@ -98,38 +103,25 @@
                 android:layout_marginLeft="2dp"
                 android:layout_height="wrap_content" />
         </LinearLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginRight="5dp">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:orientation="horizontal"
-            android:layout_marginLeft="5dp"
-            android:layout_height="wrap_content">
+       <Button
+           android:id="@+id/btn_cancel_order"
+           android:layout_width="wrap_content"
+           android:layout_height="30dp"
+           android:layout_marginLeft="2dp"
+           android:layout_marginRight="2dp"
+           android:background="#d3d3d3"
+           android:text="@string/cancel_order"
+           android:textSize="16sp"
+            />
+    </LinearLayout>
+</LinearLayout>
 
-            <TextView
-                android:text="@string/expected_delivery_date"
-                android:layout_width="wrap_content"
-                android:textSize="16sp"
-                android:textColor="#000"
-                android:textStyle="bold"
-                android:layout_marginRight="3dp"
-                android:layout_height="wrap_content" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:textSize="16sp"
-                android:textColor="#000"
-                android:text=":"
-                android:textStyle="bold"
-                android:layout_height="wrap_content" />
-
-            <TextView
-                android:id="@+id/txt_expected_delivery_date"
-                android:layout_width="wrap_content"
-                android:textSize="16sp"
-                android:textColor="#000"
-                android:layout_marginLeft="2dp"
-                android:layout_height="wrap_content" />
-        </LinearLayout>
     </LinearLayout>
 
     <LinearLayout

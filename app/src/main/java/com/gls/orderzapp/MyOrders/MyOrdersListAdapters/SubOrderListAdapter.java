@@ -26,8 +26,12 @@ import com.nostra13.universalimageloader.core.assist.MemoryCacheUtil;
 import com.nostra13.universalimageloader.core.assist.SimpleImageLoadingListener;
 
 import java.io.File;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 
 /**
  * Created by prajyot on 3/6/14.
@@ -44,6 +48,7 @@ public class SubOrderListAdapter extends BaseAdapter {
     int pos;
     Typeface tfRobotoNormal;
     Typeface tfRobotoBold;
+    MyOrdersListActivity activity;
 
     public SubOrderListAdapter(Context context, List<SubOrderDetails> subOrderDetailsList, int pos) {
         this.context = context;
@@ -60,6 +65,7 @@ public class SubOrderListAdapter extends BaseAdapter {
 
         tfRobotoNormal = Typeface.createFromAsset(context.getAssets(), "Roboto-Regular.ttf");
         tfRobotoBold = Typeface.createFromAsset(context.getAssets(), "Roboto-Bold.ttf");
+        activity = (MyOrdersListActivity)this.context;
     }
 
     @Override
@@ -85,6 +91,7 @@ public class SubOrderListAdapter extends BaseAdapter {
 
         TextView textSubOrderNumber = (TextView) convertView.findViewById(R.id.text_suborder_no);
         TextView subOrderNumber = (TextView) convertView.findViewById(R.id.sub_order_no);
+        TextView txt_expected_delivery_date = (TextView) convertView.findViewById(R.id.txt_expected_delivery_date);
         ListView listSubOrders = (ListView) convertView.findViewById(R.id.sub_order_list);
         TextView textSeller = (TextView) convertView.findViewById(R.id.text_seller);
         TextView seller = (TextView) convertView.findViewById(R.id.seller);
@@ -92,6 +99,7 @@ public class SubOrderListAdapter extends BaseAdapter {
         TextView textSubTotal = (TextView) convertView.findViewById(R.id.text_sub_total);
         TextView subTotal = (TextView) convertView.findViewById(R.id.sub_total);
         TextView text_order_cancelled = (TextView) convertView.findViewById(R.id.text_order_cancelled);
+        LinearLayout ll_show_order= (LinearLayout) convertView.findViewById(R.id.ll_show_order);
         final ImageView imageApproval = (ImageView) convertView.findViewById(R.id.imageApproval);
         final ImageView imageOrderProcessing = (ImageView) convertView.findViewById(R.id.imageOrderProcessing);
         final ImageView imageDelivery = (ImageView) convertView.findViewById(R.id.imageDelivery);
@@ -108,11 +116,17 @@ public class SubOrderListAdapter extends BaseAdapter {
 
 
 //        if(MyOrdersListActivity.actualList.get(pos).get(position).equals("cancelled")){
-        if (subOrderDetailsList.get(position).getStatus() != null && subOrderDetailsList.get(position).getStatus().equals("cancelled")) {
+        if (subOrderDetailsList.get(position).getStatus() != null && subOrderDetailsList.get(position).getStatus().equals("cancelledbyconsumer"))
+        {
+            text_order_cancelled.setVisibility(View.VISIBLE);
+            text_order_cancelled.setText("Order cancelled By User");
+            ll_show_order.setVisibility(View.GONE);
+        }
+        else if (subOrderDetailsList.get(position).getStatus() != null && subOrderDetailsList.get(position).getStatus().equals("cancelled")) {
             String prevStatus = "";
             text_order_cancelled.setVisibility(View.VISIBLE);
-            text_order_cancelled.setText("Order cancelled on");
-            Log.d("if", "if");
+            text_order_cancelled.setText("Order cancelled By Seller");
+            ll_show_order.setVisibility(View.GONE);
             Log.d("MyOrdersAct", subOrderDetailsList.get(position).getStatus());
 //            Log.d("track", subOrderDetailsList.get(position).getTracking().get(subOrderDetailsList.get(position).getTracking().size()-2).getStatus());
             //TrackingView.trackOrder(context, MyOrdersListActivity.serverTrackingStatus.get(pos).get(position).get(MyOrdersListActivity.serverTrackingStatus.get(pos).get(position).size()-2));
@@ -123,26 +137,26 @@ public class SubOrderListAdapter extends BaseAdapter {
             prevStatus = subOrderDetailsList.get(position).getTracking().get(subOrderDetailsList.get(position).getTracking().size() - 2).getStatus();
 
             Log.d("prevsattus", prevStatus);
-            if (prevStatus.equals("orderreceived")) {
+            if (prevStatus.equalsIgnoreCase("orderreceived")) {
                 imageApproval.setVisibility(View.VISIBLE);
                 imageOrderProcessing.setVisibility(View.INVISIBLE);
                 imageDelivery.setVisibility(View.INVISIBLE);
 
                 TrackingView.orderDetailsWhenCancelled(context, "orderreceived", subOrderDetailsList.get(position), position, pos);
-            } else if (prevStatus.equals("accepted")) {
+            } else if (prevStatus.equalsIgnoreCase("accepted")) {
                 imageApproval.setVisibility(View.VISIBLE);
                 imageOrderProcessing.setVisibility(View.INVISIBLE);
                 imageDelivery.setVisibility(View.INVISIBLE);
 
                 TrackingView.orderDetailsWhenCancelled(context, "accepted", subOrderDetailsList.get(position), position, pos);
-            } else if (prevStatus.equals("inproduction") || subOrderDetailsList.get(position).getStatus().equals("packing")) {
+            } else if (prevStatus.equalsIgnoreCase("inproduction") || subOrderDetailsList.get(position).getStatus().equals("packing")) {
                 imageApproval.setVisibility(View.INVISIBLE);
                 imageOrderProcessing.setVisibility(View.VISIBLE);
                 imageDelivery.setVisibility(View.INVISIBLE);
                 Log.d("prevsattus", prevStatus);
 
                 TrackingView.orderDetailsWhenCancelled(context, "orderprocessing", subOrderDetailsList.get(position), position, pos);
-            } else if (prevStatus.equals("factorytostore")) {
+            } else if (prevStatus.equalsIgnoreCase("factorytostore")) {
                 imageApproval.setVisibility(View.INVISIBLE);
                 imageOrderProcessing.setVisibility(View.INVISIBLE);
                 imageDelivery.setVisibility(View.INVISIBLE);
@@ -191,8 +205,9 @@ public class SubOrderListAdapter extends BaseAdapter {
         } else {
 
             Log.d("else", "else");
+            Log.d("accepted stattus", "sssssssssssssssssssssssssssssss");
             text_order_cancelled.setVisibility(View.GONE);
-            TrackingView.trackOrder(context, MyOrdersListActivity.actualList.get(pos).get(position));
+            TrackingView.trackOrder(context, activity.actualList.get(pos).get(position));
 
             if (subOrderDetailsList.get(position).getStatus().equals("orderreceived")) {
                 imageApproval.setVisibility(View.VISIBLE);
@@ -233,13 +248,16 @@ public class SubOrderListAdapter extends BaseAdapter {
                     imageApproval.setVisibility(View.VISIBLE);
                     imageOrderProcessing.setVisibility(View.INVISIBLE);
                     imageDelivery.setVisibility(View.INVISIBLE);
-                    if (MyOrdersListActivity.actualList.get(pos).get(position).equals("accepted")) {
+//                    if (MyOrdersListActivity.actualList.get(pos).get(position).equalsIgnoreCase("accepted")) {
+//                        Log.d("accepted stattus", "sssssssssssssssssssssssssssssss");
                         TrackingView.detailedTrackWhenClicked(context, "accepted", position, pos);
-                    } else if (MyOrdersListActivity.actualList.get(pos).get(position).equals("orderreceived")) {
-                        TrackingView.detailedTrackWhenClicked(context, "orderreceived", position, pos);
-                    } else if (MyOrdersListActivity.actualList.get(pos).get(position).equals("rejected")) {
-                        TrackingView.detailedTrackWhenClicked(context, "rejected", position, pos);
-                    }
+//                    } else if (MyOrdersListActivity.actualList.get(pos).get(position).equalsIgnoreCase("orderreceived")) {
+//                        Log.d("recievd stattus", "sssssssssssssssssssssssssssssss");
+//                        TrackingView.detailedTrackWhenClicked(context, "orderreceived", position, pos);
+//                    } else if (MyOrdersListActivity.actualList.get(pos).get(position).equalsIgnoreCase("rejected")) {
+//                        Log.d("rejectexd stattus", "sssssssssssssssssssssssssssssss");
+//                        TrackingView.detailedTrackWhenClicked(context, "rejected", position, pos);
+//                    }
                 }
             });
 
@@ -306,11 +324,27 @@ public class SubOrderListAdapter extends BaseAdapter {
         textSeller.setTypeface(tfRobotoBold);
         textSubTotal.setTypeface(tfRobotoBold);
         subOrderNumber.setText(subOrderDetailsList.get(position).getSuborderid());
-        seller.setText(subOrderDetailsList.get(position).getProductprovider().getProvidername());
+        try {
+
+            final DateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+            inputFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
+
+            final DateFormat outputFormat = new SimpleDateFormat("dd-MMM-yyyy");
+            TimeZone tz = TimeZone.getTimeZone("Asia/Calcutta");
+
+            outputFormat.setTimeZone(tz);
+            Date preferd_delivery_date = inputFormat.parse(subOrderDetailsList.get(position).getPrefdeldtime());
+            txt_expected_delivery_date.setText(outputFormat.format(preferd_delivery_date));
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        if(subOrderDetailsList.get(position).getProductprovider().getProviderbrandname() != null) {
+            seller.setText(subOrderDetailsList.get(position).getProductprovider().getProviderbrandname());
+        }
         subTotal.setText(String.format("%.2f", Double.parseDouble(subOrderDetailsList.get(position).getSuborder_price())));
         listSubOrders.setAdapter(new SubOrderProductListAdapter(context, subOrderDetailsList.get(position).getProducts()));
         setListViewHeightBasedOnChildren(listSubOrders);
-
         return convertView;
     }
 

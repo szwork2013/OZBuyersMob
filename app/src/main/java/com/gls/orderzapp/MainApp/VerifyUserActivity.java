@@ -40,7 +40,7 @@ public class VerifyUserActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         context = VerifyUserActivity.this;
         ((GoogleAnalyticsUtility) getApplication()).getTracker(GoogleAnalyticsUtility.TrackerName.APP_TRACKER);
-        UtilityClassForLanguagePreferance.setLocale(getApplicationContext());
+//        UtilityClassForLanguagePreferance.setLocale(getApplicationContext());
         setContentView(R.layout.verify_user_activity);
         findViewsById();
     }
@@ -63,7 +63,7 @@ public class VerifyUserActivity extends ActionBarActivity {
         verificationEditText = (EditText) findViewById(R.id.editTextVerifyUser);
         verifyButton = (Button) findViewById(R.id.verifyUser_button);
 
-        UtilityClassForLanguagePreferance.applyTypeface(UtilityClassForLanguagePreferance.getParentView(verificationEditText), UtilityClassForLanguagePreferance.getTypeFace(context));
+//        UtilityClassForLanguagePreferance.applyTypeface(UtilityClassForLanguagePreferance.getParentView(verificationEditText), UtilityClassForLanguagePreferance.getTypeFace(context));
     }
 
     public void verify(View view) {

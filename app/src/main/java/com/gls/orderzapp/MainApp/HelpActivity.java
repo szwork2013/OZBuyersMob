@@ -24,7 +24,7 @@ public class HelpActivity extends Activity {
         ((GoogleAnalyticsUtility) getApplication()).getTracker(GoogleAnalyticsUtility.TrackerName.APP_TRACKER);
         context = HelpActivity.this;
 
-        UtilityClassForLanguagePreferance.setLocale(getApplicationContext());
+//        UtilityClassForLanguagePreferance.setLocale(getApplicationContext());
         setContentView(R.layout.help);
         findViewsById();
     }
@@ -58,6 +58,6 @@ public class HelpActivity extends Activity {
         help_txt_activity5 = (TextView) findViewById(R.id.help_txt_activity5);
         help_txt_activity6 = (TextView) findViewById(R.id.help_txt_activity6);
         help_txt_activity7 = (TextView) findViewById(R.id.help_txt_activity7);
-        UtilityClassForLanguagePreferance.applyTypeface(UtilityClassForLanguagePreferance.getParentView(help_txt_activity1), UtilityClassForLanguagePreferance.getTypeFace(context));
+//        UtilityClassForLanguagePreferance.applyTypeface(UtilityClassForLanguagePreferance.getParentView(help_txt_activity1), UtilityClassForLanguagePreferance.getTypeFace(context));
     }
 }

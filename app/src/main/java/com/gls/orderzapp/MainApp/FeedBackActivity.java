@@ -1,5 +1,6 @@
 package com.gls.orderzapp.MainApp;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -22,7 +23,7 @@ import com.google.gson.GsonBuilder;
 
 import org.json.JSONObject;
 
-public class FeedBackActivity extends ActionBarActivity {
+public class FeedBackActivity extends Activity {
     EditText edit_feed_back;
     Button save_feed_back_button;
     FeedBackBean feedBackBean;
@@ -39,30 +40,10 @@ public class FeedBackActivity extends ActionBarActivity {
         edit_feed_back = (EditText) findViewById(R.id.edit_feed_back);
         save_feed_back_button = (Button) findViewById(R.id.save_feed_back_button);
     }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.feed_back, menu);
-        return true;
-    }
-
     public void setPostData(){
         feedBackBean = new FeedBackBean();
         feedBackBean.setFeedbacktext(edit_feed_back.getText().toString().trim());
     }
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
     public void saveFeedBack(View view){
         if(edit_feed_back.getText().toString().trim().length() > 0){
             new FeedBackAsync().execute();

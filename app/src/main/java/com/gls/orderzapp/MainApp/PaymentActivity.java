@@ -78,8 +78,12 @@ public class PaymentActivity extends Activity {
                 successResponseOfUser.getSuccess().getUser().getEmail(), successResponseOfUser.getSuccess().getUser().getMobileno());
 
         //Create new Merchant Object having all merchant configuration.
-        PaytmMerchant Merchant = new PaytmMerchant("Giantl00830321943927", "WAP", "Retail", "giantleapsystems", "javas",
+//        PaytmMerchant Merchant = new PaytmMerchant("Giantl00830321943927", "WAP", "Retail", "giantleapsystems", "javas",
+//                ServerConnection.url + "/api/paytm/generatechecksum", ServerConnection.url + "/api/orderzapp/payment");
+
+        PaytmMerchant Merchant = new PaytmMerchant(OZConstants.PAYTM_MERCHANT_ID, "WAP", OZConstants.PAYTM_INDUSTRY_TYPE_ID, "giantleapsystems", "javas",
                 ServerConnection.url + "/api/paytm/generatechecksum", ServerConnection.url + "/api/orderzapp/payment");
+
 
         //Create Client Certificate object holding the information related to Client Certificate. Filename must be without .p12
         //        extension.

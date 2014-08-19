@@ -65,8 +65,6 @@ public class AdapterForMultipleProviders {
                 if (providers.contains(branchid)) {
 
                     list.add(createOrderProductDetailsList.get(i));
-
-
                 } else {
 
                     if (i > 0) {
@@ -163,11 +161,11 @@ public class AdapterForMultipleProviders {
                                     if (branchid.equalsIgnoreCase(DisplayDeliveryChargesAndType.listOfPickupAddresses.getListPickUpAddress().get(l).getBranchid())) {
                                         sellerDelivery.setPickup_address(DisplayDeliveryChargesAndType.listOfPickupAddresses.getListPickUpAddress().get(l).getLocation());
                                         pickupaddress=DisplayDeliveryChargesAndType.listOfPickupAddresses.getListPickUpAddress().get(l).getLocation().getAddress1()
-                                                +","+DisplayDeliveryChargesAndType.listOfPickupAddresses.getListPickUpAddress().get(l).getLocation().getAddress2()
+                                                +", "+DisplayDeliveryChargesAndType.listOfPickupAddresses.getListPickUpAddress().get(l).getLocation().getAddress2()
                                                 +"\n"+DisplayDeliveryChargesAndType.listOfPickupAddresses.getListPickUpAddress().get(l).getLocation().getArea()
-                                                +","+DisplayDeliveryChargesAndType.listOfPickupAddresses.getListPickUpAddress().get(l).getLocation().getCity()
+                                                +", "+DisplayDeliveryChargesAndType.listOfPickupAddresses.getListPickUpAddress().get(l).getLocation().getCity()
                                                 +"\n"+DisplayDeliveryChargesAndType.listOfPickupAddresses.getListPickUpAddress().get(l).getLocation().getState()
-                                                +","+DisplayDeliveryChargesAndType.listOfPickupAddresses.getListPickUpAddress().get(l).getLocation().getZipcode()
+                                                +", "+DisplayDeliveryChargesAndType.listOfPickupAddresses.getListPickUpAddress().get(l).getLocation().getZipcode()
                                                 +" ("+DisplayDeliveryChargesAndType.listOfPickupAddresses.getListPickUpAddress().get(l).getLocation().getCountry()+")";
                                     }
                                 }
@@ -228,9 +226,9 @@ public class AdapterForMultipleProviders {
                         deliveryAddressText.setText(pickupaddress);
                     }
                     else {
-                        deliveryAddressText.setText(orderDeliveryAddress.getAddress1() + "," + orderDeliveryAddress.getAddress2()
-                                + "\n" + orderDeliveryAddress.getArea() + "," + orderDeliveryAddress.getCity()
-                                + "\n" + orderDeliveryAddress.getState() + "," + orderDeliveryAddress.getZipcode() + "(" + orderDeliveryAddress.getCountry() + ")");
+                        deliveryAddressText.setText(orderDeliveryAddress.getAddress1() + ", " + orderDeliveryAddress.getAddress2()
+                                + "\n" + orderDeliveryAddress.getArea() + ", " + orderDeliveryAddress.getCity()
+                                + "\n" + orderDeliveryAddress.getState() + ", " + orderDeliveryAddress.getZipcode() + "(" + orderDeliveryAddress.getCountry() + ")");
                     }
 
                     if (i > 0) {
@@ -262,6 +260,7 @@ public class AdapterForMultipleProviders {
                             OrderDetailsActivity.createOrderCartList.getDeliverycharges().add(OrderDetailsActivity.deliveryChargeDetails);
                         }
                     }
+
                     textGrandTotal = ((TextView) llProductsForProvider.findViewById(R.id.grandtoatal));
                     delivery_charge = (TextView) llProductsForProvider.findViewById(R.id.delivery_charge);
                     list.clear();

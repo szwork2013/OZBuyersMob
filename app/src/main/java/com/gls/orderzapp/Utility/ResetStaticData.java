@@ -24,6 +24,8 @@ import com.gls.orderzapp.MainApp.SignInActivity;
 import com.gls.orderzapp.MainApp.StartUpActivity;
 import com.gls.orderzapp.MainApp.TabActivityForOrders;
 import com.gls.orderzapp.MyOrders.MyOrderDetailAdapters.AdapterForSubOrders;
+import com.gls.orderzapp.MyOrders.MyOrderDetailAdapters.CancelOrderItemAdapter;
+import com.gls.orderzapp.MyOrders.MyOrdersListAdapters.MainOrderListAdapter;
 import com.gls.orderzapp.MyOrders.MyOrdersListAdapters.SubOrderListAdapter;
 import com.gls.orderzapp.Provider.Adapters.GridAdapterProviderCategories;
 
@@ -61,9 +63,18 @@ public class ResetStaticData {
            staticSubOrderListAdapter();
            staticGridAdapterProviderCategories();
            staticCart();
+           staticCancelOrderItemAdapter();
+           staticMainOrderListAdapter();
        }catch (Exception e){
            e.printStackTrace();
        }
+    }
+    public static void  staticMainOrderListAdapter(){
+        MainOrderListAdapter.list_cancel_order.removeAllViews();
+    }
+    public static void staticCancelOrderItemAdapter() throws Exception
+    {
+        CancelOrderItemAdapter.suborderid.clear();
     }
     public static void staticCart () throws Exception
     {
@@ -126,7 +137,7 @@ public class ResetStaticData {
     }
     public static void staticMyOrdersListActivity() throws Exception
     {
-        MyOrdersListActivity.actualList.clear();
+//        MyOrdersListActivity.actualList.clear();
         MyOrdersListActivity.successResponseForMyOrders=null;
 
     }

@@ -49,12 +49,12 @@ public class CurrentOrdersActivity extends MyOrdersListActivity {
 
     class GetMyCurrentOrdersAsync extends AsyncTask<String, Integer, String> {
         String resultOfMyOrders, connectedOrNot, msg, code;
-        ProgressDialog progressDialog;
+//        ProgressDialog progressDialog;
         JSONObject jObj;
 
         @Override
         protected void onPreExecute() {
-            progressDialog = ProgressDialog.show(CurrentOrdersActivity.this, "", "Retrieving Orders");
+//            progressDialog = ProgressDialog.show(CurrentOrdersActivity.this, "", "Retrieving Orders");
         }
 
         @Override
@@ -101,7 +101,7 @@ public class CurrentOrdersActivity extends MyOrdersListActivity {
         @Override
         protected void onPostExecute(String connectedOrNot) {
             try {
-                progressDialog.dismiss();
+//                progressDialog.dismiss();
                 if (connectedOrNot.equals("success")) {
                     if (!resultOfMyOrders.isEmpty()) {
                         if (jObj.has("success")) {
@@ -111,7 +111,7 @@ public class CurrentOrdersActivity extends MyOrdersListActivity {
                         } else {
                             Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_LONG).show();
                             if (code.equals("SODR001")) {
-                                noOrder("approved");
+                                noOrder(msg);
                             }
                         }
                     } else {

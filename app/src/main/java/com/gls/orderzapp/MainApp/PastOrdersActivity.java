@@ -1,6 +1,7 @@
 package com.gls.orderzapp.MainApp;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -64,7 +65,6 @@ public class PastOrdersActivity extends MyOrdersListActivity {
                     connectedOrNot = "success";
                     resultOfMyOrders = getMyOrders("past");
                     if (!resultOfMyOrders.isEmpty()) {
-                        Log.d("myorders", resultOfMyOrders);
                         jObj = new JSONObject(resultOfMyOrders);
                         if (jObj.has("success")) {
                             successResponseForMyOrders = new Gson().fromJson(resultOfMyOrders, SuccessResponseForMyOrders.class);
@@ -111,7 +111,7 @@ public class PastOrdersActivity extends MyOrdersListActivity {
                         } else {
                             Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_LONG).show();
                             if (code.equals("SODR001")) {
-                                noOrder("approved");
+                                noOrder(msg);
                             }
                         }
                     } else {

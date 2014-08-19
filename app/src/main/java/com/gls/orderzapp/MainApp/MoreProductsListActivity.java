@@ -3,6 +3,7 @@ package com.gls.orderzapp.MainApp;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -38,6 +39,7 @@ import java.util.List;
  */
 public class MoreProductsListActivity extends Activity implements View.OnClickListener {
     ActionBar actionBar;
+    Context context;
     public Menu menu1;
     public boolean isFirstTime = true;
     GridView gridView;
@@ -54,6 +56,7 @@ public class MoreProductsListActivity extends Activity implements View.OnClickLi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.temp);
+        context=MoreProductsListActivity.this;
         ((GoogleAnalyticsUtility) getApplication()).getTracker(GoogleAnalyticsUtility.TrackerName.APP_TRACKER);
 
         actionBar = getActionBar();
@@ -255,7 +258,7 @@ public class MoreProductsListActivity extends Activity implements View.OnClickLi
                             lastProductId = providerSuccessResponse.getSuccess().getProvider().get(0).getProducts().get(providerSuccessResponse.getSuccess().getProvider().get(0).getProducts().size() - 1).getProductid();
                             Toast.makeText(getApplicationContext(), providerSuccessResponse.getSuccess().getMessage(), Toast.LENGTH_LONG).show();
                             productDetailsList.addAll(0, providerSuccessResponse.getSuccess().getProvider().get(0).getProducts());
-                            gridAdapterProduct = new GridAdapterProduct(getApplicationContext(), productDetailsList, providerSuccessResponse.getSuccess().getProvider().get(0).getBranch(), providerDetails);
+                            gridAdapterProduct = new GridAdapterProduct(context, productDetailsList, providerSuccessResponse.getSuccess().getProvider().get(0).getBranch(), providerDetails);
                             gridView.setAdapter(gridAdapterProduct);
                         } else {
                             Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_LONG).show();

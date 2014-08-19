@@ -41,16 +41,16 @@ public class ProductConfigurationListAdapter extends BaseAdapter {
     Context context;
     List<ProductDetails> cakeList;
     DisplayImageOptions options;
-    String[] mKeys;
+//    String[] mKeys;
     ImageLoader imageLoader;
     EditText edttxt_message_on_cake;
     EditText tempEditText = null;
-//    TextWatcher textWatcher;
+    String tag = "";
 
     public ProductConfigurationListAdapter(Context context, List<ProductDetails> cakeList) {
         this.context = context;
         this.cakeList = cakeList;
-        mKeys = Cart.hm.keySet().toArray(new String[Cart.hm.size()]);
+//        mKeys = Cart.hm.keySet().toArray(new String[Cart.hm.size()]);
         options = new DisplayImageOptions.Builder()
                 .showStubImage(R.drawable.ic_launcher)
                 .showImageForEmptyUri(R.drawable.ic_launcher)
@@ -77,7 +77,6 @@ public class ProductConfigurationListAdapter extends BaseAdapter {
 
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
-        final int position1 = position;
         if (convertView == null) {
             LayoutInflater li = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = li.inflate(R.layout.product_configuration_item_list, null);
@@ -112,16 +111,16 @@ public class ProductConfigurationListAdapter extends BaseAdapter {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 
                 if (isChecked) {
-                    for (int i = 0; i < cakeList.get(position1).getProductconfiguration().getConfiguration().size(); i++) {
-                        if (cakeList.get(position1).getProductconfiguration().getConfiguration().get(i).getProd_configtype().equalsIgnoreCase("msg")) {
-                            cakeList.get(position1).getProductconfiguration().getConfiguration().get(i).setChecked(true);
-                            message_price.setText((cakeList.get(position1).getProductconfiguration().getConfiguration().get(i).getProd_configprice().getValue() * Double.parseDouble(cakeList.get(position1).getQuantity())) + "");
+                    for (int i = 0; i < cakeList.get(Integer.parseInt((((CheckBox)buttonView).getTag()+"").split("_")[0])).getProductconfiguration().getConfiguration().size(); i++) {
+                        if (cakeList.get(Integer.parseInt((((CheckBox)buttonView).getTag()+"").split("_")[0])).getProductconfiguration().getConfiguration().get(i).getProd_configtype().equalsIgnoreCase("msg")) {
+                            cakeList.get(Integer.parseInt((((CheckBox)buttonView).getTag()+"").split("_")[0])).getProductconfiguration().getConfiguration().get(i).setChecked(true);
+                            message_price.setText((cakeList.get(Integer.parseInt((((CheckBox)buttonView).getTag()+"").split("_")[0])).getProductconfiguration().getConfiguration().get(i).getProd_configprice().getValue() * Double.parseDouble(cakeList.get(Integer.parseInt((((CheckBox)buttonView).getTag()+"").split("_")[0])).getQuantity())) + "");
                         }
                     }
                 } else {
-                    for (int i = 0; i < cakeList.get(position1).getProductconfiguration().getConfiguration().size(); i++) {
-                        if (cakeList.get(position1).getProductconfiguration().getConfiguration().get(i).getProd_configtype().equalsIgnoreCase("msg")) {
-                            cakeList.get(position1).getProductconfiguration().getConfiguration().get(i).setChecked(false);
+                    for (int i = 0; i < cakeList.get(Integer.parseInt((((CheckBox)buttonView).getTag()+"").split("_")[0])).getProductconfiguration().getConfiguration().size(); i++) {
+                        if (cakeList.get(Integer.parseInt((((CheckBox)buttonView).getTag()+"").split("_")[0])).getProductconfiguration().getConfiguration().get(i).getProd_configtype().equalsIgnoreCase("msg")) {
+                            cakeList.get(Integer.parseInt((((CheckBox)buttonView).getTag()+"").split("_")[0])).getProductconfiguration().getConfiguration().get(i).setChecked(false);
                         }
                     }
                     message_price.setText("0.0");
@@ -136,35 +135,35 @@ public class ProductConfigurationListAdapter extends BaseAdapter {
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 switch (checkedId) {
                     case R.id.eggless:
-                        for (int i = 0; i < cakeList.get(position1).getProductconfiguration().getConfiguration().size(); i++) {
-                            if (cakeList.get(position1).getProductconfiguration().getConfiguration().get(i).getProd_configtype().equalsIgnoreCase("ftp")) {
+                        for (int i = 0; i < cakeList.get(Integer.parseInt(group.getTag()+"")).getProductconfiguration().getConfiguration().size(); i++) {
+                            if (cakeList.get(Integer.parseInt(group.getTag()+"")).getProductconfiguration().getConfiguration().get(i).getProd_configtype().equalsIgnoreCase("ftp")) {
 //                                Toast.makeText(context, cakeList.get(position).getCartCount(), Toast.LENGTH_LONG).show();
-                                Cart.addFoodTypeConfiguration(cakeList.get(position1).getCartCount(),
-                                                              cakeList.get(position1).getProductconfiguration().getConfiguration().get(i).getProd_configtype(),
-                                                              cakeList.get(position1).getProductconfiguration().getConfiguration().get(i).getProd_configname(),
-                                                              cakeList.get(position1).getProductconfiguration().getConfiguration().get(i).getProd_configprice(),
-                                                              cakeList.get(position1).getProductconfiguration().getConfiguration().get(i).isChecked(),
+                                Cart.addFoodTypeConfiguration(cakeList.get(Integer.parseInt(group.getTag()+"")).getCartCount(),
+                                                              cakeList.get(Integer.parseInt(group.getTag()+"")).getProductconfiguration().getConfiguration().get(i).getProd_configtype(),
+                                                              cakeList.get(Integer.parseInt(group.getTag()+"")).getProductconfiguration().getConfiguration().get(i).getProd_configname(),
+                                                              cakeList.get(Integer.parseInt(group.getTag()+"")).getProductconfiguration().getConfiguration().get(i).getProd_configprice(),
+                                                              cakeList.get(Integer.parseInt(group.getTag()+"")).getProductconfiguration().getConfiguration().get(i).isChecked(),
                                                               "eggless");
 //                                cakeList.get(position1).getProductconfiguration().getConfiguration().get(i).setFoodType("eggless");
-                                egg_price.setText((cakeList.get(position1).getProductconfiguration().getConfiguration().get(i).getProd_configprice().getValue() * Double.parseDouble(cakeList.get(position1).getQuantity())) + "");
+                                egg_price.setText((cakeList.get(Integer.parseInt(group.getTag()+"")).getProductconfiguration().getConfiguration().get(i).getProd_configprice().getValue() * Double.parseDouble(cakeList.get(Integer.parseInt(group.getTag()+"")).getQuantity())) + "");
                             }
                         }
 
-                        Log.d("cartt after adding conf", new Gson().toJson(Cart.hm));
+                        Log.d("eggless", new Gson().toJson(Cart.hm));
                         break;
                     case R.id.egg:
                         egg_price.setText("0.0");
-                        for (int i = 0; i < cakeList.get(position1).getProductconfiguration().getConfiguration().size(); i++) {
-                            Cart.addFoodTypeConfiguration(cakeList.get(position1).getCartCount(),
-                                    cakeList.get(position1).getProductconfiguration().getConfiguration().get(i).getProd_configtype(),
-                                    cakeList.get(position1).getProductconfiguration().getConfiguration().get(i).getProd_configname(),
-                                    cakeList.get(position1).getProductconfiguration().getConfiguration().get(i).getProd_configprice(),
-                                    cakeList.get(position1).getProductconfiguration().getConfiguration().get(i).isChecked(),
-                                    "egg");
-//                            if (cakeList.get(position1).getProductconfiguration().getConfiguration().get(i).getProd_configtype().equalsIgnoreCase("ftp")) {
-//                                cakeList.get(position1).getProductconfiguration().getConfiguration().get(i).setFoodType("egg");
-//                            }
+                        for (int i = 0; i < cakeList.get(Integer.parseInt(group.getTag()+"")).getProductconfiguration().getConfiguration().size(); i++) {
+                            if (cakeList.get(Integer.parseInt(group.getTag()+"")).getProductconfiguration().getConfiguration().get(i).getProd_configtype().equalsIgnoreCase("ftp")) {
+                                Cart.addFoodTypeConfiguration(cakeList.get(Integer.parseInt(group.getTag() + "")).getCartCount(),
+                                        cakeList.get(Integer.parseInt(group.getTag() + "")).getProductconfiguration().getConfiguration().get(i).getProd_configtype(),
+                                        cakeList.get(Integer.parseInt(group.getTag() + "")).getProductconfiguration().getConfiguration().get(i).getProd_configname(),
+                                        cakeList.get(Integer.parseInt(group.getTag() + "")).getProductconfiguration().getConfiguration().get(i).getProd_configprice(),
+                                        cakeList.get(Integer.parseInt(group.getTag() + "")).getProductconfiguration().getConfiguration().get(i).isChecked(),
+                                        "egg");
+                            }
                         }
+                        Log.d("egg", new Gson().toJson(Cart.hm));
                         break;
                 }
             }
@@ -216,39 +215,47 @@ public class ProductConfigurationListAdapter extends BaseAdapter {
 
             @Override
             public void afterTextChanged(Editable s) {
-
-                Cart.addMessageOnCake(mKeys[position1], cakeList.get(position1), tempEditText.getText().toString().trim());
+                for(int j = 0; j < cakeList.size(); j++) {
+                    if(tag.equalsIgnoreCase(cakeList.get(position).getCartCount())) {
+                        Log.d("Run without","Click");
+                        Cart.addMessageOnCake(cakeList.get(position), tempEditText.getText().toString().trim());
+                    }
+                }
             }
         };
 
-        edttxt_message_on_cake.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View view, MotionEvent motionEvent) {
-
-                if (tempEditText != null) {
-                    tempEditText.removeTextChangedListener(textWatcher);
-                }
-                tempEditText = ((EditText) view);
-
-                tempEditText.addTextChangedListener(textWatcher);
-                return false;
-            }
-        });
-
-//        edttxt_message_on_cake.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+//        edttxt_message_on_cake.setOnTouchListener(new View.OnTouchListener() {
 //            @Override
-//            public void onFocusChange(View v, boolean hasFocus) {
-//                if(hasFocus){
-//                    if (tempEditText != null) {
-//                        tempEditText.removeTextChangedListener(textWatcher);
-//                    }
-//                    tempEditText = ((EditText) v);
+//            public boolean onTouch(View view, MotionEvent motionEvent) {
 //
-//                    tempEditText.addTextChangedListener(textWatcher);
+//                if (tempEditText != null) {
+//                    tempEditText.removeTextChangedListener(textWatcher);
 //                }
+//                tempEditText = ((EditText) view);
+//                tag = view.getTag()+"";
+//                tempEditText.addTextChangedListener(textWatcher);
+//                return false;
 //            }
 //        });
 
+        edttxt_message_on_cake.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(hasFocus){
+                    if (tempEditText != null) {
+                        tempEditText.removeTextChangedListener(textWatcher);
+                    }
+                    tempEditText = ((EditText) v);
+                    tag = v.getTag()+"";
+                    tempEditText.addTextChangedListener(textWatcher);
+
+                }
+            }
+        });
+
+        egg_eggless_group.setTag(position);
+        message_checkbox.setTag(position + "_" + cakeList.get(position).getCartCount());
+        edttxt_message_on_cake.setTag(cakeList.get(position).getCartCount());
         return convertView;
     }
 

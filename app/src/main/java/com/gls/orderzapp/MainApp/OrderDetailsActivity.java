@@ -67,7 +67,7 @@ public class OrderDetailsActivity extends Activity {
     Context context;
     ArrayList<ProductDetails> cartDetails = new ArrayList<>();
     SuccessResponseOfUser successResponseOfUserBillingAddresDetails, successResponseOfUserDeliveryAddresDetails;
-    ListView address_list;
+//    ListView address_list;
     ProductConfiguration productConfiguration;
 
     @Override
@@ -154,7 +154,7 @@ public class OrderDetailsActivity extends Activity {
         cash_on_delivery = (RadioButton) findViewById(R.id.cash_on_delivery);
         credit_card = (RadioButton) findViewById(R.id.credit_card);
         payment_mode = (TextView) findViewById(R.id.payment_mode);
-        address_list = (ListView) findViewById(R.id.address_list);
+//        address_list = (ListView) findViewById(R.id.address_list);
     }
 
     @Override
@@ -176,17 +176,31 @@ public class OrderDetailsActivity extends Activity {
                 }
                 if (cartDetails.get(i).getPrice().getUom() != null) {
                     if (cartDetails.get(i).getPrice().getUom().equalsIgnoreCase("kg") || cartDetails.get(i).getPrice().getUom().equalsIgnoreCase("no") || cartDetails.get(i).getPrice().getUom().equalsIgnoreCase("lb")) {
-                        createOrderProductDetails.setOrderprice((cartDetails.get(i).getPrice().getValue() * Double.parseDouble(cartDetails.get(i).getQuantity())) + "");
-                        createOrderProductDetails.setUom(cartDetails.get(i).getPrice().getUom());
-                        createOrderProductDetails.setQty(Double.parseDouble(cartDetails.get(i).getQuantity()) + "");
+                        if(cartDetails.get(i).getOrignalUom().equalsIgnoreCase("kg") || cartDetails.get(i).getOrignalUom().equalsIgnoreCase("no") || cartDetails.get(i).getOrignalUom().equalsIgnoreCase("lb")) {
+                            createOrderProductDetails.setOrderprice((cartDetails.get(i).getPrice().getValue() * Double.parseDouble(cartDetails.get(i).getQuantity())) + "");
+                            createOrderProductDetails.setQty(Double.parseDouble(cartDetails.get(i).getQuantity()) + "");
+                        }else{
+                            createOrderProductDetails.setOrderprice((cartDetails.get(i).getPrice().getValue() * Double.parseDouble(cartDetails.get(i).getQuantity())) * 1000 + "");
+                            createOrderProductDetails.setQty(Double.parseDouble(cartDetails.get(i).getQuantity()) * 1000 + "");
+                        }
+                        createOrderProductDetails.setUom(cartDetails.get(i).getOrignalUom());
+
                     } else if (cartDetails.get(i).getPrice().getUom().equalsIgnoreCase("Gm")) {
-                        createOrderProductDetails.setOrderprice(((cartDetails.get(i).getPrice().getValue()) / 1000 * Double.parseDouble(cartDetails.get(i).getQuantity())) + "");
-                        createOrderProductDetails.setQty(Double.parseDouble(cartDetails.get(i).getQuantity()) / 1000.00 + "");
-                        createOrderProductDetails.setUom("kg");
+                        Log.d("uom", cartDetails.get(i).getPrice().getValue()+"");
+                        if(cartDetails.get(i).getOrignalUom().equalsIgnoreCase("kg")) {
+                            createOrderProductDetails.setOrderprice(((cartDetails.get(i).getPrice().getValue()) / 1000 * Double.parseDouble(cartDetails.get(i).getQuantity())) + "");
+                            createOrderProductDetails.setQty(Double.parseDouble(cartDetails.get(i).getQuantity()) / 1000.00 + "");
+                        } else {
+                            createOrderProductDetails.setOrderprice(((cartDetails.get(i).getPrice().getValue()) * Double.parseDouble(cartDetails.get(i).getQuantity())) + "");
+                            createOrderProductDetails.setQty(Double.parseDouble(cartDetails.get(i).getQuantity()) + "");
+                        }
+                        createOrderProductDetails.setUom(cartDetails.get(i).getOrignalUom());
                     }
+
+                    createOrderProductDetails.setSelectedUom(cartDetails.get(i).getOrignalUom());
                 }
                 try {
-                    Log.d("configuration", new Gson().toJson(cartDetails.get(i).getProductconfiguration()));
+
                     if (cartDetails.get(i).getProductconfiguration().getConfiguration().size() > 0) {
                         for (int j = 0; j < cartDetails.get(i).getProductconfiguration().getConfiguration().size(); j++) {
                             if (cartDetails.get(i).getProductconfiguration().getConfiguration().get(j).getFoodType() != null) {

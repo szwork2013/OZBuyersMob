@@ -1,19 +1,27 @@
 package com.gls.orderzapp.GCMTest;
 
+import android.annotation.TargetApi;
 import android.app.IntentService;
+import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.media.Ringtone;
+import android.media.RingtoneManager;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.SystemClock;
-import android.support.v4.app.NotificationCompat;
+import android.os.Vibrator;
 import android.util.Log;
 
 import com.gls.orderzapp.MainApp.GCMTestActivity;
 import com.gls.orderzapp.MainApp.SignUpActivity;
+import com.gls.orderzapp.MainApp.TabActivityForOrders;
 import com.gls.orderzapp.R;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
+import com.google.gson.Gson;
 
 /**
  * Created by avinash on 27/5/14.
@@ -21,8 +29,8 @@ import com.google.android.gms.gcm.GoogleCloudMessaging;
 public class GcmIntentService extends IntentService {
     public static final int NOTIFICATION_ID = 1;
     private NotificationManager mNotificationManager;
-    NotificationCompat.Builder builder;
-
+    public Vibrator vibrator;
+    Notification.Builder builder;
     public GcmIntentService() {
         super("GcmIntentService");
     }
@@ -34,9 +42,8 @@ public class GcmIntentService extends IntentService {
         // The getMessageType() intent parameter must be the intent you received
         // in your BroadcastReceiver.
         String messageType = gcm.getMessageType(intent);
-
         if (!extras.isEmpty()) {  // has effect of unparcelling Bundle
-            /*
+            /* GCMNotificationPOJO
              * Filter messages based on message type. Since it is likely that GCM
              * will be extended in the future with new message types, just ignore
              * any message types you're not interested in, or that you don't
@@ -62,8 +69,15 @@ public class GcmIntentService extends IntentService {
                 }
                 Log.i("GCMDemo", "Completed work @ " + SystemClock.elapsedRealtime());
                 // Post notification of received message.
-                sendNotification("Received: " + extras.toString());
-                Log.i("GCMDemo", "Received: " + extras.toString());
+                String msg="Your order No: "+extras.get("suborderid").toString()+" has " + extras.get("status").toString();
+                sendNotification(msg);
+                Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+                Ringtone r = RingtoneManager.getRingtone(getApplicationContext(), notification);
+                r.play();
+                vibrator = (Vibrator)getSystemService(Context.VIBRATOR_SERVICE);
+                //start vibration with repeated count, use -1 if you don't want to repeat the vibration
+                vibrator.vibrate(1500);
+
             }
         }
         // Release the wake lock provided by the WakefulBroadcastReceiver.
@@ -73,19 +87,20 @@ public class GcmIntentService extends IntentService {
     // Put the message into a notification and post it.
     // This is just one simple example of what you might choose to do with
     // a GCM message.
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     private void sendNotification(String msg) {
         mNotificationManager = (NotificationManager)
                 this.getSystemService(Context.NOTIFICATION_SERVICE);
 
         PendingIntent contentIntent = PendingIntent.getActivity(this, 0,
-                new Intent(this, SignUpActivity.class), 0);
+                new Intent(this, TabActivityForOrders.class), 0);
 
-        NotificationCompat.Builder mBuilder =
-                new NotificationCompat.Builder(this)
+        Notification.Builder mBuilder =
+                new Notification.Builder(this)
                         .setSmallIcon(R.drawable.ic_launcher)
-                        .setContentTitle("GCM Notification")
-                        .setStyle(new NotificationCompat.BigTextStyle()
-                                .bigText(msg))
+                        .setContentTitle("OrderZapp notification")
+                                .setStyle(new Notification.BigTextStyle().bigText(msg))
+                        .setAutoCancel(true)
                         .setContentText(msg);
 
         mBuilder.setContentIntent(contentIntent);

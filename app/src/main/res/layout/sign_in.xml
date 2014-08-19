@@ -12,7 +12,7 @@
         <TextView
             android:id="@+id/textViewHelpingHand"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="100dp"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
             android:layout_marginLeft="40dp"
@@ -29,6 +29,7 @@
             android:textSize="40sp"
             android:textStyle="bold" />
 
+
         <LinearLayout
             android:id="@+id/llEditTexts"
             android:layout_width="fill_parent"
@@ -37,7 +38,7 @@
             android:layout_centerInParent="true"
             android:layout_marginLeft="40dp"
             android:layout_marginRight="40dp"
-            android:layout_marginTop="70dp"
+            android:layout_marginTop="0dp"
             android:background="#ffffff"
             android:orientation="vertical">
 
