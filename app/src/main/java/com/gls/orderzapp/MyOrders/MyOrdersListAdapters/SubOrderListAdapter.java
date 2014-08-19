@@ -345,7 +345,6 @@ public class SubOrderListAdapter extends BaseAdapter {
         subTotal.setText(String.format("%.2f", Double.parseDouble(subOrderDetailsList.get(position).getSuborder_price())));
         listSubOrders.setAdapter(new SubOrderProductListAdapter(context, subOrderDetailsList.get(position).getProducts()));
         setListViewHeightBasedOnChildren(listSubOrders);
-
         return convertView;
     }
 

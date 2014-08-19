@@ -313,18 +313,15 @@ public static int deleteConfigObject()
                 for(int k=0;k<Cart.hm.get(keys[i]).getProductconfiguration().getConfiguration().size();k++)
                 {
                 if(Cart.hm.get(keys[i]).getProductconfiguration().getConfiguration().get(k).getProd_configtype().equalsIgnoreCase("msg")){
-                        if(Cart.hm.get(keys[i]).getProductconfiguration().getConfiguration().get(k).isChecked()==false || Cart.hm.get(keys[i]).getMessageonproduct().isEmpty() || Cart.hm.get(keys[i]).getMessageonproduct().equalsIgnoreCase("none"))
+                        if(Cart.hm.get(keys[i]).getProductconfiguration().getConfiguration().get(k).isChecked()==true && Cart.hm.get(keys[i]).getMessageonproduct().isEmpty() || Cart.hm.get(keys[i]).getMessageonproduct().equalsIgnoreCase("none"))
                         {
-                            Cart.hm.get(keys[i]).getProductconfiguration().getConfiguration().remove(k);
+                            Cart.hm.get(keys[i]).getProductconfiguration().getConfiguration().get(k).setChecked(false);
 
                         }
                 }
                 }
             }
         }
-
-        Log.d("delete conig", new Gson().toJson(hm));
-
 
     }catch(Exception e){e.printStackTrace();}
     return getCount();

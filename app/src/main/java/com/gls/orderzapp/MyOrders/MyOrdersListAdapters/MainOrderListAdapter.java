@@ -58,6 +58,7 @@ public class MainOrderListAdapter extends BaseAdapter {
         {
             for(int j=0;j<myOrderList.get(i).getSuborder().size();j++)
             {
+                Log.d("OS",myOrderList.get(i).getSuborder().get(j).getStatus());
                 if(myOrderList.get(i).getSuborder().get(j).getStatus().equalsIgnoreCase("ordercomplete")
                         || myOrderList.get(i).getSuborder().get(j).getStatus().equalsIgnoreCase("cancelledbyconsumer")
                         || myOrderList.get(i).getSuborder().get(j).getStatus().equalsIgnoreCase("cancelled"))
