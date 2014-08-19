@@ -86,7 +86,6 @@ public class MainOrderListAdapter extends BaseAdapter {
         Button btn_cancel_order=(Button)convertView.findViewById(R.id.btn_cancel_order);
         subOrderList = (ListView) convertView.findViewById(R.id.subOrderList);
 
-
         convertView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -109,12 +108,26 @@ public class MainOrderListAdapter extends BaseAdapter {
 
                 AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
                 alertDialogBuilder.setView(dialogView);
-
+                boolean isOrderCancellable = false;
                  list_cancel_order= (LinearLayout) dialogView.findViewById(R.id.ll_suborder_ids);
                 final Button btn_confirm_cancel_order=(Button) dialogView.findViewById(R.id.btn_confirm_cancel_order);
+                TextView noCancellableOrder = (TextView) dialogView.findViewById(R.id.noCancellableOrder);
+                LinearLayout llNoOrderToCancel = (LinearLayout) dialogView.findViewById(R.id.llNoOrderToCancel);
+
                 list_cancel_order.removeAllViews();
                 Log.d("myOrderSubOrder",new Gson().toJson(myOrderList.get(position).getSuborder()));
 //                CancelOrderItemAdapter.suborderid.clear();
+                for(int j = 0; j < myOrderList.get(position).getSuborder().size(); j++){
+                    if(myOrderList.get(position).getSuborder().get(j).getStatus().equalsIgnoreCase("orderreceived") || myOrderList.get(position).getSuborder().get(j).getStatus().equalsIgnoreCase("accepted")){
+                        isOrderCancellable = true;
+                    }
+                }
+
+                if(isOrderCancellable == true){
+                    llNoOrderToCancel.setVisibility(View.GONE);
+                }else{
+                    llNoOrderToCancel.setVisibility(View.VISIBLE);
+                }
                 new CancelOrderItemAdapter(context,myOrderList.get(position).getSuborder(),myOrderList.get(position).getOrderid()).getView();
                 // set prompts.xml to alertdialog builder
 

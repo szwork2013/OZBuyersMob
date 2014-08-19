@@ -31,7 +31,7 @@ public class TrackingView {
                 SubOrderListAdapter.llDelivery.setBackgroundResource(R.drawable.tracking_round_green);
                 break;
 
-            case "homedelivery":
+            case "indelivery":
                 SubOrderListAdapter.llApproval.setBackgroundResource(R.drawable.tracking_round_green);
                 SubOrderListAdapter.llOrderProcessing.setBackgroundResource(R.drawable.tracking_round_green);
 //                SubOrderListAdapter.llShipping.setBackgroundResource(R.drawable.tracking_round_green);
@@ -96,7 +96,7 @@ public class TrackingView {
         switch (clickedItem) {
             case "orderreceived":
                 list.clear();
-                list.add("Order received-orderreceived,accepted,inproduction,packing,factorytostore,storepickup,homedelivery,ordercomplete");
+                list.add("Order received-orderreceived,accepted,inproduction,packing,factorytostore,indelivery,ordercomplete");
                 detailedTrackListAdapter = new DetailedTrackListAdapter(context, list, subOrder, position, parent_position);
                 detailedTrackListAdapter.notifyDataSetChanged();
                 SubOrderListAdapter.listDetailedTrack.setAdapter(detailedTrackListAdapter);
@@ -105,7 +105,7 @@ public class TrackingView {
 
             case "accepted":
                 list.clear();
-                list.add("Accepted-accepted,inproduction,packing,factorytostore,storepickup,homedelivery,ordercomplete");
+                list.add("Accepted-accepted,inproduction,packing,factorytostore,indelivery,ordercomplete");
                 detailedTrackListAdapter = new DetailedTrackListAdapter(context, list, subOrder, position, parent_position);
                 detailedTrackListAdapter.notifyDataSetChanged();
                 SubOrderListAdapter.listDetailedTrack.setAdapter(detailedTrackListAdapter);
@@ -114,7 +114,7 @@ public class TrackingView {
 
             case "rejected":
                 list.clear();
-                list.add("Rejected-rejected,inproduction,packing,factorytostore,storepickup,homedelivery,ordercomplete");
+                list.add("Rejected-rejected,inproduction,packing,factorytostore,indelivery,ordercomplete");
                 detailedTrackListAdapter = new DetailedTrackListAdapter(context, list, subOrder, position, parent_position);
                 detailedTrackListAdapter.notifyDataSetChanged();
                 SubOrderListAdapter.listDetailedTrack.setAdapter(detailedTrackListAdapter);
@@ -123,8 +123,8 @@ public class TrackingView {
 
             case "orderprocessing":
                 list.clear();
-                list.add("In Production-inproduction,packing,factorytostore,storepickup,homedelivery,ordercomplete");
-                list.add("Packing-packing,factorytostore,storepickup,homedelivery,ordercomplete");
+                list.add("In Production-inproduction,packing,factorytostore,indelivery,ordercomplete");
+                list.add("Packing-packing,factorytostore,indelivery,ordercomplete");
                 detailedTrackListAdapter = new DetailedTrackListAdapter(context, list, subOrder, position, parent_position);
                 detailedTrackListAdapter.notifyDataSetChanged();
                 SubOrderListAdapter.listDetailedTrack.setAdapter(detailedTrackListAdapter);
@@ -142,9 +142,9 @@ public class TrackingView {
 
             case "delivery":
                 list.clear();
-                list.add("Factory to Store-factorytostore,storepickup,homedelivery,ordecomplete");
-                list.add("Store Pickup-storepickup,homedelivery,ordercomplete");
-                list.add("Home delivery-homedelivery,ordercomplete");
+                list.add("Factory to Store-factorytostore,indelivery,ordecomplete");
+//                list.add("Store Pickup-storepickup,homedelivery,ordercomplete");
+                list.add("In delivery-indelivery,ordercomplete");
                 list.add("Order complete-ordercomplete");
                 detailedTrackListAdapter = new DetailedTrackListAdapter(context, list, subOrder, position, parent_position);
                 detailedTrackListAdapter.notifyDataSetChanged();
@@ -167,7 +167,7 @@ public class TrackingView {
 
             case "accepted":
                 list.clear();
-                list.add("Accepted-accepted,inproduction,packing,factorytostore,storepickup,homedelivery,ordercomplete");
+                list.add("Accepted-accepted,inproduction,packing,factorytostore,indelivery,ordercomplete");
                 detailedTrackListAdapter = new DetailedTrackListAdapterWhenStatusCancel(context, serverList, list, position, parent_position);
                 detailedTrackListAdapter.notifyDataSetChanged();
                 SubOrderListAdapter.listDetailedTrack.setAdapter(detailedTrackListAdapter);
@@ -176,8 +176,8 @@ public class TrackingView {
 
             case "orderprocessing":
                 list.clear();
-                list.add("In Production-inproduction,packing,factorytostore,storepickup,homedelivery,ordercomplete");
-                list.add("Packing-packing,factorytostore,storepickup,homedelivery,ordercomplete");
+                list.add("In Production-inproduction,packing,factorytostore,indelivery,ordercomplete");
+                list.add("Packing-packing,factorytostore,indelivery,ordercomplete");
                 detailedTrackListAdapter = new DetailedTrackListAdapterWhenStatusCancel(context, serverList, list, position, parent_position);
                 detailedTrackListAdapter.notifyDataSetChanged();
                 SubOrderListAdapter.listDetailedTrack.setAdapter(detailedTrackListAdapter);
@@ -195,9 +195,9 @@ public class TrackingView {
 
             case "delivery":
                 list.clear();
-                list.add("Factory to Store-factorytostore,storepickup,homedelivery,ordecomplete");
-                list.add("Store Pickup-storepickup,homedelivery,ordercomplete");
-                list.add("Home delivery-homedelivery,ordercomplete");
+                list.add("Factory to Store-factorytostore,indelivery,ordecomplete");
+//                list.add("Store Pickup-storepickup,homedelivery,ordercomplete");
+                list.add("In delivery-indelivery,ordercomplete");
                 list.add("Order complete-ordercomplete");
                 detailedTrackListAdapter = new DetailedTrackListAdapterWhenStatusCancel(context, serverList, list, position, parent_position);
                 detailedTrackListAdapter.notifyDataSetChanged();

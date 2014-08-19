@@ -26,8 +26,8 @@
             android:layout_height="wrap_content" />
         <View
             android:layout_width="match_parent"
-            android:background="#304f6c"
-            android:layout_height="2dp"/>
+            android:background="#fd9717"
+            android:layout_height="1dp"/>
     <TextView
         android:id="@+id/txt_cnl_ordr"
         android:layout_marginTop="5dp"
@@ -38,6 +38,34 @@
         android:text="@string/cancel_order_lbl"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginLeft="10dp"
+            android:id="@+id/llNoOrderToCancel">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                android:textColor="#000"
+                android:text="("/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                android:textColor="#000"
+                android:id="@+id/noCancellableOrder"
+                android:text="No Suborder to cancel"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                android:textColor="#000"
+                android:text=")"/>
+        </LinearLayout>
     <LinearLayout
         android:layout_marginTop="3dp"
         android:layout_marginLeft="5dp"
