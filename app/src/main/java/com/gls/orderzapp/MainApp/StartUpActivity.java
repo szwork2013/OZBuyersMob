@@ -166,7 +166,7 @@ public class StartUpActivity extends Activity implements View.OnClickListener {
         }
         if (id == R.id.action_help) {
             Intent goToWebViewHelp = new Intent(StartUpActivity.this, WebViewActivity.class);
-            goToWebViewHelp.putExtra("URL", ServerConnection.url + "/api/statictemplates?type=HP");
+            goToWebViewHelp.putExtra("URL", ServerConnection.url + "/api/faq?responsetype=html");
             goToWebViewHelp.putExtra("ACTIVITY_NAME", "Help");
             startActivity(goToWebViewHelp);
             return true;

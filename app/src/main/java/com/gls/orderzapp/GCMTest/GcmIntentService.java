@@ -1,6 +1,8 @@
 package com.gls.orderzapp.GCMTest;
 
+import android.annotation.TargetApi;
 import android.app.IntentService;
+import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
@@ -8,10 +10,10 @@ import android.content.Intent;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.os.Vibrator;
-import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
 import com.gls.orderzapp.MainApp.GCMTestActivity;
@@ -28,7 +30,7 @@ public class GcmIntentService extends IntentService {
     public static final int NOTIFICATION_ID = 1;
     private NotificationManager mNotificationManager;
     public Vibrator vibrator;
-    NotificationCompat.Builder builder;
+    Notification.Builder builder;
     public GcmIntentService() {
         super("GcmIntentService");
     }
@@ -67,7 +69,8 @@ public class GcmIntentService extends IntentService {
                 }
                 Log.i("GCMDemo", "Completed work @ " + SystemClock.elapsedRealtime());
                 // Post notification of received message.
-                sendNotification("Your order No: "+extras.get("suborderid").toString()+" has \n" + extras.get("status").toString());
+                String msg="Your order No: "+extras.get("suborderid").toString()+" has " + extras.get("status").toString();
+                sendNotification(msg);
                 Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
                 Ringtone r = RingtoneManager.getRingtone(getApplicationContext(), notification);
                 r.play();
@@ -84,6 +87,7 @@ public class GcmIntentService extends IntentService {
     // Put the message into a notification and post it.
     // This is just one simple example of what you might choose to do with
     // a GCM message.
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     private void sendNotification(String msg) {
         mNotificationManager = (NotificationManager)
                 this.getSystemService(Context.NOTIFICATION_SERVICE);
@@ -91,12 +95,11 @@ public class GcmIntentService extends IntentService {
         PendingIntent contentIntent = PendingIntent.getActivity(this, 0,
                 new Intent(this, TabActivityForOrders.class), 0);
 
-        NotificationCompat.Builder mBuilder =
-                new NotificationCompat.Builder(this)
+        Notification.Builder mBuilder =
+                new Notification.Builder(this)
                         .setSmallIcon(R.drawable.ic_launcher)
                         .setContentTitle("OrderZapp notification")
-                        .setStyle(new NotificationCompat.BigTextStyle()
-                                .bigText(msg))
+                                .setStyle(new Notification.BigTextStyle().bigText(msg))
                         .setAutoCancel(true)
                         .setContentText(msg);
 

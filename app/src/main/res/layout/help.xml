@@ -17,7 +17,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:src="@drawable/help" />
+           />
 
         <TextView
             android:id="@+id/help_txt_activity1"
@@ -32,7 +32,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:src="@drawable/help" />
+           />
 
         <TextView
             android:id="@+id/help_txt_activity2"
@@ -47,7 +47,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:src="@drawable/help" />
+            />
 
         <TextView
             android:id="@+id/help_txt_activity3"
@@ -62,7 +62,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:src="@drawable/help" />
+            />
 
         <TextView
             android:id="@+id/help_txt_activity4"
@@ -77,7 +77,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:src="@drawable/help" />
+           />
 
         <TextView
             android:id="@+id/help_txt_activity5"
@@ -92,7 +92,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:src="@drawable/help" />
+          />
 
         <TextView
             android:id="@+id/help_txt_activity6"
@@ -107,7 +107,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:src="@drawable/help" />
+           />
 
         <TextView
             android:id="@+id/help_txt_activity7"
