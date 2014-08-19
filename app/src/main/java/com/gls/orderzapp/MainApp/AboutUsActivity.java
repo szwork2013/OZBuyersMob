@@ -23,7 +23,7 @@ public class AboutUsActivity extends Activity {
         context = AboutUsActivity.this;
         ((GoogleAnalyticsUtility) getApplication()).getTracker(GoogleAnalyticsUtility.TrackerName.APP_TRACKER);
 
-        UtilityClassForLanguagePreferance.setLocale(getApplicationContext());
+//        UtilityClassForLanguagePreferance.setLocale(getApplicationContext());
         setContentView(R.layout.about_us);
         findViewsById();
 
@@ -45,6 +45,6 @@ public class AboutUsActivity extends Activity {
 
     private void findViewsById() {
         about_us_txt_about_us = (TextView) findViewById(R.id.about_us_txt_about_us);
-        UtilityClassForLanguagePreferance.applyTypeface(UtilityClassForLanguagePreferance.getParentView(about_us_txt_about_us), UtilityClassForLanguagePreferance.getTypeFace(context));
+//        UtilityClassForLanguagePreferance.applyTypeface(UtilityClassForLanguagePreferance.getParentView(about_us_txt_about_us), UtilityClassForLanguagePreferance.getTypeFace(context));
     }
 }

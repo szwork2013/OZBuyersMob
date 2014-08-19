@@ -131,13 +131,11 @@ public class MainOrderListAdapter extends BaseAdapter {
                 new CancelOrderItemAdapter(context,myOrderList.get(position).getSuborder(),myOrderList.get(position).getOrderid()).getView();
                 // set prompts.xml to alertdialog builder
 
-
                 btn_confirm_cancel_order.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-
-                    getSubOrderIds();
-                    new GetCancelOrderAsync().execute();
+                        getSubOrderIds();
+                        new GetCancelOrderAsync().execute();
                         alertDialog.hide();
                     }
 

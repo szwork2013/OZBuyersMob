@@ -76,7 +76,7 @@ public class SignUpActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         ((GoogleAnalyticsUtility) getApplication()).getTracker(GoogleAnalyticsUtility.TrackerName.APP_TRACKER);
         context = SignUpActivity.this;
-        UtilityClassForLanguagePreferance.setLocale(getApplicationContext());
+//        UtilityClassForLanguagePreferance.setLocale(getApplicationContext());
         setContentView(R.layout.sign_up);
 
         findViewsById();
@@ -181,7 +181,7 @@ public class SignUpActivity extends ActionBarActivity {
         city_spinner = (Spinner) findViewById(R.id.city_spinner);
         listOfAreas = (ListView) findViewById(R.id.listOfAreas);
 
-        UtilityClassForLanguagePreferance.applyTypeface(UtilityClassForLanguagePreferance.getParentView(passwordEditText), UtilityClassForLanguagePreferance.getTypeFace(context));
+//        UtilityClassForLanguagePreferance.applyTypeface(UtilityClassForLanguagePreferance.getParentView(passwordEditText), UtilityClassForLanguagePreferance.getTypeFace(context));
     }
 
     private boolean checkPlayServices() {

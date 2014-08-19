@@ -57,7 +57,7 @@ public class StartUpActivity extends Activity implements View.OnClickListener {
             finish();
             return;
         }
-        UtilityClassForLanguagePreferance.setLocale(getApplicationContext());
+//        UtilityClassForLanguagePreferance.setLocale(getApplicationContext());
         //Get a Tracker (should auto-report)
         setContentView(R.layout.startup_activity);
         context = StartUpActivity.this;

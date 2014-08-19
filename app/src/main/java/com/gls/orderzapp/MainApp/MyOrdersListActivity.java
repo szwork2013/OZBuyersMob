@@ -69,20 +69,10 @@ public class MyOrdersListActivity extends Activity {
         return resultOfMyOrders;
     }
 
-    public void noOrder(String status) {
+    public void noOrder(String msg) {
         txt_noOrder.setVisibility(View.VISIBLE);
-        if (status != null) {
-            if (status.equals("packing")) {
-                txt_noOrder.setText("No orders to Pack");
+                txt_noOrder.setText(msg);
                 mainOrderList.setVisibility(View.GONE);
-            } else if (status.equals("delivery")) {
-                txt_noOrder.setText("No orders to Deliver");
-                mainOrderList.setVisibility(View.GONE);
-            } else if (status.equals("approved")) {
-                txt_noOrder.setText("No orders to approve");
-                mainOrderList.setVisibility(View.GONE);
-            }
-        }
     }
 
     public void orderExists() {

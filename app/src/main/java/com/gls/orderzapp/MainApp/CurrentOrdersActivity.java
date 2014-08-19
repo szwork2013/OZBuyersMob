@@ -111,7 +111,7 @@ public class CurrentOrdersActivity extends MyOrdersListActivity {
                         } else {
                             Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_LONG).show();
                             if (code.equals("SODR001")) {
-                                noOrder("approved");
+                                noOrder(msg);
                             }
                         }
                     } else {
