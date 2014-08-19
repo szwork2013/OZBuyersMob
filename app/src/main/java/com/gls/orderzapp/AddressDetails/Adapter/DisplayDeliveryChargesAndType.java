@@ -17,6 +17,7 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.gls.orderzapp.AddressDetails.Bean.DeliveryTypeBean;
 import com.gls.orderzapp.AddressDetails.Bean.ListOfPickupAddresses;
 import com.gls.orderzapp.CreateOrder.CreateOrderBeans.SuccessResponseForDeliveryChargesAndType;
 import com.gls.orderzapp.MainApp.SelectPickUpAddressActivity;
@@ -37,7 +38,7 @@ public class DisplayDeliveryChargesAndType {
     public static String[] order_instruction;
     //    public static String[] delivery_mode_branchid;
     public static List<String> deliveryType = new ArrayList<>();
-
+    public static List<DeliveryTypeBean> deliverytypebean = new ArrayList<>();
     public static SuccessResponseForDeliveryChargesAndType listOfDeliveryCharges;
     public static ListOfPickupAddresses listOfPickupAddresses = new ListOfPickupAddresses();
     public static List<Button> listPickUpButtons = new ArrayList<>();
@@ -54,27 +55,28 @@ public class DisplayDeliveryChargesAndType {
         order_instruction = new String[listOfDeliveryCharges.getSuccess().getDeliverycharge().size()];
         providerid = new String[listOfDeliveryCharges.getSuccess().getDeliverycharge().size()];
         providerid = new String[listOfDeliveryCharges.getSuccess().getDeliverycharge().size()];
-
         getDeliveryChargesView();
     }
 
-
     public static boolean deliveryTypeCheck() {
         boolean deliverycheck = false;
-        if(checkForDeliveryModeList.size()==deliveryType.size()) {
-            for (int l = 0; l < checkForDeliveryModeList.size(); l++) {
+        if(checkForDeliveryModeList.size() == deliveryType.size()) {
+            for (int l = 0; l < deliveryType.size(); l++) {
+                Log.d("delivery ttype", new Gson().toJson(deliveryType));
                 if (deliveryType.get(l) != null) {
-                    if (deliveryType.get(l).split("_")[1].equalsIgnoreCase("pickup")) {
-                        if(listPickUpButtons.get(l).getText().toString().isEmpty())
-                        {
-                            deliverycheck = false;
-                            Toast.makeText(context, "Please select your pickup address", Toast.LENGTH_LONG).show();
-                            break;
-                        }else
-                        {deliverycheck = true;}
+                    if (deliverytypebean.get(l).getDeliveryType().equalsIgnoreCase("pickup")) {
+                        Log.d("pickuppppppppppppppppppp", new Gson().toJson(deliveryType.get(l)));
 
+                            if (deliverytypebean.get(l).getPickUpArea() == null) {
+                                deliverycheck = false;
+                                Toast.makeText(context, "Please select your pickup address", Toast.LENGTH_LONG).show();
+                                break;
+                            } else {
+                                deliverycheck = true;
+                            }
 
-                    } else if (deliveryType.get(l).split("_")[1].equalsIgnoreCase("home")) {
+                    } else if (deliverytypebean.get(l).getDeliveryType().equalsIgnoreCase("home")) {
+                        Log.d("homeeeeeeeeeeeeeeeeeeeeeeee", new Gson().toJson(deliveryType.get(l)));
                         deliverycheck = true;
                     }
                 } else {
@@ -84,18 +86,24 @@ public class DisplayDeliveryChargesAndType {
                 }
 
             }
-        }else
-        {
+        } else {
             Toast.makeText(context, "Please select your delivery type", Toast.LENGTH_LONG).show();
             Log.d("3","3");
             deliverycheck = false;
         }
         return deliverycheck;
     }
+
     public static void displayAreaNameOnPickupButton(String tag) {
         for (int i = 0; i < listPickUpButtons.size(); i++) {
-            if (tag.equalsIgnoreCase(listPickUpButtons.get(i).getTag() + "")) {
+            if (tag.equals(listPickUpButtons.get(i).getTag() + "")) {
                 listPickUpButtons.get(i).setText(AdapterForPickUpAddressList.pickupAddressFromList.getArea());
+            }
+        }
+
+        for(int i = 0; i < deliverytypebean.size(); i++){
+            if(tag.equals(deliverytypebean.get(i).getBranchid())){
+                deliverytypebean.get(i).setPickUpArea(AdapterForPickUpAddressList.pickupAddressFromList.getArea());
             }
         }
     }
@@ -118,21 +126,13 @@ public class DisplayDeliveryChargesAndType {
 
             if (checkForDeliveryModeList.get(i).getProviderName() != null) {
                 txt_sellername.setText(checkForDeliveryModeList.get(i).getProviderName());
-
-                Log.d("provider id and seller name", checkForDeliveryModeList.get(i).getProviderid() + "???" + checkForDeliveryModeList.get(i).getProviderName());
                 providerid[i] = checkForDeliveryModeList.get(i).getProviderid();
-
-                Log.d("provider id", checkForDeliveryModeList.get(i).getProviderid());
-
             }
 
             for (int j = 0; j < listOfDeliveryCharges.getSuccess().getDeliverycharge().size(); j++) {
                 if (listOfDeliveryCharges.getSuccess().getDeliverycharge().get(j).getBranchid().equals(checkForDeliveryModeList.get(i).getBranchid())) {
                     if (listOfDeliveryCharges.getSuccess().getDeliverycharge().get(j).isDelivery() == true) {
                         home_delivery.setVisibility(View.VISIBLE);
-
-//                        ll_delivery_charges.setVisibility(View.VISIBLE);
-                        Log.d("HomeDelivery True", "trueeeeeeeee");
                         txt_delivery_charges.setText(String.format("%.2f", listOfDeliveryCharges.getSuccess().getDeliverycharge().get(j).getCharge()));
                     } else {
                         txt_delivery_charges.setText("0.0");
@@ -149,11 +149,16 @@ public class DisplayDeliveryChargesAndType {
                         case R.id.pick_up:
                             Cart.saveDeliveryTypeInfoInCart(checkForDeliveryModeList.get(group.getId() - 200).getBranchid(), "pickup");
                             btn_selct_pickup_address.setVisibility(View.VISIBLE);
+                            ll_delivery_charges.setVisibility(View.INVISIBLE);
                             for (int k = 0; k < deliveryType.size(); k++) {
                                 if (deliveryType.get(k).split("_")[0].equals(checkForDeliveryModeList.get(group.getId() - 200).getBranchid())) {
-                                    deliveryType.remove(checkForDeliveryModeList.get(group.getId() - 200).getBranchid()+"_"+"home");
+                                    deliveryType.remove(k);
                                 }
                             }
+                            DeliveryTypeBean deliveryTypeBean = new DeliveryTypeBean();
+                            deliveryTypeBean.setBranchid(checkForDeliveryModeList.get(group.getId() - 200).getBranchid());
+                            deliveryTypeBean.setDeliveryType("pickup");
+                            deliverytypebean.add(deliveryTypeBean);
                             deliveryType.add(checkForDeliveryModeList.get(group.getId() - 200).getBranchid() + "_" + "pickup");
                             break;
 
@@ -163,16 +168,18 @@ public class DisplayDeliveryChargesAndType {
                             btn_selct_pickup_address.setVisibility(View.INVISIBLE);
                             for (int k = 0; k < deliveryType.size(); k++) {
                                 if (deliveryType.get(k).split("_")[0].equals(checkForDeliveryModeList.get(group.getId() - 200).getBranchid())) {
-                                    deliveryType.remove(checkForDeliveryModeList.get(group.getId() - 200).getBranchid()+"_"+"pickup");
+                                    deliveryType.remove(k);
                                 }
                             }
+                            DeliveryTypeBean deliveryTypeBeanDelivery = new DeliveryTypeBean();
+                            deliveryTypeBeanDelivery.setBranchid(checkForDeliveryModeList.get(group.getId() - 200).getBranchid());
+                            deliveryTypeBeanDelivery.setDeliveryType("home");
+                            deliverytypebean.add(deliveryTypeBeanDelivery);
                             deliveryType.add(checkForDeliveryModeList.get(group.getId() - 200).getBranchid() + "_" + "home");
                             break;
                     }
                 }
             });
-
-
 
             btn_selct_pickup_address.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -203,6 +210,7 @@ public class DisplayDeliveryChargesAndType {
 //                    Cart.addMessageOnCake(mKeys[position], cakeList.get(position), tempEditText.getText().toString().trim());
                 }
             };
+
             edt_orderInstruction.setOnFocusChangeListener(new View.OnFocusChangeListener() {
                 @Override
                 public void onFocusChange(View view, boolean b) {
@@ -233,7 +241,7 @@ public class DisplayDeliveryChargesAndType {
 
 
             //*****************************
-            btn_selct_pickup_address.setTag(i);
+            btn_selct_pickup_address.setTag(checkForDeliveryModeList.get(i).getBranchid());
 //            edt_orderInstruction.setId(100+i);
             edt_orderInstruction.setTag(checkForDeliveryModeList.get(i).getBranchid());
             btn_selct_pickup_address.setId(100 + i);

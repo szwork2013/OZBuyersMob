@@ -110,6 +110,7 @@ public class AdapterForPickUpAddressList extends BaseAdapter {
 
                             Log.d("pick up addresss", new Gson().toJson(DisplayDeliveryChargesAndType.listOfPickupAddresses.getListPickUpAddress()));
 
+
                             Intent returnIntent = new Intent();
                             returnIntent.putExtra("pickupaddress",gson.toJson(pickupAddressFromList));
                             returnIntent.putExtra("providerid_forpickupaddress",provider_id);

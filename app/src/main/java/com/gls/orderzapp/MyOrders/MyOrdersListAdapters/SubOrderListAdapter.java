@@ -248,16 +248,17 @@ public class SubOrderListAdapter extends BaseAdapter {
                     imageApproval.setVisibility(View.VISIBLE);
                     imageOrderProcessing.setVisibility(View.INVISIBLE);
                     imageDelivery.setVisibility(View.INVISIBLE);
-//                    if (MyOrdersListActivity.actualList.get(pos).get(position).equalsIgnoreCase("accepted")) {
+//                    if(subOrderDetailsList.get(position).getTracking().get(position).ge)
+                    if (activity.actualList.get(pos).get(position).equalsIgnoreCase("accepted")) {
 //                        Log.d("accepted stattus", "sssssssssssssssssssssssssssssss");
                         TrackingView.detailedTrackWhenClicked(context, "accepted", position, pos);
-//                    } else if (MyOrdersListActivity.actualList.get(pos).get(position).equalsIgnoreCase("orderreceived")) {
+                    } else if (activity.actualList.get(pos).get(position).equalsIgnoreCase("orderreceived")) {
 //                        Log.d("recievd stattus", "sssssssssssssssssssssssssssssss");
-//                        TrackingView.detailedTrackWhenClicked(context, "orderreceived", position, pos);
-//                    } else if (MyOrdersListActivity.actualList.get(pos).get(position).equalsIgnoreCase("rejected")) {
+                        TrackingView.detailedTrackWhenClicked(context, "orderreceived", position, pos);
+                    } else if (activity.actualList.get(pos).get(position).equalsIgnoreCase("rejected")) {
 //                        Log.d("rejectexd stattus", "sssssssssssssssssssssssssssssss");
-//                        TrackingView.detailedTrackWhenClicked(context, "rejected", position, pos);
-//                    }
+                        TrackingView.detailedTrackWhenClicked(context, "rejected", position, pos);
+                    }
                 }
             });
 
