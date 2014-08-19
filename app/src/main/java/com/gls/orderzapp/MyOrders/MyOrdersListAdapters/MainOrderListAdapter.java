@@ -54,20 +54,6 @@ public class MainOrderListAdapter extends BaseAdapter {
     public MainOrderListAdapter(Context context, List<OrderDetails> myOrderList) {
         this.context = context;
         this.myOrderList = myOrderList;
-        for(int i=0;i<myOrderList.size();i++)
-        {
-            for(int j=0;j<myOrderList.get(i).getSuborder().size();j++)
-            {
-                Log.d("OS",myOrderList.get(i).getSuborder().get(j).getStatus());
-                if(myOrderList.get(i).getSuborder().get(j).getStatus().equalsIgnoreCase("ordercomplete")
-                        || myOrderList.get(i).getSuborder().get(j).getStatus().equalsIgnoreCase("cancelledbyconsumer")
-                        || myOrderList.get(i).getSuborder().get(j).getStatus().equalsIgnoreCase("cancelled"))
-                {
-                }else{ showCancelOrderButton++;}
-
-            }
-        }
-
     }
 
     @Override
@@ -99,6 +85,16 @@ public class MainOrderListAdapter extends BaseAdapter {
         TextView grandTotal = (TextView) convertView.findViewById(R.id.grand_total);
         final Button btn_cancel_order=(Button)convertView.findViewById(R.id.btn_cancel_order);
         subOrderList = (ListView) convertView.findViewById(R.id.subOrderList);
+            for(int j=0;j<myOrderList.get(position).getSuborder().size();j++)
+            {
+                if(myOrderList.get(position).getSuborder().get(j).getStatus().equalsIgnoreCase("ordercomplete")
+                        || myOrderList.get(position).getSuborder().get(j).getStatus().equalsIgnoreCase("cancelledbyconsumer")
+                        || myOrderList.get(position).getSuborder().get(j).getStatus().equalsIgnoreCase("cancelled")
+                        ||myOrderList.get(position).getSuborder().get(j).getStatus().equalsIgnoreCase("rejected"))
+                {
+                }else{ showCancelOrderButton++;}
+
+            }
         if(showCancelOrderButton>0)
         {
             btn_cancel_order.setVisibility(View.VISIBLE);
