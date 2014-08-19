@@ -48,6 +48,7 @@ public class SubOrderListAdapter extends BaseAdapter {
     int pos;
     Typeface tfRobotoNormal;
     Typeface tfRobotoBold;
+    MyOrdersListActivity activity;
 
     public SubOrderListAdapter(Context context, List<SubOrderDetails> subOrderDetailsList, int pos) {
         this.context = context;
@@ -64,6 +65,7 @@ public class SubOrderListAdapter extends BaseAdapter {
 
         tfRobotoNormal = Typeface.createFromAsset(context.getAssets(), "Roboto-Regular.ttf");
         tfRobotoBold = Typeface.createFromAsset(context.getAssets(), "Roboto-Bold.ttf");
+        activity = (MyOrdersListActivity)this.context;
     }
 
     @Override
@@ -205,7 +207,7 @@ public class SubOrderListAdapter extends BaseAdapter {
             Log.d("else", "else");
             Log.d("accepted stattus", "sssssssssssssssssssssssssssssss");
             text_order_cancelled.setVisibility(View.GONE);
-            TrackingView.trackOrder(context, MyOrdersListActivity.actualList.get(pos).get(position));
+            TrackingView.trackOrder(context, activity.actualList.get(pos).get(position));
 
             if (subOrderDetailsList.get(position).getStatus().equals("orderreceived")) {
                 imageApproval.setVisibility(View.VISIBLE);

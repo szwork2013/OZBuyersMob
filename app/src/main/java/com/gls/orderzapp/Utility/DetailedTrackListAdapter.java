@@ -23,6 +23,7 @@ public class DetailedTrackListAdapter extends BaseAdapter {
     SubOrderDetails subOrder;
     int pos;
     int parent_position;
+    MyOrdersListActivity activity;
 
     public DetailedTrackListAdapter(Context context, List<String> list, SubOrderDetails subOrder, int pos, int parent_position) {
         this.context = context;
@@ -30,6 +31,7 @@ public class DetailedTrackListAdapter extends BaseAdapter {
         this.subOrder = subOrder;
         this.pos = pos;
         this.parent_position = parent_position;
+        activity = (MyOrdersListActivity)this.context;
     }
 
     @Override
@@ -58,7 +60,7 @@ public class DetailedTrackListAdapter extends BaseAdapter {
         TextView textStatus = (TextView) convertView.findViewById(R.id.textStatus);
         textStatus.setText(list.get(position).split("-")[0]);
 //        Log.d("status", AdapterForMainOrder.actualList.get(pos));
-        if (list.get(position).split("-")[1].contains(MyOrdersListActivity.actualList.get(parent_position).get(pos))) {
+        if (list.get(position).split("-")[1].contains(activity.actualList.get(parent_position).get(pos))) {
             imageTick.setVisibility(View.VISIBLE);
         } else {
             imageTick.setVisibility(View.INVISIBLE);

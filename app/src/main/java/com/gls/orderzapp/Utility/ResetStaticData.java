@@ -137,7 +137,7 @@ public class ResetStaticData {
     }
     public static void staticMyOrdersListActivity() throws Exception
     {
-        MyOrdersListActivity.actualList.clear();
+//        MyOrdersListActivity.actualList.clear();
         MyOrdersListActivity.successResponseForMyOrders=null;
 
     }

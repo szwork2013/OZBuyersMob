@@ -23,7 +23,7 @@ public class MyOrdersListActivity extends Activity {
     Context context;
     TextView txt_noOrder;
     public static SuccessResponseForMyOrders successResponseForMyOrders;
-    public static ArrayList<ArrayList<String>> actualList = new ArrayList<>();
+    public ArrayList<ArrayList<String>> actualList = new ArrayList<>();
     public List<ArrayList<ArrayList<String>>> serverTrackingStatus = new ArrayList<>();
 
     @Override

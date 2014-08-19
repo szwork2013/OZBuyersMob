@@ -178,6 +178,7 @@ public class FinalOrderActivity extends Activity {
             exc.printStackTrace();
         }
     }
+
     public void continueShopping(View view) {
         successResponseForCreateOrder = null;
         ResetStaticData.ResetData();
