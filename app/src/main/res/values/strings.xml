@@ -39,7 +39,7 @@
     <string name="rs">\u20B9</string>
     <string name="rs_round"> (\u20B9) </string>
     <string name="forgotpassword"><u>Forgot Password?</u></string>
-    <string name="regeneratetoken"><u>Regenerate Verification Token</u></string>
+    <string name="regeneratetoken">Regenerate Verification Token</string>
     <string name="resetpassword">Forgot Password</string>
     <string name="confirmorder">Confirm Order</string>
     <string name="same_as_billing_address">Same as Billing Address</string>
