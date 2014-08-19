@@ -68,9 +68,7 @@ public class DeliveryPaymentActivity extends Activity {
     Boolean cashOnDelivery = true;
 
     public static void selectDeliveryType() {
-
         new DeliveryChargesAndTypeAdapter(context);
-
     }
 
     @Override
@@ -80,7 +78,6 @@ public class DeliveryPaymentActivity extends Activity {
         setContentView(R.layout.delivery_payment_activity);
         context = DeliveryPaymentActivity.this;
         findViewsById();
-//        new CheckSessionAsync().execute();
         checkPaymentmode();
         selectPaymentMode();
         try {
@@ -169,10 +166,6 @@ public class DeliveryPaymentActivity extends Activity {
                 Toast.makeText(getApplicationContext(), "Please select a payment mode", Toast.LENGTH_LONG).show();
                 return;
             }
-//            if (date.isEmpty()) {
-//                Toast.makeText(getApplicationContext(), "Please select your expected delivery date", Toast.LENGTH_LONG).show();
-//                return;
-//            }
             if (DisplayDeliveryChargesAndType.deliveryTypeCheck() ==false) {
                 return;
             }

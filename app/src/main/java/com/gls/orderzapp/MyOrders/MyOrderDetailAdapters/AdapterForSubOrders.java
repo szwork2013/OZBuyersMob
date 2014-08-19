@@ -46,8 +46,8 @@ public class AdapterForSubOrders {
 
             ll = (LinearLayout) mainLayout.findViewById(R.id.ll);
             if(subOrderDetailsList.get(i).getProductprovider() != null) {
-                if (subOrderDetailsList.get(i).getProductprovider().getProvidername() != null) {
-                    providerName.setText(subOrderDetailsList.get(i).getProductprovider().getProvidername());
+                if (subOrderDetailsList.get(i).getProductprovider().getProviderbrandname() != null) {
+                    providerName.setText(subOrderDetailsList.get(i).getProductprovider().getProviderbrandname());
                 }
                 if(subOrderDetailsList.get(i).getProductprovider().getLocation().getArea() != null){
                     provider_area.setText(subOrderDetailsList.get(i).getProductprovider().getLocation().getArea());

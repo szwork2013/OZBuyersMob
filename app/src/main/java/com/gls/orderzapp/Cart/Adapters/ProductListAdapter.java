@@ -133,7 +133,7 @@ public class ProductListAdapter {
     public void loadImage(ImageView imageView, String imageUrl) {
         imageLoader = ImageLoader.getInstance();
         imageLoader.init(ImageLoaderConfiguration.createDefault(context));
-        imageLoader.displayImage(imageUrl, imageView, options, new SimpleImageLoadingListener() {
+        imageLoader.displayImage(imageUrl, imageView, new SimpleImageLoadingListener() {
             boolean cacheFound;
 
             @Override
