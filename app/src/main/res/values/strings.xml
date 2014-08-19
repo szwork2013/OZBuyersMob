@@ -121,9 +121,12 @@
     <string name="type_colon">Type : </string>
     <string name="time_colon">Time :</string>
     <string name="address_colon">Address :</string>
-    <string name="title_activity_feed_back">Feed Back</string>
+    <string name="title_activity_feed_back">Feedback</string>
     <string name="cancel_order"> Cancel Order </string>
-    <string name="confirm_cancel_order"> Confirm Cancel Order</string>
+    <string name="confirm_cancel_order">Confirm Cancel Order</string>
     <string name="cancel_order_lbl">Select SubOrder ID you want to cancel</string>
+    <string name="no_suborder_cancel">No Suborder to cancel</string>
+    <string name="feedback_hint">Please share your comments, concerns, suggestions, or complaints. We are here to help you out.</string>
+    <string name="feedback">Feedback</string>
 
 </resources>

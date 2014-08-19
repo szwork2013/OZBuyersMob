@@ -15,7 +15,7 @@
             <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="40dp"
-                android:text="FeedBack"
+                android:text="@string/feedback"
                 android:gravity="center_vertical"
                 android:layout_marginLeft="10dp"
                 android:textSize="20sp"
@@ -35,7 +35,7 @@
                 android:minLines="5"
                 android:maxLines="5"
                 android:gravity="start"
-                android:hint="Your feed back"/>
+                android:hint="@string/feedback_hint"/>
         </LinearLayout>
         <Button
             android:layout_width="fill_parent"
