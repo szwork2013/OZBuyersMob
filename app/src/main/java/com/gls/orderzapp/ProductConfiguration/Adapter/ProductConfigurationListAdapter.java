@@ -217,6 +217,7 @@ public class ProductConfigurationListAdapter extends BaseAdapter {
             public void afterTextChanged(Editable s) {
                 for(int j = 0; j < cakeList.size(); j++) {
                     if(tag.equalsIgnoreCase(cakeList.get(position).getCartCount())) {
+                        Log.d("Run without","Click");
                         Cart.addMessageOnCake(cakeList.get(position), tempEditText.getText().toString().trim());
                     }
                 }
