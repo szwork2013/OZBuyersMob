@@ -125,6 +125,7 @@
     <string name="cancel_order"> Cancel Order </string>
     <string name="confirm_cancel_order">Confirm Cancel Order</string>
     <string name="cancel_order_lbl">Select SubOrder ID you want to cancel</string>
+    <string name="cancel_order_warning">Transaction processing fee will be deducted on canceling the order</string>
     <string name="no_suborder_cancel">No Suborder to cancel</string>
     <string name="feedback_hint">Please share your comments, concerns, suggestions, or complaints. We are here to help you out.</string>
     <string name="feedback">Feedback</string>

@@ -105,7 +105,6 @@ public class MainOrderListAdapter extends BaseAdapter {
         btn_cancel_order.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.d("myOrderSubOrder1",new Gson().toJson(myOrderList.get(position).getSuborder()));
                 LayoutInflater li = LayoutInflater.from(context);
                 View dialogView = li.inflate(R.layout.cancel_order_view, null);
 
@@ -115,7 +114,12 @@ public class MainOrderListAdapter extends BaseAdapter {
                  list_cancel_order= (LinearLayout) dialogView.findViewById(R.id.ll_suborder_ids);
                 final Button btn_confirm_cancel_order=(Button) dialogView.findViewById(R.id.btn_confirm_cancel_order);
                 TextView noCancellableOrder = (TextView) dialogView.findViewById(R.id.noCancellableOrder);
+                TextView txt_order_cancel_warning= (TextView) dialogView.findViewById(R.id.txt_order_cancel_warning);
                 LinearLayout llNoOrderToCancel = (LinearLayout) dialogView.findViewById(R.id.llNoOrderToCancel);
+                if(myOrderList.get(position).getPayment().getMode().equalsIgnoreCase("COD"))
+                {
+                    txt_order_cancel_warning.setVisibility(View.GONE);
+                }else{txt_order_cancel_warning.setVisibility(View.VISIBLE);}
 
                 list_cancel_order.removeAllViews();
                 Log.d("myOrderSubOrder",new Gson().toJson(myOrderList.get(position).getSuborder()));
