@@ -133,7 +133,11 @@ public class DisplayDeliveryChargesAndType {
                 if (listOfDeliveryCharges.getSuccess().getDeliverycharge().get(j).getBranchid().equals(checkForDeliveryModeList.get(i).getBranchid())) {
                     if (listOfDeliveryCharges.getSuccess().getDeliverycharge().get(j).isDelivery() == true) {
                         home_delivery.setVisibility(View.VISIBLE);
-                        txt_delivery_charges.setText(String.format("%.2f", listOfDeliveryCharges.getSuccess().getDeliverycharge().get(j).getCharge()));
+                        if(listOfDeliveryCharges.getSuccess().getDeliverycharge().get(j).isIsdeliverychargeinpercent() == true){
+                            txt_delivery_charges.setText(String.format("%.2f", (Cart.deliveryCharges(listOfDeliveryCharges.getSuccess().getDeliverycharge().get(j).getBranchid()) * listOfDeliveryCharges.getSuccess().getDeliverycharge().get(j).getCharge())/100));
+                        }else {
+                            txt_delivery_charges.setText(String.format("%.2f", listOfDeliveryCharges.getSuccess().getDeliverycharge().get(j).getCharge()));
+                        }
                     } else {
                         txt_delivery_charges.setText("0.0");
                         home_delivery.setVisibility(View.GONE);
