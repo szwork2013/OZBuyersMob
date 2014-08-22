@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.gls.orderzapp.Provider.Beans.BranchInfo;
 import com.gls.orderzapp.Provider.Beans.ProviderBean;
 import com.gls.orderzapp.Provider.Beans.ProviderDetails;
 import com.gls.orderzapp.R;
@@ -28,8 +29,9 @@ import java.util.List;
 public class ProviderDetailsActivity extends Activity {
 
     ProviderBean provider;
+    BranchInfo branchinfo;
     ImageView imageProvider;
-    TextView textProviderName,textProviderDescription;
+    TextView textProviderName,textProviderDescription,provider_cont_info,provider_cont_info_address;
     com.nostra13.universalimageloader.core.ImageLoader imageLoader;
     DisplayImageOptions options;
 
@@ -47,6 +49,7 @@ public class ProviderDetailsActivity extends Activity {
                 .build();
         Log.d("provider data", getIntent().getStringExtra("PROVIDER_DETAILS"));
         provider = new Gson().fromJson(getIntent().getStringExtra("PROVIDER_DETAILS"),ProviderBean.class);
+        branchinfo=new Gson().fromJson(getIntent().getStringExtra("PROVIDER_BRANCH_DETAILS"),BranchInfo.class);
         findViewId();
         showProviderDetails();
     }
@@ -89,6 +92,25 @@ public class ProviderDetailsActivity extends Activity {
         if(provider.getProviderbrandname() !=null){
             textProviderDescription.setText(provider.getProviderbrandname());
         }
+        if(branchinfo.getContact_supports()!=null)
+        {
+            String cont_no="";
+            for(int i=0;i<branchinfo.getContact_supports().size();i++)
+            {
+                cont_no=cont_no.concat(branchinfo.getContact_supports().get(i)+",");
+            }
+            provider_cont_info.setText(cont_no);
+        }
+        if(branchinfo.getLocation()!=null)
+        {
+            provider_cont_info_address.setText(branchinfo.getLocation().getAddress1() + ", "
+                    + branchinfo.getLocation().getAddress2() + ", "
+                    + branchinfo.getLocation().getArea() + ","
+                    + branchinfo.getLocation().getCity() + ". "
+                    + branchinfo.getLocation().getZipcode() + "\n"
+                    + branchinfo.getLocation().getState() + ", "
+                    + branchinfo.getLocation().getCountry());
+        }
     }
 
     private void findViewId() {
@@ -96,26 +118,8 @@ public class ProviderDetailsActivity extends Activity {
         imageProvider = (ImageView) findViewById(R.id.image_provider);
         textProviderName = (TextView) findViewById(R.id.provider_name);
         textProviderDescription = (TextView) findViewById(R.id.provider_description);
+        provider_cont_info = (TextView) findViewById(R.id.provider_cont_info);
+                provider_cont_info_address = (TextView) findViewById(R.id.provider_cont_info_address);
 
-    }
-
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.provider_details, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
     }
 }

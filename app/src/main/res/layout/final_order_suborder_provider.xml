@@ -356,6 +356,27 @@
                 android:layout_marginLeft="2dp"
                 android:id="@+id/delivery_address_final_order" />
         </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginLeft="15dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                android:textColor="#000"
+                android:text="@string/contact_numbers"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                android:textColor="#000"
+                android:layout_marginLeft="2dp"
+                android:id="@+id/cont_no_final_order" />
+        </LinearLayout>
 
     </LinearLayout>
     <View

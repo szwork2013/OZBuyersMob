@@ -1,5 +1,7 @@
 package com.gls.orderzapp.MyOrders.Beans;
 
+import java.util.List;
+
 /**
  * Created by prajyot on 5/5/14.
  */
@@ -11,7 +13,15 @@ public class ProductProviderDetails {
     String providerbrandname;
     String branchname;
     ProviderLocation location;
+    List<String>contact_supports;
 
+    public List<String> getContact_supports() {
+        return contact_supports;
+    }
+
+    public void setContact_supports(List<String> contact_supports) {
+        this.contact_supports = contact_supports;
+    }
 
     public String getProviderbrandname() {
         return providerbrandname;

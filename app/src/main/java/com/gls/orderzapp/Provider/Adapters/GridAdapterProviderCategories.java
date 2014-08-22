@@ -246,6 +246,10 @@ public class GridAdapterProviderCategories extends BaseAdapter {
                             if (branchDetails.getLocation() != null) {
                                 productDetailsToAddIntoTheCart.setLocation(branchDetails.getLocation());
                             }
+                            if(branchDetails.getContact_supports()!=null)
+                            {
+                                productDetailsToAddIntoTheCart.setContact_supports(branchDetails.getContact_supports());
+                            }
                             if (providerDetails.getProducts().get(position).getProductconfiguration() != null) {
                                 ProductConfiguration productConfiguration = new ProductConfiguration();
                                 productConfiguration.setCategoryid(providerDetails.getProducts().get(position).getProductconfiguration().getCategoryid());

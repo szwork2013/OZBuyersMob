@@ -190,6 +190,11 @@ public class GridAdapterProduct extends BaseAdapter {
                             if (branchDetails.getLocation() != null) {
                                 productDetailsToAddIntoTheCart.setLocation(branchDetails.getLocation());
                             }
+
+                            if(branchDetails.getContact_supports()!=null)
+                            {
+                                productDetailsToAddIntoTheCart.setContact_supports(branchDetails.getContact_supports());
+                            }
                             if (productDetailsList.get(position).getProductconfiguration() != null) {
                                 productDetailsToAddIntoTheCart.setProductconfiguration(productDetailsList.get(position).getProductconfiguration());
                             }

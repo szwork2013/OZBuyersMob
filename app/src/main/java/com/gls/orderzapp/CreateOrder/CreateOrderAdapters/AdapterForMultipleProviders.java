@@ -35,7 +35,7 @@ public class AdapterForMultipleProviders {
     List<String> branchIds = new ArrayList<>();
     LayoutInflater li;
     String pickupaddress="";
-    TextView textGrandTotal, delivery_charge, deliveryTypeText,deliveryDateText,deliveryTimeText,deliveryAddressText;
+    TextView textGrandTotal, delivery_charge, deliveryTypeText,deliveryDateText,deliveryTimeText,deliveryAddressText,contact_noText;
     CreateOrderAddressDetails orderDeliveryAddress;
     String[] keys;
 
@@ -55,7 +55,7 @@ public class AdapterForMultipleProviders {
             String branchid = createOrderProductDetailsList.get(i).getBranchid();
             String providerName = createOrderProductDetailsList.get(i).getProvidername();
             String providerArea = createOrderProductDetailsList.get(i).getLocation().getArea();
-            String deliveryType = "",deliveryDate="",deliveryTime="";
+            String deliveryType = "",deliveryDate="",deliveryTime="",contact_no="";
             int getFromHrs=0,getToHrs=0;
             String getFromMin="",getToMin="";
 
@@ -78,8 +78,7 @@ public class AdapterForMultipleProviders {
                     deliveryDateText = (TextView) llProductsForProvider.findViewById(R.id.delivery_date_order_details);
                     deliveryTimeText = (TextView) llProductsForProvider.findViewById(R.id.delivery_time_slot);
                     deliveryAddressText = (TextView) llProductsForProvider.findViewById(R.id.delivery_address);
-
-
+                    contact_noText = (TextView) llProductsForProvider.findViewById(R.id.contact_no);
 
 
                     if (i > 0) {
@@ -105,6 +104,14 @@ public class AdapterForMultipleProviders {
                                 } else {
                                     deliveryType = "Pick-Up";
                                 }
+
+                                for(int cont_list=0;cont_list<Cart.hm.get(keys[j]).getContact_supports().size();cont_list++)
+                                {
+                                    contact_no=contact_no.concat(Cart.hm.get(keys[j]).getContact_supports().get(cont_list)+",");
+                                }
+
+
+                                Log.d("del type", deliveryType);
                                 deliveryDate=Cart.hm.get(keys[j]).getPrefereddeliverydate().toString();
                                 //*******************
 
@@ -144,6 +151,7 @@ public class AdapterForMultipleProviders {
                                 SellerDelivery sellerDelivery = new SellerDelivery();
                                 sellerDelivery.setBranchid(branchid);
                                 sellerDelivery.setPrefdeldtime(deliveryDate);
+                                sellerDelivery.setContact_supports(contact_no);
                                 sellerDelivery.setPrefdeltimeslot(Cart.hm.get(keys[j]).getTimeslot());
                                 sellerDelivery.setDeliverytype(Cart.hm.get(keys[j]).getDeliveryType().getDeliveryType());
                                 sellerDelivery.setDelivery_address(orderDeliveryAddress);
@@ -218,6 +226,7 @@ public class AdapterForMultipleProviders {
                     deliveryTypeText.setText(deliveryType);
                     deliveryTimeText.setText("Between "+deliveryTime);
                     deliveryDateText.setText(deliveryDate);
+                    contact_noText.setText(contact_no);
                     OrderDetailsActivity.llProductsList.addView(llProductsForProvider);
                 }
             }
