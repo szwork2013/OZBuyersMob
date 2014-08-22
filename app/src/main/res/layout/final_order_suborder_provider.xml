@@ -360,6 +360,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
+            android:id="@+id/ll_cont_no"
             android:layout_marginLeft="15dp">
 
             <TextView

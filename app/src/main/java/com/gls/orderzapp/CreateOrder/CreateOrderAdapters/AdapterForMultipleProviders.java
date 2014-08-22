@@ -104,7 +104,7 @@ public class AdapterForMultipleProviders {
                                 } else {
                                     deliveryType = "Pick-Up";
                                 }
-
+                                contact_no="";
                                 for(int cont_list=0;cont_list<Cart.hm.get(keys[j]).getContact_supports().size();cont_list++)
                                 {
                                     contact_no=contact_no.concat(Cart.hm.get(keys[j]).getContact_supports().get(cont_list)+",");

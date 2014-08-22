@@ -89,7 +89,7 @@ public class AdapterForSubOrders {
                 String cont="";
                 for(int cont_int=0;cont_int<subOrderDetailsList.get(i).getProductprovider().getContact_supports().size();cont_int++)
                 {
-                    cont=cont.concat(subOrderDetailsList.get(i).getProductprovider().getContact_supports().get(cont_int)+",");
+                    cont=cont.concat(subOrderDetailsList.get(i).getProductprovider().getContact_supports().get(i)+",");
                 }
                 cont_no_final_order.setText(cont);
             }

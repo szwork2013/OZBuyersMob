@@ -1,7 +1,9 @@
 package com.gls.orderzapp.CreateOrder.OrderResponseAdapters;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -45,6 +47,10 @@ public class AdapterForFinalOrderMultipleProviders {
             TextView delivery_date_final_order= (TextView) mainLayout.findViewById(R.id.delivery_date_final_order);
             TextView delivery_time_slot_final_order= (TextView) mainLayout.findViewById(R.id.delivery_time_slot_final_order);
             TextView delivery_address_final_order= (TextView) mainLayout.findViewById(R.id.delivery_address_final_order);
+            LinearLayout ll_cont_no_final_order= (LinearLayout) mainLayout.findViewById(R.id.ll_cont_no);
+
+            ll_cont_no_final_order.setVisibility(View.GONE);
+            Log.d("View GONE","GONE");
 
             ll = (LinearLayout) mainLayout.findViewById(R.id.ll);
 
