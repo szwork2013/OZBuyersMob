@@ -43,6 +43,7 @@ public class AdapterForSubOrders {
             TextView delivery_date_my_order = (TextView) mainLayout.findViewById(R.id.delivery_date_final_order);
             TextView delivery_time_slot_my_order = (TextView) mainLayout.findViewById(R.id.delivery_time_slot_final_order);
             TextView delivery_address_my_order = (TextView) mainLayout.findViewById(R.id.delivery_address_final_order);
+            TextView cont_no_final_order= (TextView) mainLayout.findViewById(R.id.cont_no_final_order);
 
             ll = (LinearLayout) mainLayout.findViewById(R.id.ll);
             if(subOrderDetailsList.get(i).getProductprovider() != null) {
@@ -83,6 +84,14 @@ public class AdapterForSubOrders {
                             + "\n" + subOrderDetailsList.get(i).getPickup_address().getState() + "," + subOrderDetailsList.get(i).getPickup_address().getZipcode()
                             + "," + subOrderDetailsList.get(i).getPickup_address().getCountry());
                 }
+            }
+            if(subOrderDetailsList.get(i).getProductprovider().getContact_supports()!=null){
+                String cont="";
+                for(int cont_int=0;cont_int<subOrderDetailsList.get(i).getProductprovider().getContact_supports().size();cont_int++)
+                {
+                    cont=cont.concat(subOrderDetailsList.get(i).getProductprovider().getContact_supports().get(cont_int)+",");
+                }
+                cont_no_final_order.setText(cont);
             }
 
             if(subOrderDetailsList.get(i).getPrefdeltimeslot() != null){

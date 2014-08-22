@@ -141,6 +141,7 @@ public class AdapterForProviderCategories {
                 public boolean onLongClick(View view) {
                     Intent goToProviderDetailsActivity = new Intent(context , ProviderDetailsActivity.class);
                     goToProviderDetailsActivity.putExtra("PROVIDER_DETAILS",new Gson().toJson(providerDetailsList.get(view.getId()-1000).getProvider()));
+                    goToProviderDetailsActivity.putExtra("PROVIDER_BRANCH_DETAILS",new Gson().toJson(providerDetailsList.get(view.getId()-1000).getBranch()));
                     goToProviderDetailsActivity.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     context.startActivity(goToProviderDetailsActivity);
                     return false;

@@ -59,8 +59,67 @@
                 android:textSize="16sp"
                 android:layout_marginLeft="5dp"
                 android:layout_marginRight="5dp"
+                android:singleLine="false"
                 android:textColor="#000"
                 android:id="@+id/provider_description" />
         </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:orientation="vertical"
+            android:layout_height="wrap_content">
+            <TextView
+                android:textSize="18sp"
+                android:layout_marginLeft="5dp"
+                android:text="@string/contact_details"
+                android:textColor="#000"
+                android:textStyle="bold"
+                android:layout_marginTop="5dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:orientation="horizontal"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:textSize="16sp"
+                    android:layout_marginLeft="25dp"
+                    android:layout_marginRight="5dp"
+                    android:textColor="#000"
+                    android:text="@string/address_colon"
+                    android:layout_height="wrap_content" />
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:layout_marginRight="5dp"
+                android:singleLine="false"
+                android:textColor="#000"
+                android:id="@+id/provider_cont_info_address" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:orientation="horizontal"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:textSize="16sp"
+                    android:layout_marginLeft="25dp"
+                    android:layout_marginRight="5dp"
+                    android:textColor="#000"
+                    android:text="@string/contact_numbers"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    android:layout_marginRight="5dp"
+                    android:singleLine="false"
+                    android:textColor="#000"
+                    android:id="@+id/provider_cont_info" />
+            </LinearLayout>
+            </LinearLayout>
     </LinearLayout>
 </ScrollView>

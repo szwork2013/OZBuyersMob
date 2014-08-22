@@ -3,6 +3,8 @@ package com.gls.orderzapp.Provider.Beans;
 import com.gls.orderzapp.CreateOrder.CreateOrderBeans.AvailableDeliveryTimingSlots;
 import com.gls.orderzapp.SignUp.Location;
 
+import java.util.List;
+
 /**
  * Created by prajyot on 4/4/14.
  */
@@ -27,11 +29,20 @@ public class ProductDetails {
     ProductPrice price = new ProductPrice();
     String orignalUom;
     String note;
+    List<String> contact_supports;
     Location location = new Location();
     ProductDiscount discount = new ProductDiscount();
     DeliveryMode delivery = new DeliveryMode();
     PaymentMode paymentmode = new PaymentMode();
     DeliveryType deliveryType = new DeliveryType();
+
+    public List<String> getContact_supports() {
+        return contact_supports;
+    }
+
+    public void setContact_supports(List<String> contact_supports) {
+        this.contact_supports = contact_supports;
+    }
 
     public String getOrignalUom() {
         return orignalUom;

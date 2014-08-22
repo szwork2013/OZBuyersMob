@@ -27,11 +27,13 @@ public class ConfigurationPopupMenuMyOrders {
     public void displayConfigurationCharges() {
         PopupMenu popupMenu = new PopupMenu(context, view);
         popupMenu.getMenuInflater().inflate(R.menu.configuration_popup, popupMenu.getMenu());
+        String food_configName="";
         for (int i = 0; i < productConfigurationList.size(); i++) {
             if (productConfigurationList.get(i).getProd_configtype().equalsIgnoreCase("ftp")) {
                 popupMenu.getMenu().add(  productConfigurationList.get(i).getData().getFtp()+"            " + context.getResources().getString(R.string.rs) + " " + productConfigurationList.get(i).getProd_configprice().getValue());
             } else if (productConfigurationList.get(i).getProd_configtype().equalsIgnoreCase("msg")) {
-                popupMenu.getMenu().add(productConfigurationList.get(i).getProd_configname() + "            " + context.getResources().getString(R.string.rs) + " " + productConfigurationList.get(i).getProd_configprice().getValue());
+                food_configName="Message";
+                popupMenu.getMenu().add(food_configName + "            " + context.getResources().getString(R.string.rs) + " " + productConfigurationList.get(i).getProd_configprice().getValue());
             }
         }
         popupMenu.show();
