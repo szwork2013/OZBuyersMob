@@ -176,6 +176,7 @@ public class ResetStaticData {
         DisplayDeliveryChargesAndType.deliveryType.clear();
         DisplayDeliveryChargesAndType.listOfDeliveryCharges=null;
         DisplayDeliveryChargesAndType.listPickUpButtons.clear();
+        DisplayDeliveryChargesAndType.deliverytypebean.clear();
     }
     public static void staticAdapterForPickUpAddressList() throws Exception {
         // clear static veriable from  AdapterForPickUpAddressList

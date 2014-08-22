@@ -178,8 +178,9 @@ public class DeliveryPaymentActivity extends Activity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-//        DeliveryChargesAndTypeAdapter.delivery_type = "";
         payment_mode = "";
+        DisplayDeliveryChargesAndType.deliveryType.clear();
+        DisplayDeliveryChargesAndType.deliverytypebean.clear();
     }
 
     public void selectDeliveryDate(View view) {

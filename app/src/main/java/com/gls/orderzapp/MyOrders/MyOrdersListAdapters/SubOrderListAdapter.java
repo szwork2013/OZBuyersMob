@@ -100,6 +100,7 @@ public class SubOrderListAdapter extends BaseAdapter {
         TextView subTotal = (TextView) convertView.findViewById(R.id.sub_total);
         TextView text_order_cancelled = (TextView) convertView.findViewById(R.id.text_order_cancelled);
         LinearLayout ll_show_order= (LinearLayout) convertView.findViewById(R.id.ll_show_order);
+        TextView delivery_charges = (TextView) convertView.findViewById(R.id.delivery_charges);
         final ImageView imageApproval = (ImageView) convertView.findViewById(R.id.imageApproval);
         final ImageView imageOrderProcessing = (ImageView) convertView.findViewById(R.id.imageOrderProcessing);
         final ImageView imageDelivery = (ImageView) convertView.findViewById(R.id.imageDelivery);
@@ -321,6 +322,7 @@ public class SubOrderListAdapter extends BaseAdapter {
         subOrderNumber.setTypeface(tfRobotoNormal);
         seller.setTypeface(tfRobotoNormal);
         subTotal.setTypeface(tfRobotoNormal);
+        delivery_charges.setTypeface(tfRobotoNormal);
         textSubOrderNumber.setTypeface(tfRobotoBold);
         textSeller.setTypeface(tfRobotoBold);
         textSubTotal.setTypeface(tfRobotoBold);
@@ -343,7 +345,10 @@ public class SubOrderListAdapter extends BaseAdapter {
         if(subOrderDetailsList.get(position).getProductprovider().getProviderbrandname() != null) {
             seller.setText(subOrderDetailsList.get(position).getProductprovider().getProviderbrandname());
         }
-        subTotal.setText(String.format("%.2f", Double.parseDouble(subOrderDetailsList.get(position).getSuborder_price())));
+        delivery_charges.setText(String.format("%.2f", subOrderDetailsList.get(position).getDeliverycharge()));
+        if(subOrderDetailsList.get(position).getSuborder_price() != null) {
+            subTotal.setText(String.format("%.2f", Double.parseDouble(subOrderDetailsList.get(position).getSuborder_price())));
+        }
         listSubOrders.setAdapter(new SubOrderProductListAdapter(context, subOrderDetailsList.get(position).getProducts()));
         setListViewHeightBasedOnChildren(listSubOrders);
         return convertView;
