@@ -102,6 +102,12 @@ public class AdapterForMultipleProviders {
                                 } else {
                                     deliveryType = "Pick-Up";
                                 }
+
+                                for(int cont_list=0;cont_list<Cart.hm.get(keys[j]).getContact_supports().size();cont_list++) {
+                                    contact_no=contact_no.concat(Cart.hm.get(keys[j]).getContact_supports().get(cont_list)+",");
+                                }
+
+                                deliveryDate=Cart.hm.get(keys[j]).getPrefereddeliverydate().toString();
                                 contact_no = "";
                                 for (int cont_list = 0; cont_list < Cart.hm.get(keys[j]).getContact_supports().size(); cont_list++) {
                                     Log.d("Cont No111",Cart.hm.get(keys[j]).getContact_supports().get(cont_list));
@@ -109,9 +115,9 @@ public class AdapterForMultipleProviders {
                                 }
 
 
-                                Log.d("del type", deliveryType);
-                                deliveryDate = Cart.hm.get(keys[j]).getPrefereddeliverydate().toString();
-                                //*******************
+//                                Log.d("del type", deliveryType);
+//                                deliveryDate = Cart.hm.get(keys[j]).getPrefereddeliverydate().toString();
+//                                //*******************
 
 
                                 if (Cart.hm.get(keys[j]).getTimeslot() != null) {
@@ -203,6 +209,7 @@ public class AdapterForMultipleProviders {
                             }
                         }
                     }
+
 
                     if (deliveryType.equalsIgnoreCase("Pick-Up")) {
                         deliveryAddressText.setText(pickupaddress);
