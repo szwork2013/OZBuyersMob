@@ -59,11 +59,6 @@
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:label="PickUp Address" />
         <activity
-            android:name=".MainApp.UserProfileActivity"
-            android:alwaysRetainTaskState="true"
-            android:configChanges="orientation|screenSize|keyboardHidden"
-            android:label="User Profile" />
-        <activity
             android:name=".MainApp.ProductDetailsActivity"
             android:alwaysRetainTaskState="true"
             android:configChanges="orientation|screenSize|keyboardHidden"
