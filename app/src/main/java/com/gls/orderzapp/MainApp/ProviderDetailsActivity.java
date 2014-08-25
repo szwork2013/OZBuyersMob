@@ -88,13 +88,14 @@ public class ProviderDetailsActivity extends Activity {
         if (provider.getProviderbrandname() != null) {
             textProviderDescription.setText(provider.getProviderbrandname());
         }
-        if (branchinfo.getContact_supports() != null) {
+        if (branchinfo.getContact_supports() != null && !branchinfo.getContact_supports().isEmpty()) {
             String cont_no = "";
             for (int i = 0; i < branchinfo.getContact_supports().size(); i++) {
                 cont_no = cont_no.concat(branchinfo.getContact_supports().get(i) + ",");
             }
             provider_cont_info.setText(cont_no);
         }
+        else{provider_cont_info.setText("91-20-67211800");}
         if (branchinfo.getLocation() != null) {
             provider_cont_info_address.setText(branchinfo.getLocation().getAddress1() + ", "
                     + branchinfo.getLocation().getAddress2() + ", "

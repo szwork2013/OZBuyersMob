@@ -104,6 +104,7 @@ public class AdapterForMultipleProviders {
                                 }
                                 contact_no = "";
                                 for (int cont_list = 0; cont_list < Cart.hm.get(keys[j]).getContact_supports().size(); cont_list++) {
+                                    Log.d("Cont No111",Cart.hm.get(keys[j]).getContact_supports().get(cont_list));
                                     contact_no = contact_no.concat(Cart.hm.get(keys[j]).getContact_supports().get(cont_list) + ",");
                                 }
 

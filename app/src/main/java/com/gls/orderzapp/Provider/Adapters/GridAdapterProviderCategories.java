@@ -244,9 +244,15 @@ public class GridAdapterProviderCategories extends BaseAdapter {
                             if (branchDetails.getLocation() != null) {
                                 productDetailsToAddIntoTheCart.setLocation(branchDetails.getLocation());
                             }
-                            if (branchDetails.getContact_supports() != null) {
+                            if (branchDetails.getContact_supports() != null && !branchDetails.getContact_supports().isEmpty()) {
                                 productDetailsToAddIntoTheCart.setContact_supports(branchDetails.getContact_supports());
+                            }else{
+                                List<String>cont_no=new ArrayList<String>();
+                                cont_no.add("91-20-67211800");
+                                productDetailsToAddIntoTheCart.setContact_supports(cont_no);
                             }
+
+
                             if (providerDetails.getProducts().get(position).getProductconfiguration() != null) {
                                 ProductConfiguration productConfiguration = new ProductConfiguration();
                                 productConfiguration.setCategoryid(providerDetails.getProducts().get(position).getProductconfiguration().getCategoryid());
