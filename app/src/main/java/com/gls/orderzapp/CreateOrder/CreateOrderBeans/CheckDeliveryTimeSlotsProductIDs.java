@@ -8,7 +8,7 @@ import java.util.List;
  */
 public class CheckDeliveryTimeSlotsProductIDs {
     String preferred_delivery_date;
-List<String> productids=new ArrayList<>();
+    List<String> productids = new ArrayList<>();
 
     public String getPreferred_delivery_date() {
         return preferred_delivery_date;

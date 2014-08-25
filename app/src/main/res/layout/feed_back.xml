@@ -3,50 +3,54 @@
     android:layout_height="fill_parent"
     android:background="#304f6c"
     android:padding="5dp">
+
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="#fff"
             android:orientation="vertical">
+
             <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="40dp"
-                android:text="@string/feedback"
-                android:gravity="center_vertical"
                 android:layout_marginLeft="10dp"
-                android:textSize="20sp"
+                android:gravity="center_vertical"
+                android:text="@string/feedback"
                 android:textColor="#000"
-                />
+                android:textSize="20sp" />
+
             <View
                 android:layout_width="fill_parent"
                 android:layout_height="1dp"
-                android:background="#fd9717"
-                />
+                android:background="#fd9717" />
+
             <EditText
+                android:id="@+id/edit_feed_back"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/edit_feed_back"
-                android:textColor="#000"
-                android:textSize="16sp"
-                android:minLines="5"
-                android:maxLines="5"
                 android:gravity="start"
-                android:hint="@string/feedback_hint"/>
+                android:hint="@string/feedback_hint"
+                android:maxLines="5"
+                android:minLines="5"
+                android:textColor="#000"
+                android:textSize="16sp" />
         </LinearLayout>
+
         <Button
+            android:id="@+id/save_feed_back_button"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:background="#fd9717"
             android:layout_marginTop="3dp"
+            android:background="#fd9717"
+            android:onClick="saveFeedBack"
             android:text="Save Feedback"
             android:textColor="#fff"
-            android:id="@+id/save_feed_back_button"
-            android:onClick="saveFeedBack"
             android:textSize="20sp"
-            android:textStyle="bold"/>
+            android:textStyle="bold" />
     </LinearLayout>
 </ScrollView>

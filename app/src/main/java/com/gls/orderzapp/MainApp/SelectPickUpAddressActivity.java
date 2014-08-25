@@ -3,7 +3,6 @@ package com.gls.orderzapp.MainApp;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -28,6 +27,7 @@ public class SelectPickUpAddressActivity extends Activity {
     ListView lst_address_list;
     PickUpAddressResponse pickUpAddressSuccessResponse;
     Bundle bundle;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,9 +39,11 @@ public class SelectPickUpAddressActivity extends Activity {
 
         new GetPickUpAddressListAsync().execute();
     }
+
     public void findViewsById() {
         lst_address_list = (ListView) findViewById(R.id.lst_address_list);
     }
+
     @Override
     protected void onStart() {
         super.onStart();
@@ -55,6 +57,7 @@ public class SelectPickUpAddressActivity extends Activity {
         //Stop the analytics tracking
         com.google.android.gms.analytics.GoogleAnalytics.getInstance(this).reportActivityStop(this);
     }
+
     public String getGetPickUpAddressList(String param) {
         String resultGedAddressList = "";
         try {
@@ -84,7 +87,7 @@ public class SelectPickUpAddressActivity extends Activity {
             try {
                 if (new CheckConnection(getApplicationContext()).isConnectingToInternet()) {
                     connectedOrNot = "success";
-                    Log.d("Provider id in bundle",bundle.getString("providerid"));
+                    Log.d("Provider id in bundle", bundle.getString("providerid"));
                     resultGetPickUpAddressList = getGetPickUpAddressList(bundle.getString("providerid"));
                     if (!resultGetPickUpAddressList.isEmpty()) {
                         Log.d("search result", new Gson().toJson(resultGetPickUpAddressList));
@@ -113,7 +116,7 @@ public class SelectPickUpAddressActivity extends Activity {
                 if (connectedOrNot.equals("success")) {
                     if (!resultGetPickUpAddressList.isEmpty()) {
                         if (jObj.has("success")) {
-                            lst_address_list.setAdapter(new AdapterForPickUpAddressList(context, pickUpAddressSuccessResponse.getSuccess().getAddresses(),bundle.getString("providerid"), bundle.getString("branchid"), bundle.getString("pickupbuttontag")));
+                            lst_address_list.setAdapter(new AdapterForPickUpAddressList(context, pickUpAddressSuccessResponse.getSuccess().getAddresses(), bundle.getString("providerid"), bundle.getString("branchid"), bundle.getString("pickupbuttontag")));
                         } else {
                             Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_LONG).show();
                         }

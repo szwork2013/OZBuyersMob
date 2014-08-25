@@ -7,7 +7,6 @@ import android.widget.TextView;
 
 import com.gls.orderzapp.R;
 import com.gls.orderzapp.Utility.GoogleAnalyticsUtility;
-import com.gls.orderzapp.Utility.UtilityClassForLanguagePreferance;
 
 /**
  * Created by avinash on 2/4/14.

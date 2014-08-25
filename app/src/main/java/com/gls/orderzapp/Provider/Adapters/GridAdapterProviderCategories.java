@@ -1,7 +1,5 @@
 package com.gls.orderzapp.Provider.Adapters;
 
-import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -20,7 +18,6 @@ import com.gls.orderzapp.MainApp.ProductDetailsActivity;
 import com.gls.orderzapp.Provider.Beans.BranchInfo;
 import com.gls.orderzapp.Provider.Beans.ProductConfiguration;
 import com.gls.orderzapp.Provider.Beans.ProductConfigurationDetails;
-import com.gls.orderzapp.Provider.Beans.ProductConfigurationPrice;
 import com.gls.orderzapp.Provider.Beans.ProductDetails;
 import com.gls.orderzapp.Provider.Beans.ProductPrice;
 import com.gls.orderzapp.Provider.Beans.ProviderDetails;
@@ -159,8 +156,9 @@ public class GridAdapterProviderCategories extends BaseAdapter {
                                 }
                             }
                         });
-                    }catch (Exception e)
-                    {e.printStackTrace();}
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                     if (productDetailsList.get(position).getProductname() != null) {
                         textProductName.setText(productDetailsList.get(position).getProductname());
                     }
@@ -196,39 +194,39 @@ public class GridAdapterProviderCategories extends BaseAdapter {
                                 }
                             }
                             if (providerDetails.getBranch().getDelivery() != null) {
-                                    productDetailsToAddIntoTheCart.getDelivery().setIsprovidehomedelivery(providerDetails.getBranch().getDelivery().getIsprovidehomedelivery());
+                                productDetailsToAddIntoTheCart.getDelivery().setIsprovidehomedelivery(providerDetails.getBranch().getDelivery().getIsprovidehomedelivery());
 
-                                    productDetailsToAddIntoTheCart.getDelivery().setIsprovidepickup(providerDetails.getBranch().getDelivery().getIsprovidepickup());
+                                productDetailsToAddIntoTheCart.getDelivery().setIsprovidepickup(providerDetails.getBranch().getDelivery().getIsprovidepickup());
 
-                                    productDetailsToAddIntoTheCart.getDelivery().setIsdeliverychargeinpercent(providerDetails.getBranch().getDelivery().isIsdeliverychargeinpercent());
+                                productDetailsToAddIntoTheCart.getDelivery().setIsdeliverychargeinpercent(providerDetails.getBranch().getDelivery().isIsdeliverychargeinpercent());
                             }
                             if (providerDetails.getProvider().getProviderbrandname() != null) {
                                 productDetailsToAddIntoTheCart.setProviderName(providerDetails.getProvider().getProviderbrandname());
-                            }else{
+                            } else {
                                 productDetailsToAddIntoTheCart.setProviderName("");
                             }
 
 
                             if (providerDetails.getProducts().get(position).getPrefereddeliverydate() != null) {
                                 productDetailsToAddIntoTheCart.setPrefereddeliverydate(providerDetails.getProducts().get(position).getPrefereddeliverydate());
-                            }else{
+                            } else {
                                 productDetailsToAddIntoTheCart.setPrefereddeliverydate("");
                             }
 
                             if (providerDetails.getProducts().get(position).getTimeslot() != null) {
                                 productDetailsToAddIntoTheCart.getTimeslot().setFrom(providerDetails.getProducts().get(position).getTimeslot().getFrom());
                                 productDetailsToAddIntoTheCart.getTimeslot().setTo(providerDetails.getProducts().get(position).getTimeslot().getTo());
-                            }else{
+                            } else {
                                 productDetailsToAddIntoTheCart.getTimeslot().setFrom(0);
                                 productDetailsToAddIntoTheCart.getTimeslot().setTo(0);
                             }
 
 
                             if (providerDetails.getProducts().get(position).getMin_weight() != null) {
-                                Log.d("minweight", (providerDetails.getProducts().get(position).getMin_weight().getValue()+"").split("\\.")[0]);
-                                if(providerDetails.getProducts().get(position).getPrice().getUom().equalsIgnoreCase("no") || providerDetails.getProducts().get(position).getPrice().getUom().equalsIgnoreCase("lb")) {
+                                Log.d("minweight", (providerDetails.getProducts().get(position).getMin_weight().getValue() + "").split("\\.")[0]);
+                                if (providerDetails.getProducts().get(position).getPrice().getUom().equalsIgnoreCase("no") || providerDetails.getProducts().get(position).getPrice().getUom().equalsIgnoreCase("lb")) {
                                     productDetailsToAddIntoTheCart.setQuantity((providerDetails.getProducts().get(position).getMin_weight().getValue() + "").split("\\.")[0]);
-                                }else{
+                                } else {
                                     productDetailsToAddIntoTheCart.setQuantity(providerDetails.getProducts().get(position).getMin_weight().getValue() + "");
                                 }
                             }
@@ -246,11 +244,20 @@ public class GridAdapterProviderCategories extends BaseAdapter {
                             if (branchDetails.getLocation() != null) {
                                 productDetailsToAddIntoTheCart.setLocation(branchDetails.getLocation());
                             }
+                            if (branchDetails.getContact_supports() != null && !branchDetails.getContact_supports().isEmpty()) {
+                                productDetailsToAddIntoTheCart.setContact_supports(branchDetails.getContact_supports());
+                            }else{
+                                List<String>cont_no=new ArrayList<String>();
+                                cont_no.add("91-20-67211800");
+                                productDetailsToAddIntoTheCart.setContact_supports(cont_no);
+                            }
+
+
                             if (providerDetails.getProducts().get(position).getProductconfiguration() != null) {
                                 ProductConfiguration productConfiguration = new ProductConfiguration();
                                 productConfiguration.setCategoryid(providerDetails.getProducts().get(position).getProductconfiguration().getCategoryid());
                                 productConfiguration.setCategoryname(providerDetails.getProducts().get(position).getProductconfiguration().getCategoryname());
-                                for(int i = 0; i < providerDetails.getProducts().get(position).getProductconfiguration().getConfiguration().size(); i++){
+                                for (int i = 0; i < providerDetails.getProducts().get(position).getProductconfiguration().getConfiguration().size(); i++) {
                                     ProductConfigurationDetails pcd = new ProductConfigurationDetails();
                                     pcd.setProd_configtype(providerDetails.getProducts().get(position).getProductconfiguration().getConfiguration().get(i).getProd_configtype());
                                     pcd.setProd_configname(providerDetails.getProducts().get(position).getProductconfiguration().getConfiguration().get(i).getProd_configname());
@@ -299,7 +306,7 @@ public class GridAdapterProviderCategories extends BaseAdapter {
                             }
 //                        if(productDetailsToAddIntoTheCart!=null) {
                             Cart.addToCart(productDetailsToAddIntoTheCart, context);
-                            productDetailsToAddIntoTheCart=null;
+                            productDetailsToAddIntoTheCart = null;
 //                        }
                         }
                     }
@@ -314,7 +321,7 @@ public class GridAdapterProviderCategories extends BaseAdapter {
                         productDetails.setBranchid(providerDetails.getBranch().getBranchid());
 //                        popUp(productDetails);
                         Intent goToProductDetailsActivity = new Intent(context, ProductDetailsActivity.class);
-                        goToProductDetailsActivity.putExtra("PRODUCT_DETAILS",new Gson().toJson(productDetails));
+                        goToProductDetailsActivity.putExtra("PRODUCT_DETAILS", new Gson().toJson(productDetails));
                         context.startActivity(goToProductDetailsActivity);
 
                     }

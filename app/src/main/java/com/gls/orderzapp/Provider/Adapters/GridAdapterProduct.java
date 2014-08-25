@@ -1,7 +1,5 @@
 package com.gls.orderzapp.Provider.Adapters;
 
-import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -19,7 +17,6 @@ import com.gls.orderzapp.MainApp.ProductDetailsActivity;
 import com.gls.orderzapp.Provider.Beans.BranchInfo;
 import com.gls.orderzapp.Provider.Beans.ProductDetails;
 import com.gls.orderzapp.Provider.Beans.ProviderDetails;
-import com.gls.orderzapp.Provider.Beans.SuccessReplyForIndividualProductDetails;
 import com.gls.orderzapp.R;
 import com.gls.orderzapp.Utility.Cart;
 import com.google.gson.Gson;
@@ -39,15 +36,14 @@ import java.util.List;
  */
 public class GridAdapterProduct extends BaseAdapter {
     Context context;
-     List<ProductDetails> productDetailsList = new ArrayList<>();
+    List<ProductDetails> productDetailsList = new ArrayList<>();
     ProductDetails productDetails;
-     ProviderDetails providerDetails;
+    ProviderDetails providerDetails;
     BranchInfo branchDetails;
-//    ImageView imageProduct, close_dialog;
+    //    ImageView imageProduct, close_dialog;
 //    TextView textProductName, textProductDescription, textProductPrice;
     com.nostra13.universalimageloader.core.ImageLoader imageLoader;
     DisplayImageOptions options;
-
 
 
     public GridAdapterProduct(Context context, List<ProductDetails> productDetailsList, BranchInfo branchDetails, ProviderDetails providerDetails) {
@@ -62,8 +58,8 @@ public class GridAdapterProduct extends BaseAdapter {
                 .cacheInMemory()
                 .cacheOnDisc()
                 .build();
-        Log.d("ProvderDetails",new Gson().toJson(providerDetails));
-        Log.d("productDetailsList size",productDetailsList.size()+"");
+        Log.d("ProvderDetails", new Gson().toJson(providerDetails));
+        Log.d("productDetailsList size", productDetailsList.size() + "");
 
     }
 
@@ -172,9 +168,9 @@ public class GridAdapterProduct extends BaseAdapter {
                     } else {
                         if (providerDetails != null) {
                             ProductDetails productDetailsToAddIntoTheCart = new ProductDetails();
-                            if(providerDetails.getProvider().getProviderbrandname() != null) {
+                            if (providerDetails.getProvider().getProviderbrandname() != null) {
                                 productDetailsToAddIntoTheCart.setProviderName(providerDetails.getProvider().getProviderbrandname());
-                            }else{
+                            } else {
                                 productDetailsToAddIntoTheCart.setProviderName("");
                             }
                             if (productDetailsList.get(position).getMin_weight() != null) {
@@ -190,6 +186,15 @@ public class GridAdapterProduct extends BaseAdapter {
                             if (branchDetails.getLocation() != null) {
                                 productDetailsToAddIntoTheCart.setLocation(branchDetails.getLocation());
                             }
+
+                            if (branchDetails.getContact_supports() != null && !branchDetails.getContact_supports().isEmpty()) {
+                                productDetailsToAddIntoTheCart.setContact_supports(branchDetails.getContact_supports());
+                            }else{
+                                List<String>cont_no=new ArrayList<String>();
+                                cont_no.add("91-20-67211800");
+                                productDetailsToAddIntoTheCart.setContact_supports(cont_no);
+                            }
+
                             if (productDetailsList.get(position).getProductconfiguration() != null) {
                                 productDetailsToAddIntoTheCart.setProductconfiguration(productDetailsList.get(position).getProductconfiguration());
                             }
@@ -205,7 +210,7 @@ public class GridAdapterProduct extends BaseAdapter {
                             if (providerDetails.getProvider().getPaymentmode().getCod() != null) {
                                 productDetailsToAddIntoTheCart.getPaymentmode().setCod(providerDetails.getProvider().getPaymentmode().getCod());
                             }
-                            Log.d("homedel",providerDetails.getBranch().getDelivery().getIsprovidehomedelivery()+"");
+                            Log.d("homedel", providerDetails.getBranch().getDelivery().getIsprovidehomedelivery() + "");
                             if (providerDetails.getBranch().getDelivery() != null) {
                                 productDetailsToAddIntoTheCart.getDelivery().setIsprovidehomedelivery(providerDetails.getBranch().getDelivery().getIsprovidehomedelivery());
 
@@ -224,14 +229,14 @@ public class GridAdapterProduct extends BaseAdapter {
                             }
                             if (productDetailsList.get(position).getPrefereddeliverydate() != null) {
                                 productDetailsToAddIntoTheCart.setPrefereddeliverydate(productDetailsList.get(position).getPrefereddeliverydate());
-                            }else{
+                            } else {
                                 productDetailsToAddIntoTheCart.setPrefereddeliverydate("");
                             }
                             if (productDetailsList.get(position).getTimeslot() != null) {
                                 productDetailsToAddIntoTheCart.getTimeslot().setFrom(productDetailsList.get(position).getTimeslot().getFrom());
                                 productDetailsToAddIntoTheCart.getTimeslot().setTo(productDetailsList.get(position).getTimeslot().getTo());
 
-                            }else{
+                            } else {
                                 productDetailsToAddIntoTheCart.getTimeslot().setFrom(0);
                                 productDetailsToAddIntoTheCart.getTimeslot().setTo(0);
                             }
@@ -269,7 +274,7 @@ public class GridAdapterProduct extends BaseAdapter {
                         productDetails.setBranchid(providerDetails.getBranch().getBranchid());
 //                        popUp(productDetails);
                         Intent goToProductDetailsActivity = new Intent(context, ProductDetailsActivity.class);
-                        goToProductDetailsActivity.putExtra("PRODUCT_DETAILS",new Gson().toJson(productDetails));
+                        goToProductDetailsActivity.putExtra("PRODUCT_DETAILS", new Gson().toJson(productDetails));
                         context.startActivity(goToProductDetailsActivity);
                     }
                     return false;
@@ -279,7 +284,8 @@ public class GridAdapterProduct extends BaseAdapter {
             e.printStackTrace();
         }
         return convertView;
-    }}
+    }
+}
 
 //    public void popUp(final ProductDetails productDetails) {
 //        try {

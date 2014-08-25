@@ -1,9 +1,7 @@
 package com.gls.orderzapp.AddressDetails.Adapter;
 
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.preference.PreferenceManager;
@@ -14,7 +12,6 @@ import android.widget.Toast;
 
 import com.gls.orderzapp.Cart.Beans.BranchIdsForGettingDeliveryCharges;
 import com.gls.orderzapp.CreateOrder.CreateOrderBeans.SuccessResponseForDeliveryChargesAndType;
-import com.gls.orderzapp.MainApp.ChangeAddressActivity;
 import com.gls.orderzapp.MainApp.DeliveryPaymentActivity;
 import com.gls.orderzapp.Provider.Beans.ProductDetails;
 import com.gls.orderzapp.R;
@@ -37,24 +34,24 @@ import java.util.List;
  * Created by avinash on 11/7/14.
  */
 public class DeliveryChargesAndTypeAdapter {
+    public static LinearLayout llDeliveryChargeAndType;
+    public static BranchIdsForGettingDeliveryCharges branchIdsForGettingDeliveryCharges;
+    public static SuccessResponseForDeliveryChargesAndType successResponseForDeliveryCharges;
+    public static SuccessResponseOfUser successResponseOfUserDeliveryAddresDetails;
     Context context;
     ProductDetails[] checkForDeliveryModeValues;
     List<ProductDetails> checkForDeliveryModeList;
     List<ProductDetails> SortedProviderList = new ArrayList<>();
-    public static LinearLayout llDeliveryChargeAndType;
     String branchId = "";
     ArrayList<String> branchIdforDelivery = new ArrayList<>();
-    public static BranchIdsForGettingDeliveryCharges branchIdsForGettingDeliveryCharges;
-    public static SuccessResponseForDeliveryChargesAndType successResponseForDeliveryCharges;
-    public static SuccessResponseOfUser successResponseOfUserDeliveryAddresDetails;
 
     public DeliveryChargesAndTypeAdapter(Context context) {
         this.context = context;
         checkForDeliveryModeValues = Cart.hm.values().toArray(new ProductDetails[Cart.hm.size()]);
         checkForDeliveryModeList = new ArrayList<>(Arrays.asList(checkForDeliveryModeValues));
         Collections.sort(checkForDeliveryModeList, new DeliveryModeComparator());
-        successResponseForDeliveryCharges=null;
-        branchIdsForGettingDeliveryCharges=null;
+        successResponseForDeliveryCharges = null;
+        branchIdsForGettingDeliveryCharges = null;
         successResponseForDeliveryCharges = new SuccessResponseForDeliveryChargesAndType();
         branchIdsForGettingDeliveryCharges = new BranchIdsForGettingDeliveryCharges();
         getDeliveryCharges();
@@ -74,13 +71,13 @@ public class DeliveryChargesAndTypeAdapter {
 
     public void setBranchId(String getUserData) {
         try {
-            successResponseOfUserDeliveryAddresDetails=null;
+            successResponseOfUserDeliveryAddresDetails = null;
             successResponseOfUserDeliveryAddresDetails = new Gson().fromJson(getUserData, SuccessResponseOfUser.class);
             branchIdsForGettingDeliveryCharges.setBranchids(branchIdforDelivery);
-            if(successResponseOfUserDeliveryAddresDetails.getSuccess().getUser().getLocation().getArea()!=null
-                    && successResponseOfUserDeliveryAddresDetails.getSuccess().getUser().getLocation().getCity()!=null){
-            branchIdsForGettingDeliveryCharges.setArea(successResponseOfUserDeliveryAddresDetails.getSuccess().getUser().getLocation().getArea());
-            branchIdsForGettingDeliveryCharges.setCity(successResponseOfUserDeliveryAddresDetails.getSuccess().getUser().getLocation().getCity());
+            if (successResponseOfUserDeliveryAddresDetails.getSuccess().getUser().getLocation().getArea() != null
+                    && successResponseOfUserDeliveryAddresDetails.getSuccess().getUser().getLocation().getCity() != null) {
+                branchIdsForGettingDeliveryCharges.setArea(successResponseOfUserDeliveryAddresDetails.getSuccess().getUser().getLocation().getArea());
+                branchIdsForGettingDeliveryCharges.setCity(successResponseOfUserDeliveryAddresDetails.getSuccess().getUser().getLocation().getCity());
             }
 
             new GetDeliveryChargesAsync().execute();
@@ -107,13 +104,6 @@ public class DeliveryChargesAndTypeAdapter {
         }
     }
 
-    private class DeliveryModeComparator implements Comparator<ProductDetails> {
-        @Override
-        public int compare(ProductDetails o1, ProductDetails o2) {
-            return o1.getBranchid().compareTo(o2.getBranchid());
-        }
-    }
-
     public String getDeliverCharges() {
         String resultOfDeliveryCharges = "";
         String jsonToSendOverServer = "";
@@ -130,6 +120,12 @@ public class DeliveryChargesAndTypeAdapter {
         return resultOfDeliveryCharges;
     }
 
+    private class DeliveryModeComparator implements Comparator<ProductDetails> {
+        @Override
+        public int compare(ProductDetails o1, ProductDetails o2) {
+            return o1.getBranchid().compareTo(o2.getBranchid());
+        }
+    }
 
     public class GetDeliveryChargesAsync extends AsyncTask<String, Integer, String> {
         JSONObject jObj;

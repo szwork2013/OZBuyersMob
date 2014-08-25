@@ -1,150 +1,167 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:orientation="horizontal"
-        android:layout_marginTop="5dp"
+        android:layout_height="wrap_content"
         android:layout_marginLeft="5dp"
-        android:layout_height="wrap_content">
+        android:layout_marginTop="5dp"
+        android:orientation="horizontal">
 
         <TextView
             android:layout_width="wrap_content"
-            android:textSize="18sp"
+            android:layout_height="wrap_content"
             android:text="@string/seller"
-            android:layout_height="wrap_content" />
+            android:textSize="18sp" />
 
         <TextView
             android:id="@+id/txt_sellername"
-            android:textSize="16sp"
-            android:layout_marginLeft="2dp"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="2dp"
+            android:textSize="16sp" />
     </LinearLayout>
 
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="#fd9717" />
+
     <LinearLayout
-        android:layout_marginLeft="40dp"
         android:layout_width="match_parent"
-        android:orientation="vertical"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="40dp"
         android:layout_marginTop="5dp"
-        android:layout_height="wrap_content">
+        android:orientation="vertical">
 
         <TextView
             android:layout_width="wrap_content"
-            android:textSize="16sp"
+            android:layout_height="wrap_content"
             android:text="@string/delivery_type"
-            android:layout_height="wrap_content" />
+            android:textSize="16sp" />
 
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
+            android:layout_marginRight="20dp"
             android:layout_marginTop="3dp"
-            android:background="#d3d3d3"
-            android:layout_marginRight="20dp" />
+            android:background="#d3d3d3" />
+
         <LinearLayout
             android:layout_width="match_parent"
-            android:orientation="horizontal"
-            android:layout_height="wrap_content">
-<LinearLayout
-    android:layout_width="0dp"
-    android:layout_weight="0.8"
-    android:layout_height="wrap_content">
-        <RadioGroup
-            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/delivery_type_group">
-            <RadioButton
-                android:layout_width="match_parent"
-                android:textSize="16sp"
-                android:layout_height="wrap_content"
-                android:text="@string/pick_up"
-                android:id="@+id/pick_up" />
-            <RadioButton
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textSize="16sp"
-                android:visibility="gone"
-                android:text="@string/home_delivery"
-                android:id="@+id/home_delivery" />
-        </RadioGroup>
-    </LinearLayout>
+            android:orientation="horizontal">
+
             <LinearLayout
                 android:layout_width="0dp"
-                android:orientation="vertical"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.8">
+
+                <RadioGroup
+                    android:id="@+id/delivery_type_group"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <RadioButton
+                        android:id="@+id/pick_up"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/pick_up"
+                        android:textSize="16sp" />
+
+                    <RadioButton
+                        android:id="@+id/home_delivery"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/home_delivery"
+                        android:textSize="16sp"
+                        android:visibility="gone" />
+                </RadioGroup>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:layout_height="wrap_content">
+                android:orientation="vertical">
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="32dp">
-                <Button
-                    android:id="@+id/btn_selct_pickup_address"
-                    android:layout_width="wrap_content"
-                    android:textSize="14sp"
-                    android:gravity="center"
-                    android:padding="5dp"
-                    android:visibility="gone"
-                    android:background="@drawable/date_background"
-                    android:hint="@string/select_pickup_address"
-                    android:layout_height="30dp" />
+
+                    <Button
+                        android:id="@+id/btn_selct_pickup_address"
+                        android:layout_width="wrap_content"
+                        android:layout_height="30dp"
+                        android:background="@drawable/date_background"
+                        android:gravity="center"
+                        android:hint="@string/select_pickup_address"
+                        android:padding="5dp"
+                        android:textSize="14sp"
+                        android:visibility="gone" />
                 </LinearLayout>
+
                 <LinearLayout
                     android:id="@+id/ll_delivery_charges"
                     android:layout_width="match_parent"
-                    android:orientation="horizontal"
+                    android:layout_height="wrap_content"
                     android:layout_marginTop="7dp"
-                    android:visibility="gone"
-                    android:layout_height="wrap_content">
+                    android:orientation="horizontal"
+                    android:visibility="gone">
+
                     <TextView
                         android:layout_width="wrap_content"
-                        android:textSize="16sp"
-                        android:text="@string/delivery_charges"
+                        android:layout_height="wrap_content"
                         android:layout_marginLeft="2dp"
-                        android:layout_height="wrap_content" />
-<TextView
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_marginLeft="1dp"
-    android:textSize="16sp"
-    android:text="@string/rs"/>
+                        android:text="@string/delivery_charges"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="1dp"
+                        android:text="@string/rs"
+                        android:textSize="16sp" />
+
                     <TextView
                         android:id="@+id/txt_delivery_charges"
-                        android:textSize="16sp"
-                        android:layout_marginLeft="2dp"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="2dp"
+                        android:textSize="16sp" />
                 </LinearLayout>
             </LinearLayout>
-            </LinearLayout>
+        </LinearLayout>
     </LinearLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_marginTop="5dp"
+        android:layout_height="wrap_content"
         android:layout_marginLeft="40dp"
         android:layout_marginRight="5dp"
-        android:orientation="vertical"
-        android:layout_height="wrap_content">
+        android:layout_marginTop="5dp"
+        android:orientation="vertical">
+
         <TextView
             android:layout_width="match_parent"
-            android:textSize="16sp"
+            android:layout_height="wrap_content"
             android:text="@string/order_instruction"
-            android:layout_height="wrap_content" />
+            android:textSize="16sp" />
+
         <View
             android:layout_width="match_parent"
-            android:background="#ffaeaca8"
-            android:layout_height="1dp"/>
+            android:layout_height="1dp"
+            android:background="#ffaeaca8" />
+
         <EditText
             android:id="@+id/edt_orderInstruction"
-            android:maxLength="60"
-            android:textSize="14sp"
             android:layout_width="match_parent"
-            android:layout_height="48dp" />
-        </LinearLayout>
+            android:layout_height="48dp"
+            android:maxLength="60"
+            android:textSize="14sp" />
+    </LinearLayout>
 </LinearLayout>

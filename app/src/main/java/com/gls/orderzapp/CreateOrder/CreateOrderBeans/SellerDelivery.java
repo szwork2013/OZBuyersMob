@@ -14,6 +14,15 @@ public class SellerDelivery {
     String orderinstructions;
     Location pickup_address;
     CreateOrderAddressDetails delivery_address;
+    String contact_supports;
+
+    public String getContact_supports() {
+        return contact_supports;
+    }
+
+    public void setContact_supports(String contact_supports) {
+        this.contact_supports = contact_supports;
+    }
 
     public String getBranchid() {
         return branchid;

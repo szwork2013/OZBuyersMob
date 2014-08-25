@@ -17,7 +17,6 @@ import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
-import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.gls.orderzapp.AddressDetails.Adapter.AdapterForSelectaddressList;
@@ -87,7 +86,7 @@ public class DeliveryPaymentActivity extends Activity {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        Log.d("CartDetailDeliveryPayment",new Gson().toJson(Cart.hm));
+        Log.d("CartDetailDeliveryPayment", new Gson().toJson(Cart.hm));
 
     }
 
@@ -166,7 +165,7 @@ public class DeliveryPaymentActivity extends Activity {
                 Toast.makeText(getApplicationContext(), "Please select a payment mode", Toast.LENGTH_LONG).show();
                 return;
             }
-            if (DisplayDeliveryChargesAndType.deliveryTypeCheck() ==false) {
+            if (DisplayDeliveryChargesAndType.deliveryTypeCheck() == false) {
                 return;
             }
             setDataForBillingAndDeliveryAddress();
@@ -178,8 +177,9 @@ public class DeliveryPaymentActivity extends Activity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-//        DeliveryChargesAndTypeAdapter.delivery_type = "";
         payment_mode = "";
+        DisplayDeliveryChargesAndType.deliveryType.clear();
+        DisplayDeliveryChargesAndType.deliverytypebean.clear();
     }
 
     public void selectDeliveryDate(View view) {

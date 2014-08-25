@@ -224,7 +224,7 @@ public class SettingsActivity extends ActionBarActivity {
         return user;
     }
 
-    public void storeUserPreferences(){
+    public void storeUserPreferences() {
         successResponseOfUser = new Gson().fromJson(loadPreferencesUser(), SuccessResponseOfUser.class);
 //        SuccessResponseOfUser user = new Gson().fromJson(userData, SuccessResponseOfUser.class);
         Location location = new Location();

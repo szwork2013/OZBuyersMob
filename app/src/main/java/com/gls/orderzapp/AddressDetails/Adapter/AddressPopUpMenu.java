@@ -8,7 +8,6 @@ import android.view.View;
 import android.widget.PopupMenu;
 
 import com.gls.orderzapp.MainApp.ChangeAddressActivity;
-import com.gls.orderzapp.MainApp.DeliveryPaymentActivity;
 import com.gls.orderzapp.MainApp.SelectAddressListActivity;
 import com.gls.orderzapp.R;
 
@@ -42,7 +41,7 @@ public class AddressPopUpMenu {
                         break;
                     case R.id.add_new:
                         Intent goToChangeAddressActivity = new Intent(context, ChangeAddressActivity.class);
-                        goToChangeAddressActivity.putExtra("User_Address","DeliveryAddress");
+                        goToChangeAddressActivity.putExtra("User_Address", "DeliveryAddress");
                         ((Activity) context).startActivityForResult(goToChangeAddressActivity, 1);
                         break;
                 }

@@ -1,33 +1,24 @@
 package com.gls.orderzapp.AddressDetails.Adapter;
 
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.os.AsyncTask;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.gls.orderzapp.AddressDetails.Bean.ListOfDeliveryAddress;
-import com.gls.orderzapp.CreateOrder.CreateOrderBeans.SuccessResponseForDeliveryChargesAndType;
 import com.gls.orderzapp.MainApp.DeliveryPaymentActivity;
 import com.gls.orderzapp.MainApp.SelectAddressListActivity;
 import com.gls.orderzapp.R;
 import com.gls.orderzapp.SignUp.Location;
 import com.gls.orderzapp.User.SuccessResponseOfUser;
-import com.gls.orderzapp.Utility.CheckConnection;
-import com.gls.orderzapp.Utility.ServerConnection;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,11 +27,11 @@ import java.util.List;
  * Created by avinash on 2/7/14.
  */
 public class AdapterForSelectaddressList extends BaseAdapter {
-    Context context;
-    List<ListOfDeliveryAddress> deliveryaddresses = new ArrayList<>();
     public static ListOfDeliveryAddress deliveryAddressList;
     public static String deliveryaddressid = null;
-    public  SuccessResponseOfUser successResponseOfUserDeliveryAddresDetails;
+    public SuccessResponseOfUser successResponseOfUserDeliveryAddresDetails;
+    Context context;
+    List<ListOfDeliveryAddress> deliveryaddresses = new ArrayList<>();
 
     public AdapterForSelectaddressList(Context context, List<ListOfDeliveryAddress> deliveryaddresses) {
         this.context = context;
@@ -93,7 +84,7 @@ public class AdapterForSelectaddressList extends BaseAdapter {
                         deliveryAddressList = new ListOfDeliveryAddress();
                         if (deliveryaddresses.get(position).getDeliveryaddressid() != null) {
                             deliveryaddressid = deliveryaddresses.get(position).getDeliveryaddressid();
-                            Log.d("deliveryaddressid",deliveryaddressid);
+                            Log.d("deliveryaddressid", deliveryaddressid);
                         }
                         Location location = new Location();
                         if (deliveryaddresses.get(position).getAddress() != null) {
@@ -130,13 +121,14 @@ public class AdapterForSelectaddressList extends BaseAdapter {
 
         return convertView;
     }
+
     public String loadPreferencesUserDataForDeliveryAddress() throws Exception {
         String user = "";
-        String DeliveryAddresDetails="";
+        String DeliveryAddresDetails = "";
         try {
             SharedPreferences spLoad = PreferenceManager.getDefaultSharedPreferences(context);
             user = spLoad.getString("USER_DATA_DELIVERY_ADDRESS", null);
-            successResponseOfUserDeliveryAddresDetails= new Gson().fromJson(user, SuccessResponseOfUser.class);
+            successResponseOfUserDeliveryAddresDetails = new Gson().fromJson(user, SuccessResponseOfUser.class);
             successResponseOfUserDeliveryAddresDetails.getSuccess().getUser().getLocation().setArea(deliveryAddressList.getAddress().getArea());
             successResponseOfUserDeliveryAddresDetails.getSuccess().getUser().getLocation().setCity(deliveryAddressList.getAddress().getCity());
             successResponseOfUserDeliveryAddresDetails.getSuccess().getUser().getLocation().setAddress1(deliveryAddressList.getAddress().getAddress1());

@@ -1,6 +1,6 @@
 package com.gls.orderzapp.ProductConfiguration.Adapter;
+
 import android.content.Context;
-import android.util.Log;
 import android.view.View;
 import android.widget.PopupMenu;
 
@@ -28,7 +28,7 @@ public class PopUpForDisplayProductConfigurationOnFinalOrder {
         popupMenu.getMenuInflater().inflate(R.menu.configuration_popup, popupMenu.getMenu());
         for (int i = 0; i < productConfigurationList.size(); i++) {
             if (productConfigurationList.get(i).getProd_configtype().equalsIgnoreCase("ftp")) {
-                popupMenu.getMenu().add(  productConfigurationList.get(i).getData().getFtp()+"            " + context.getResources().getString(R.string.rs) + " " + productConfigurationList.get(i).getProd_configprice().getValue());
+                popupMenu.getMenu().add(productConfigurationList.get(i).getData().getFtp() + "            " + context.getResources().getString(R.string.rs) + " " + productConfigurationList.get(i).getProd_configprice().getValue());
             } else if (productConfigurationList.get(i).getProd_configtype().equalsIgnoreCase("msg")) {
                 popupMenu.getMenu().add(productConfigurationList.get(i).getProd_configname() + "            " + context.getResources().getString(R.string.rs) + " " + productConfigurationList.get(i).getProd_configprice().getValue());
             }

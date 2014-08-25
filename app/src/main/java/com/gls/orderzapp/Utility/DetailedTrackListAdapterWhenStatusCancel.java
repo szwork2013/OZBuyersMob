@@ -63,7 +63,7 @@ public class DetailedTrackListAdapterWhenStatusCancel extends BaseAdapter {
         TextView textStatus = (TextView) convertView.findViewById(R.id.textStatus);
 
         imageTick.setVisibility(View.INVISIBLE);
-        Log.d("trackingstatus", activity.serverTrackingStatus.size()+"");
+        Log.d("trackingstatus", activity.serverTrackingStatus.size() + "");
         for (int i = 0; i < activity.serverTrackingStatus.get(parent_position).get(pos).size(); i++) {
             Log.d("track status", activity.serverTrackingStatus.get(parent_position).get(pos).get(i));
             if (list.get(position).split("-")[1].contains(activity.serverTrackingStatus.get(parent_position).get(pos).get(i))) {

@@ -6,7 +6,6 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -18,7 +17,6 @@ import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.gls.orderzapp.Provider.Beans.ProductDetails;
 import com.gls.orderzapp.R;
@@ -41,7 +39,7 @@ public class ProductConfigurationListAdapter extends BaseAdapter {
     Context context;
     List<ProductDetails> cakeList;
     DisplayImageOptions options;
-//    String[] mKeys;
+    //    String[] mKeys;
     ImageLoader imageLoader;
     EditText edttxt_message_on_cake;
     EditText tempEditText = null;
@@ -111,16 +109,16 @@ public class ProductConfigurationListAdapter extends BaseAdapter {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 
                 if (isChecked) {
-                    for (int i = 0; i < cakeList.get(Integer.parseInt((((CheckBox)buttonView).getTag()+"").split("_")[0])).getProductconfiguration().getConfiguration().size(); i++) {
-                        if (cakeList.get(Integer.parseInt((((CheckBox)buttonView).getTag()+"").split("_")[0])).getProductconfiguration().getConfiguration().get(i).getProd_configtype().equalsIgnoreCase("msg")) {
-                            cakeList.get(Integer.parseInt((((CheckBox)buttonView).getTag()+"").split("_")[0])).getProductconfiguration().getConfiguration().get(i).setChecked(true);
-                            message_price.setText((cakeList.get(Integer.parseInt((((CheckBox)buttonView).getTag()+"").split("_")[0])).getProductconfiguration().getConfiguration().get(i).getProd_configprice().getValue() * Double.parseDouble(cakeList.get(Integer.parseInt((((CheckBox)buttonView).getTag()+"").split("_")[0])).getQuantity())) + "");
+                    for (int i = 0; i < cakeList.get(Integer.parseInt((((CheckBox) buttonView).getTag() + "").split("_")[0])).getProductconfiguration().getConfiguration().size(); i++) {
+                        if (cakeList.get(Integer.parseInt((((CheckBox) buttonView).getTag() + "").split("_")[0])).getProductconfiguration().getConfiguration().get(i).getProd_configtype().equalsIgnoreCase("msg")) {
+                            cakeList.get(Integer.parseInt((((CheckBox) buttonView).getTag() + "").split("_")[0])).getProductconfiguration().getConfiguration().get(i).setChecked(true);
+                            message_price.setText((cakeList.get(Integer.parseInt((((CheckBox) buttonView).getTag() + "").split("_")[0])).getProductconfiguration().getConfiguration().get(i).getProd_configprice().getValue() * Double.parseDouble(cakeList.get(Integer.parseInt((((CheckBox) buttonView).getTag() + "").split("_")[0])).getQuantity())) + "");
                         }
                     }
                 } else {
-                    for (int i = 0; i < cakeList.get(Integer.parseInt((((CheckBox)buttonView).getTag()+"").split("_")[0])).getProductconfiguration().getConfiguration().size(); i++) {
-                        if (cakeList.get(Integer.parseInt((((CheckBox)buttonView).getTag()+"").split("_")[0])).getProductconfiguration().getConfiguration().get(i).getProd_configtype().equalsIgnoreCase("msg")) {
-                            cakeList.get(Integer.parseInt((((CheckBox)buttonView).getTag()+"").split("_")[0])).getProductconfiguration().getConfiguration().get(i).setChecked(false);
+                    for (int i = 0; i < cakeList.get(Integer.parseInt((((CheckBox) buttonView).getTag() + "").split("_")[0])).getProductconfiguration().getConfiguration().size(); i++) {
+                        if (cakeList.get(Integer.parseInt((((CheckBox) buttonView).getTag() + "").split("_")[0])).getProductconfiguration().getConfiguration().get(i).getProd_configtype().equalsIgnoreCase("msg")) {
+                            cakeList.get(Integer.parseInt((((CheckBox) buttonView).getTag() + "").split("_")[0])).getProductconfiguration().getConfiguration().get(i).setChecked(false);
                         }
                     }
                     message_price.setText("0.0");
@@ -135,17 +133,17 @@ public class ProductConfigurationListAdapter extends BaseAdapter {
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 switch (checkedId) {
                     case R.id.eggless:
-                        for (int i = 0; i < cakeList.get(Integer.parseInt(group.getTag()+"")).getProductconfiguration().getConfiguration().size(); i++) {
-                            if (cakeList.get(Integer.parseInt(group.getTag()+"")).getProductconfiguration().getConfiguration().get(i).getProd_configtype().equalsIgnoreCase("ftp")) {
+                        for (int i = 0; i < cakeList.get(Integer.parseInt(group.getTag() + "")).getProductconfiguration().getConfiguration().size(); i++) {
+                            if (cakeList.get(Integer.parseInt(group.getTag() + "")).getProductconfiguration().getConfiguration().get(i).getProd_configtype().equalsIgnoreCase("ftp")) {
 //                                Toast.makeText(context, cakeList.get(position).getCartCount(), Toast.LENGTH_LONG).show();
-                                Cart.addFoodTypeConfiguration(cakeList.get(Integer.parseInt(group.getTag()+"")).getCartCount(),
-                                                              cakeList.get(Integer.parseInt(group.getTag()+"")).getProductconfiguration().getConfiguration().get(i).getProd_configtype(),
-                                                              cakeList.get(Integer.parseInt(group.getTag()+"")).getProductconfiguration().getConfiguration().get(i).getProd_configname(),
-                                                              cakeList.get(Integer.parseInt(group.getTag()+"")).getProductconfiguration().getConfiguration().get(i).getProd_configprice(),
-                                                              cakeList.get(Integer.parseInt(group.getTag()+"")).getProductconfiguration().getConfiguration().get(i).isChecked(),
-                                                              "eggless");
+                                Cart.addFoodTypeConfiguration(cakeList.get(Integer.parseInt(group.getTag() + "")).getCartCount(),
+                                        cakeList.get(Integer.parseInt(group.getTag() + "")).getProductconfiguration().getConfiguration().get(i).getProd_configtype(),
+                                        cakeList.get(Integer.parseInt(group.getTag() + "")).getProductconfiguration().getConfiguration().get(i).getProd_configname(),
+                                        cakeList.get(Integer.parseInt(group.getTag() + "")).getProductconfiguration().getConfiguration().get(i).getProd_configprice(),
+                                        cakeList.get(Integer.parseInt(group.getTag() + "")).getProductconfiguration().getConfiguration().get(i).isChecked(),
+                                        "eggless");
 //                                cakeList.get(position1).getProductconfiguration().getConfiguration().get(i).setFoodType("eggless");
-                                egg_price.setText((cakeList.get(Integer.parseInt(group.getTag()+"")).getProductconfiguration().getConfiguration().get(i).getProd_configprice().getValue() * Double.parseDouble(cakeList.get(Integer.parseInt(group.getTag()+"")).getQuantity())) + "");
+                                egg_price.setText((cakeList.get(Integer.parseInt(group.getTag() + "")).getProductconfiguration().getConfiguration().get(i).getProd_configprice().getValue() * Double.parseDouble(cakeList.get(Integer.parseInt(group.getTag() + "")).getQuantity())) + "");
                             }
                         }
 
@@ -153,8 +151,8 @@ public class ProductConfigurationListAdapter extends BaseAdapter {
                         break;
                     case R.id.egg:
                         egg_price.setText("0.0");
-                        for (int i = 0; i < cakeList.get(Integer.parseInt(group.getTag()+"")).getProductconfiguration().getConfiguration().size(); i++) {
-                            if (cakeList.get(Integer.parseInt(group.getTag()+"")).getProductconfiguration().getConfiguration().get(i).getProd_configtype().equalsIgnoreCase("ftp")) {
+                        for (int i = 0; i < cakeList.get(Integer.parseInt(group.getTag() + "")).getProductconfiguration().getConfiguration().size(); i++) {
+                            if (cakeList.get(Integer.parseInt(group.getTag() + "")).getProductconfiguration().getConfiguration().get(i).getProd_configtype().equalsIgnoreCase("ftp")) {
                                 Cart.addFoodTypeConfiguration(cakeList.get(Integer.parseInt(group.getTag() + "")).getCartCount(),
                                         cakeList.get(Integer.parseInt(group.getTag() + "")).getProductconfiguration().getConfiguration().get(i).getProd_configtype(),
                                         cakeList.get(Integer.parseInt(group.getTag() + "")).getProductconfiguration().getConfiguration().get(i).getProd_configname(),
@@ -215,9 +213,9 @@ public class ProductConfigurationListAdapter extends BaseAdapter {
 
             @Override
             public void afterTextChanged(Editable s) {
-                for(int j = 0; j < cakeList.size(); j++) {
-                    if(tag.equalsIgnoreCase(cakeList.get(position).getCartCount())) {
-                        Log.d("Run without","Click");
+                for (int j = 0; j < cakeList.size(); j++) {
+                    if (tag.equalsIgnoreCase(cakeList.get(position).getCartCount())) {
+                        Log.d("Run without", "Click");
                         Cart.addMessageOnCake(cakeList.get(position), tempEditText.getText().toString().trim());
                     }
                 }
@@ -241,12 +239,12 @@ public class ProductConfigurationListAdapter extends BaseAdapter {
         edttxt_message_on_cake.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                if(hasFocus){
+                if (hasFocus) {
                     if (tempEditText != null) {
                         tempEditText.removeTextChangedListener(textWatcher);
                     }
                     tempEditText = ((EditText) v);
-                    tag = v.getTag()+"";
+                    tag = v.getTag() + "";
                     tempEditText.addTextChangedListener(textWatcher);
 
                 }

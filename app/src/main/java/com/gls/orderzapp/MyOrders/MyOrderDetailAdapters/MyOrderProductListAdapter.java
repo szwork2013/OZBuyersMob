@@ -10,7 +10,6 @@ import android.widget.TextView;
 import com.gls.orderzapp.MyOrders.Beans.ProductConfiguration;
 import com.gls.orderzapp.MyOrders.Beans.ProductDetails;
 import com.gls.orderzapp.ProductConfiguration.Adapter.ConfigurationPopupMenuMyOrders;
-import com.gls.orderzapp.ProductConfiguration.Adapter.PopUpForDisplayProductConfigurationOnFinalOrder;
 import com.gls.orderzapp.R;
 
 import java.util.List;
@@ -40,10 +39,10 @@ public class MyOrderProductListAdapter {
             TextView message = (TextView) llProductList.findViewById(R.id.message);
             LinearLayout ll_special_message = (LinearLayout) llProductList.findViewById(R.id.ll_special_message);
 
-            if(productDetailsList.get(i).getProductconfiguration().size() > 0){
+            if (productDetailsList.get(i).getProductconfiguration().size() > 0) {
                 ll_special_message.setVisibility(View.VISIBLE);
-                message.setText(configurationPrice(productDetailsList.get(i).getProductconfiguration())+"");
-            }else{
+                message.setText(configurationPrice(productDetailsList.get(i).getProductconfiguration()) + "");
+            } else {
                 ll_special_message.setVisibility(View.GONE);
             }
 
@@ -51,11 +50,11 @@ public class MyOrderProductListAdapter {
                 product_name.setText(productDetailsList.get(i).getProductname());
             }
 
-            if(productDetailsList.get(i).getUom().equalsIgnoreCase("kg") && productDetailsList.get(i).getQty() < 1){
-                quantity.setText(productDetailsList.get(i).getQty() * 1000+ " " + "gm");
-            }else if(productDetailsList.get(i).getUom().equalsIgnoreCase("gm") && productDetailsList.get(i).getQty() >= 1000){
-                quantity.setText(productDetailsList.get(i).getQty() / 1000+ " " + "kg");
-            }else{
+            if (productDetailsList.get(i).getUom().equalsIgnoreCase("kg") && productDetailsList.get(i).getQty() < 1) {
+                quantity.setText(productDetailsList.get(i).getQty() * 1000 + " " + "gm");
+            } else if (productDetailsList.get(i).getUom().equalsIgnoreCase("gm") && productDetailsList.get(i).getQty() >= 1000) {
+                quantity.setText(productDetailsList.get(i).getQty() / 1000 + " " + "kg");
+            } else {
                 quantity.setText(productDetailsList.get(i).getQty() + " " + productDetailsList.get(i).getUom());
             }
 
@@ -66,7 +65,7 @@ public class MyOrderProductListAdapter {
                 @Override
                 public void onClick(View v) {
                     Log.d("PopUp", "FinalOrder");
-                    new ConfigurationPopupMenuMyOrders(context,v,productDetailsList.get(v.getId()-1000).getProductconfiguration()).displayConfigurationCharges();
+                    new ConfigurationPopupMenuMyOrders(context, v, productDetailsList.get(v.getId() - 1000).getProductconfiguration()).displayConfigurationCharges();
                 }
             });
             ll_special_message.setId(1000 + i);

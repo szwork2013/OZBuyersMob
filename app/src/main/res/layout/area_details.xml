@@ -1,151 +1,158 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#304f6c"
+    android:orientation="vertical"
     android:padding="5dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:background="#fff">
+        android:background="#fff"
+        android:orientation="vertical">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
+
             <TextView
                 android:layout_width="0dp"
-                android:layout_weight="5"
                 android:layout_height="40dp"
-                android:text="Current Location"
-                android:layout_marginLeft="5dp"
                 android:layout_gravity="center_vertical"
+                android:layout_marginLeft="5dp"
+                android:layout_weight="5"
                 android:gravity="center_vertical"
+                android:text="Current Location"
+                android:textColor="#000"
                 android:textSize="20sp"
-                android:textStyle="bold"
-                android:textColor="#000"/>
+                android:textStyle="bold" />
+
             <LinearLayout
+                android:id="@+id/llEditCurrentLocation"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:layout_gravity="center_vertical"
                 android:gravity="center_vertical"
-                android:id="@+id/llEditCurrentLocation"
                 android:orientation="horizontal">
+
                 <ImageView
                     android:layout_width="30dp"
                     android:layout_height="30dp"
-                    android:src="@drawable/pen"/>
+                    android:src="@drawable/pen" />
             </LinearLayout>
         </LinearLayout>
+
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="#fd9717"/>
+            android:background="#fd9717" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="16sp"
-                android:textColor="#000"
-                android:textStyle="bold"
                 android:layout_marginLeft="20dp"
+                android:layout_marginTop="5dp"
                 android:text="@string/city"
-                android:layout_marginTop="5dp"
-                />
+                android:textColor="#000"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
             <TextView
+                android:id="@+id/city"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="16sp"
-                android:textColor="#000"
                 android:layout_marginLeft="20dp"
-                android:id="@+id/city"
                 android:layout_marginTop="5dp"
-                />
+                android:textColor="#000"
+                android:textSize="16sp" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="16sp"
-                android:textColor="#000"
-                android:textStyle="bold"
                 android:layout_marginLeft="20dp"
+                android:layout_marginTop="5dp"
                 android:text="@string/state"
-                android:layout_marginTop="5dp"
-                />
+                android:textColor="#000"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
             <TextView
+                android:id="@+id/state"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="16sp"
-                android:textColor="#000"
                 android:layout_marginLeft="20dp"
-                android:id="@+id/state"
                 android:layout_marginTop="5dp"
-                />
+                android:textColor="#000"
+                android:textSize="16sp" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginBottom="5dp">
+            android:layout_marginBottom="5dp"
+            android:orientation="horizontal">
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="16sp"
-                android:textColor="#000"
-                android:textStyle="bold"
                 android:layout_marginLeft="20dp"
+                android:layout_marginTop="5dp"
                 android:text="@string/country"
-                android:layout_marginTop="5dp"
-                />
+                android:textColor="#000"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
             <TextView
+                android:id="@+id/country"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="16sp"
-                android:textColor="#000"
                 android:layout_marginLeft="20dp"
-                android:id="@+id/country"
                 android:layout_marginTop="5dp"
-                />
+                android:textColor="#000"
+                android:textSize="16sp" />
         </LinearLayout>
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
         android:layout_marginTop="3dp"
-        android:background="#fff">
+        android:background="#fff"
+        android:orientation="vertical">
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="40dp"
-            android:text="Area"
-            android:layout_marginLeft="5dp"
             android:layout_gravity="center_vertical"
+            android:layout_marginLeft="5dp"
             android:gravity="center_vertical"
+            android:text="Area"
+            android:textColor="#000"
             android:textSize="20sp"
-            android:textStyle="bold"
-            android:textColor="#000"/>
+            android:textStyle="bold" />
 
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="#fd9717"/>
+            android:background="#fd9717" />
 
         <ListView
+            android:id="@+id/areaList"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/areaList"></ListView>
+            android:layout_height="wrap_content"></ListView>
     </LinearLayout>
 </LinearLayout>

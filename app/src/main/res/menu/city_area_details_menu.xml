@@ -2,9 +2,11 @@
 
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item android:title="Select your country"
-        android:id="@+id/select_country"/>
+    <item
+        android:id="@+id/select_country"
+        android:title="Select your country" />
 
-    <item android:title="Select your state"
-        android:id="@+id/select_state"/>
+    <item
+        android:id="@+id/select_state"
+        android:title="Select your state" />
 </menu>

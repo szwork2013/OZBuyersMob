@@ -31,7 +31,7 @@ public class DetailedTrackListAdapter extends BaseAdapter {
         this.subOrder = subOrder;
         this.pos = pos;
         this.parent_position = parent_position;
-        activity = (MyOrdersListActivity)this.context;
+        activity = (MyOrdersListActivity) this.context;
     }
 
     @Override
