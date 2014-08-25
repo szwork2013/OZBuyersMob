@@ -158,6 +158,10 @@ public class DisplayDeliveryChargesAndType {
                                 if (deliveryType.get(k).split("_")[0].equals(checkForDeliveryModeList.get(group.getId() - 200).getBranchid())) {
                                     deliveryType.remove(k);
                                 }
+
+                                if(deliverytypebean.get(k).getBranchid().equals(checkForDeliveryModeList.get(group.getId() - 200).getBranchid())) {
+                                    deliverytypebean.remove(k);
+                                }
                             }
                             DeliveryTypeBean deliveryTypeBean = new DeliveryTypeBean();
                             deliveryTypeBean.setBranchid(checkForDeliveryModeList.get(group.getId() - 200).getBranchid());
@@ -173,6 +177,10 @@ public class DisplayDeliveryChargesAndType {
                             for (int k = 0; k < deliveryType.size(); k++) {
                                 if (deliveryType.get(k).split("_")[0].equals(checkForDeliveryModeList.get(group.getId() - 200).getBranchid())) {
                                     deliveryType.remove(k);
+                                }
+
+                                if(deliverytypebean.get(k).getBranchid().equals(checkForDeliveryModeList.get(group.getId() - 200).getBranchid())) {
+                                    deliverytypebean.remove(k);
                                 }
                             }
                             DeliveryTypeBean deliveryTypeBeanDelivery = new DeliveryTypeBean();
