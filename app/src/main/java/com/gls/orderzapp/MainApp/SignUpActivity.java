@@ -183,7 +183,7 @@ public class SignUpActivity extends ActionBarActivity {
         address2EditText = (EditText) findViewById(R.id.editTextAddress2);
         cityEditText = (EditText) findViewById(R.id.editTextCity);
         areaEditText = (EditText) findViewById(R.id.editTextArea);
-        pincodeEditText = (AutoCompleteTextView) findViewById(R.id.editTextPincode);
+        pincodeEditText = (AutoCompleteTextView) findViewById(R.id.edtTextPincode);
         emailEditText = (EditText) findViewById(R.id.editTextEmail);
         signUpButton = (Button) findViewById(R.id.buttonSignUp);
         countryCodeEditText = (EditText) findViewById(R.id.editTextCountryCode);
