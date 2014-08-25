@@ -10,7 +10,6 @@ import android.widget.TextView;
 import com.gls.orderzapp.CreateOrder.OrderResponseBeans.OrderedSubOrderDetails;
 import com.gls.orderzapp.MainApp.FinalOrderActivity;
 import com.gls.orderzapp.R;
-import com.gls.orderzapp.Utility.Cart;
 
 import java.text.DateFormat;
 import java.text.DecimalFormat;
@@ -23,8 +22,8 @@ import java.util.TimeZone;
  * Created by prajyot on 6/5/14.
  */
 public class AdapterForFinalOrderMultipleProviders {
-    Context context;
     public static LinearLayout ll;
+    Context context;
     LinearLayout mainLayout;
     List<OrderedSubOrderDetails> orderedSubOrderDetailsList;
 
@@ -44,55 +43,47 @@ public class AdapterForFinalOrderMultipleProviders {
             TextView txt_final_order_total = (TextView) mainLayout.findViewById(R.id.txt_final_order_total);
             TextView delivery_type = (TextView) mainLayout.findViewById(R.id.delivery_type);
             TextView delivery_charge = (TextView) mainLayout.findViewById(R.id.delivery_charge);
-            TextView delivery_date_final_order= (TextView) mainLayout.findViewById(R.id.delivery_date_final_order);
-            TextView delivery_time_slot_final_order= (TextView) mainLayout.findViewById(R.id.delivery_time_slot_final_order);
-            TextView delivery_address_final_order= (TextView) mainLayout.findViewById(R.id.delivery_address_final_order);
-            LinearLayout ll_cont_no_final_order= (LinearLayout) mainLayout.findViewById(R.id.ll_cont_no);
+            TextView delivery_date_final_order = (TextView) mainLayout.findViewById(R.id.delivery_date_final_order);
+            TextView delivery_time_slot_final_order = (TextView) mainLayout.findViewById(R.id.delivery_time_slot_final_order);
+            TextView delivery_address_final_order = (TextView) mainLayout.findViewById(R.id.delivery_address_final_order);
+            LinearLayout ll_cont_no_final_order = (LinearLayout) mainLayout.findViewById(R.id.ll_cont_no);
 
             ll_cont_no_final_order.setVisibility(View.GONE);
-            Log.d("View GONE","GONE");
+            Log.d("View GONE", "GONE");
 
             ll = (LinearLayout) mainLayout.findViewById(R.id.ll);
 
             delivery_charge.setText(orderedSubOrderDetailsList.get(i).getDeliverycharge() + "");
             if (orderedSubOrderDetailsList.get(i).getDeliverytype() != null) {
-                if(orderedSubOrderDetailsList.get(i).getDeliverytype().equalsIgnoreCase("home")) {
+                if (orderedSubOrderDetailsList.get(i).getDeliverytype().equalsIgnoreCase("home")) {
                     delivery_type.setText("Home Delivery");
+                } else {
+                    delivery_type.setText("Pick-Up");
                 }
-                else
-                {  delivery_type.setText("Pick-Up");}
             }
-            if(orderedSubOrderDetailsList.get(i).getPrefdeltimeslot()!=null){
-                String deliveryTime="",getFromMin="",getToMin="";
-                int getFromHrs=0,getToHrs=0;
+            if (orderedSubOrderDetailsList.get(i).getPrefdeltimeslot() != null) {
+                String deliveryTime = "", getFromMin = "", getToMin = "";
+                int getFromHrs = 0, getToHrs = 0;
                 DecimalFormat formatter = new DecimalFormat("00");
-                getFromHrs=(int)orderedSubOrderDetailsList.get(i).getPrefdeltimeslot().getFrom();
-                getFromMin=formatter.format(Math.round((int)((orderedSubOrderDetailsList.get(i).getPrefdeltimeslot().getFrom()-getFromHrs)*60)*100)/100);
-                getToHrs=(int)orderedSubOrderDetailsList.get(i).getPrefdeltimeslot().getTo();
-                getToMin=formatter.format(Math.round((int)((orderedSubOrderDetailsList.get(i).getPrefdeltimeslot().getTo()-getToHrs)*60)*100)/100);
+                getFromHrs = (int) orderedSubOrderDetailsList.get(i).getPrefdeltimeslot().getFrom();
+                getFromMin = formatter.format(Math.round((int) ((orderedSubOrderDetailsList.get(i).getPrefdeltimeslot().getFrom() - getFromHrs) * 60) * 100) / 100);
+                getToHrs = (int) orderedSubOrderDetailsList.get(i).getPrefdeltimeslot().getTo();
+                getToMin = formatter.format(Math.round((int) ((orderedSubOrderDetailsList.get(i).getPrefdeltimeslot().getTo() - getToHrs) * 60) * 100) / 100);
 
-                if(getFromHrs<12)
-                {
-                    deliveryTime=getFromHrs+":"+getFromMin+" AM";
-                }else if(getFromHrs==12)
-                {
-                    deliveryTime=getFromHrs+":"+getFromMin+" PM";
-                }
-                else if(getFromHrs>12)
-                {
-                    deliveryTime=(getFromHrs-12)+":"+getFromMin+" PM";
+                if (getFromHrs < 12) {
+                    deliveryTime = getFromHrs + ":" + getFromMin + " AM";
+                } else if (getFromHrs == 12) {
+                    deliveryTime = getFromHrs + ":" + getFromMin + " PM";
+                } else if (getFromHrs > 12) {
+                    deliveryTime = (getFromHrs - 12) + ":" + getFromMin + " PM";
                 }
 
-                if(getToHrs<12)
-                {
-                    deliveryTime=deliveryTime.concat(" - "+getToHrs+":"+getToMin+" AM");
-                }else if(getToHrs==12)
-                {
-                    deliveryTime=deliveryTime.concat(" - "+getToHrs+":"+getToMin+" PM");
-                }
-                else if(getToHrs>12)
-                {
-                    deliveryTime=deliveryTime.concat(" - "+(getToHrs-12)+":"+getToMin+" PM");
+                if (getToHrs < 12) {
+                    deliveryTime = deliveryTime.concat(" - " + getToHrs + ":" + getToMin + " AM");
+                } else if (getToHrs == 12) {
+                    deliveryTime = deliveryTime.concat(" - " + getToHrs + ":" + getToMin + " PM");
+                } else if (getToHrs > 12) {
+                    deliveryTime = deliveryTime.concat(" - " + (getToHrs - 12) + ":" + getToMin + " PM");
                 }
 
 //                if(orderedSubOrderDetailsList.get(i).getPrefdeltimeslot().getFrom()<12)
@@ -119,36 +110,36 @@ public class AdapterForFinalOrderMultipleProviders {
 //                    deliveryTime=deliveryTime.concat(" to "+String.format("%.2f",(orderedSubOrderDetailsList.get(i).getPrefdeltimeslot().getTo()-12))+" PM");
 //                }
 
-                delivery_time_slot_final_order.setText("Between "+deliveryTime);
+                delivery_time_slot_final_order.setText("Between " + deliveryTime);
             }
             if (orderedSubOrderDetailsList.get(i).getProductprovider().getProviderbrandname() != null) {
                 providerName.setText(orderedSubOrderDetailsList.get(i).getProductprovider().getProviderbrandname());
             }
             if (orderedSubOrderDetailsList.get(i).getPrefdeldtime() != null) {
-                    try {
+                try {
 
-                        final DateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
-                        inputFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
+                    final DateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+                    inputFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
 
-                        final DateFormat outputFormat = new SimpleDateFormat("dd-MMM-yyyy");
-                        TimeZone tz = TimeZone.getTimeZone("Asia/Calcutta");
-                        outputFormat.setTimeZone(tz);
-                        Date order_date = inputFormat.parse(orderedSubOrderDetailsList.get(i).getPrefdeldtime());
-                        delivery_date_final_order.setText(outputFormat.format(order_date));
+                    final DateFormat outputFormat = new SimpleDateFormat("dd-MMM-yyyy");
+                    TimeZone tz = TimeZone.getTimeZone("Asia/Calcutta");
+                    outputFormat.setTimeZone(tz);
+                    Date order_date = inputFormat.parse(orderedSubOrderDetailsList.get(i).getPrefdeldtime());
+                    delivery_date_final_order.setText(outputFormat.format(order_date));
 
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
 
-            if(orderedSubOrderDetailsList.get(i).getDeliverytype().equalsIgnoreCase("home")) {
+            if (orderedSubOrderDetailsList.get(i).getDeliverytype().equalsIgnoreCase("home")) {
                 if (orderedSubOrderDetailsList.get(i).getDelivery_address() != null) {
                     delivery_address_final_order.setText(orderedSubOrderDetailsList.get(i).getDelivery_address().getAddress1() + ", " + orderedSubOrderDetailsList.get(i).getDelivery_address().getAddress2()
                             + "\n" + orderedSubOrderDetailsList.get(i).getDelivery_address().getArea() + ", " + orderedSubOrderDetailsList.get(i).getDelivery_address().getCity()
                             + "\n" + orderedSubOrderDetailsList.get(i).getDelivery_address().getState() + ", " + orderedSubOrderDetailsList.get(i).getDelivery_address().getZipcode()
                             + ", " + orderedSubOrderDetailsList.get(i).getDelivery_address().getCountry());
                 }
-            }else{
+            } else {
                 if (orderedSubOrderDetailsList.get(i).getPickup_address() != null) {
                     delivery_address_final_order.setText(orderedSubOrderDetailsList.get(i).getPickup_address().getAddress1() + ", " + orderedSubOrderDetailsList.get(i).getPickup_address().getAddress2()
                             + "\n" + orderedSubOrderDetailsList.get(i).getPickup_address().getArea() + ", " + orderedSubOrderDetailsList.get(i).getPickup_address().getCity()

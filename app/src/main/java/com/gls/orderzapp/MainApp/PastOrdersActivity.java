@@ -1,10 +1,8 @@
 package com.gls.orderzapp.MainApp;
 
 import android.app.ProgressDialog;
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.Toast;
 
 import com.gls.orderzapp.MyOrders.Beans.SuccessResponseForMyOrders;

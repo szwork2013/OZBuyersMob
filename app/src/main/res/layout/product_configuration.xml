@@ -6,29 +6,29 @@
     android:background="#304f6c">
 
     <LinearLayout
-        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:orientation="vertical"
         android:padding="5dp">
 
         <ListView
+            android:id="@+id/product_configuration_list"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/product_configuration_list"
-            android:divider="#304f6c"
             android:background="#fff"
+            android:divider="#304f6c"
             android:dividerHeight="3dp"></ListView>
 
         <Button
+            android:id="@+id/add_configuration"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#fd9717"
-            android:textColor="#fff"
-            android:textStyle="bold"
-            android:id="@+id/add_configuration"
-            android:textSize="20sp"
             android:layout_marginTop="3dp"
-            android:text="Add Configurations" />
+            android:background="#fd9717"
+            android:text="Add Configurations"
+            android:textColor="#fff"
+            android:textSize="20sp"
+            android:textStyle="bold" />
 
     </LinearLayout>
 </ScrollView>

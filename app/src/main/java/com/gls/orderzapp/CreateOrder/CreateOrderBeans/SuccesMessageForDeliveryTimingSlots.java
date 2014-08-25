@@ -8,7 +8,7 @@ import java.util.List;
  */
 public class SuccesMessageForDeliveryTimingSlots {
     String message;
-    List<DeliveryTimeSlots> doc=new ArrayList<>();
+    List<DeliveryTimeSlots> doc = new ArrayList<>();
 
     public String getMessage() {
         return message;

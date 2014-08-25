@@ -32,13 +32,13 @@ import org.json.JSONObject;
  * Created by prajyot on 2/4/14.
  */
 public class SignInActivity extends Activity {
+    public static boolean islogedin = false;
     TextView helpingHandTv, forgotPasswordText;
     EditText mobileNumberEditText, passwordEditText;
     Button signInButton;
     Context context;
     SignInPostData signInPostData;
     boolean backPresed = false;
-    public static boolean islogedin = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

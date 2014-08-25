@@ -31,7 +31,6 @@ import com.gls.orderzapp.SignUp.SignUpDataInUserObject;
 import com.gls.orderzapp.Utility.CheckConnection;
 import com.gls.orderzapp.Utility.GoogleAnalyticsUtility;
 import com.gls.orderzapp.Utility.ServerConnection;
-import com.gls.orderzapp.Utility.UtilityClassForLanguagePreferance;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
@@ -41,7 +40,6 @@ import com.google.gson.GsonBuilder;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -53,9 +51,9 @@ public class SignUpActivity extends ActionBarActivity {
     GoogleCloudMessaging gcm;
     String regid = "";
     Context context;
-    AutoCompleteTextView auto_area,pincodeEditText;
+    AutoCompleteTextView auto_area, pincodeEditText;
     EditText mobileNoEditText, passwordEditText, usernameEditText, address1EditText, address2EditText, cityEditText, areaEditText,
-             countryCodeEditText, countryEditText, stateEditText, emailEditText, firstnameEditText;
+            countryCodeEditText, countryEditText, stateEditText, emailEditText, firstnameEditText;
     Button signUpButton;
     //    String SENDER_ID = "926441694335";
     String SENDER_ID = "1088135189222";
@@ -64,7 +62,7 @@ public class SignUpActivity extends ActionBarActivity {
 
     //******for auto area
     Spinner country_spinner, state_spinner, city_spinner;
-    ListView listOfAreas,listOfZipCode;
+    ListView listOfAreas, listOfZipCode;
     SuccessResponseForCountryList successResponseForCountryList;
     SuccessResponseForStatesList successResponseForStatesList;
     SuccessResponseForCityList successResponseForCityList;
@@ -73,8 +71,8 @@ public class SignUpActivity extends ActionBarActivity {
     List<String> areaList = new ArrayList<String>();
     List<String> zipcodeList = new ArrayList<String>();
     CityAreaListAdapter cityCountryListAdapter, cityStateListAdapter, cityListAdapter;
-    String country = "", state = "", city = "", area = "",zipcode="";
-    ArrayAdapter<String> zipcodeAdapter,adapter;
+    String country = "", state = "", city = "", area = "", zipcode = "";
+    ArrayAdapter<String> zipcodeAdapter, adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -130,18 +128,18 @@ public class SignUpActivity extends ActionBarActivity {
 
             }
         });
-         adapter = new ArrayAdapter<String>(getApplicationContext(), R.layout.area, areaList);
+        adapter = new ArrayAdapter<String>(getApplicationContext(), R.layout.area, areaList);
         adapter.notifyDataSetChanged();
         auto_area.setAdapter(adapter);
 
 
-         zipcodeAdapter=new ArrayAdapter<String>(getApplicationContext(),R.layout.area,zipcodeList);
+        zipcodeAdapter = new ArrayAdapter<String>(getApplicationContext(), R.layout.area, zipcodeList);
         pincodeEditText.setAdapter(zipcodeAdapter);
 
         listOfZipCode.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                zipcode=adapterView.getItemAtPosition(i)+"";
+                zipcode = adapterView.getItemAtPosition(i) + "";
             }
         });
 
@@ -197,7 +195,7 @@ public class SignUpActivity extends ActionBarActivity {
         state_spinner = (Spinner) findViewById(R.id.state_spinner);
         city_spinner = (Spinner) findViewById(R.id.city_spinner);
         listOfAreas = (ListView) findViewById(R.id.listOfAreas);
-        listOfZipCode=(ListView) findViewById(R.id.listOfZipCode);
+        listOfZipCode = (ListView) findViewById(R.id.listOfZipCode);
 
 //        UtilityClassForLanguagePreferance.applyTypeface(UtilityClassForLanguagePreferance.getParentView(passwordEditText), UtilityClassForLanguagePreferance.getTypeFace(context));
     }
@@ -376,8 +374,8 @@ public class SignUpActivity extends ActionBarActivity {
         editor.putString("USER_COUNTRY", country);
         editor.commit();
     }
-    public void storeZipCode()
-    {
+
+    public void storeZipCode() {
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         SharedPreferences.Editor editor = sp.edit();
         editor.putString("USER_ZIPCODE", zipcode);
@@ -428,8 +426,8 @@ public class SignUpActivity extends ActionBarActivity {
         resultGetCountryList = ServerConnection.executeGet(getApplicationContext(), "/api/location/area?city=" + city);
         return resultGetCountryList;
     }
-    public String getZipCodeList() throws Exception
-    {
+
+    public String getZipCodeList() throws Exception {
         String resultGetZipCodeList = "";
         resultGetZipCodeList = ServerConnection.executeGet(getApplicationContext(), "/api/location?key=zipcode&value=" + city);
         return resultGetZipCodeList;
@@ -689,7 +687,7 @@ public class SignUpActivity extends ActionBarActivity {
                 if (connectedOrNot.equalsIgnoreCase("success")) {
                     if (!resultGetCities.isEmpty()) {
                         if (jObj.has("success")) {
-                            Collections.sort(successResponseForCityList.getSuccess().getCity(),new CustomComparator());
+                            Collections.sort(successResponseForCityList.getSuccess().getCity(), new CustomComparator());
                             cityListAdapter = new CityAreaListAdapter(getApplicationContext(), successResponseForCityList.getSuccess().getCity());
                             city_spinner.setAdapter(cityListAdapter);
                             city_spinner.setSelection(successResponseForCityList.getSuccess().getCity().indexOf(loadCityPreference()));
@@ -717,7 +715,7 @@ public class SignUpActivity extends ActionBarActivity {
         protected void onPreExecute() {
             progressDialog = ProgressDialog.show(SignUpActivity.this, "", "");
             areaList.clear();
-            Log.d("AreaList","clear");
+            Log.d("AreaList", "clear");
         }
 
         @Override
@@ -784,7 +782,7 @@ public class SignUpActivity extends ActionBarActivity {
             progressDialog = ProgressDialog.show(SignUpActivity.this, "", "");
             progressDialog.setCancelable(true);
             zipcodeList.clear();
-            Log.d("ZipCodeList","clear");
+            Log.d("ZipCodeList", "clear");
         }
 
         @Override

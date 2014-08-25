@@ -1,61 +1,52 @@
 package com.gls.orderzapp.MainApp;
 
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.gls.orderzapp.AddressDetails.Adapter.DeliveryChargesAndTypeAdapter;
 import com.gls.orderzapp.R;
-import com.gls.orderzapp.SignUp.Location;
 import com.gls.orderzapp.User.SettingsUserData;
 import com.gls.orderzapp.User.SuccessResponseOfUser;
 import com.gls.orderzapp.User.UserDetails;
-import com.gls.orderzapp.Utility.CheckConnection;
 import com.gls.orderzapp.Utility.GoogleAnalyticsUtility;
-import com.gls.orderzapp.Utility.ServerConnection;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-
-import org.json.JSONObject;
 
 /**
  * Created by prajyot on 20/6/14.
  */
 public class ChangeAddressActivity extends Activity {
+    public static EditText edittext_address1, edittext_address2, edittext_area, edittext_city, edittext_state, edittext_country, edittext_zipcode;
+    public static boolean isAddressChanged = false;
     TextView text_address;
     Context context;
-    String userID,user;
-    public static EditText edittext_address1, edittext_address2, edittext_area, edittext_city, edittext_state, edittext_country, edittext_zipcode;
+    String userID, user;
     Button save_address;
-    public static boolean isAddressChanged = false;
     Bundle bundle;
     UserDetails userDetails;
     SettingsUserData settingsUserData;
     SuccessResponseOfUser successResponseForUserID;
-//    SuccessResponseOfUser successResponseOfUser;
+    //    SuccessResponseOfUser successResponseOfUser;
     DeliveryPaymentActivity deliveryPaymentActivity;
     GsonBuilder gsonBuild = new GsonBuilder();
     Gson gson = gsonBuild.disableHtmlEscaping().create();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ((GoogleAnalyticsUtility) getApplication()).getTracker(GoogleAnalyticsUtility.TrackerName.APP_TRACKER);
         setContentView(R.layout.change_address_activity);
-        context=ChangeAddressActivity.this;
+        context = ChangeAddressActivity.this;
         findViewsById();
-         bundle=getIntent().getExtras();
-        deliveryPaymentActivity=new DeliveryPaymentActivity();
+        bundle = getIntent().getExtras();
+        deliveryPaymentActivity = new DeliveryPaymentActivity();
 
         isAddressChanged = false;
     }
@@ -117,7 +108,7 @@ public class ChangeAddressActivity extends Activity {
             Toast.makeText(getApplicationContext(), "Please enter your State", Toast.LENGTH_LONG).show();
             return;
         }
-        if(bundle.getString("User_Address").equals("DeliveryAddress")) {
+        if (bundle.getString("User_Address").equals("DeliveryAddress")) {
             DeliveryPaymentActivity.shipping_address_textview.setText(edittext_address1.getText().toString() + ", " +
                     edittext_address2.getText().toString() + ", " +
                     edittext_area.getText().toString() + ", \n" +
@@ -143,18 +134,18 @@ public class ChangeAddressActivity extends Activity {
 
     public String loadPreferencesUserDataForDeliveryAddress() throws Exception {
         String user = "";
-        String DeliveryAddresDetails="";
+        String DeliveryAddresDetails = "";
         try {
             SharedPreferences spLoad = PreferenceManager.getDefaultSharedPreferences(context);
             user = spLoad.getString("USER_DATA_DELIVERY_ADDRESS", null);
-            successResponseForUserID= new Gson().fromJson(user, SuccessResponseOfUser.class);
-            successResponseForUserID.getSuccess().getUser().getLocation().setArea( edittext_area.getText().toString());
-            successResponseForUserID.getSuccess().getUser().getLocation().setCity( edittext_city.getText().toString());
+            successResponseForUserID = new Gson().fromJson(user, SuccessResponseOfUser.class);
+            successResponseForUserID.getSuccess().getUser().getLocation().setArea(edittext_area.getText().toString());
+            successResponseForUserID.getSuccess().getUser().getLocation().setCity(edittext_city.getText().toString());
             successResponseForUserID.getSuccess().getUser().getLocation().setAddress1(edittext_address1.getText().toString());
             successResponseForUserID.getSuccess().getUser().getLocation().setAddress2(edittext_address2.getText().toString());
-            successResponseForUserID.getSuccess().getUser().getLocation().setCountry( edittext_country.getText().toString());
+            successResponseForUserID.getSuccess().getUser().getLocation().setCountry(edittext_country.getText().toString());
             successResponseForUserID.getSuccess().getUser().getLocation().setState(edittext_state.getText().toString());
-            successResponseForUserID.getSuccess().getUser().getLocation().setZipcode(edittext_zipcode.getText().toString() );
+            successResponseForUserID.getSuccess().getUser().getLocation().setZipcode(edittext_zipcode.getText().toString());
 
             SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
             SharedPreferences.Editor edit = sp.edit();

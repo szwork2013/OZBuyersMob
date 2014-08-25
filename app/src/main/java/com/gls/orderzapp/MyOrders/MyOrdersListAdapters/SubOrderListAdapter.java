@@ -28,7 +28,6 @@ import com.nostra13.universalimageloader.core.assist.SimpleImageLoadingListener;
 import java.io.File;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
@@ -38,12 +37,11 @@ import java.util.TimeZone;
  */
 public class SubOrderListAdapter extends BaseAdapter {
 
-    Context context;
-    List<SubOrderDetails> subOrderDetailsList;
-
-    DisplayImageOptions options;
     public static ListView listDetailedTrack;
     public static LinearLayout llApproval, llOrderProcessing, llDelivery;
+    Context context;
+    List<SubOrderDetails> subOrderDetailsList;
+    DisplayImageOptions options;
     ImageLoader imageLoader;
     int pos;
     Typeface tfRobotoNormal;
@@ -65,7 +63,29 @@ public class SubOrderListAdapter extends BaseAdapter {
 
         tfRobotoNormal = Typeface.createFromAsset(context.getAssets(), "Roboto-Regular.ttf");
         tfRobotoBold = Typeface.createFromAsset(context.getAssets(), "Roboto-Bold.ttf");
-        activity = (MyOrdersListActivity)this.context;
+        activity = (MyOrdersListActivity) this.context;
+    }
+
+    public static void setListViewHeightBasedOnChildren(ListView gridView) {
+        ListAdapter listAdapter = gridView.getAdapter();
+        if (listAdapter == null)
+            return;
+
+        int desiredWidth = View.MeasureSpec.makeMeasureSpec(gridView.getWidth(), View.MeasureSpec.UNSPECIFIED);
+        int totalHeight = 0;
+        View view = null;
+
+        for (int i = 0; i < listAdapter.getCount(); i++) {
+            view = listAdapter.getView(i, view, gridView);
+            if (i == 0)
+                view.setLayoutParams(new LinearLayout.LayoutParams(desiredWidth, LinearLayout.LayoutParams.WRAP_CONTENT));
+            view.measure(desiredWidth, View.MeasureSpec.UNSPECIFIED);
+            totalHeight += view.getMeasuredHeight();
+        }
+        ViewGroup.LayoutParams params = gridView.getLayoutParams();
+        params.height = totalHeight + (gridView.getDividerHeight() * listAdapter.getCount());
+        gridView.setLayoutParams(params);
+        gridView.requestLayout();
     }
 
     @Override
@@ -99,7 +119,7 @@ public class SubOrderListAdapter extends BaseAdapter {
         TextView textSubTotal = (TextView) convertView.findViewById(R.id.text_sub_total);
         TextView subTotal = (TextView) convertView.findViewById(R.id.sub_total);
         TextView text_order_cancelled = (TextView) convertView.findViewById(R.id.text_order_cancelled);
-        LinearLayout ll_show_order= (LinearLayout) convertView.findViewById(R.id.ll_show_order);
+        LinearLayout ll_show_order = (LinearLayout) convertView.findViewById(R.id.ll_show_order);
         TextView delivery_charges = (TextView) convertView.findViewById(R.id.delivery_charges);
         final ImageView imageApproval = (ImageView) convertView.findViewById(R.id.imageApproval);
         final ImageView imageOrderProcessing = (ImageView) convertView.findViewById(R.id.imageOrderProcessing);
@@ -117,13 +137,11 @@ public class SubOrderListAdapter extends BaseAdapter {
 
 
 //        if(MyOrdersListActivity.actualList.get(pos).get(position).equals("cancelled")){
-        if (subOrderDetailsList.get(position).getStatus() != null && subOrderDetailsList.get(position).getStatus().equals("cancelledbyconsumer"))
-        {
+        if (subOrderDetailsList.get(position).getStatus() != null && subOrderDetailsList.get(position).getStatus().equals("cancelledbyconsumer")) {
             text_order_cancelled.setVisibility(View.VISIBLE);
             text_order_cancelled.setText("Order cancelled By User");
             ll_show_order.setVisibility(View.GONE);
-        }
-        else if (subOrderDetailsList.get(position).getStatus() != null && subOrderDetailsList.get(position).getStatus().equals("cancelled")) {
+        } else if (subOrderDetailsList.get(position).getStatus() != null && subOrderDetailsList.get(position).getStatus().equals("cancelled")) {
             String prevStatus = "";
             text_order_cancelled.setVisibility(View.VISIBLE);
             text_order_cancelled.setText("Order cancelled By Seller");
@@ -170,7 +188,7 @@ public class SubOrderListAdapter extends BaseAdapter {
 
                 TrackingView.orderDetailsWhenCancelled(context, "delivery", subOrderDetailsList.get(position), position, pos);
             }
-            MyOrdersListActivity activity = (MyOrdersListActivity)context;
+            MyOrdersListActivity activity = (MyOrdersListActivity) context;
             TrackingView.trackOrder(context, activity.serverTrackingStatus.get(pos).get(position).get(activity.serverTrackingStatus.get(pos).get(position).size() - 2));
 
             llParentApproved.setOnClickListener(new View.OnClickListener() {
@@ -315,7 +333,7 @@ public class SubOrderListAdapter extends BaseAdapter {
                     }
                 }
             });
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
@@ -342,37 +360,15 @@ public class SubOrderListAdapter extends BaseAdapter {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        if(subOrderDetailsList.get(position).getProductprovider().getProviderbrandname() != null) {
+        if (subOrderDetailsList.get(position).getProductprovider().getProviderbrandname() != null) {
             seller.setText(subOrderDetailsList.get(position).getProductprovider().getProviderbrandname());
         }
         delivery_charges.setText(String.format("%.2f", subOrderDetailsList.get(position).getDeliverycharge()));
-        if(subOrderDetailsList.get(position).getSuborder_price() != null) {
+        if (subOrderDetailsList.get(position).getSuborder_price() != null) {
             subTotal.setText(String.format("%.2f", Double.parseDouble(subOrderDetailsList.get(position).getSuborder_price())));
         }
         listSubOrders.setAdapter(new SubOrderProductListAdapter(context, subOrderDetailsList.get(position).getProducts()));
         setListViewHeightBasedOnChildren(listSubOrders);
         return convertView;
-    }
-
-    public static void setListViewHeightBasedOnChildren(ListView gridView) {
-        ListAdapter listAdapter = gridView.getAdapter();
-        if (listAdapter == null)
-            return;
-
-        int desiredWidth = View.MeasureSpec.makeMeasureSpec(gridView.getWidth(), View.MeasureSpec.UNSPECIFIED);
-        int totalHeight = 0;
-        View view = null;
-
-        for (int i = 0; i < listAdapter.getCount(); i++) {
-            view = listAdapter.getView(i, view, gridView);
-            if (i == 0)
-                view.setLayoutParams(new LinearLayout.LayoutParams(desiredWidth, LinearLayout.LayoutParams.WRAP_CONTENT));
-            view.measure(desiredWidth, View.MeasureSpec.UNSPECIFIED);
-            totalHeight += view.getMeasuredHeight();
-        }
-        ViewGroup.LayoutParams params = gridView.getLayoutParams();
-        params.height = totalHeight + (gridView.getDividerHeight() * listAdapter.getCount());
-        gridView.setLayoutParams(params);
-        gridView.requestLayout();
     }
 }

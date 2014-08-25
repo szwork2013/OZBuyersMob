@@ -2,16 +2,16 @@
 
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-    android:background="#304f6c"
-    android:layout_height="fill_parent">
+    android:layout_height="fill_parent"
+    android:background="#304f6c">
 
     <RelativeLayout
         android:layout_width="fill_parent"
-        android:layout_marginRight="10dp"
-        android:background="#fff"
+        android:layout_height="fill_parent"
         android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
         android:layout_marginTop="10dp"
-        android:layout_height="fill_parent">
+        android:background="#fff">
 
         <EditText
             android:id="@+id/editTextUserName"
@@ -89,9 +89,9 @@
             android:layout_centerHorizontal="true"
             android:layout_marginTop="10dp"
             android:ems="10"
-            android:maxLength="6"
             android:hint="@string/pincode"
             android:inputType="number"
+            android:maxLength="6"
             android:textSize="18sp" />
 
         <EditText
@@ -101,17 +101,17 @@
             android:layout_below="@+id/editTextPincode"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="10dp"
-            android:ems="10"
             android:editable="true"
+            android:ems="10"
             android:hint="@string/state"
             android:textSize="18sp" />
 
         <EditText
+            android:id="@+id/editTextCountry"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/editTextState"
             android:layout_centerHorizontal="true"
-            android:id="@+id/editTextCountry"
             android:layout_marginTop="10dp"
             android:hint="@string/country"
             android:textSize="18sp" />
@@ -128,15 +128,15 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/spinner"
-            android:onClick="saveSettings"
             android:layout_marginBottom="10dp"
-            android:background="#fd9717"
-            android:textSize="20sp"
-            android:textStyle="bold"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
+            android:background="#fd9717"
+            android:onClick="saveSettings"
+            android:text="@string/save"
             android:textColor="#fff"
-            android:text="@string/save" />
+            android:textSize="20sp"
+            android:textStyle="bold" />
 
     </RelativeLayout>
 

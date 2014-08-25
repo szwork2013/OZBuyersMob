@@ -4,8 +4,8 @@
 
     <item
         android:id="@+id/signup"
+        android:actionLayout="@layout/sign_in_action_view"
         android:showAsAction="always"
-        android:title="New User? Sign-Up"
-        android:actionLayout="@layout/sign_in_action_view" />
+        android:title="New User? Sign-Up" />
 
 </menu>

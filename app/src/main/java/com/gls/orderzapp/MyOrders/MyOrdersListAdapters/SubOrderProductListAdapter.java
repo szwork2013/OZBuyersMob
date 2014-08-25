@@ -11,7 +11,6 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.gls.orderzapp.MyOrders.Beans.ProductConfiguration;
 import com.gls.orderzapp.MyOrders.Beans.ProductDetails;
@@ -180,7 +179,7 @@ public class SubOrderProductListAdapter extends BaseAdapter {
                 });
             }
 
-            if(productDetailsList.get(position).getProductname() != null){
+            if (productDetailsList.get(position).getProductname() != null) {
                 txt_product_name.setText(productDetailsList.get(position).getProductname());
             }
 
@@ -192,13 +191,13 @@ public class SubOrderProductListAdapter extends BaseAdapter {
                     displayPriceDetailsInDialog(productDetailsList.get(position));
                 }
             });
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return convertView;
     }
 
-    void displayPriceDetailsInDialog(ProductDetails productDetails){
+    void displayPriceDetailsInDialog(ProductDetails productDetails) {
         try {
             LayoutInflater li = LayoutInflater.from(context);
             View dialogView = li.inflate(R.layout.my_order_price_details_dialog, null);
@@ -218,11 +217,11 @@ public class SubOrderProductListAdapter extends BaseAdapter {
             product_base_price.setText(productDetails.getBaseprice() + "");
 
 
-            product_quantity.setText(productDetails.getQty()+" "+productDetails.getUom());
+            product_quantity.setText(productDetails.getQty() + " " + productDetails.getUom());
 
-            product_configuration_price.setText(configurationPrice(productDetails.getProductconfiguration())+"");
+            product_configuration_price.setText(configurationPrice(productDetails.getProductconfiguration()) + "");
 
-            total_product_price.setText(productDetails.getOrderprice()+"");
+            total_product_price.setText(productDetails.getOrderprice() + "");
             // create alert dialog
             final AlertDialog alertDialog = alertDialogBuilder.create();
 

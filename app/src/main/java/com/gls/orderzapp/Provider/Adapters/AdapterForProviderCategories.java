@@ -114,7 +114,7 @@ public class AdapterForProviderCategories {
                         }
                     }
                 });
-            }catch (Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
             }
 
@@ -128,7 +128,7 @@ public class AdapterForProviderCategories {
                 productDetails.setProductname("more");
                 productDetails.setFoodtype("none");
                 ProductLogo productLogo = new ProductLogo();
-                ProductDiscount discount=new ProductDiscount();
+                ProductDiscount discount = new ProductDiscount();
                 discount.setCode("none");
                 discount.setPercent(0);
                 productDetails.setDiscount(discount);
@@ -139,9 +139,9 @@ public class AdapterForProviderCategories {
             imageProvider.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View view) {
-                    Intent goToProviderDetailsActivity = new Intent(context , ProviderDetailsActivity.class);
-                    goToProviderDetailsActivity.putExtra("PROVIDER_DETAILS",new Gson().toJson(providerDetailsList.get(view.getId()-1000).getProvider()));
-                    goToProviderDetailsActivity.putExtra("PROVIDER_BRANCH_DETAILS",new Gson().toJson(providerDetailsList.get(view.getId()-1000).getBranch()));
+                    Intent goToProviderDetailsActivity = new Intent(context, ProviderDetailsActivity.class);
+                    goToProviderDetailsActivity.putExtra("PROVIDER_DETAILS", new Gson().toJson(providerDetailsList.get(view.getId() - 1000).getProvider()));
+                    goToProviderDetailsActivity.putExtra("PROVIDER_BRANCH_DETAILS", new Gson().toJson(providerDetailsList.get(view.getId() - 1000).getBranch()));
                     goToProviderDetailsActivity.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     context.startActivity(goToProviderDetailsActivity);
                     return false;
@@ -149,11 +149,10 @@ public class AdapterForProviderCategories {
             });
             categoryDetailsGridView.setAdapter(new GridAdapterProviderCategories(context, providerDetailsList.get(i).getProducts(), providerDetailsList.get(i).getBranch(), (ProviderDetails) categoryDetailsGridView.getTag()));
             setListViewHeightBasedOnChildren(categoryDetailsGridView);
-            imageProvider.setId(i+1000);
+            imageProvider.setId(i + 1000);
             if (providerDetailsList.get(i).getProducts().size() > 0) {
                 StartUpActivity.linearLayoutCategories.addView(linearLayoutCategoryDetails);
             }
-
 
 
         }

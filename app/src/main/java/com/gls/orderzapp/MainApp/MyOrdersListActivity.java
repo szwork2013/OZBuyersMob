@@ -19,12 +19,12 @@ import java.util.List;
  * Created by prajyot on 5/5/14.
  */
 public class MyOrdersListActivity extends Activity {
-    public ListView mainOrderList;
-    Context context;
-    TextView txt_noOrder;
     public static SuccessResponseForMyOrders successResponseForMyOrders;
+    public ListView mainOrderList;
     public ArrayList<ArrayList<String>> actualList = new ArrayList<>();
     public List<ArrayList<ArrayList<String>>> serverTrackingStatus = new ArrayList<>();
+    Context context;
+    TextView txt_noOrder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,8 +71,8 @@ public class MyOrdersListActivity extends Activity {
 
     public void noOrder(String msg) {
         txt_noOrder.setVisibility(View.VISIBLE);
-                txt_noOrder.setText(msg);
-                mainOrderList.setVisibility(View.GONE);
+        txt_noOrder.setText(msg);
+        mainOrderList.setVisibility(View.GONE);
     }
 
     public void orderExists() {

@@ -23,10 +23,10 @@ import org.json.JSONObject;
  * Created by avinash on 2/7/14.
  */
 public class SelectAddressListActivity extends Activity {
+    public static boolean isAddNewaddress = false;
     ListView lst_address_list;
     DeliveryAddressSuccessResponse deliveryAddressSuccessResponse;
     Context context;
-    public static boolean isAddNewaddress = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

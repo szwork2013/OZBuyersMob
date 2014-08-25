@@ -42,9 +42,9 @@ public class DisplayDeliveryChargesAndType {
     public static SuccessResponseForDeliveryChargesAndType listOfDeliveryCharges;
     public static ListOfPickupAddresses listOfPickupAddresses = new ListOfPickupAddresses();
     public static List<Button> listPickUpButtons = new ArrayList<>();
+    public static List<ProductDetails> checkForDeliveryModeList;
     public String[] providerid;
     int i = 0;
-    public static List<ProductDetails> checkForDeliveryModeList;
     EditText tempEditText = null;
     String tag = "";
 
@@ -60,20 +60,20 @@ public class DisplayDeliveryChargesAndType {
 
     public static boolean deliveryTypeCheck() {
         boolean deliverycheck = false;
-        if(checkForDeliveryModeList.size() == deliveryType.size()) {
+        if (checkForDeliveryModeList.size() == deliveryType.size()) {
             for (int l = 0; l < deliveryType.size(); l++) {
                 Log.d("delivery ttype", new Gson().toJson(deliveryType));
                 if (deliveryType.get(l) != null) {
                     if (deliverytypebean.get(l).getDeliveryType().equalsIgnoreCase("pickup")) {
                         Log.d("pickuppppppppppppppppppp", new Gson().toJson(deliveryType.get(l)));
 
-                            if (deliverytypebean.get(l).getPickUpArea() == null) {
-                                deliverycheck = false;
-                                Toast.makeText(context, "Please select your pickup address", Toast.LENGTH_LONG).show();
-                                break;
-                            } else {
-                                deliverycheck = true;
-                            }
+                        if (deliverytypebean.get(l).getPickUpArea() == null) {
+                            deliverycheck = false;
+                            Toast.makeText(context, "Please select your pickup address", Toast.LENGTH_LONG).show();
+                            break;
+                        } else {
+                            deliverycheck = true;
+                        }
 
                     } else if (deliverytypebean.get(l).getDeliveryType().equalsIgnoreCase("home")) {
                         Log.d("homeeeeeeeeeeeeeeeeeeeeeeee", new Gson().toJson(deliveryType.get(l)));
@@ -88,7 +88,7 @@ public class DisplayDeliveryChargesAndType {
             }
         } else {
             Toast.makeText(context, "Please select your delivery type", Toast.LENGTH_LONG).show();
-            Log.d("3","3");
+            Log.d("3", "3");
             deliverycheck = false;
         }
         return deliverycheck;
@@ -101,8 +101,8 @@ public class DisplayDeliveryChargesAndType {
             }
         }
 
-        for(int i = 0; i < deliverytypebean.size(); i++){
-            if(tag.equals(deliverytypebean.get(i).getBranchid())){
+        for (int i = 0; i < deliverytypebean.size(); i++) {
+            if (tag.equals(deliverytypebean.get(i).getBranchid())) {
                 deliverytypebean.get(i).setPickUpArea(AdapterForPickUpAddressList.pickupAddressFromList.getArea());
             }
         }
@@ -133,9 +133,9 @@ public class DisplayDeliveryChargesAndType {
                 if (listOfDeliveryCharges.getSuccess().getDeliverycharge().get(j).getBranchid().equals(checkForDeliveryModeList.get(i).getBranchid())) {
                     if (listOfDeliveryCharges.getSuccess().getDeliverycharge().get(j).isDelivery() == true) {
                         home_delivery.setVisibility(View.VISIBLE);
-                        if(listOfDeliveryCharges.getSuccess().getDeliverycharge().get(j).isIsdeliverychargeinpercent() == true){
-                            txt_delivery_charges.setText(String.format("%.2f", (Cart.deliveryCharges(listOfDeliveryCharges.getSuccess().getDeliverycharge().get(j).getBranchid()) * listOfDeliveryCharges.getSuccess().getDeliverycharge().get(j).getCharge())/100));
-                        }else {
+                        if (listOfDeliveryCharges.getSuccess().getDeliverycharge().get(j).isIsdeliverychargeinpercent() == true) {
+                            txt_delivery_charges.setText(String.format("%.2f", (Cart.deliveryCharges(listOfDeliveryCharges.getSuccess().getDeliverycharge().get(j).getBranchid()) * listOfDeliveryCharges.getSuccess().getDeliverycharge().get(j).getCharge()) / 100));
+                        } else {
                             txt_delivery_charges.setText(String.format("%.2f", listOfDeliveryCharges.getSuccess().getDeliverycharge().get(j).getCharge()));
                         }
                     } else {

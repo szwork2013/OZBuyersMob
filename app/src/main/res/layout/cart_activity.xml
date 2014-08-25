@@ -47,23 +47,27 @@
                     android:text="@string/select_delivery_area_date"
                     android:textColor="#000"
                     android:textSize="20sp" />
+
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:background="#fd9717" />
+
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:orientation="horizontal"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="3dp"
                     android:layout_marginLeft="20dp"
                     android:layout_marginTop="2dp"
-                    android:layout_marginBottom="3dp"
-                    android:layout_height="wrap_content">
+                    android:orientation="horizontal">
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/areawithcolon"
                         android:textColor="#000"
                         android:textSize="16sp" />
+
                     <TextView
                         android:id="@+id/area_text"
                         android:layout_width="wrap_content"
@@ -71,8 +75,8 @@
                         android:layout_marginLeft="5dp"
                         android:background="@drawable/square_fill_with_gray_color"
                         android:clickable="true"
-                        android:onClick="selectArea"
                         android:gravity="center"
+                        android:onClick="selectArea"
                         android:text="Your area"
                         android:textColor="#000"
                         android:textSize="18sp" />
@@ -83,6 +87,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="20dp"
                     android:orientation="horizontal">
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -95,8 +100,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="25dp"
                         android:layout_marginLeft="2dp"
-                        android:gravity="center"
                         android:background="@drawable/date_background"
+                        android:gravity="center"
                         android:hint="@string/expected_delivery_date"
                         android:onClick="selectDeliveryDate"
                         android:textSize="18sp"

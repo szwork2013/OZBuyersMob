@@ -17,20 +17,19 @@ import android.os.Vibrator;
 import android.util.Log;
 
 import com.gls.orderzapp.MainApp.GCMTestActivity;
-import com.gls.orderzapp.MainApp.SignUpActivity;
 import com.gls.orderzapp.MainApp.TabActivityForOrders;
 import com.gls.orderzapp.R;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
-import com.google.gson.Gson;
 
 /**
  * Created by avinash on 27/5/14.
  */
 public class GcmIntentService extends IntentService {
     public static final int NOTIFICATION_ID = 1;
-    private NotificationManager mNotificationManager;
     public Vibrator vibrator;
     Notification.Builder builder;
+    private NotificationManager mNotificationManager;
+
     public GcmIntentService() {
         super("GcmIntentService");
     }
@@ -69,12 +68,12 @@ public class GcmIntentService extends IntentService {
                 }
                 Log.i("GCMDemo", "Completed work @ " + SystemClock.elapsedRealtime());
                 // Post notification of received message.
-                String msg="Your order No: "+extras.get("suborderid").toString()+" has " + extras.get("status").toString();
+                String msg = "Your order No: " + extras.get("suborderid").toString() + " has " + extras.get("status").toString();
                 sendNotification(msg);
                 Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
                 Ringtone r = RingtoneManager.getRingtone(getApplicationContext(), notification);
                 r.play();
-                vibrator = (Vibrator)getSystemService(Context.VIBRATOR_SERVICE);
+                vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
                 //start vibration with repeated count, use -1 if you don't want to repeat the vibration
                 vibrator.vibrate(1500);
 
@@ -99,7 +98,7 @@ public class GcmIntentService extends IntentService {
                 new Notification.Builder(this)
                         .setSmallIcon(R.drawable.ic_launcher)
                         .setContentTitle("OrderZapp notification")
-                                .setStyle(new Notification.BigTextStyle().bigText(msg))
+                        .setStyle(new Notification.BigTextStyle().bigText(msg))
                         .setAutoCancel(true)
                         .setContentText(msg);
 

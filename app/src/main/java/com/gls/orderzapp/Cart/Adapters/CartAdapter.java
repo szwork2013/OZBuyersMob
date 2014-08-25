@@ -1,4 +1,3 @@
-
 package com.gls.orderzapp.Cart.Adapters;
 
 import android.app.ProgressDialog;
@@ -10,10 +9,8 @@ import android.os.AsyncTask;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
@@ -52,27 +49,27 @@ import java.util.TimeZone;
  * Created by prajyot on 10/7/14.
  */
 public class CartAdapter {
+    public static LinearLayout llCartListItemView, llProductList;
+    public static List<ProductDetails> productList;
+    public static List<TextView> listText = new ArrayList<>();
+    public static TextView sub_total;
+    public CheckDeliveryTimeSlotsProductIDs productIdsForGettingTimeSlots;
+    public SuccesResponseCheckDeliveryTimingSlots succesResponseCheckDeliveryTimingSlots;
     Context context;
     String[] mKeys;
     ProductDetails[] mValues;
-    public static LinearLayout llCartListItemView, llProductList;
-    public static List<ProductDetails> productList;
     List<String> branchids;
     List<ProductDetails> listProducts = new ArrayList<>();
     String branchId = "";
     String productId = "";
-    String date="";
-    Spinner spn_timeslot,tempSpinner;
-    public static List<TextView> listText = new ArrayList<>();
-    public static TextView sub_total;
+    String date = "";
+    Spinner spn_timeslot, tempSpinner;
     List<ProductDetails> SortedProviderList = new ArrayList<>();
     BranchIdsForGettingDeliveryCharges branchIdsForGettingDeliveryCharges;
     SuccessResponseForDeliveryChargesAndType successResponseForDeliveryCharges;
-    public CheckDeliveryTimeSlotsProductIDs productIdsForGettingTimeSlots;
-    public SuccesResponseCheckDeliveryTimingSlots succesResponseCheckDeliveryTimingSlots;
     ArrayList<String> arrayListTimeSlots;
     AvailableDeliveryTimingSlots timeingslot;
-    ArrayList<ArrayList<AvailableDeliveryTimingSlots>> arrayListTimeSlotsObject ;
+    ArrayList<ArrayList<AvailableDeliveryTimingSlots>> arrayListTimeSlotsObject;
     //    ArrayList<AvailableDeliveryTimingSlots> arrayListTimeSlotsObject;
     ArrayList<String> listOfProductIdforDelivery = new ArrayList<>();
     int a = 0;
@@ -91,9 +88,32 @@ public class CartAdapter {
         dataForGetDeliveryCharges();
     }
 
+    public static void changeSubTotal(String cartCount, String parentIndex) {
+        try {
+            String branchid = "";
+            List<ProductDetails> list = new ArrayList<>();
+            for (int j = 0; j < productList.size(); j++) {
+                if (cartCount.equalsIgnoreCase(productList.get(j).getCartCount())) {
+                    branchid = productList.get(j).getBranchid();
+                }
+            }
+
+            for (int j = 0; j < productList.size(); j++) {
+                if (branchid.equalsIgnoreCase(productList.get(j).getBranchid())) {
+                    list.add(productList.get(j));
+                }
+            }
+
+            Log.d("list", new Gson().toJson(list));
+            ((TextView) listText.get(Integer.parseInt(parentIndex))).setText(Cart.providerSubTotalInCart(list) + "");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     public void getCartView() {
         branchids = new ArrayList<>();
-        for ( int i = 0; i < Cart.hm.size(); i++) {
+        for (int i = 0; i < Cart.hm.size(); i++) {
             String branchid = productList.get(i).getBranchid();
             a++;
             if (branchids.contains(branchid)) {
@@ -158,10 +178,8 @@ public class CartAdapter {
                     ll_deliverylayout_cart.setVisibility(View.VISIBLE);
                     if (successResponseForDeliveryCharges.getSuccess().getDeliverycharge().size() > 0) {
                         for (int j = 0; j < successResponseForDeliveryCharges.getSuccess().getDeliverycharge().size(); j++) {
-                            if (successResponseForDeliveryCharges.getSuccess().getDeliverycharge().get(j).getBranchid() != null)
-                            {
-                                if (successResponseForDeliveryCharges.getSuccess().getDeliverycharge().get(j).getBranchid().equals(branchid))
-                                {
+                            if (successResponseForDeliveryCharges.getSuccess().getDeliverycharge().get(j).getBranchid() != null) {
+                                if (successResponseForDeliveryCharges.getSuccess().getDeliverycharge().get(j).getBranchid().equals(branchid)) {
 
                                     if (successResponseForDeliveryCharges.getSuccess().getDeliverycharge().get(j).isDelivery() == true) {
                                         delivery_type.setBackgroundColor(Color.parseColor("#009431"));
@@ -178,14 +196,14 @@ public class CartAdapter {
                         }
                     }
 
-                    for(int k = 0; k < succesResponseCheckDeliveryTimingSlots.getSuccess().getDoc().size(); k++){
+                    for (int k = 0; k < succesResponseCheckDeliveryTimingSlots.getSuccess().getDoc().size(); k++) {
 
-                        if (succesResponseCheckDeliveryTimingSlots.getSuccess().getDoc().get(k).getBranchid().equals(branchid)){
+                        if (succesResponseCheckDeliveryTimingSlots.getSuccess().getDoc().get(k).getBranchid().equals(branchid)) {
 
                             delivery_date_on_shoppingcart.setText(deliveryDateOnCart(succesResponseCheckDeliveryTimingSlots.getSuccess().getDoc().get(k).getExpected_date()));
 
-                           date=deliveryDateOnCart(succesResponseCheckDeliveryTimingSlots.getSuccess().getDoc().get(k).getExpected_date());
-                            Log.d("PrefDate",productList.get(i).getPrefereddeliverydate());
+                            date = deliveryDateOnCart(succesResponseCheckDeliveryTimingSlots.getSuccess().getDoc().get(k).getExpected_date());
+                            Log.d("PrefDate", productList.get(i).getPrefereddeliverydate());
 //                            for (int m = 0; m < arrayListTimeSlots.size(); m++) {
                             spn_timeslot.setAdapter(new SpinnerAdapter(context.getApplicationContext(), deliveryTimeSlots(succesResponseCheckDeliveryTimingSlots.getSuccess().getDoc().get(k).getDeliverytimingslots(), succesResponseCheckDeliveryTimingSlots.getSuccess().getDoc().get(k).getBranchid())));
 //                            }
@@ -197,23 +215,23 @@ public class CartAdapter {
                 }
 
 
-                spn_timeslot.setId((branchids.size()-1) + 3000);
+                spn_timeslot.setId((branchids.size() - 1) + 3000);
                 btn_productcart_privacy.setId(i + 2000);
                 CartActivity.llCartList.addView(llCartListItemView);
                 spn_timeslot.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                     @Override
                     public void onItemSelected(AdapterView<?> adapterView, View view, int pos, long l) {
 
-                        Log.d("ids", adapterView.getId()-3000+"");
+                        Log.d("ids", adapterView.getId() - 3000 + "");
 //                        Toast.makeText(context, new Gson().toJson(arrayListTimeSlotsObject.get(adapterView.getId()-3000)), Toast.LENGTH_LONG).show();
 //
 //                        Toast.makeText(context, new Gson().toJson(arrayListTimeSlotsObject.get(adapterView.getId()-3000).get(pos)), Toast.LENGTH_LONG).show();
                         AvailableDeliveryTimingSlots ts = new AvailableDeliveryTimingSlots();
-                        ts.setAvailable(arrayListTimeSlotsObject.get(adapterView.getId()-3000).get(pos).getAvailable());
-                        ts.setFrom(arrayListTimeSlotsObject.get(adapterView.getId()-3000).get(pos).getFrom());
-                        ts.setTo(arrayListTimeSlotsObject.get(adapterView.getId()-3000).get(pos).getTo());
+                        ts.setAvailable(arrayListTimeSlotsObject.get(adapterView.getId() - 3000).get(pos).getAvailable());
+                        ts.setFrom(arrayListTimeSlotsObject.get(adapterView.getId() - 3000).get(pos).getFrom());
+                        ts.setTo(arrayListTimeSlotsObject.get(adapterView.getId() - 3000).get(pos).getTo());
 
-                        Cart.saveTimeSlot(arrayListTimeSlotsObject.get(adapterView.getId()-3000).get(pos).getBranchid(), ts,date);
+                        Cart.saveTimeSlot(arrayListTimeSlotsObject.get(adapterView.getId() - 3000).get(pos).getBranchid(), ts, date);
 
                     }
 
@@ -229,45 +247,37 @@ public class CartAdapter {
                 sub_total.setText(Cart.providerSubTotalInCart(listProducts) + "");
             }
 
-            Log.d("After date selected",new Gson().toJson(productList));
+            Log.d("After date selected", new Gson().toJson(productList));
         }
     }
-    public ArrayList<String> deliveryTimeSlots(List<AvailableDeliveryTimingSlots> deliveryTimingslots, String branchid)
-    {
+
+    public ArrayList<String> deliveryTimeSlots(List<AvailableDeliveryTimingSlots> deliveryTimingslots, String branchid) {
         ArrayList<AvailableDeliveryTimingSlots> innerArray = new ArrayList<>();
         arrayListTimeSlots = new ArrayList<>();
-        String timeslots="";
-        int getFromHrs=0,getToHrs=0;
-        String getFromMin="",getToMin="";
+        String timeslots = "";
+        int getFromHrs = 0, getToHrs = 0;
+        String getFromMin = "", getToMin = "";
 
-        for(int m=0;m<deliveryTimingslots.size();m++){
+        for (int m = 0; m < deliveryTimingslots.size(); m++) {
             DecimalFormat formatter = new DecimalFormat("00");
-            getFromHrs=(int)deliveryTimingslots.get(m).getFrom();
-            getFromMin= formatter.format(Math.round((int) ((deliveryTimingslots.get(m).getFrom() - getFromHrs) * 60) * 100) / 100);
-            getToHrs=(int)deliveryTimingslots.get(m).getTo();
-            getToMin=formatter.format(Math.round((int)((deliveryTimingslots.get(m).getTo()-getToHrs)*60)*100)/100);
-            if(getFromHrs<12)
-            {
-                timeslots=getFromHrs+":"+getFromMin+" AM";
-            }else if(getFromHrs==12)
-            {
-                timeslots=getFromHrs+":"+getFromMin+" PM";
-            }
-            else if(getFromHrs>12)
-            {
-                timeslots=(getFromHrs-12)+":"+getFromMin+" PM";
+            getFromHrs = (int) deliveryTimingslots.get(m).getFrom();
+            getFromMin = formatter.format(Math.round((int) ((deliveryTimingslots.get(m).getFrom() - getFromHrs) * 60) * 100) / 100);
+            getToHrs = (int) deliveryTimingslots.get(m).getTo();
+            getToMin = formatter.format(Math.round((int) ((deliveryTimingslots.get(m).getTo() - getToHrs) * 60) * 100) / 100);
+            if (getFromHrs < 12) {
+                timeslots = getFromHrs + ":" + getFromMin + " AM";
+            } else if (getFromHrs == 12) {
+                timeslots = getFromHrs + ":" + getFromMin + " PM";
+            } else if (getFromHrs > 12) {
+                timeslots = (getFromHrs - 12) + ":" + getFromMin + " PM";
             }
 
-            if(getToHrs<12)
-            {
-                timeslots=timeslots.concat(" - "+getToHrs+":"+getToMin+" AM");
-            }else if(getToHrs==12)
-            {
-                timeslots=timeslots.concat(" - "+getToHrs+":"+getToMin+" PM");
-            }
-            else if(getToHrs>12)
-            {
-                timeslots=timeslots.concat(" - "+(getToHrs-12)+":"+getToMin+" PM");
+            if (getToHrs < 12) {
+                timeslots = timeslots.concat(" - " + getToHrs + ":" + getToMin + " AM");
+            } else if (getToHrs == 12) {
+                timeslots = timeslots.concat(" - " + getToHrs + ":" + getToMin + " PM");
+            } else if (getToHrs > 12) {
+                timeslots = timeslots.concat(" - " + (getToHrs - 12) + ":" + getToMin + " PM");
             }
 
 //            if(deliveryTimingslots.get(m).getFrom()<12)
@@ -293,9 +303,8 @@ public class CartAdapter {
 //            {
 //                timeslots=timeslots.concat(" - "+(deliveryTimingslots.get(m).getTo()-12)+" PM");
 //            }
-            if(deliveryTimingslots.get(m).getAvailable()==true)
-            {
-                timeingslot=new AvailableDeliveryTimingSlots();
+            if (deliveryTimingslots.get(m).getAvailable() == true) {
+                timeingslot = new AvailableDeliveryTimingSlots();
                 timeingslot.setAvailable(deliveryTimingslots.get(m).getAvailable());
                 timeingslot.setTo(deliveryTimingslots.get(m).getTo());
                 timeingslot.setFrom(deliveryTimingslots.get(m).getFrom());
@@ -306,15 +315,14 @@ public class CartAdapter {
             }
         }
         arrayListTimeSlotsObject.add(innerArray);
-        Log.d("arrayListTimeSlots",new Gson().toJson(arrayListTimeSlots));
-        Log.d("arrayListTimeSlotsObject",new Gson().toJson(arrayListTimeSlotsObject));
+        Log.d("arrayListTimeSlots", new Gson().toJson(arrayListTimeSlots));
+        Log.d("arrayListTimeSlotsObject", new Gson().toJson(arrayListTimeSlotsObject));
 
         return arrayListTimeSlots;
     }
 
-    public String deliveryDateOnCart(String date)
-    {
-        String deliveryDate="";
+    public String deliveryDateOnCart(String date) {
+        String deliveryDate = "";
         try {
             final DateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
             inputFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
@@ -322,7 +330,7 @@ public class CartAdapter {
             TimeZone tz = TimeZone.getTimeZone("Asia/Calcutta");
             outputFormat.setTimeZone(tz);
             Date order_date = inputFormat.parse(date);
-            deliveryDate=outputFormat.format(order_date);
+            deliveryDate = outputFormat.format(order_date);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -341,13 +349,6 @@ public class CartAdapter {
         SharedPreferences spLoad = PreferenceManager.getDefaultSharedPreferences(context);
         userArea = spLoad.getString("USER_AREA", "Shivaji nagar");
         return userArea;
-    }
-
-    public class CustomComparator implements Comparator<ProductDetails> {
-        @Override
-        public int compare(ProductDetails o1, ProductDetails o2) {
-            return o1.getBranchid().compareTo(o2.getBranchid());
-        }
     }
 
     public void setBranchId() {
@@ -396,6 +397,51 @@ public class CartAdapter {
             setBranchId();
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    //****************get delivery time slots
+    //**************************************
+    public void getProductIds() {
+        productIdsForGettingTimeSlots = new CheckDeliveryTimeSlotsProductIDs();
+        String[] mKeys = Cart.hm.keySet().toArray(new String[Cart.hm.size()]);
+        for (int i = 0; i < Cart.getCount(); i++) {
+            productId = Cart.hm.get(mKeys[i]).getProductid();
+            Log.d("productId", productId);
+            if (!listOfProductIdforDelivery.contains(productId)) {
+                listOfProductIdforDelivery.add(productId);
+            }
+        }
+        Log.d("Date", CartActivity.date);
+        Log.d("listOfProductIdforDelivery", new Gson().toJson(listOfProductIdforDelivery));
+        productIdsForGettingTimeSlots.setPreferred_delivery_date(CartActivity.date);
+        productIdsForGettingTimeSlots.setProductids(listOfProductIdforDelivery);
+        Log.d("productIdsForGettingTimeSlots", new Gson().toJson(productIdsForGettingTimeSlots));
+        new GetDeliveryTimeSlotsAsync().execute();
+
+    }
+
+    public String getDeliverTimeSlots() {
+        succesResponseCheckDeliveryTimingSlots = new SuccesResponseCheckDeliveryTimingSlots();
+        String resultOfDeliveryTimeSlot = "";
+        String jsonToSendOverServer = "";
+        try {
+            GsonBuilder gBuild = new GsonBuilder();
+            Gson gson = gBuild.disableHtmlEscaping().create();
+            jsonToSendOverServer = gson.toJson(productIdsForGettingTimeSlots);
+            Log.d("jsonToSendOverServerProductIds", jsonToSendOverServer);
+            resultOfDeliveryTimeSlot = ServerConnection.executePost1(jsonToSendOverServer, "/api/deliverytimeslots");
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return resultOfDeliveryTimeSlot;
+    }
+
+    public class CustomComparator implements Comparator<ProductDetails> {
+        @Override
+        public int compare(ProductDetails o1, ProductDetails o2) {
+            return o1.getBranchid().compareTo(o2.getBranchid());
         }
     }
 
@@ -469,68 +515,6 @@ public class CartAdapter {
             }
         }
     }
-
-    public static void changeSubTotal(String cartCount, String parentIndex) {
-        try {
-            String branchid = "";
-            List<ProductDetails> list = new ArrayList<>();
-            for (int j = 0; j < productList.size(); j++) {
-                if (cartCount.equalsIgnoreCase(productList.get(j).getCartCount())) {
-                    branchid = productList.get(j).getBranchid();
-                }
-            }
-
-            for (int j = 0; j < productList.size(); j++) {
-                if (branchid.equalsIgnoreCase(productList.get(j).getBranchid())) {
-                    list.add(productList.get(j));
-                }
-            }
-
-            Log.d("list", new Gson().toJson(list));
-            ((TextView) listText.get(Integer.parseInt(parentIndex))).setText(Cart.providerSubTotalInCart(list) + "");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    //****************get delivery time slots
-    //**************************************
-    public void getProductIds() {
-        productIdsForGettingTimeSlots = new CheckDeliveryTimeSlotsProductIDs();
-        String[] mKeys = Cart.hm.keySet().toArray(new String[Cart.hm.size()]);
-        for (int i = 0; i < Cart.getCount(); i++) {
-            productId = Cart.hm.get(mKeys[i]).getProductid();
-            Log.d("productId", productId);
-            if (!listOfProductIdforDelivery.contains(productId)) {
-                listOfProductIdforDelivery.add(productId);
-            }
-        }
-        Log.d("Date", CartActivity.date);
-        Log.d("listOfProductIdforDelivery", new Gson().toJson(listOfProductIdforDelivery));
-        productIdsForGettingTimeSlots.setPreferred_delivery_date(CartActivity.date);
-        productIdsForGettingTimeSlots.setProductids(listOfProductIdforDelivery);
-        Log.d("productIdsForGettingTimeSlots", new Gson().toJson(productIdsForGettingTimeSlots));
-        new GetDeliveryTimeSlotsAsync().execute();
-
-    }
-
-    public String getDeliverTimeSlots() {
-        succesResponseCheckDeliveryTimingSlots = new SuccesResponseCheckDeliveryTimingSlots();
-        String resultOfDeliveryTimeSlot = "";
-        String jsonToSendOverServer = "";
-        try {
-            GsonBuilder gBuild = new GsonBuilder();
-            Gson gson = gBuild.disableHtmlEscaping().create();
-            jsonToSendOverServer = gson.toJson(productIdsForGettingTimeSlots);
-            Log.d("jsonToSendOverServerProductIds", jsonToSendOverServer);
-            resultOfDeliveryTimeSlot = ServerConnection.executePost1(jsonToSendOverServer, "/api/deliverytimeslots");
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return resultOfDeliveryTimeSlot;
-    }
-
 
     public class GetDeliveryTimeSlotsAsync extends AsyncTask<String, Integer, String> {
         JSONObject jObj;

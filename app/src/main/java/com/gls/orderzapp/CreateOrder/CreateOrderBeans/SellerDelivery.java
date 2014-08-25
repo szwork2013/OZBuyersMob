@@ -2,8 +2,6 @@ package com.gls.orderzapp.CreateOrder.CreateOrderBeans;
 
 import com.gls.orderzapp.SignUp.Location;
 
-import java.util.List;
-
 /**
  * Created by prajyot on 22/7/14.
  */

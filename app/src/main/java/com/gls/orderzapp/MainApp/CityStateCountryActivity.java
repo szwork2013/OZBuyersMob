@@ -38,6 +38,7 @@ public class CityStateCountryActivity extends Activity {
     SuccessResponseForCityList successResponseForCityList;
     CityAreaListAdapter countrylistAdapter, stateslistAdapter, cityListAdapter;
     String country, state, city;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,7 +50,7 @@ public class CityStateCountryActivity extends Activity {
         country_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                country = parent.getItemAtPosition(position)+"";
+                country = parent.getItemAtPosition(position) + "";
                 new GetStatesListAsync().execute();
             }
 
@@ -62,7 +63,7 @@ public class CityStateCountryActivity extends Activity {
         state_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                state = parent.getItemAtPosition(position)+"";
+                state = parent.getItemAtPosition(position) + "";
                 //                Toast.makeText(getApplicationContext(), state, Toast.LENGTH_LONG).show();
                 new GetCityListAsync().execute();
             }
@@ -76,7 +77,7 @@ public class CityStateCountryActivity extends Activity {
         city_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                city = parent.getItemAtPosition(position)+"";
+                city = parent.getItemAtPosition(position) + "";
 
             }
 
@@ -87,78 +88,78 @@ public class CityStateCountryActivity extends Activity {
         });
     }
 
-    public void saveCityStateCountryPreferences(View view){
+    public void saveCityStateCountryPreferences(View view) {
         try {
             storeCity();
             storeState();
             storeCountry();
             CityStateCountryActivity.this.finish();
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public void findViewsById(){
+    public void findViewsById() {
         country_spinner = (Spinner) findViewById(R.id.country_spinner);
         state_spinner = (Spinner) findViewById(R.id.state_spinner);
         city_spinner = (Spinner) findViewById(R.id.city_spinner);
         save_button = (Button) findViewById(R.id.save_button);
     }
 
-    public String getCountryList() throws Exception{
+    public String getCountryList() throws Exception {
         String resultGetCountryList = "";
         resultGetCountryList = ServerConnection.executeGet(getApplicationContext(), "/api/location?key=country&value=country");
         return resultGetCountryList;
     }
 
-    public String getStatesList() throws Exception{
+    public String getStatesList() throws Exception {
         String resultGetCountryList = "";
-        resultGetCountryList = ServerConnection.executeGet(getApplicationContext(), "/api/location?key=state&value="+country);
+        resultGetCountryList = ServerConnection.executeGet(getApplicationContext(), "/api/location?key=state&value=" + country);
         return resultGetCountryList;
     }
 
-    public String getCitiesList() throws Exception{
+    public String getCitiesList() throws Exception {
         String resultGetCountryList = "";
-        resultGetCountryList = ServerConnection.executeGet(getApplicationContext(), "/api/location?key=city&value="+state);
+        resultGetCountryList = ServerConnection.executeGet(getApplicationContext(), "/api/location?key=city&value=" + state);
         return resultGetCountryList;
     }
 
-    public void storeCity() throws Exception{
+    public void storeCity() throws Exception {
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-        SharedPreferences.Editor editor= sp.edit();
+        SharedPreferences.Editor editor = sp.edit();
         editor.putString("USER_CITY", city);
         editor.commit();
     }
 
-    public void storeState() throws Exception{
+    public void storeState() throws Exception {
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         SharedPreferences.Editor editor = sp.edit();
         editor.putString("USER_STATE", state);
         editor.commit();
     }
 
-    public void storeCountry() throws Exception{
+    public void storeCountry() throws Exception {
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         SharedPreferences.Editor editor = sp.edit();
         editor.putString("USER_COUNTRY", country);
         editor.commit();
     }
 
-    public String loadCountryPreference() throws Exception{
+    public String loadCountryPreference() throws Exception {
         String userArea = "";
         SharedPreferences spLoad = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         userArea = spLoad.getString("USER_COUNTRY", "IN");
         return userArea;
     }
 
-    public String loadStatePreference() throws Exception{
+    public String loadStatePreference() throws Exception {
         String userArea = "";
         SharedPreferences spLoad = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         userArea = spLoad.getString("USER_STATE", "Maharashtra");
         return userArea;
     }
 
-    public String loadCityPreference() throws Exception{
+    public String loadCityPreference() throws Exception {
         String userArea = "";
         SharedPreferences spLoad = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         userArea = spLoad.getString("USER_CITY", "Pune");
@@ -169,6 +170,7 @@ public class CityStateCountryActivity extends Activity {
         String connectedOrNot, resultGetCountry, msg, code;
         JSONObject jObj;
         ProgressDialog progressDialog;
+
         @Override
         protected void onPreExecute() {
             progressDialog = ProgressDialog.show(CityStateCountryActivity.this, "", "");
@@ -176,23 +178,23 @@ public class CityStateCountryActivity extends Activity {
 
         @Override
         protected String doInBackground(String... params) {
-            try{
-                if(new CheckConnection(getApplicationContext()).isConnectingToInternet()) {
+            try {
+                if (new CheckConnection(getApplicationContext()).isConnectingToInternet()) {
                     connectedOrNot = "success";
                     resultGetCountry = getCountryList();
-                    if (!resultGetCountry.isEmpty()){
+                    if (!resultGetCountry.isEmpty()) {
                         Log.d("resultGetCountry", resultGetCountry);
                         jObj = new JSONObject(resultGetCountry);
-                        if(jObj.has("success")){
+                        if (jObj.has("success")) {
                             successResponseForCountryList = new Gson().fromJson(resultGetCountry, SuccessResponseForCountryList.class);
 //                            listCountry.addAll(successResponseForCountryList.getSuccess().getCountry());
-                        }else{
+                        } else {
                             JSONObject jObjError = jObj.getJSONObject("error");
                             msg = jObjError.getString("message");
                         }
                     }
                 }
-            }catch (Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
             }
             return connectedOrNot;
@@ -200,33 +202,34 @@ public class CityStateCountryActivity extends Activity {
 
         @Override
         protected void onPostExecute(String connectedOrNot) {
-            try{
+            try {
                 progressDialog.dismiss();
-                if(connectedOrNot.equalsIgnoreCase("success")){
-                    if(!resultGetCountry.isEmpty()){
-                        if(jObj.has("success")){
+                if (connectedOrNot.equalsIgnoreCase("success")) {
+                    if (!resultGetCountry.isEmpty()) {
+                        if (jObj.has("success")) {
                             countrylistAdapter = new CityAreaListAdapter(getApplicationContext(), successResponseForCountryList.getSuccess().getCountry());
                             country_spinner.setAdapter(countrylistAdapter);
                             country_spinner.setSelection(successResponseForCountryList.getSuccess().getCountry().indexOf(loadCountryPreference()));
-                        }else{
+                        } else {
                             Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_LONG).show();
                         }
-                    }else{
+                    } else {
                         Toast.makeText(getApplicationContext(), "Server is not responding, please try again later", Toast.LENGTH_LONG).show();
                     }
-                }else{
+                } else {
                     Toast.makeText(getApplicationContext(), "Please check your internet connection", Toast.LENGTH_LONG).show();
                 }
-            }catch (Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }
     }
 
-    class GetStatesListAsync extends AsyncTask<String, Integer, String>{
+    class GetStatesListAsync extends AsyncTask<String, Integer, String> {
         String connectedOrNot, resultGetStates, msg, code;
         JSONObject jObj;
         ProgressDialog progressDialog;
+
         @Override
         protected void onPreExecute() {
             progressDialog = ProgressDialog.show(CityStateCountryActivity.this, "", "");
@@ -234,25 +237,25 @@ public class CityStateCountryActivity extends Activity {
 
         @Override
         protected String doInBackground(String... params) {
-            try{
-                if(new CheckConnection(getApplicationContext()).isConnectingToInternet()) {
+            try {
+                if (new CheckConnection(getApplicationContext()).isConnectingToInternet()) {
                     connectedOrNot = "success";
                     resultGetStates = getStatesList();
-                    if (!resultGetStates.isEmpty()){
+                    if (!resultGetStates.isEmpty()) {
                         Log.d("resultGetCountry", resultGetStates);
                         jObj = new JSONObject(resultGetStates);
-                        if(jObj.has("success")){
+                        if (jObj.has("success")) {
 //                            listState.clear();
 
                             successResponseForStatesList = new Gson().fromJson(resultGetStates, SuccessResponseForStatesList.class);
 //                            listState.addAll(successResponseForStatesList.getSuccess().getStates());
-                        }else{
+                        } else {
                             JSONObject jObjError = jObj.getJSONObject("error");
                             msg = jObjError.getString("message");
                         }
                     }
                 }
-            }catch (Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
             }
             return connectedOrNot;
@@ -260,35 +263,36 @@ public class CityStateCountryActivity extends Activity {
 
         @Override
         protected void onPostExecute(String connectedOrNot) {
-            try{
+            try {
                 progressDialog.dismiss();
-                if(connectedOrNot.equalsIgnoreCase("success")){
-                    if(!resultGetStates.isEmpty()){
-                        if(jObj.has("success")){
+                if (connectedOrNot.equalsIgnoreCase("success")) {
+                    if (!resultGetStates.isEmpty()) {
+                        if (jObj.has("success")) {
                             Collections.sort(successResponseForStatesList.getSuccess().getStates(), new CustomComparator());
                             stateslistAdapter = new CityAreaListAdapter(getApplicationContext(), successResponseForStatesList.getSuccess().getStates());
                             state_spinner.setAdapter(stateslistAdapter);
                             state_spinner.setSelection(successResponseForStatesList.getSuccess().getStates().indexOf(loadStatePreference()));
-                        }else{
+                        } else {
                             Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_LONG).show();
                         }
-                    }else{
+                    } else {
                         Toast.makeText(getApplicationContext(), "Server is not responding, please try again later", Toast.LENGTH_LONG).show();
                     }
-                }else{
+                } else {
                     Toast.makeText(getApplicationContext(), "Please check your internet connection", Toast.LENGTH_LONG).show();
                 }
-            }catch (Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }
     }
 
 
-    class GetCityListAsync extends AsyncTask<String, Integer, String>{
+    class GetCityListAsync extends AsyncTask<String, Integer, String> {
         String connectedOrNot, resultGetCities, msg, code;
         JSONObject jObj;
         ProgressDialog progressDialog;
+
         @Override
         protected void onPreExecute() {
             progressDialog = ProgressDialog.show(CityStateCountryActivity.this, "", "");
@@ -296,22 +300,22 @@ public class CityStateCountryActivity extends Activity {
 
         @Override
         protected String doInBackground(String... params) {
-            try{
-                if(new CheckConnection(getApplicationContext()).isConnectingToInternet()) {
+            try {
+                if (new CheckConnection(getApplicationContext()).isConnectingToInternet()) {
                     connectedOrNot = "success";
                     resultGetCities = getCitiesList();
-                    if (!resultGetCities.isEmpty()){
+                    if (!resultGetCities.isEmpty()) {
                         Log.d("resultGetCountry", resultGetCities);
                         jObj = new JSONObject(resultGetCities);
-                        if(jObj.has("success")){
+                        if (jObj.has("success")) {
                             successResponseForCityList = new Gson().fromJson(resultGetCities, SuccessResponseForCityList.class);
-                        }else{
+                        } else {
                             JSONObject jObjError = jObj.getJSONObject("error");
                             msg = jObjError.getString("message");
                         }
                     }
                 }
-            }catch (Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
             }
             return connectedOrNot;
@@ -319,25 +323,25 @@ public class CityStateCountryActivity extends Activity {
 
         @Override
         protected void onPostExecute(String connectedOrNot) {
-            try{
+            try {
                 progressDialog.dismiss();
-                if(connectedOrNot.equalsIgnoreCase("success")){
-                    if(!resultGetCities.isEmpty()){
-                        if(jObj.has("success")){
+                if (connectedOrNot.equalsIgnoreCase("success")) {
+                    if (!resultGetCities.isEmpty()) {
+                        if (jObj.has("success")) {
                             Collections.sort(successResponseForCityList.getSuccess().getCity(), new CustomComparator());
                             cityListAdapter = new CityAreaListAdapter(getApplicationContext(), successResponseForCityList.getSuccess().getCity());
                             city_spinner.setAdapter(cityListAdapter);
                             city_spinner.setSelection(successResponseForCityList.getSuccess().getCity().indexOf(loadCityPreference()));
-                        }else{
+                        } else {
                             Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_LONG).show();
                         }
-                    }else{
+                    } else {
                         Toast.makeText(getApplicationContext(), "Server is not responding, please try again later", Toast.LENGTH_LONG).show();
                     }
-                }else{
+                } else {
                     Toast.makeText(getApplicationContext(), "Please check your internet connection", Toast.LENGTH_LONG).show();
                 }
-            }catch (Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }
