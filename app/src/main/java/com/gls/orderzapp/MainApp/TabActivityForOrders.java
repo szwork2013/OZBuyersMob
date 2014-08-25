@@ -19,8 +19,8 @@ import org.json.JSONObject;
  * Created by prajyot on 10/6/14.
  */
 public class TabActivityForOrders extends TabActivity {
-    TabHost tabHost;
     public static boolean isload = false;
+    TabHost tabHost;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

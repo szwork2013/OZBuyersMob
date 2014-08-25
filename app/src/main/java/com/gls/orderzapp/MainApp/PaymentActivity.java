@@ -11,14 +11,12 @@ import android.widget.Toast;
 import com.gls.orderzapp.CreateOrder.OrderResponseBeans.SuccessResponseForCreateOrder;
 import com.gls.orderzapp.OZConstants;
 import com.gls.orderzapp.User.SuccessResponseOfUser;
-import com.gls.orderzapp.Utility.GoogleAnalyticsUtility;
 import com.gls.orderzapp.Utility.ServerConnection;
 import com.google.gson.Gson;
 import com.paytm.pgsdk.PaytmMerchant;
 import com.paytm.pgsdk.PaytmOrder;
 import com.paytm.pgsdk.PaytmPGService;
 import com.paytm.pgsdk.PaytmPaymentTransactionCallback;
-import com.gls.orderzapp.OZConstants;
 
 
 /**
@@ -66,9 +64,9 @@ public class PaymentActivity extends Activity {
 
         //The Product Flavors will pick up the right paytm environment for the APK
         PaytmPGService Service = null;
-        if ( OZConstants.PAYTM_STAGING_OR_PRODUCTION == "STAGING" ) {
+        if (OZConstants.PAYTM_STAGING_OR_PRODUCTION == "STAGING") {
             Service = PaytmPGService.getStagingService();
-        } else if ( OZConstants.PAYTM_STAGING_OR_PRODUCTION == "PRODUCTION" ) {
+        } else if (OZConstants.PAYTM_STAGING_OR_PRODUCTION == "PRODUCTION") {
             Service = PaytmPGService.getProductionService();
         }
 
@@ -88,7 +86,7 @@ public class PaymentActivity extends Activity {
         //Create Client Certificate object holding the information related to Client Certificate. Filename must be without .p12
         //        extension.
         //For example, if suppose client.p12 is stored in raw folder, then filename must be client.
-         //PaytmClientCertificate Certificate = new PaytmClientCertificate("Paytm@197", "Giantleapsystems1");
+        //PaytmClientCertificate Certificate = new PaytmClientCertificate("Paytm@197", "Giantleapsystems1");
 
         //Set PaytmOrder, PaytmMerchant and PaytmClientCertificate Object. Call this method and set both objects before
         //starting transaction.
@@ -111,7 +109,7 @@ public class PaymentActivity extends Activity {
                 // Response bundle contains the merchant response parameters.
                 Toast.makeText(getApplicationContext(), "Payment Transaction Success", Toast.LENGTH_SHORT).show();
 
-                    //successResponseForCreateOrder.getSuccess().getOrder().ge
+                //successResponseForCreateOrder.getSuccess().getOrder().ge
 
                 Log.d("bundle", new Gson().toJson(inResponse));
 

@@ -1,7 +1,5 @@
 package com.gls.orderzapp;
 
-import java.lang.String;
-
 /**
  * Created by ramee on 4/8/14.
  */

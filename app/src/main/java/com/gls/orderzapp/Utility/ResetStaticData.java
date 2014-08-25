@@ -5,8 +5,6 @@ import com.gls.orderzapp.AddressDetails.Adapter.AdapterForSelectaddressList;
 import com.gls.orderzapp.AddressDetails.Adapter.DeliveryChargesAndTypeAdapter;
 import com.gls.orderzapp.AddressDetails.Adapter.DisplayDeliveryChargesAndType;
 import com.gls.orderzapp.Cart.Adapters.CartAdapter;
-//import com.gls.orderzapp.Cart.Adapters.ProductCartAdapter;
-import com.gls.orderzapp.Cart.Adapters.ProductListAdapter;
 import com.gls.orderzapp.CreateOrder.CreateOrderAdapters.AdapterForMultipleProviders;
 import com.gls.orderzapp.CreateOrder.OrderResponseAdapters.AdapterForFinalOrderMultipleProviders;
 import com.gls.orderzapp.MainApp.CartActivity;
@@ -29,113 +27,134 @@ import com.gls.orderzapp.MyOrders.MyOrdersListAdapters.MainOrderListAdapter;
 import com.gls.orderzapp.MyOrders.MyOrdersListAdapters.SubOrderListAdapter;
 import com.gls.orderzapp.Provider.Adapters.GridAdapterProviderCategories;
 
+//import com.gls.orderzapp.Cart.Adapters.ProductCartAdapter;
+
 /**
  * Created by avi on 8/1/14.
  */
 public class ResetStaticData {
     public static void ResetData() {
-       try {
-           staticAdapterForPickUpAddressList();
-           staticAdapterForSelectaddressList();
-           staticDeliveryChargesAndTypeAdapter();
-           staticDisplayDeliveryChargesAndType();
-           staticCartAdapter();
-           staticAdapterForMultipleProviders();
-           staticAdapterForFinalOrderMultipleProviders();
-           staticCartActivity();
-           staticChangeAddressActivity();
-           staticDeliveryPaymentActivity();
-           staticDetailedOrderActivity();
-           staticFinalOrderActivity();
-           staticForgotPasswordActivity();
-           staticMyOrdersListActivity();
-           staticOrderDetailsActivity();
-           staticProductConfigurationActivity();
-           staticSelectAddressListActivity();
-           staticSettingsActivity();
-           staticSignInActivity();
-           staticStartUpActivity();
-           staticTabActivityForOrders();
-           staticAdapterForSubOrders();
-           staticSubOrderListAdapter();
-           staticGridAdapterProviderCategories();
-           staticCart();
-           staticCancelOrderItemAdapter();
-           staticMainOrderListAdapter();
-       }catch (Exception e){
-           e.printStackTrace();
-       }
+        try {
+            staticAdapterForPickUpAddressList();
+            staticAdapterForSelectaddressList();
+            staticDeliveryChargesAndTypeAdapter();
+            staticDisplayDeliveryChargesAndType();
+            staticCartAdapter();
+            staticAdapterForMultipleProviders();
+            staticAdapterForFinalOrderMultipleProviders();
+            staticCartActivity();
+            staticChangeAddressActivity();
+            staticDeliveryPaymentActivity();
+            staticDetailedOrderActivity();
+            staticFinalOrderActivity();
+            staticForgotPasswordActivity();
+            staticMyOrdersListActivity();
+            staticOrderDetailsActivity();
+            staticProductConfigurationActivity();
+            staticSelectAddressListActivity();
+            staticSettingsActivity();
+            staticSignInActivity();
+            staticStartUpActivity();
+            staticTabActivityForOrders();
+            staticAdapterForSubOrders();
+            staticSubOrderListAdapter();
+            staticGridAdapterProviderCategories();
+            staticCart();
+            staticCancelOrderItemAdapter();
+            staticMainOrderListAdapter();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
-    public static void  staticMainOrderListAdapter() {
+
+    public static void staticMainOrderListAdapter() {
         MainOrderListAdapter.list_cancel_order.removeAllViews();
     }
+
     public static void staticCancelOrderItemAdapter() throws Exception {
         CancelOrderItemAdapter.suborderid.clear();
     }
-    public static void staticCart () throws Exception {
+
+    public static void staticCart() throws Exception {
         Cart.hm.clear();
         Cart.numberTextOnCart.setText("");
-        Cart.productCount=0;
+        Cart.productCount = 0;
     }
 
     public static void staticGridAdapterProviderCategories() throws Exception {
-        GridAdapterProviderCategories.branch_id=null;
+        GridAdapterProviderCategories.branch_id = null;
     }
+
     public static void staticSubOrderListAdapter() throws Exception {
         SubOrderListAdapter.listDetailedTrack.removeAllViews();
         SubOrderListAdapter.llApproval.removeAllViews();
         SubOrderListAdapter.llDelivery.removeAllViews();
         SubOrderListAdapter.llOrderProcessing.removeAllViews();
     }
+
     public static void staticAdapterForSubOrders() throws Exception {
         AdapterForSubOrders.ll.removeAllViews();
     }
+
     public static void staticTabActivityForOrders() throws Exception {
-        TabActivityForOrders.isload=false;
+        TabActivityForOrders.isload = false;
     }
+
     public static void staticStartUpActivity() throws Exception {
         StartUpActivity.isFirstTime = true;
-        StartUpActivity.searchString=null;
+        StartUpActivity.searchString = null;
         StartUpActivity.linearLayoutCategories.removeAllViews();
     }
+
     public static void staticSignInActivity() throws Exception {
-        SignInActivity.islogedin=false;
+        SignInActivity.islogedin = false;
     }
+
     public static void staticSettingsActivity() throws Exception {
-        SettingsActivity.userID=null;
-        SettingsActivity.avoidFirstClick=false;
+        SettingsActivity.userID = null;
+        SettingsActivity.avoidFirstClick = false;
     }
+
     public static void staticSelectAddressListActivity() throws Exception {
-        SelectAddressListActivity.isAddNewaddress=false;
+        SelectAddressListActivity.isAddNewaddress = false;
     }
+
     public static void staticProductConfigurationActivity() throws Exception {
         ProductConfigurationActivity.product_configuration_list.removeAllViews();
     }
+
     public static void staticOrderDetailsActivity() throws Exception {
         OrderDetailsActivity.llProductsList.removeAllViews();
-        OrderDetailsActivity.textGrandTotal.setText("");OrderDetailsActivity.grandTotal.setText("");
-        OrderDetailsActivity.delivery_type.setText("");OrderDetailsActivity.payment_mode.setText("");
-        OrderDetailsActivity.createOrderCartList=null;
-        OrderDetailsActivity.deliveryChargeDetails=null;
+        OrderDetailsActivity.textGrandTotal.setText("");
+        OrderDetailsActivity.grandTotal.setText("");
+        OrderDetailsActivity.delivery_type.setText("");
+        OrderDetailsActivity.payment_mode.setText("");
+        OrderDetailsActivity.createOrderCartList = null;
+        OrderDetailsActivity.deliveryChargeDetails = null;
     }
+
     public static void staticMyOrdersListActivity() throws Exception {
-        MyOrdersListActivity.successResponseForMyOrders=null;
+        MyOrdersListActivity.successResponseForMyOrders = null;
 
     }
+
     public static void staticForgotPasswordActivity() throws Exception {
         ForgotPasswordActivity.otp.setText("");
         ForgotPasswordActivity.textOtp.setText("");
     }
+
     public static void staticFinalOrderActivity() throws Exception {
         FinalOrderActivity.listProducts.removeAllViews();
         FinalOrderActivity.ll_txn_details.removeAllViews();
     }
+
     public static void staticDetailedOrderActivity() throws Exception {
         DetailedMyOrderActivity.listProducts.removeAllViews();
     }
+
     public static void staticDeliveryPaymentActivity() throws Exception {
-        DeliveryPaymentActivity.payment_mode =null;
-        DeliveryPaymentActivity.user_id=null;
+        DeliveryPaymentActivity.payment_mode = null;
+        DeliveryPaymentActivity.user_id = null;
         DeliveryPaymentActivity.shipping_address_textview.setText("");
         DeliveryPaymentActivity.billing_address_textview.setText("");
         DeliveryPaymentActivity.ll_deliver_charge_type.removeAllViews();
@@ -149,10 +168,11 @@ public class ResetStaticData {
         ChangeAddressActivity.edittext_state.setText("");
         ChangeAddressActivity.edittext_country.setText("");
         ChangeAddressActivity.edittext_zipcode.setText("");
-        ChangeAddressActivity.isAddressChanged=false;
+        ChangeAddressActivity.isAddressChanged = false;
     }
+
     public static void staticCartActivity() throws Exception {
-        CartActivity.date="";
+        CartActivity.date = "";
         CartActivity.area_text.setText("");
         CartActivity.grand_total.setText("");
         CartActivity.llCartList.removeAllViews();
@@ -161,39 +181,45 @@ public class ResetStaticData {
     public static void staticAdapterForFinalOrderMultipleProviders() throws Exception {
         AdapterForFinalOrderMultipleProviders.ll.removeAllViews();
     }
+
     public static void staticAdapterForMultipleProviders() throws Exception {
         AdapterForMultipleProviders.ll.removeAllViews();
     }
+
     public static void staticCartAdapter() throws Exception {
         CartAdapter.llCartListItemView.removeAllViews();
         CartAdapter.llProductList.removeAllViews();
         CartAdapter.listText.clear();
         CartAdapter.sub_total.setText("");
     }
+
     public static void staticDisplayDeliveryChargesAndType() throws Exception {
-        DisplayDeliveryChargesAndType.order_instruction=null;
+        DisplayDeliveryChargesAndType.order_instruction = null;
         DisplayDeliveryChargesAndType.checkForDeliveryModeList.clear();
         DisplayDeliveryChargesAndType.deliveryType.clear();
-        DisplayDeliveryChargesAndType.listOfDeliveryCharges=null;
+        DisplayDeliveryChargesAndType.listOfDeliveryCharges = null;
         DisplayDeliveryChargesAndType.listPickUpButtons.clear();
         DisplayDeliveryChargesAndType.deliverytypebean.clear();
     }
+
     public static void staticAdapterForPickUpAddressList() throws Exception {
         // clear static veriable from  AdapterForPickUpAddressList
-        AdapterForPickUpAddressList.pickupAddressFromList=null;
-        AdapterForPickUpAddressList.isPickUpAddressSelected=false;
+        AdapterForPickUpAddressList.pickupAddressFromList = null;
+        AdapterForPickUpAddressList.isPickUpAddressSelected = false;
     }
+
     public static void staticAdapterForSelectaddressList() throws Exception {
         // clear static veriable from  AdapterForSelectaddressList
-        AdapterForSelectaddressList.deliveryaddressid=null;
-        AdapterForSelectaddressList.deliveryAddressList=null;
+        AdapterForSelectaddressList.deliveryaddressid = null;
+        AdapterForSelectaddressList.deliveryAddressList = null;
     }
+
     public static void staticDeliveryChargesAndTypeAdapter() throws Exception {
         // clear static veriable from  DeliveryChargesAndTypeAdapter
         DeliveryChargesAndTypeAdapter.llDeliveryChargeAndType.removeAllViews();
-        DeliveryChargesAndTypeAdapter.branchIdsForGettingDeliveryCharges=null;
-        DeliveryChargesAndTypeAdapter.successResponseForDeliveryCharges=null;
-        DeliveryChargesAndTypeAdapter.successResponseOfUserDeliveryAddresDetails=null;
+        DeliveryChargesAndTypeAdapter.branchIdsForGettingDeliveryCharges = null;
+        DeliveryChargesAndTypeAdapter.successResponseForDeliveryCharges = null;
+        DeliveryChargesAndTypeAdapter.successResponseOfUserDeliveryAddresDetails = null;
     }
 
 }

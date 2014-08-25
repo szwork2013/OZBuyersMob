@@ -4,7 +4,6 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,7 +16,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.gls.orderzapp.MainApp.CurrentOrdersActivity;
 import com.gls.orderzapp.MainApp.DetailedMyOrderActivity;
 import com.gls.orderzapp.MainApp.TabActivityForOrders;
 import com.gls.orderzapp.MyOrders.Beans.OrderDetails;
@@ -42,15 +40,38 @@ import java.util.TimeZone;
  */
 public class MainOrderListAdapter extends BaseAdapter {
 
+    public static LinearLayout list_cancel_order;
     Context context;
     List<OrderDetails> myOrderList;
     ListView subOrderList;
-    public static LinearLayout list_cancel_order;
     PostSubOrderId data;
     AlertDialog alertDialog;
+
     public MainOrderListAdapter(Context context, List<OrderDetails> myOrderList) {
         this.context = context;
         this.myOrderList = myOrderList;
+    }
+
+    public static void setListViewHeightBasedOnChildren(ListView gridView) {
+        ListAdapter listAdapter = gridView.getAdapter();
+        if (listAdapter == null)
+            return;
+
+        int desiredWidth = View.MeasureSpec.makeMeasureSpec(gridView.getWidth(), View.MeasureSpec.UNSPECIFIED);
+        int totalHeight = 0;
+        View view = null;
+
+        for (int i = 0; i < listAdapter.getCount(); i++) {
+            view = listAdapter.getView(i, view, gridView);
+            if (i == 0)
+                view.setLayoutParams(new LinearLayout.LayoutParams(desiredWidth, LinearLayout.LayoutParams.WRAP_CONTENT));
+            view.measure(desiredWidth, View.MeasureSpec.UNSPECIFIED);
+            totalHeight += view.getMeasuredHeight();
+        }
+        ViewGroup.LayoutParams params = gridView.getLayoutParams();
+        params.height = totalHeight + (gridView.getDividerHeight() * listAdapter.getCount());
+        gridView.setLayoutParams(params);
+        gridView.requestLayout();
     }
 
     @Override
@@ -80,12 +101,11 @@ public class MainOrderListAdapter extends BaseAdapter {
         TextView txt_order_date = (TextView) convertView.findViewById(R.id.txt_order_date);
         TextView orderNumber = (TextView) convertView.findViewById(R.id.order_no);
         TextView grandTotal = (TextView) convertView.findViewById(R.id.grand_total);
-        final Button btn_cancel_order=(Button)convertView.findViewById(R.id.btn_cancel_order);
+        final Button btn_cancel_order = (Button) convertView.findViewById(R.id.btn_cancel_order);
         subOrderList = (ListView) convertView.findViewById(R.id.subOrderList);
-        if(context.getClass().getSimpleName().equalsIgnoreCase("CurrentOrdersActivity"))
-        {
+        if (context.getClass().getSimpleName().equalsIgnoreCase("CurrentOrdersActivity")) {
             btn_cancel_order.setVisibility(View.VISIBLE);
-        }else{
+        } else {
             btn_cancel_order.setVisibility(View.GONE);
         }
 
@@ -111,45 +131,46 @@ public class MainOrderListAdapter extends BaseAdapter {
                 AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
                 alertDialogBuilder.setView(dialogView);
                 boolean isOrderCancellable = false;
-                 list_cancel_order= (LinearLayout) dialogView.findViewById(R.id.ll_suborder_ids);
-                final Button btn_confirm_cancel_order=(Button) dialogView.findViewById(R.id.btn_confirm_cancel_order);
+                list_cancel_order = (LinearLayout) dialogView.findViewById(R.id.ll_suborder_ids);
+                final Button btn_confirm_cancel_order = (Button) dialogView.findViewById(R.id.btn_confirm_cancel_order);
                 TextView noCancellableOrder = (TextView) dialogView.findViewById(R.id.noCancellableOrder);
-                TextView txt_order_cancel_warning= (TextView) dialogView.findViewById(R.id.txt_order_cancel_warning);
+                TextView txt_order_cancel_warning = (TextView) dialogView.findViewById(R.id.txt_order_cancel_warning);
                 LinearLayout llNoOrderToCancel = (LinearLayout) dialogView.findViewById(R.id.llNoOrderToCancel);
-                if(myOrderList.get(position).getPayment().getMode().equalsIgnoreCase("COD"))
-                {
+                if (myOrderList.get(position).getPayment().getMode().equalsIgnoreCase("COD")) {
                     txt_order_cancel_warning.setVisibility(View.GONE);
-                }else{txt_order_cancel_warning.setVisibility(View.VISIBLE);}
+                } else {
+                    txt_order_cancel_warning.setVisibility(View.VISIBLE);
+                }
 
                 list_cancel_order.removeAllViews();
-                Log.d("myOrderSubOrder",new Gson().toJson(myOrderList.get(position).getSuborder()));
+                Log.d("myOrderSubOrder", new Gson().toJson(myOrderList.get(position).getSuborder()));
 //                CancelOrderItemAdapter.suborderid.clear();
-                for(int j = 0; j < myOrderList.get(position).getSuborder().size(); j++){
-                    if(myOrderList.get(position).getSuborder().get(j).getStatus().equalsIgnoreCase("orderreceived") || myOrderList.get(position).getSuborder().get(j).getStatus().equalsIgnoreCase("accepted")){
+                for (int j = 0; j < myOrderList.get(position).getSuborder().size(); j++) {
+                    if (myOrderList.get(position).getSuborder().get(j).getStatus().equalsIgnoreCase("orderreceived") || myOrderList.get(position).getSuborder().get(j).getStatus().equalsIgnoreCase("accepted")) {
                         isOrderCancellable = true;
                     }
                 }
 
-                if(isOrderCancellable == true){
+                if (isOrderCancellable == true) {
                     llNoOrderToCancel.setVisibility(View.GONE);
                     btn_confirm_cancel_order.setText("Confirm Cancel Order");
-                }else{
+                } else {
                     llNoOrderToCancel.setVisibility(View.VISIBLE);
                     btn_confirm_cancel_order.setText("Close");
                 }
-                new CancelOrderItemAdapter(context,myOrderList.get(position).getSuborder(),myOrderList.get(position).getOrderid()).getView();
+                new CancelOrderItemAdapter(context, myOrderList.get(position).getSuborder(), myOrderList.get(position).getOrderid()).getView();
                 // set prompts.xml to alertdialog builder
 
                 btn_confirm_cancel_order.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-if(btn_confirm_cancel_order.getText().toString().equalsIgnoreCase("Close")){
-    alertDialog.dismiss();
-}else {
-    getSubOrderIds();
-    new GetCancelOrderAsync().execute();
-    alertDialog.dismiss();
-}
+                        if (btn_confirm_cancel_order.getText().toString().equalsIgnoreCase("Close")) {
+                            alertDialog.dismiss();
+                        } else {
+                            getSubOrderIds();
+                            new GetCancelOrderAsync().execute();
+                            alertDialog.dismiss();
+                        }
                     }
 
                 });
@@ -186,12 +207,13 @@ if(btn_confirm_cancel_order.getText().toString().equalsIgnoreCase("Close")){
 
         return convertView;
     }
-    public void getSubOrderIds()
-    {
-         data=new PostSubOrderId();
+
+    public void getSubOrderIds() {
+        data = new PostSubOrderId();
         data.setSuborderids(CancelOrderItemAdapter.suborderid);
 
     }
+
     public String getCancelOrder() {
         String resultOfCancelOrder = "";
         String jsonToSendOverServer = "";
@@ -200,14 +222,15 @@ if(btn_confirm_cancel_order.getText().toString().equalsIgnoreCase("Close")){
             GsonBuilder gBuild = new GsonBuilder();
             Gson gson = gBuild.disableHtmlEscaping().create();
             jsonToSendOverServer = gson.toJson(data);
-            Log.d("jsonToSendOverServer", jsonToSendOverServer+"    ---"+CancelOrderItemAdapter.mainOrderId);
-            resultOfCancelOrder = ServerConnection.executePost1(jsonToSendOverServer, "/api/cancelorder/"+CancelOrderItemAdapter.mainOrderId);
+            Log.d("jsonToSendOverServer", jsonToSendOverServer + "    ---" + CancelOrderItemAdapter.mainOrderId);
+            resultOfCancelOrder = ServerConnection.executePost1(jsonToSendOverServer, "/api/cancelorder/" + CancelOrderItemAdapter.mainOrderId);
 
         } catch (Exception e) {
             e.printStackTrace();
         }
         return resultOfCancelOrder;
     }
+
     private class GetCancelOrderAsync extends AsyncTask<String, Integer, String> {
         JSONObject jObj;
         String connectedOrNot, resultOfCancelOrder, msg, code;
@@ -253,7 +276,7 @@ if(btn_confirm_cancel_order.getText().toString().equalsIgnoreCase("Close")){
                 if (connectedOrNot.equalsIgnoreCase("success")) {
                     if (!resultOfCancelOrder.isEmpty()) {
                         if (jObj.has("success")) {
-                            Intent intent=new Intent(context,TabActivityForOrders.class);
+                            Intent intent = new Intent(context, TabActivityForOrders.class);
                             (context).startActivity(intent);
                         } else {
 
@@ -269,29 +292,5 @@ if(btn_confirm_cancel_order.getText().toString().equalsIgnoreCase("Close")){
                 e.printStackTrace();
             }
         }
-    }
-
-
-
-    public static void setListViewHeightBasedOnChildren(ListView gridView) {
-        ListAdapter listAdapter = gridView.getAdapter();
-        if (listAdapter == null)
-            return;
-
-        int desiredWidth = View.MeasureSpec.makeMeasureSpec(gridView.getWidth(), View.MeasureSpec.UNSPECIFIED);
-        int totalHeight = 0;
-        View view = null;
-
-        for (int i = 0; i < listAdapter.getCount(); i++) {
-            view = listAdapter.getView(i, view, gridView);
-            if (i == 0)
-                view.setLayoutParams(new LinearLayout.LayoutParams(desiredWidth, LinearLayout.LayoutParams.WRAP_CONTENT));
-            view.measure(desiredWidth, View.MeasureSpec.UNSPECIFIED);
-            totalHeight += view.getMeasuredHeight();
-        }
-        ViewGroup.LayoutParams params = gridView.getLayoutParams();
-        params.height = totalHeight + (gridView.getDividerHeight() * listAdapter.getCount());
-        gridView.setLayoutParams(params);
-        gridView.requestLayout();
     }
 }

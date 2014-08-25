@@ -4,24 +4,14 @@ import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.LinearLayout;
-import android.widget.ListAdapter;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.gls.orderzapp.MyOrders.Beans.OrderDetails;
 import com.gls.orderzapp.MyOrders.MyOrderDetailAdapters.AdapterForSubOrders;
-import com.gls.orderzapp.MyOrders.MyOrderDetailAdapters.DisplayPickupAddressesAdapter;
 import com.gls.orderzapp.R;
 import com.gls.orderzapp.Utility.GoogleAnalyticsUtility;
 import com.google.gson.Gson;
-
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.TimeZone;
 
 /**
  * Created by prajyot on 7/5/14.
@@ -30,7 +20,7 @@ public class DetailedMyOrderActivity extends Activity {
     public static LinearLayout listProducts;
     OrderDetails orderDetails;
     Context context;
-    TextView order_no, billing_address_textview,  paymentMode, grand_total;
+    TextView order_no, billing_address_textview, paymentMode, grand_total;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,7 +70,7 @@ public class DetailedMyOrderActivity extends Activity {
             new AdapterForSubOrders(context, orderDetails.getSuborder()).setMultipleProvidersList();
         }
 
-        if(orderDetails.getTotal_order_price() != null){
+        if (orderDetails.getTotal_order_price() != null) {
             grand_total.setText(String.format("%.2f", Double.parseDouble(orderDetails.getTotal_order_price())));
         }
         try {
@@ -93,7 +83,7 @@ public class DetailedMyOrderActivity extends Activity {
             e.printStackTrace();
         }
         for (int i = 0; i < orderDetails.getSuborder().size(); i++) {
-                Log.d("billing address", new Gson().toJson(orderDetails.getSuborder().get(i).getBilling_address()));
+            Log.d("billing address", new Gson().toJson(orderDetails.getSuborder().get(i).getBilling_address()));
 
             try {
                 if (orderDetails.getSuborder().get(0).getBilling_address() != null) {

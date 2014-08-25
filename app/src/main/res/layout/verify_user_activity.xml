@@ -1,13 +1,13 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-    android:background="#304f6c"
-    android:layout_height="fill_parent">
+    android:layout_height="fill_parent"
+    android:background="#304f6c">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:orientation="vertical"
+        android:layout_height="wrap_content"
         android:background="#fff"
-        android:layout_height="wrap_content">
+        android:orientation="vertical">
 
         <EditText
             android:id="@+id/editTextVerifyUser"
@@ -22,16 +22,16 @@
             android:textSize="18sp" />
 
         <TextView
+            android:id="@+id/textRegenerateToken"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="14sp"
-            android:text="@string/regeneratetoken"
             android:layout_below="@+id/editTextVerifyUser"
-            android:id="@+id/textRegenerateToken"
-            android:clickable="true"
+            android:layout_marginLeft="10dp"
             android:layout_marginTop="5dp"
+            android:clickable="true"
             android:onClick="regenerateToken"
-            android:layout_marginLeft="10dp" />
+            android:text="@string/regeneratetoken"
+            android:textSize="14sp" />
 
         <Button
             android:id="@+id/verifyUser_button"
@@ -39,15 +39,15 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/textRegenerateToken"
             android:layout_centerHorizontal="true"
+            android:layout_marginBottom="10dp"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:layout_marginTop="5dp"
             android:background="#fd9717"
+            android:onClick="verify"
+            android:text="@string/verify_user"
             android:textColor="#fff"
             android:textSize="25sp"
-            android:textStyle="bold"
-            android:onClick="verify"
-            android:layout_marginBottom="10dp"
-            android:text="@string/verify_user" />
+            android:textStyle="bold" />
     </LinearLayout>
 </RelativeLayout>

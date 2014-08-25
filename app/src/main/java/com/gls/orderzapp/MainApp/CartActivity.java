@@ -14,21 +14,16 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.TimePicker;
 import android.widget.Toast;
+
 import com.gls.orderzapp.Cart.Adapters.CartAdapter;
-import com.gls.orderzapp.CreateOrder.CreateOrderBeans.CheckDeliveryTimeSlotsProductIDs;
-import com.gls.orderzapp.CreateOrder.CreateOrderBeans.SuccesResponseCheckDeliveryTimingSlots;
 import com.gls.orderzapp.R;
 import com.gls.orderzapp.Utility.Cart;
 import com.gls.orderzapp.Utility.CheckConnection;
 import com.gls.orderzapp.Utility.ServerConnection;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 
 import org.json.JSONObject;
 
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -39,31 +34,31 @@ public class CartActivity extends Activity {
 
     public static LinearLayout llCartList;
     public static TextView area_text, grand_total;
+    public static String date = "";
     static Context context;
     final int SIGN_IN = 0;
+    public Button delivery_date;
     LinearLayout ll_products;
     LinearLayout ll_noproducts;
     Button place_an_order_button;
     Calendar c;
     int mYear, mMonth, mDay, yy, mm, dd;//, hh, min, cHH, cMin, cAm_Pm;
     DatePicker datePicker;
-    public  Button delivery_date;
     AlertDialog alertDialog;
-    public static String date = "";
 //    String productId = "";
 //    ArrayList<String> listOfProductIdforDelivery = new ArrayList<>();
 //    public CheckDeliveryTimeSlotsProductIDs productIdsForGettingTimeSlots;
 //    public SuccesResponseCheckDeliveryTimingSlots succesResponseCheckDeliveryTimingSlots;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.cart_activity);
-        date="";
+        date = "";
         context = CartActivity.this;
         findViewsById();
     }
+
     @Override
     public void onBackPressed() {
         super.onBackPressed();
@@ -91,6 +86,7 @@ public class CartActivity extends Activity {
         area_text = (TextView) findViewById(R.id.area_text);
         grand_total = (TextView) findViewById(R.id.grand_total);
     }
+
     public void selectDeliveryDate(View view) {
         LayoutInflater li = LayoutInflater.from(CartActivity.this);
         View dialogView = li.inflate(R.layout.calendar_view_dialog, null);

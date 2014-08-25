@@ -13,7 +13,7 @@ public class ProductProviderDetails {
     String providerbrandname;
     String branchname;
     ProviderLocation location;
-    List<String>contact_supports;
+    List<String> contact_supports;
 
     public List<String> getContact_supports() {
         return contact_supports;

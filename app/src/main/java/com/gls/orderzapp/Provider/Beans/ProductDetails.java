@@ -22,7 +22,7 @@ public class ProductDetails {
     String productimage;
     String messageonproduct;
     String prefereddeliverydate;
-    AvailableDeliveryTimingSlots timeslot   =   new AvailableDeliveryTimingSlots();
+    AvailableDeliveryTimingSlots timeslot = new AvailableDeliveryTimingSlots();
     ProductLogo productlogo = new ProductLogo();
     String quantity;
     String productdescription;

@@ -38,10 +38,10 @@ import java.util.List;
  * Created by prajyot on 22/4/14.
  */
 public class MoreProductsListActivity extends Activity implements View.OnClickListener {
-    ActionBar actionBar;
-    Context context;
     public Menu menu1;
     public boolean isFirstTime = true;
+    ActionBar actionBar;
+    Context context;
     GridView gridView;
     ProviderSuccessResponse providerSuccessResponse;
     ProviderDetails providerDetails;
@@ -56,7 +56,7 @@ public class MoreProductsListActivity extends Activity implements View.OnClickLi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.temp);
-        context=MoreProductsListActivity.this;
+        context = MoreProductsListActivity.this;
         ((GoogleAnalyticsUtility) getApplication()).getTracker(GoogleAnalyticsUtility.TrackerName.APP_TRACKER);
 
         actionBar = getActionBar();

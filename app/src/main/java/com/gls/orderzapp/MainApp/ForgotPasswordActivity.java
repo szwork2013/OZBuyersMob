@@ -80,7 +80,7 @@ public class ForgotPasswordActivity extends Activity {
         int id = item.getItemId();
         switch (id) {
             case R.id.reg_verification_tokken:
-                Intent regeneratIntent=new Intent(ForgotPasswordActivity.this,RegenerateVerificationToken.class);
+                Intent regeneratIntent = new Intent(ForgotPasswordActivity.this, RegenerateVerificationToken.class);
                 startActivity(regeneratIntent);
                 this.finish();
 //                llMobileNumber.setVisibility(View.VISIBLE);

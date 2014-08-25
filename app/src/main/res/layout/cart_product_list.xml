@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     android:padding="5dp">
 
     <LinearLayout
@@ -12,10 +12,10 @@
         android:orientation="horizontal">
 
         <ImageView
+            android:id="@+id/product_image"
             android:layout_width="70dp"
             android:layout_height="70dp"
-            android:src="@drawable/no_image"
-            android:id="@+id/product_image" />
+            android:src="@drawable/no_image" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -23,37 +23,40 @@
             android:layout_marginLeft="10dp"
             android:layout_marginTop="5dp"
             android:orientation="vertical">
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
+
                 <TextView
+                    android:id="@+id/product_name"
                     android:layout_width="0dp"
-                    android:layout_weight="20"
                     android:layout_height="wrap_content"
-                    android:textSize="15sp"
-                    android:textStyle="bold"
-                    android:textColor="#000"
                     android:layout_gravity="center_vertical"
-                    android:singleLine="false"
+                    android:layout_weight="20"
                     android:ellipsize="end"
-                    android:id="@+id/product_name" />
+                    android:singleLine="false"
+                    android:textColor="#000"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
 
                 <LinearLayout
+                    android:id="@+id/llDeleteImage"
                     android:layout_width="30dp"
-                    android:layout_weight="1"
                     android:layout_height="30dp"
                     android:layout_gravity="right"
-                    android:gravity="center_horizontal"
-                    android:id="@+id/llDeleteImage">
+                    android:layout_weight="1"
+                    android:gravity="center_horizontal">
 
                     <ImageView
+                        android:id="@+id/delete_image"
                         android:layout_width="20dp"
                         android:layout_height="20dp"
-                        android:src="@drawable/trash"
-                        android:id="@+id/delete_image" />
+                        android:src="@drawable/trash" />
                 </LinearLayout>
             </LinearLayout>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -62,68 +65,68 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="12sp"
+                    android:text="@string/rs"
                     android:textColor="#000"
-                    android:text="@string/rs" />
+                    android:textSize="12sp" />
 
                 <TextView
+                    android:id="@+id/unit_price"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="12sp"
-                    android:textColor="#000"
                     android:layout_marginLeft="2dp"
-                    android:id="@+id/unit_price" />
+                    android:textColor="#000"
+                    android:textSize="12sp" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="14sp"
-                    android:textColor="#000"
                     android:layout_marginLeft="4dp"
                     android:layout_marginRight="4dp"
-                    android:text="x" />
+                    android:text="x"
+                    android:textColor="#000"
+                    android:textSize="14sp" />
 
                 <EditText
+                    android:id="@+id/edittext_quantity"
                     android:layout_width="40dp"
                     android:layout_height="wrap_content"
-                    android:textSize="12sp"
                     android:layout_marginLeft="2dp"
-                    android:textColor="#000"
-                    android:maxLength="4"
-                    android:id="@+id/edittext_quantity"
                     android:background="@drawable/square_corner"
                     android:inputType="numberDecimal"
-                    android:singleLine="true" />
+                    android:maxLength="4"
+                    android:singleLine="true"
+                    android:textColor="#000"
+                    android:textSize="12sp" />
 
                 <Spinner
+                    android:id="@+id/spinner_weight"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="2dp"
-                    android:id="@+id/spinner_weight"></Spinner>
+                    android:layout_marginLeft="2dp"></Spinner>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="12sp"
                     android:layout_marginLeft="2dp"
+                    android:text="="
                     android:textColor="#000"
-                    android:text="=" />
+                    android:textSize="12sp" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="12sp"
-                    android:textColor="#000"
                     android:layout_marginLeft="2dp"
-                    android:text="@string/rs" />
+                    android:text="@string/rs"
+                    android:textColor="#000"
+                    android:textSize="12sp" />
 
                 <TextView
+                    android:id="@+id/calculated_price"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="12sp"
-                    android:textColor="#000"
                     android:layout_marginLeft="2dp"
-                    android:id="@+id/calculated_price" />
+                    android:textColor="#000"
+                    android:textSize="12sp" />
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>

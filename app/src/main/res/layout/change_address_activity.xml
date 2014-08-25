@@ -1,32 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#304f6c"
+        android:orientation="vertical"
         android:padding="5dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:background="#fff">
+            android:background="#fff"
+            android:orientation="vertical">
 
             <TextView
+                android:id="@+id/text_address"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
-                android:textColor="#000"
-                android:gravity="center_vertical"
                 android:layout_marginLeft="10dp"
-                android:textSize="20sp"
+                android:gravity="center_vertical"
                 android:text="@string/delivery_address"
-                android:id="@+id/text_address" />
+                android:textColor="#000"
+                android:textSize="20sp" />
 
             <View
                 android:layout_width="match_parent"
@@ -34,91 +34,91 @@
                 android:background="#fd9717" />
 
             <EditText
+                android:id="@+id/edittext_address1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:singleLine="true"
-                android:gravity="start"
                 android:layout_marginTop="10dp"
-                android:maxLength="100"
+                android:gravity="start"
                 android:hint="@string/address1"
-                android:id="@+id/edittext_address1" />
+                android:maxLength="100"
+                android:singleLine="true" />
 
             <EditText
+                android:id="@+id/edittext_address2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:singleLine="true"
+                android:layout_marginTop="10dp"
                 android:gravity="start"
                 android:hint="@string/address2"
                 android:maxLength="100"
-                android:layout_marginTop="10dp"
-                android:id="@+id/edittext_address2" />
+                android:singleLine="true" />
 
             <EditText
+                android:id="@+id/edittext_area"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:singleLine="true"
+                android:layout_marginTop="10dp"
                 android:gravity="start"
                 android:hint="@string/area"
                 android:maxLength="100"
-                android:layout_marginTop="10dp"
-                android:id="@+id/edittext_area" />
+                android:singleLine="true" />
 
             <EditText
+                android:id="@+id/edittext_city"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:singleLine="true"
+                android:layout_marginTop="10dp"
                 android:gravity="start"
-                android:maxLength="100"
                 android:hint="@string/city"
-                android:layout_marginTop="10dp"
-                android:id="@+id/edittext_city" />
+                android:maxLength="100"
+                android:singleLine="true" />
 
             <EditText
+                android:id="@+id/edittext_zipcode"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:singleLine="true"
+                android:layout_marginTop="10dp"
                 android:gravity="start"
                 android:hint="@string/pincode"
-                android:maxLength="6"
                 android:inputType="number"
-                android:layout_marginTop="10dp"
-                android:id="@+id/edittext_zipcode" />
+                android:maxLength="6"
+                android:singleLine="true" />
 
             <EditText
+                android:id="@+id/edittext_state"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:singleLine="true"
+                android:layout_marginTop="10dp"
                 android:gravity="start"
                 android:hint="@string/state"
                 android:maxLength="100"
-                android:layout_marginTop="10dp"
-                android:id="@+id/edittext_state" />
+                android:singleLine="true" />
 
             <EditText
+                android:id="@+id/edittext_country"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:singleLine="true"
-                android:gravity="start"
-                android:maxLength="100"
-                android:hint="@string/country"
                 android:layout_marginTop="10dp"
-                android:id="@+id/edittext_country" />
+                android:gravity="start"
+                android:hint="@string/country"
+                android:maxLength="100"
+                android:singleLine="true" />
 
             <Button
+                android:id="@+id/save_address"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Save Address"
-                android:background="#fd9717"
-                android:id="@+id/save_address"
-                android:textSize="20sp"
-                android:textStyle="bold"
-                android:textColor="#fff"
-                android:layout_marginRight="2dp"
-                android:onClick="saveAddress"
-                android:layout_marginLeft="2dp"
-                android:layout_marginBottom="2dp"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="5dp" />
+                android:layout_marginBottom="2dp"
+                android:layout_marginLeft="2dp"
+                android:layout_marginRight="2dp"
+                android:layout_marginTop="5dp"
+                android:background="#fd9717"
+                android:onClick="saveAddress"
+                android:text="Save Address"
+                android:textColor="#fff"
+                android:textSize="20sp"
+                android:textStyle="bold" />
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

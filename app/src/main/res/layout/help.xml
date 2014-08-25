@@ -2,8 +2,8 @@
 
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-    android:background="#304f6c"
-    android:layout_height="fill_parent">
+    android:layout_height="fill_parent"
+    android:background="#304f6c">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -16,8 +16,7 @@
             android:id="@+id/help_edt_activity1"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1"
-           />
+            android:layout_weight="1" />
 
         <TextView
             android:id="@+id/help_txt_activity1"
@@ -31,8 +30,7 @@
             android:id="@+id/help_edt_activity2"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1"
-           />
+            android:layout_weight="1" />
 
         <TextView
             android:id="@+id/help_txt_activity2"
@@ -46,8 +44,7 @@
             android:id="@+id/help_edt_activity3"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1"
-            />
+            android:layout_weight="1" />
 
         <TextView
             android:id="@+id/help_txt_activity3"
@@ -61,8 +58,7 @@
             android:id="@+id/help_edt_activity4"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1"
-            />
+            android:layout_weight="1" />
 
         <TextView
             android:id="@+id/help_txt_activity4"
@@ -76,8 +72,7 @@
             android:id="@+id/help_edt_activity5"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1"
-           />
+            android:layout_weight="1" />
 
         <TextView
             android:id="@+id/help_txt_activity5"
@@ -91,8 +86,7 @@
             android:id="@+id/help_edt_activity6"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1"
-          />
+            android:layout_weight="1" />
 
         <TextView
             android:id="@+id/help_txt_activity6"
@@ -106,8 +100,7 @@
             android:id="@+id/help_edt_activity7"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1"
-           />
+            android:layout_weight="1" />
 
         <TextView
             android:id="@+id/help_txt_activity7"

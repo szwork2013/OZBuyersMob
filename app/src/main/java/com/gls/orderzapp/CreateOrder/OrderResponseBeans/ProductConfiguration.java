@@ -1,6 +1,5 @@
 package com.gls.orderzapp.CreateOrder.OrderResponseBeans;
 
-import com.gls.orderzapp.CreateOrder.CreateOrderBeans.*;
 import com.gls.orderzapp.CreateOrder.CreateOrderBeans.ProductConfigurationPrice;
 
 /**

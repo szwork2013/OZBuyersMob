@@ -1,9 +1,6 @@
 package com.gls.orderzapp.CreateOrder.OrderResponseBeans;
 
 
-
-
-
 import java.util.ArrayList;
 import java.util.List;
 
