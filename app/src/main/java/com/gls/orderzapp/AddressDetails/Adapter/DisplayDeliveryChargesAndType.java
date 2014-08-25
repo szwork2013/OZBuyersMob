@@ -218,8 +218,6 @@ public class DisplayDeliveryChargesAndType {
                 @Override
                 public void afterTextChanged(Editable s) {
                     Cart.saveOrderInstructions(tag, tempEditText.getText().toString().trim());
-//                    order_instruction[edt_orderInstruction.getId()-100]=tempEditText.getText().toString().trim();
-//                    Cart.addMessageOnCake(mKeys[position], cakeList.get(position), tempEditText.getText().toString().trim());
                 }
             };
 
@@ -254,7 +252,6 @@ public class DisplayDeliveryChargesAndType {
 
             //*****************************
             btn_selct_pickup_address.setTag(checkForDeliveryModeList.get(i).getBranchid());
-//            edt_orderInstruction.setId(100+i);
             edt_orderInstruction.setTag(checkForDeliveryModeList.get(i).getBranchid());
             btn_selct_pickup_address.setId(100 + i);
             delivery_type_group.setId(200 + i);
