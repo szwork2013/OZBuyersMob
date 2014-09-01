@@ -84,8 +84,6 @@ public class SignInActivity extends Activity {
         passwordEditText = (EditText) findViewById(R.id.passwordEditText);
         signInButton = (Button) findViewById(R.id.buttonSignIn);
         forgotPasswordText = (TextView) findViewById(R.id.textForgotPassword);
-
-//        UtilityClassForLanguagePreferance.applyTypeface(UtilityClassForLanguagePreferance.getParentView(mobileNumberEditText), UtilityClassForLanguagePreferance.getTypeFace(getApplicationContext()));
     }
 
     public void forgotPassword(View view) {
@@ -97,10 +95,6 @@ public class SignInActivity extends Activity {
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.signin_menu, menu);
         View view = (View) menu.findItem(R.id.signup).getActionView();
-
-        // to get child view - example:
-        //ImageView image  = (ImageView)view.findViewById(R.id.my_item);
-        //image.setOnClickListener....
 
         view.setOnClickListener(new View.OnClickListener() {
 
