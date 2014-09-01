@@ -8,6 +8,7 @@ import com.gls.orderzapp.SignUp.Location;
 public class UserDetails {
     String userid;
     String username;
+    String countrycode;
     String password;
     Location location;
     String mobileno;
@@ -16,6 +17,14 @@ public class UserDetails {
     String email;
     String preffered_lang;
     String status;
+
+    public String getCountrycode() {
+        return countrycode;
+    }
+
+    public void setCountrycode(String countrycode) {
+        this.countrycode = countrycode;
+    }
 
     public String getEmail() {
         return email;
