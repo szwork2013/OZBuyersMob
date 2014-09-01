@@ -120,15 +120,13 @@ public class GridAdapterProduct extends BaseAdapter {
                 }
             }
 
-            if (productDetailsList.get(position).getDiscount() != null && !productDetailsList.get(position).getDiscount().getCode().equalsIgnoreCase("none")) {
+            if (productDetailsList.get(position).getDiscount() != null && productDetailsList.get(position).getDiscount().getCode() != null && !productDetailsList.get(position).getDiscount().getCode().equalsIgnoreCase("none")) {
                 linear_layout_dicsount.setVisibility(View.VISIBLE);
                 text_discount.setText(productDetailsList.get(position).getDiscount().getPercent() + "");
                 StrikethroughSpan STRIKE_THROUGH_SPAN = new StrikethroughSpan();
                 original_price.setText(String.format("%.2f", productDetailsList.get(position).getPrice().getValue()), TextView.BufferType.SPANNABLE);
-//                original_price.setText(String.format("%.2f", 1000.00, TextView.BufferType.SPANNABLE));
                 Spannable spannable = (Spannable) original_price.getText();
                 spannable.setSpan(STRIKE_THROUGH_SPAN, 0, String.format("%.2f", productDetailsList.get(position).getPrice().getValue()).length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-//                spannable.setSpan(STRIKE_THROUGH_SPAN, 0, String.format("%.2f", 1000.00).length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 
             }else{
                 linear_layout_dicsount.setVisibility(View.GONE);

@@ -122,7 +122,7 @@ public class GridAdapterProviderCategories extends BaseAdapter {
                     nonVegImage.setVisibility(View.VISIBLE);
                 }
             }
-            if (productDetailsList.get(position).getDiscount() != null && !productDetailsList.get(position).getDiscount().getCode().equalsIgnoreCase("none")) {
+            if (productDetailsList.get(position).getDiscount() != null && productDetailsList.get(position).getDiscount().getCode() != null && !productDetailsList.get(position).getDiscount().getCode().equalsIgnoreCase("none")) {
                 linear_layout_dicsount.setVisibility(View.VISIBLE);
                 text_discount.setText(productDetailsList.get(position).getDiscount().getPercent() + "");
                 StrikethroughSpan STRIKE_THROUGH_SPAN = new StrikethroughSpan();
