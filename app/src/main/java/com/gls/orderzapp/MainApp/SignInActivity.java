@@ -22,6 +22,9 @@ import com.gls.orderzapp.SignIn.SignInPostData;
 import com.gls.orderzapp.Utility.CheckConnection;
 import com.gls.orderzapp.Utility.GoogleAnalyticsUtility;
 import com.gls.orderzapp.Utility.ServerConnection;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GooglePlayServicesUtil;
+import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -37,6 +40,9 @@ public class SignInActivity extends Activity {
     EditText mobileNumberEditText, passwordEditText;
     Button signInButton;
     Context context;
+    String regid = "";
+    String SENDER_ID = "13920985466";
+    GoogleCloudMessaging gcm;
     SignInPostData signInPostData;
     boolean backPresed = false;
 
@@ -61,6 +67,38 @@ public class SignInActivity extends Activity {
 
     }
 
+    private boolean checkPlayServices() {
+        int resultCode = GooglePlayServicesUtil.isGooglePlayServicesAvailable(this);
+        if (resultCode != ConnectionResult.SUCCESS) {
+            if (GooglePlayServicesUtil.isUserRecoverableError(resultCode)) {
+//                GooglePlayServicesUtil.getErrorDialog(resultCode, this,
+//                        PLAY_SERVICES_RESOLUTION_REQUEST).show();
+                return true;
+            } else {
+                Toast.makeText(context, "Device is not supported", Toast.LENGTH_LONG).show();
+                finish();
+            }
+            return false;
+        }
+        return true;
+    }
+
+    public void storeRegistrationId(Context context, String regId) {
+
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
+        SharedPreferences.Editor edit = sp.edit();
+        edit.putString("REG_ID", regId);
+        edit.commit();
+
+    }
+
+    public String getRegistrationId() {
+
+        SharedPreferences spLoad = PreferenceManager.getDefaultSharedPreferences(context);
+        String regId = spLoad.getString("REG_ID", "");
+        return regId;
+
+    }
     @Override
     protected void onStop() {
         super.onStop();
@@ -131,9 +169,13 @@ public class SignInActivity extends Activity {
             Toast.makeText(context, "Enter password", Toast.LENGTH_LONG).show();
             return;
         }
-        setPostSignInParameters();
 
-        new SignInAsync().execute();
+
+        if (checkPlayServices()) {
+            setPostSignInParameters();
+            new SignInAsync().execute();
+        }
+
     }
 
     public String postSignIn() {
@@ -175,6 +217,26 @@ public class SignInActivity extends Activity {
             try {
                 if (new CheckConnection(context).isConnectingToInternet()) {
                     connectedOrNot = "success";
+
+                    regid = getRegistrationId();
+                    if (regid.isEmpty()) {
+                        if (gcm == null) {
+                            try {
+                                gcm = GoogleCloudMessaging.getInstance(context);
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        }
+                        try {
+                            regid = gcm.register(SENDER_ID);
+                            Log.d("gcmid", regid);
+                            System.out.print(regid);
+                            storeRegistrationId(context, regid);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+
                     resultSignIn = postSignIn();
                     if (!resultSignIn.isEmpty()) {
                         jObj = new JSONObject(resultSignIn);

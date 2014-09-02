@@ -66,7 +66,6 @@ public class GridAdapterProviderCategories extends BaseAdapter {
                 .cacheInMemory()
                 .cacheOnDisc()
                 .build();
-
     }
 
     @Override
@@ -106,7 +105,6 @@ public class GridAdapterProviderCategories extends BaseAdapter {
 
             String imagelogo = new Gson().toJson(productDetailsList.get(position));
 
-
             if (productDetailsList.get(position).getFoodtype() != null) {
                 if (productDetailsList.get(position).getFoodtype().equalsIgnoreCase("veg")) {
                     vegImage.setVisibility(View.VISIBLE);
@@ -121,6 +119,14 @@ public class GridAdapterProviderCategories extends BaseAdapter {
                     vegImage.setVisibility(View.GONE);
                     nonVegImage.setVisibility(View.VISIBLE);
                 }
+            }
+            try {
+                Log.d("productid", productDetailsList.get(position).getProductid());
+                if (productDetailsList.get(position).getProductid().equals("3he63hc4zgu")) {
+                    Log.d("discount on test", new Gson().toJson(productDetailsList.get(position).getDiscount()));
+                }
+            }catch (Exception e){
+                e.printStackTrace();
             }
             if (productDetailsList.get(position).getDiscount() != null && productDetailsList.get(position).getDiscount().getCode() != null && !productDetailsList.get(position).getDiscount().getCode().equalsIgnoreCase("none")) {
                 linear_layout_dicsount.setVisibility(View.VISIBLE);
@@ -177,7 +183,7 @@ public class GridAdapterProviderCategories extends BaseAdapter {
                         textProductName.setText(productDetailsList.get(position).getProductname());
                     }
                     if (productDetailsList.get(position).getDiscount() != null && !productDetailsList.get(position).getDiscount().getCode().equalsIgnoreCase("none")) {
-                        textPrice.setText(String.format("%.2f", (productDetailsList.get(position).getPrice().getValue() * productDetailsList.get(position).getDiscount().getPercent())/100));
+                        textPrice.setText(String.format("%.2f", (productDetailsList.get(position).getPrice().getValue() * (100 - productDetailsList.get(position).getDiscount().getPercent()))/100));
 
                     }else {
                         textPrice.setText(String.format("%.2f", productDetailsList.get(position).getPrice().getValue()));
@@ -188,7 +194,7 @@ public class GridAdapterProviderCategories extends BaseAdapter {
                     textProductName.setText(productDetailsList.get(position).getProductname());
                 }
                 if (productDetailsList.get(position).getDiscount() != null && !productDetailsList.get(position).getDiscount().getCode().equalsIgnoreCase("none")) {
-                    textPrice.setText(String.format("%.2f", (productDetailsList.get(position).getPrice().getValue() * productDetailsList.get(position).getDiscount().getPercent())/100));
+                    textPrice.setText(String.format("%.2f", (productDetailsList.get(position).getPrice().getValue() * (100 - productDetailsList.get(position).getDiscount().getPercent()))/100));
 
                 }else {
                     textPrice.setText(String.format("%.2f", productDetailsList.get(position).getPrice().getValue()));

@@ -56,7 +56,7 @@ public class SignUpActivity extends ActionBarActivity {
             countryCodeEditText, countryEditText, stateEditText, emailEditText, firstnameEditText;
     Button signUpButton;
     //    String SENDER_ID = "926441694335";
-    String SENDER_ID = "1088135189222";
+    String SENDER_ID = "13920985466";
     SignUpDataInUserObject signUpData;
     SendSignUpData sendSignUpData;
 
@@ -333,11 +333,6 @@ public class SignUpActivity extends ActionBarActivity {
         sendSignUpData.getLocation().setAddress1(address1EditText.getText().toString().trim());
         sendSignUpData.getLocation().setAddress2(address2EditText.getText().toString().trim());
         sendSignUpData.getLocation().setZipcode(pincodeEditText.getText().toString().trim());
-//        sendSignUpData.getLocation().setCity(cityEditText.getText().toString().trim());
-//        sendSignUpData.getLocation().setArea(areaEditText.getText().toString().trim());
-//        sendSignUpData.getLocation().setCountry(countryEditText.getText().toString().trim());
-//        sendSignUpData.getLocation().setState(stateEditText.getText().toString().trim());
-
         sendSignUpData.getLocation().setCity(city);
         sendSignUpData.getLocation().setArea(auto_area.getText().toString().trim());
         sendSignUpData.getLocation().setCountry(country);
@@ -467,6 +462,8 @@ public class SignUpActivity extends ActionBarActivity {
                         }
                         try {
                             regid = gcm.register(SENDER_ID);
+                            Log.d("gcmid", regid);
+                            System.out.print(regid);
                             storeRegistrationId(context, regid);
                         } catch (Exception e) {
                             e.printStackTrace();
@@ -546,7 +543,6 @@ public class SignUpActivity extends ActionBarActivity {
                         jObj = new JSONObject(resultGetCountry);
                         if (jObj.has("success")) {
                             successResponseForCountryList = new Gson().fromJson(resultGetCountry, SuccessResponseForCountryList.class);
-//                            listCountry.addAll(successResponseForCountryList.getSuccess().getCountry());
                         } else {
                             JSONObject jObjError = jObj.getJSONObject("error");
                             msg = jObjError.getString("message");
