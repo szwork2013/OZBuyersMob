@@ -7,7 +7,7 @@ import java.util.List;
  * Created by avi on 8/14/14.
  */
 public class PostSubOrderId {
-    List<String> suborderids=new ArrayList<>();
+    List<String> suborderids = new ArrayList<>();
 
     public List<String> getSuborderids() {
         return suborderids;

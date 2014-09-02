@@ -2,93 +2,114 @@
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:orientation="vertical"
+    android:layout_height="wrap_content"
     android:background="#304f6c"
-    android:layout_height="wrap_content">
+    android:orientation="vertical">
+
     <LinearLayout
         android:layout_width="match_parent"
-        android:orientation="vertical"
-        android:background="#fff"
+        android:layout_height="wrap_content"
         android:layout_margin="3dp"
-        android:layout_height="wrap_content">
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:orientation="vertical"
-        android:layout_marginBottom="5dp"
-        android:layout_height="wrap_content">
-        <TextView
-            android:layout_width="match_parent"
-            android:text="@string/cancel_order"
-            android:textColor="#000"
-            android:textSize="18sp"
-            android:layout_marginLeft="5dp"
-            android:textStyle="bold"
-            android:layout_height="wrap_content" />
-        <View
-            android:layout_width="match_parent"
-            android:background="#fd9717"
-            android:layout_height="1dp"/>
-    <TextView
-        android:id="@+id/txt_cnl_ordr"
-        android:layout_marginTop="5dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="5dp"
-        android:textColor="#000"
-        android:textSize="16sp"
-        android:text="@string/cancel_order_lbl"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:background="#fff"
+        android:orientation="vertical">
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginLeft="10dp"
-            android:id="@+id/llNoOrderToCancel">
+            android:layout_marginBottom="5dp"
+            android:orientation="vertical">
+
             <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:text="@string/cancel_order"
+                android:textColor="#000"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#fd9717" />
+
+            <TextView
+                android:id="@+id/txt_cnl_ordr"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginTop="5dp"
+                android:text="@string/cancel_order_lbl"
+                android:textColor="#000"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/txt_order_cancel_warning"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:singleLine="false"
+                android:text="@string/cancel_order_warning"
+                android:textColor="#000"
+                android:textSize="14sp"
+                android:visibility="gone" />
+
+            <LinearLayout
+                android:id="@+id/llNoOrderToCancel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="14sp"
-                android:textColor="#000"
-                android:text="("/>
-            <TextView
+                android:layout_marginLeft="10dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="("
+                    android:textColor="#000"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/noCancellableOrder"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/no_suborder_cancel"
+                    android:textColor="#000"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=")"
+                    android:textColor="#000"
+                    android:textSize="14sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_suborder_ids"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="14sp"
-                android:textColor="#000"
-                android:id="@+id/noCancellableOrder"
-                android:text="@string/no_suborder_cancel"
-                />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="14sp"
-                android:textColor="#000"
-                android:text=")"/>
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="3dp"
+                android:orientation="vertical"></LinearLayout>
         </LinearLayout>
-    <LinearLayout
-        android:layout_marginTop="3dp"
-        android:layout_marginLeft="5dp"
-        android:id="@+id/ll_suborder_ids"
-        android:layout_width="wrap_content"
-        android:orientation="vertical"
-        android:layout_height="wrap_content">
-    </LinearLayout>
-    </LinearLayout>
-<LinearLayout
-    android:id="@+id/ll_confirm_order"
-    android:layout_width="match_parent"
-    android:layout_marginTop="5dp"
-    android:layout_height="wrap_content">
-    <Button
-        android:id="@+id/btn_confirm_cancel_order"
-        android:layout_width="match_parent"
-        android:textStyle="bold"
-        android:textColor="#fff"
-        android:background="#fd9717"
-        android:textSize="20dp"
-        android:text="@string/confirm_cancel_order"
-        android:layout_height="wrap_content" />
-    </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_confirm_order"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp">
+
+            <Button
+                android:id="@+id/btn_confirm_cancel_order"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#fd9717"
+                android:text="@string/confirm_cancel_order"
+                android:textColor="#fff"
+                android:textSize="20dp"
+                android:textStyle="bold" />
+        </LinearLayout>
     </LinearLayout>
 </LinearLayout>

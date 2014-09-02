@@ -20,13 +20,6 @@ public class GoogleAnalyticsUtility extends Application {
 
 
     public static int GENERAL_TRACKER = 0;
-
-    public enum TrackerName {
-        APP_TRACKER, // Tracker used only in this app.
-        GLOBAL_TRACKER, // Tracker used by all the apps from a company. eg: roll-up tracking.
-        ECOMMERCE_TRACKER, // Tracker used by all ecommerce transactions from a company.
-    }
-
     HashMap<TrackerName, Tracker> mTrackers = new HashMap<TrackerName, Tracker>();
 
     public GoogleAnalyticsUtility() {
@@ -44,6 +37,12 @@ public class GoogleAnalyticsUtility extends Application {
 
         }
         return mTrackers.get(trackerId);
+    }
+
+    public enum TrackerName {
+        APP_TRACKER, // Tracker used only in this app.
+        GLOBAL_TRACKER, // Tracker used by all the apps from a company. eg: roll-up tracking.
+        ECOMMERCE_TRACKER, // Tracker used by all ecommerce transactions from a company.
     }
 }
 

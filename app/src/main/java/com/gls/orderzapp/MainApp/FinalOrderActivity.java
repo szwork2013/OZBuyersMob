@@ -6,15 +6,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.LinearLayout;
-import android.widget.ListAdapter;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.gls.orderzapp.CreateOrder.OrderResponseAdapters.AdapterForFinalOrderMultipleProviders;
-import com.gls.orderzapp.CreateOrder.OrderResponseAdapters.HomeDeliveryAddressAdapter;
-import com.gls.orderzapp.CreateOrder.OrderResponseAdapters.PickupAddressAdapter;
 import com.gls.orderzapp.CreateOrder.OrderResponseBeans.SuccessResponseForCreateOrder;
 import com.gls.orderzapp.Payment.PaymentSuccessResponse;
 import com.gls.orderzapp.R;
@@ -32,9 +27,9 @@ import java.util.TimeZone;
  * Created by prajyot on 6/5/14.
  */
 public class FinalOrderActivity extends Activity {
+    public static LinearLayout listProducts, ll_txn_details;
     Context context;
-    public static LinearLayout listProducts,  ll_txn_details;
-    TextView orderNumber, billing_address_textview,  paymentMode, grand_total,
+    TextView orderNumber, billing_address_textview, paymentMode, grand_total,
             txt_expected_delivery_date, bank_name, transaction_id, card_type, txn_amount;
     SuccessResponseForCreateOrder successResponseForCreateOrder;
     PaymentSuccessResponse paymentSuccessResponse;
@@ -43,7 +38,7 @@ public class FinalOrderActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        context=FinalOrderActivity.this;
+        context = FinalOrderActivity.this;
         setContentView(R.layout.final_order);
         Cart.hm.clear();
 
@@ -51,11 +46,11 @@ public class FinalOrderActivity extends Activity {
 
         findViewsById();
         paymentResponse = getIntent().getStringExtra("TXN_DETAILS");
-        if(!paymentResponse.isEmpty()){
+        if (!paymentResponse.isEmpty()) {
             paymentSuccessResponse = new Gson().fromJson(paymentResponse, PaymentSuccessResponse.class);
         }
         successResponseForCreateOrder = new Gson().fromJson(getIntent().getStringExtra("FINAL_ORDER"), SuccessResponseForCreateOrder.class);
-        Log.d("successResponseForCreateOrder",new Gson().toJson(successResponseForCreateOrder));
+        Log.d("successResponseForCreateOrder", new Gson().toJson(successResponseForCreateOrder));
         setOrderDetailsData();
 
     }
@@ -77,7 +72,7 @@ public class FinalOrderActivity extends Activity {
     public void findViewsById() {
         listProducts = (LinearLayout) findViewById(R.id.listProducts);
         orderNumber = (TextView) findViewById(R.id.order_no);
-         ll_txn_details = (LinearLayout) findViewById(R.id.ll_txn_details);
+        ll_txn_details = (LinearLayout) findViewById(R.id.ll_txn_details);
         billing_address_textview = (TextView) findViewById(R.id.billing_address_textview);
         paymentMode = (TextView) findViewById(R.id.payment_mode);
         grand_total = (TextView) findViewById(R.id.grand_total);
@@ -109,7 +104,7 @@ public class FinalOrderActivity extends Activity {
             e.printStackTrace();
         }
         //*****************
-        if(successResponseForCreateOrder.getSuccess().getOrder().getPreferred_delivery_date() != null) {
+        if (successResponseForCreateOrder.getSuccess().getOrder().getPreferred_delivery_date() != null) {
             try {
 
                 final DateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
@@ -140,7 +135,7 @@ public class FinalOrderActivity extends Activity {
                 paymentMode.setText("Payment by card");
                 ll_txn_details.setVisibility(View.VISIBLE);
             }
-            if(!paymentResponse.isEmpty()) {
+            if (!paymentResponse.isEmpty()) {
                 if (paymentSuccessResponse.getmMap() != null) {
                     if (paymentSuccessResponse.getmMap().getBANKNAME() != null) {
                         bank_name.setText(paymentSuccessResponse.getmMap().getBANKNAME());

@@ -6,15 +6,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.gls.orderzapp.CreateOrder.OrderResponseBeans.OrderedProductDetails;
 import com.gls.orderzapp.CreateOrder.OrderResponseBeans.ProductConfiguration;
-import com.gls.orderzapp.ProductConfiguration.Adapter.PopUpForConfigurationCharges;
 import com.gls.orderzapp.ProductConfiguration.Adapter.PopUpForDisplayProductConfigurationOnFinalOrder;
 import com.gls.orderzapp.R;
-import com.gls.orderzapp.Utility.Cart;
-import com.google.gson.Gson;
 
 import java.util.List;
 
@@ -49,12 +45,12 @@ public class FinalOrderProductListAdapter {
                 product_name.setText(orderedProductDetailsList.get(i).getProductname());
             }
 
-            if(orderedProductDetailsList.get(i).getUom().equalsIgnoreCase("kg") && orderedProductDetailsList.get(i).getQty() < 1) {
+            if (orderedProductDetailsList.get(i).getUom().equalsIgnoreCase("kg") && orderedProductDetailsList.get(i).getQty() < 1) {
                 quantity.setText(String.format("%.2f", orderedProductDetailsList.get(i).getQty() * 1000) + " " + "gm");
-            }else if(orderedProductDetailsList.get(i).getUom().equalsIgnoreCase("gm") && orderedProductDetailsList.get(i).getQty() >= 1000){
+            } else if (orderedProductDetailsList.get(i).getUom().equalsIgnoreCase("gm") && orderedProductDetailsList.get(i).getQty() >= 1000) {
                 quantity.setText(String.format("%.2f", orderedProductDetailsList.get(i).getQty() / 1000) + " " + "kg");
-            }else{
-                quantity.setText(( orderedProductDetailsList.get(i).getQty()) + " " + orderedProductDetailsList.get(i).getUom());
+            } else {
+                quantity.setText((orderedProductDetailsList.get(i).getQty()) + " " + orderedProductDetailsList.get(i).getUom());
             }
             price.setText(String.format("%.2f", (orderedProductDetailsList.get(i).getOrderprice() / orderedProductDetailsList.get(i).getQty()) - (configurationPrice(orderedProductDetailsList.get(i).getProductconfiguration()) / orderedProductDetailsList.get(i).getQty())));
 
@@ -71,8 +67,8 @@ public class FinalOrderProductListAdapter {
             ll_special_message.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Log.d("PopUp","FinalOrder");
-                    new PopUpForDisplayProductConfigurationOnFinalOrder(context,v,orderedProductDetailsList.get(v.getId()-1000).getProductconfiguration()).displayConfigurationCharges();
+                    Log.d("PopUp", "FinalOrder");
+                    new PopUpForDisplayProductConfigurationOnFinalOrder(context, v, orderedProductDetailsList.get(v.getId() - 1000).getProductconfiguration()).displayConfigurationCharges();
                 }
             });
             ll_special_message.setId(1000 + i);

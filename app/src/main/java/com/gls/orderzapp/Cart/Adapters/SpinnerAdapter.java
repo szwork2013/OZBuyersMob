@@ -5,7 +5,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.gls.orderzapp.R;
@@ -18,7 +17,8 @@ import java.util.List;
 public class SpinnerAdapter extends BaseAdapter {
     Context context;
     List<String> list;
-    public SpinnerAdapter(Context context, List<String> list){
+
+    public SpinnerAdapter(Context context, List<String> list) {
         this.context = context;
         this.list = list;
     }
@@ -40,13 +40,13 @@ public class SpinnerAdapter extends BaseAdapter {
 
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
-        if(view == null){
+        if (view == null) {
             LayoutInflater li = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             view = li.inflate(R.layout.weight_spinner_items, null);
         }
         TextView text = (TextView) view.findViewById(R.id.text);
 
-         if(list.get(i) != null)
+        if (list.get(i) != null)
             text.setText(list.get(i));
 
         return view;

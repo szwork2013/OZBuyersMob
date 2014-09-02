@@ -1,7 +1,5 @@
 package com.gls.orderzapp.CreateOrder.CreateOrderBeans;
 
-import com.google.android.gms.games.internal.constants.AvailabilityCode;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,7 +9,7 @@ import java.util.List;
 public class DeliveryTimeSlots {
     String branchid;
     String expected_date;
-    List<AvailableDeliveryTimingSlots> deliverytimingslots=new ArrayList<>();
+    List<AvailableDeliveryTimingSlots> deliverytimingslots = new ArrayList<>();
 
     public String getBranchid() {
         return branchid;

@@ -2,9 +2,9 @@
 
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
     android:background="#304f6c"
-    android:padding="10dp"
-    android:layout_height="fill_parent">
+    android:padding="10dp">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -13,41 +13,26 @@
 
         <RelativeLayout
             android:layout_width="fill_parent"
-            android:background="#fff"
-            android:layout_height="fill_parent">
+            android:layout_height="fill_parent"
+            android:background="#fff">
 
-            <EditText
-                android:id="@+id/editTextCountryCode"
-                android:layout_width="50dp"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentTop="true"
-                android:layout_marginTop="10dp"
-                android:editable="false"
-                android:ems="10"
-                android:enabled="false"
-                android:singleLine="true"
-                android:gravity="center_horizontal|center_vertical"
-                android:inputType="number"
-                android:maxLength="2"
-                android:text="91"
-                android:textSize="18sp" />
+
 
             <EditText
                 android:id="@+id/editTextMobileNUmber"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentTop="true"
                 android:layout_marginLeft="5dp"
                 android:layout_marginTop="10dp"
-                android:layout_toRightOf="@+id/editTextCountryCode"
+
                 android:ems="10"
-                android:singleLine="true"
                 android:hint="@string/mobile"
                 android:inputType="phone"
                 android:maxLength="10"
+                android:singleLine="true"
                 android:textSize="18sp" />
 
             <EditText
@@ -59,9 +44,9 @@
                 android:layout_below="@+id/editTextMobileNUmber"
                 android:layout_marginTop="10dp"
                 android:ems="10"
-                android:singleLine="true"
                 android:hint="@string/password"
                 android:inputType="textPassword"
+                android:singleLine="true"
                 android:textSize="18sp" />
 
             <EditText
@@ -72,10 +57,11 @@
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="10dp"
                 android:ems="10"
-                android:singleLine="true"
                 android:hint="@string/username"
                 android:inputType="textPersonName"
+                android:singleLine="true"
                 android:textSize="18sp" />
+
             <EditText
                 android:id="@+id/editTextFirstName"
                 android:layout_width="match_parent"
@@ -84,9 +70,9 @@
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="10dp"
                 android:ems="10"
-                android:singleLine="true"
                 android:hint="@string/firstname"
                 android:inputType="textPersonName"
+                android:singleLine="true"
                 android:textSize="18sp" />
 
             <EditText
@@ -97,9 +83,9 @@
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="10dp"
                 android:ems="10"
-                android:singleLine="true"
                 android:hint="@string/emailaddress"
                 android:inputType="textEmailAddress"
+                android:singleLine="true"
                 android:textSize="18sp" />
 
             <EditText
@@ -110,9 +96,9 @@
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="10dp"
                 android:ems="10"
-                android:singleLine="true"
                 android:hint="@string/address1"
                 android:inputType="textPostalAddress"
+                android:singleLine="true"
                 android:textSize="18sp" />
 
             <EditText
@@ -123,205 +109,215 @@
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="10dp"
                 android:ems="10"
-                android:singleLine="true"
                 android:hint="@string/address2"
                 android:inputType="textPostalAddress"
+                android:singleLine="true"
                 android:textSize="18sp" />
 
             <!--<EditText-->
-                <!--android:id="@+id/editTextCity"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_below="@+id/editTextAddress2"-->
-                <!--android:layout_centerHorizontal="true"-->
-                <!--android:layout_marginTop="10dp"-->
-                <!--android:hint="@string/city"-->
-                <!--android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"-->
-                <!--android:inputType="text"-->
-                <!--android:singleLine="true"-->
-                <!--android:textSize="18sp" />-->
+            <!--android:id="@+id/editTextCity"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_below="@+id/editTextAddress2"-->
+            <!--android:layout_centerHorizontal="true"-->
+            <!--android:layout_marginTop="10dp"-->
+            <!--android:hint="@string/city"-->
+            <!--android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"-->
+            <!--android:inputType="text"-->
+            <!--android:singleLine="true"-->
+            <!--android:textSize="18sp" />-->
 
             <!--<EditText-->
-                <!--android:id="@+id/editTextArea"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_below="@+id/editTextCity"-->
-                <!--android:layout_centerHorizontal="true"-->
-                <!--android:layout_marginTop="10dp"-->
-                <!--android:hint="@string/area"-->
-                <!--android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz 123456789./"-->
-                <!--android:inputType="text"-->
-                <!--android:singleLine="true"-->
-                <!--android:textSize="18sp" />-->
+            <!--android:id="@+id/editTextArea"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_below="@+id/editTextCity"-->
+            <!--android:layout_centerHorizontal="true"-->
+            <!--android:layout_marginTop="10dp"-->
+            <!--android:hint="@string/area"-->
+            <!--android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz 123456789./"-->
+            <!--android:inputType="text"-->
+            <!--android:singleLine="true"-->
+            <!--android:textSize="18sp" />-->
 
             <!--<EditText-->
-                <!--android:id="@+id/editTextState"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_below="@+id/editTextArea"-->
-                <!--android:layout_centerHorizontal="true"-->
-                <!--android:layout_marginTop="10dp"-->
-                <!--android:hint="@string/state"-->
-                <!--android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"-->
-                <!--android:inputType="text"-->
-                <!--android:singleLine="true"-->
-                <!--android:textSize="18sp" />-->
+            <!--android:id="@+id/editTextState"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_below="@+id/editTextArea"-->
+            <!--android:layout_centerHorizontal="true"-->
+            <!--android:layout_marginTop="10dp"-->
+            <!--android:hint="@string/state"-->
+            <!--android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"-->
+            <!--android:inputType="text"-->
+            <!--android:singleLine="true"-->
+            <!--android:textSize="18sp" />-->
 
             <!--<EditText-->
-                <!--android:id="@+id/editTextCountry"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_below="@+id/editTextState"-->
-                <!--android:layout_centerHorizontal="true"-->
-                <!--android:layout_marginTop="10dp"-->
-                <!--android:hint="@string/country"-->
-                <!--android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"-->
-                <!--android:inputType="text"-->
-                <!--android:singleLine="true"-->
-                <!--android:textSize="18sp" />-->
+            <!--android:id="@+id/editTextCountry"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_below="@+id/editTextState"-->
+            <!--android:layout_centerHorizontal="true"-->
+            <!--android:layout_marginTop="10dp"-->
+            <!--android:hint="@string/country"-->
+            <!--android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"-->
+            <!--android:inputType="text"-->
+            <!--android:singleLine="true"-->
+            <!--android:textSize="18sp" />-->
 
             <!--<EditText-->
-                <!--android:id="@+id/editTextPincode"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_below="@+id/editTextCountry"-->
-                <!--android:layout_centerHorizontal="true"-->
-                <!--android:layout_marginTop="10dp"-->
-                <!--android:ems="10"-->
-                <!--android:maxLength="6"-->
-                <!--android:singleLine="true"-->
-                <!--android:hint="@string/pincode"-->
-                <!--android:inputType="number"-->
-                <!--android:textSize="18sp" />-->
+            <!--android:id="@+id/editTextPincode"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_below="@+id/editTextCountry"-->
+            <!--android:layout_centerHorizontal="true"-->
+            <!--android:layout_marginTop="10dp"-->
+            <!--android:ems="10"-->
+            <!--android:maxLength="6"-->
+            <!--android:singleLine="true"-->
+            <!--android:hint="@string/pincode"-->
+            <!--android:inputType="number"-->
+            <!--android:textSize="18sp" />-->
             <LinearLayout
+                android:id="@+id/ll_city_area"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:background="#fff"
-                android:id="@+id/ll_city_area"
                 android:layout_below="@+id/editTextAddress2"
+                android:background="#fff"
+                android:orientation="vertical"
                 android:padding="3dp">
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textSize="18sp"
-                    android:textColor="#000"
-                    android:textStyle="bold"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginTop="5dp"
                     android:text="Country: "
-                    android:layout_marginBottom="5dp"
-                    android:layout_marginTop="5dp"/>
+                    android:textColor="#000"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
                 <Spinner
+                    android:id="@+id/country_spinner"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/country_spinner"/>
+                    android:layout_height="wrap_content" />
 
                 <View
                     android:layout_width="fill_parent"
                     android:layout_height="1dp"
-                    android:background="#304f6c"/>
+                    android:background="#304f6c" />
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textSize="18sp"
-                    android:textColor="#000"
-                    android:textStyle="bold"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginTop="5dp"
                     android:text="State: "
-                    android:layout_marginBottom="5dp"
-                    android:layout_marginTop="5dp"/>
+                    android:textColor="#000"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
 
                 <Spinner
+                    android:id="@+id/state_spinner"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/state_spinner"/>
+                    android:layout_height="wrap_content" />
 
                 <View
                     android:layout_width="fill_parent"
                     android:layout_height="1dp"
-                    android:background="#304f6c"/>
+                    android:background="#304f6c" />
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textSize="18sp"
-                    android:textColor="#000"
-                    android:textStyle="bold"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginTop="5dp"
                     android:text="City: "
-                    android:layout_marginBottom="5dp"
-                    android:layout_marginTop="5dp"/>
+                    android:textColor="#000"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
 
                 <Spinner
+                    android:id="@+id/city_spinner"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/city_spinner"/>
+                    android:layout_height="wrap_content" />
 
                 <View
                     android:layout_width="fill_parent"
                     android:layout_height="1dp"
-                    android:background="#304f6c"/>
+                    android:background="#304f6c" />
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textSize="18sp"
-                    android:textColor="#000"
-                    android:textStyle="bold"
-                    android:text="@string/areawithcolon"
                     android:layout_marginBottom="5dp"
-                    android:layout_marginTop="5dp"/>
-            <AutoCompleteTextView
-                android:id="@+id/auto_area"
-                android:layout_width="match_parent"
-                android:textSize="18sp"
-                android:singleLine="true"
-                android:hint="@string/area"
-                android:layout_height="wrap_content" />
-                <ListView
-                    android:visibility="gone"
+                    android:layout_marginTop="5dp"
+                    android:text="@string/areawithcolon"
+                    android:textColor="#000"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <AutoCompleteTextView
+                    android:id="@+id/auto_area"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/listOfAreas"/>
-            </LinearLayout>
+                    android:completionThreshold="2"
+                    android:hint="@string/area"
+                    android:singleLine="true"
+                    android:textSize="18sp" />
 
-            <EditText
-            android:id="@+id/editTextPincode"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/ll_city_area"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="10dp"
-            android:ems="10"
-            android:maxLength="6"
-            android:singleLine="true"
-            android:hint="@string/pincode"
-            android:inputType="number"
-            android:textSize="18sp" />
+                <ListView
+                    android:id="@+id/listOfAreas"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone" />
+
+                <AutoCompleteTextView
+                    android:id="@+id/edtTextPincode"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="10dp"
+                    android:completionThreshold="2"
+                    android:ems="10"
+                    android:hint="@string/pincode"
+                    android:inputType="number"
+                    android:maxLength="6"
+                    android:singleLine="true"
+                    android:textSize="18sp" />
+
+                <ListView
+                    android:id="@+id/listOfZipCode"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone" />
+            </LinearLayout>
 
             <TextView
                 android:id="@+id/txt_tc"
-                android:layout_marginTop="5dp"
-                android:layout_marginLeft="10dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="#4c4f56"
-                android:textSize="16sp"
+                android:layout_below="@+id/ll_city_area"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="5dp"
                 android:text="@string/tc_agree"
-                android:layout_below="@+id/editTextPincode"
-                android:layout_marginBottom="10dp" />
+                android:textColor="#4c4f56"
+                android:textSize="16sp" />
         </RelativeLayout>
 
         <Button
             android:id="@+id/buttonSignUp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
             android:background="#fd9717"
+            android:onClick="signUp"
+            android:text="@string/signup"
             android:textColor="#fff"
             android:textSize="20sp"
-            android:textStyle="bold"
-            android:layout_marginTop="5dp"
-            android:onClick="signUp"
-            android:text="@string/signup" />
+            android:textStyle="bold" />
 
     </LinearLayout>
 

@@ -4,98 +4,102 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:background="#304f6c">
+
     <LinearLayout
-        android:orientation="vertical" android:layout_width="match_parent"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:orientation="vertical"
         android:padding="5dp">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
             android:background="#fff"
+            android:orientation="vertical"
             android:padding="3dp">
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
-                android:text="Location"
-                android:layout_marginLeft="5dp"
                 android:layout_gravity="center_vertical"
+                android:layout_marginLeft="5dp"
                 android:gravity="center_vertical"
+                android:text="Location"
+                android:textColor="#000"
                 android:textSize="20sp"
-                android:textStyle="bold"
-                android:textColor="#000"/>
+                android:textStyle="bold" />
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="#fd9717"/>
+                android:background="#fd9717" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="18sp"
-                android:textColor="#000"
-                android:textStyle="bold"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="5dp"
                 android:text="Country: "
-                android:layout_marginBottom="5dp"
-                android:layout_marginTop="5dp"/>
+                android:textColor="#000"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
             <Spinner
+                android:id="@+id/country_spinner"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/country_spinner"/>
+                android:layout_height="wrap_content" />
 
             <View
                 android:layout_width="fill_parent"
                 android:layout_height="1dp"
-                android:background="#304f6c"/>
+                android:background="#304f6c" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="18sp"
-                android:textColor="#000"
-                android:textStyle="bold"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="5dp"
                 android:text="State: "
-                android:layout_marginBottom="5dp"
-                android:layout_marginTop="5dp"/>
+                android:textColor="#000"
+                android:textSize="18sp"
+                android:textStyle="bold" />
 
             <Spinner
+                android:id="@+id/state_spinner"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/state_spinner"/>
+                android:layout_height="wrap_content" />
 
             <View
                 android:layout_width="fill_parent"
                 android:layout_height="1dp"
-                android:background="#304f6c"/>
+                android:background="#304f6c" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="18sp"
-                android:textColor="#000"
-                android:textStyle="bold"
-                android:text="City: "
                 android:layout_marginBottom="5dp"
-                android:layout_marginTop="5dp"/>
+                android:layout_marginTop="5dp"
+                android:text="City: "
+                android:textColor="#000"
+                android:textSize="18sp"
+                android:textStyle="bold" />
 
             <Spinner
+                android:id="@+id/city_spinner"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/city_spinner"/>
-            </LinearLayout>
+                android:layout_height="wrap_content" />
+        </LinearLayout>
 
         <Button
+            android:id="@+id/save_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="20sp"
-            android:id="@+id/save_button"
-            android:textColor="#fff"
-            android:textStyle="bold"
-            android:text="Select Location"
+            android:layout_marginTop="3dp"
             android:background="#fd9717"
             android:onClick="saveCityStateCountryPreferences"
-            android:layout_marginTop="3dp"/>
+            android:text="Select Location"
+            android:textColor="#fff"
+            android:textSize="20sp"
+            android:textStyle="bold" />
     </LinearLayout>
 </ScrollView>

@@ -17,7 +17,6 @@ import com.gls.orderzapp.R;
 import com.gls.orderzapp.Utility.CheckConnection;
 import com.gls.orderzapp.Utility.GoogleAnalyticsUtility;
 import com.gls.orderzapp.Utility.ServerConnection;
-import com.gls.orderzapp.Utility.UtilityClassForLanguagePreferance;
 import com.gls.orderzapp.Verification.VerificationPostData;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;

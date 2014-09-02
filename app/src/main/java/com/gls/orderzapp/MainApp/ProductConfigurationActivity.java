@@ -22,7 +22,6 @@ import com.gls.orderzapp.Utility.Cart;
 import com.gls.orderzapp.Utility.CheckConnection;
 import com.gls.orderzapp.Utility.GoogleAnalyticsUtility;
 import com.gls.orderzapp.Utility.ServerConnection;
-import com.google.gson.Gson;
 
 import org.json.JSONObject;
 
@@ -34,10 +33,32 @@ import java.util.List;
  */
 public class ProductConfigurationActivity extends Activity {
     public static ListView product_configuration_list;
-    Context context;
     final int SIGN_IN = 0;
-    Button add_configuration;
     public List<ProductDetails> cakeproductDetailes = new ArrayList();
+    Context context;
+    Button add_configuration;
+
+    public static void setListViewHeightBasedOnChildren(ListView gridView) {
+        ListAdapter listAdapter = gridView.getAdapter();
+        if (listAdapter == null)
+            return;
+
+        int desiredWidth = View.MeasureSpec.makeMeasureSpec(gridView.getWidth(), View.MeasureSpec.UNSPECIFIED);
+        int totalHeight = 0;
+        View view = null;
+
+        for (int i = 0; i < listAdapter.getCount(); i++) {
+            view = listAdapter.getView(i, view, gridView);
+            if (i == 0)
+                view.setLayoutParams(new LinearLayout.LayoutParams(desiredWidth, LinearLayout.LayoutParams.WRAP_CONTENT));
+            view.measure(desiredWidth, View.MeasureSpec.UNSPECIFIED);
+            totalHeight += view.getMeasuredHeight();
+        }
+        ViewGroup.LayoutParams params = gridView.getLayoutParams();
+        params.height = (totalHeight + (gridView.getDividerHeight() * listAdapter.getCount()));
+        gridView.setLayoutParams(params);
+        gridView.requestLayout();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -123,8 +144,8 @@ public class ProductConfigurationActivity extends Activity {
     }
 
     public class CheckSessionAsync extends AsyncTask<String, Integer, String> {
-        String connectedOrNot, msg, code, resultOfCheckSession;
         public JSONObject jObj;
+        String connectedOrNot, msg, code, resultOfCheckSession;
         ProgressDialog progressDialog;
 
 
@@ -189,29 +210,6 @@ public class ProductConfigurationActivity extends Activity {
                 e.printStackTrace();
             }
         }
-    }
-
-
-    public static void setListViewHeightBasedOnChildren(ListView gridView) {
-        ListAdapter listAdapter = gridView.getAdapter();
-        if (listAdapter == null)
-            return;
-
-        int desiredWidth = View.MeasureSpec.makeMeasureSpec(gridView.getWidth(), View.MeasureSpec.UNSPECIFIED);
-        int totalHeight = 0;
-        View view = null;
-
-        for (int i = 0; i < listAdapter.getCount(); i++) {
-            view = listAdapter.getView(i, view, gridView);
-            if (i == 0)
-                view.setLayoutParams(new LinearLayout.LayoutParams(desiredWidth, LinearLayout.LayoutParams.WRAP_CONTENT));
-            view.measure(desiredWidth, View.MeasureSpec.UNSPECIFIED);
-            totalHeight += view.getMeasuredHeight();
-        }
-        ViewGroup.LayoutParams params = gridView.getLayoutParams();
-        params.height = (totalHeight + (gridView.getDividerHeight() * listAdapter.getCount()));
-        gridView.setLayoutParams(params);
-        gridView.requestLayout();
     }
 
 

@@ -27,7 +27,6 @@ import com.gls.orderzapp.CreateOrder.CreateOrderBeans.CreateOrderCartList;
 import com.gls.orderzapp.CreateOrder.CreateOrderBeans.CreateOrderData;
 import com.gls.orderzapp.CreateOrder.CreateOrderBeans.CreateOrderProductDetails;
 import com.gls.orderzapp.CreateOrder.CreateOrderBeans.DeliveryChargeDetails;
-import com.gls.orderzapp.CreateOrder.CreateOrderBeans.DeliveryTypes;
 import com.gls.orderzapp.CreateOrder.CreateOrderBeans.FtpConfigurationData;
 import com.gls.orderzapp.CreateOrder.CreateOrderBeans.MsgConfigurationData;
 import com.gls.orderzapp.CreateOrder.CreateOrderBeans.ProductConfiguration;
@@ -55,19 +54,19 @@ import java.util.List;
  */
 public class OrderDetailsActivity extends Activity {
     public static LinearLayout llProductsList;
-    public static TextView textGrandTotal, grandTotal, billingAddressTextView,  delivery_type, payment_mode;
-    TextView expected_delivery_date, delivery_address_text,expected_delivery_timeslot;
-    CreateOrderAddressDetails orderBillingAddressDetails, orderDeliveryAddressDetails;
+    public static TextView textGrandTotal, grandTotal, billingAddressTextView, delivery_type, payment_mode;
     public static CreateOrderCartList createOrderCartList;
+    public static DeliveryChargeDetails deliveryChargeDetails;
+    TextView expected_delivery_date, delivery_address_text, expected_delivery_timeslot;
+    CreateOrderAddressDetails orderBillingAddressDetails, orderDeliveryAddressDetails;
     RadioGroup payment_mode_group;
     RadioButton cash_on_delivery, credit_card;
     CreateOrderData createOrderData;
-    public static DeliveryChargeDetails deliveryChargeDetails;
-//    public static DeliveryTypes deliveryTypes;
+    //    public static DeliveryTypes deliveryTypes;
     Context context;
     ArrayList<ProductDetails> cartDetails = new ArrayList<>();
     SuccessResponseOfUser successResponseOfUserBillingAddresDetails, successResponseOfUserDeliveryAddresDetails;
-//    ListView address_list;
+    //    ListView address_list;
     ProductConfiguration productConfiguration;
 
     @Override
@@ -84,7 +83,7 @@ public class OrderDetailsActivity extends Activity {
         orderDeliveryAddressDetails = new Gson().fromJson(getIntent().getStringExtra("DELIVERY_ADDRESS"), CreateOrderAddressDetails.class);
 
         setOrderAddressDetails();
-        Log.d("CartDetailsPayMent",new Gson().toJson(Cart.hm));
+        Log.d("CartDetailsPayMent", new Gson().toJson(Cart.hm));
     }
 
     @Override
@@ -176,18 +175,18 @@ public class OrderDetailsActivity extends Activity {
                 }
                 if (cartDetails.get(i).getPrice().getUom() != null) {
                     if (cartDetails.get(i).getPrice().getUom().equalsIgnoreCase("kg") || cartDetails.get(i).getPrice().getUom().equalsIgnoreCase("no") || cartDetails.get(i).getPrice().getUom().equalsIgnoreCase("lb")) {
-                        if(cartDetails.get(i).getOrignalUom().equalsIgnoreCase("kg") || cartDetails.get(i).getOrignalUom().equalsIgnoreCase("no") || cartDetails.get(i).getOrignalUom().equalsIgnoreCase("lb")) {
+                        if (cartDetails.get(i).getOrignalUom().equalsIgnoreCase("kg") || cartDetails.get(i).getOrignalUom().equalsIgnoreCase("no") || cartDetails.get(i).getOrignalUom().equalsIgnoreCase("lb")) {
                             createOrderProductDetails.setOrderprice((cartDetails.get(i).getPrice().getValue() * Double.parseDouble(cartDetails.get(i).getQuantity())) + "");
                             createOrderProductDetails.setQty(Double.parseDouble(cartDetails.get(i).getQuantity()) + "");
-                        }else{
+                        } else {
                             createOrderProductDetails.setOrderprice((cartDetails.get(i).getPrice().getValue() * Double.parseDouble(cartDetails.get(i).getQuantity())) * 1000 + "");
                             createOrderProductDetails.setQty(Double.parseDouble(cartDetails.get(i).getQuantity()) * 1000 + "");
                         }
                         createOrderProductDetails.setUom(cartDetails.get(i).getOrignalUom());
 
                     } else if (cartDetails.get(i).getPrice().getUom().equalsIgnoreCase("Gm")) {
-                        Log.d("uom", cartDetails.get(i).getPrice().getValue()+"");
-                        if(cartDetails.get(i).getOrignalUom().equalsIgnoreCase("kg")) {
+                        Log.d("uom", cartDetails.get(i).getPrice().getValue() + "");
+                        if (cartDetails.get(i).getOrignalUom().equalsIgnoreCase("kg")) {
                             createOrderProductDetails.setOrderprice(((cartDetails.get(i).getPrice().getValue()) / 1000 * Double.parseDouble(cartDetails.get(i).getQuantity())) + "");
                             createOrderProductDetails.setQty(Double.parseDouble(cartDetails.get(i).getQuantity()) / 1000.00 + "");
                         } else {
@@ -295,7 +294,7 @@ public class OrderDetailsActivity extends Activity {
     public void confirmOrder(View view) {
 //        if (!createOrderData.getOrderdata().getBilling_address().getDate().isEmpty()) {
 
-            new PlaceOrderAsync().execute();
+        new PlaceOrderAsync().execute();
 
 //        } else {
 
@@ -317,6 +316,50 @@ public class OrderDetailsActivity extends Activity {
             e.printStackTrace();
         }
         return resultPlaceAnOrder;
+    }
+
+    public String loadPreferencesUserDataForBillingAddress() throws Exception {
+        String user = "";
+        try {
+            SharedPreferences spLoad = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+            user = spLoad.getString("USER_DATA", null);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return user;
+    }
+
+    public String loadPreferencesUserDataForDeliveryAddress() throws Exception {
+        String user = "";
+        try {
+            SharedPreferences spLoad = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+            user = spLoad.getString("USER_DATA_DELIVERY_ADDRESS", null);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return user;
+    }
+
+    public void setListViewHeightBasedOnChildren(ListView gridView) {
+        ListAdapter listAdapter = gridView.getAdapter();
+        if (listAdapter == null)
+            return;
+
+        int desiredWidth = View.MeasureSpec.makeMeasureSpec(gridView.getWidth(), View.MeasureSpec.UNSPECIFIED);
+        int totalHeight = 0;
+        View view = null;
+
+        for (int i = 0; i < listAdapter.getCount(); i++) {
+            view = listAdapter.getView(i, view, gridView);
+            if (i == 0)
+                view.setLayoutParams(new LinearLayout.LayoutParams(desiredWidth, LinearLayout.LayoutParams.WRAP_CONTENT));
+            view.measure(desiredWidth, View.MeasureSpec.UNSPECIFIED);
+            totalHeight += view.getMeasuredHeight();
+        }
+        ViewGroup.LayoutParams params = gridView.getLayoutParams();
+        params.height = totalHeight + (gridView.getDividerHeight());
+        gridView.setLayoutParams(params);
+        gridView.requestLayout();
     }
 
     public class PlaceOrderAsync extends AsyncTask<String, Integer, String> {
@@ -368,6 +411,7 @@ public class OrderDetailsActivity extends Activity {
                                 Intent goToFinalOrderActivity = new Intent(OrderDetailsActivity.this, FinalOrderActivity.class);
                                 goToFinalOrderActivity.putExtra("FINAL_ORDER", resultPlaceAnOrder);
                                 goToFinalOrderActivity.putExtra("TXN_DETAILS", "");
+
                                 goToFinalOrderActivity.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                 startActivity(goToFinalOrderActivity);
                             } else {
@@ -395,28 +439,6 @@ public class OrderDetailsActivity extends Activity {
         public int compare(CreateOrderProductDetails o1, CreateOrderProductDetails o2) {
             return o1.getBranchid().compareTo(o2.getBranchid());
         }
-    }
-
-    public String loadPreferencesUserDataForBillingAddress() throws Exception {
-        String user = "";
-        try {
-            SharedPreferences spLoad = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-            user = spLoad.getString("USER_DATA", null);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return user;
-    }
-
-    public String loadPreferencesUserDataForDeliveryAddress() throws Exception {
-        String user = "";
-        try {
-            SharedPreferences spLoad = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-            user = spLoad.getString("USER_DATA_DELIVERY_ADDRESS", null);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return user;
     }
 
     private class AddressAdapter extends BaseAdapter {
@@ -484,28 +506,6 @@ public class OrderDetailsActivity extends Activity {
             }
             return convertView;
         }
-    }
-
-    public void setListViewHeightBasedOnChildren(ListView gridView) {
-        ListAdapter listAdapter = gridView.getAdapter();
-        if (listAdapter == null)
-            return;
-
-        int desiredWidth = View.MeasureSpec.makeMeasureSpec(gridView.getWidth(), View.MeasureSpec.UNSPECIFIED);
-        int totalHeight = 0;
-        View view = null;
-
-        for (int i = 0; i < listAdapter.getCount(); i++) {
-            view = listAdapter.getView(i, view, gridView);
-            if (i == 0)
-                view.setLayoutParams(new LinearLayout.LayoutParams(desiredWidth, LinearLayout.LayoutParams.WRAP_CONTENT));
-            view.measure(desiredWidth, View.MeasureSpec.UNSPECIFIED);
-            totalHeight += view.getMeasuredHeight();
-        }
-        ViewGroup.LayoutParams params = gridView.getLayoutParams();
-        params.height = totalHeight + (gridView.getDividerHeight());
-        gridView.setLayoutParams(params);
-        gridView.requestLayout();
     }
 
 }

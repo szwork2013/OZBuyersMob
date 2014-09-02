@@ -25,8 +25,9 @@ import java.util.List;
 public class ProductDetailsActivity extends Activity {
     ProductDetails productDetails;
     ImageView imageProduct;
-    TextView textProductName,textProductDescription;
+    TextView textProductName, textProductDescription;
     com.nostra13.universalimageloader.core.ImageLoader imageLoader;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,8 +36,8 @@ public class ProductDetailsActivity extends Activity {
         findViewsById();
         showProductDetails();
     }
-    void showProductDetails()
-    {
+
+    void showProductDetails() {
 
         imageLoader = ImageLoader.getInstance();
         imageLoader.init(ImageLoaderConfiguration.createDefault(getApplicationContext()));
@@ -72,6 +73,7 @@ public class ProductDetailsActivity extends Activity {
             textProductDescription.setText(productDetails.getProductdescription());
         }
     }
+
     void findViewsById() {
         imageProduct = (ImageView) findViewById(R.id.image_product);
         textProductName = (TextView) findViewById(R.id.product_name);

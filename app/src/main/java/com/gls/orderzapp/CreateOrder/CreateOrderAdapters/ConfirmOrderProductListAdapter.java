@@ -9,7 +9,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.gls.orderzapp.CreateOrder.CreateOrderBeans.CreateOrderProductDetails;
-import com.gls.orderzapp.CreateOrder.CreateOrderBeans.ProductConfiguration;
 import com.gls.orderzapp.ProductConfiguration.Adapter.PopUpForConfigurationCharges;
 import com.gls.orderzapp.R;
 import com.gls.orderzapp.Utility.Cart;
@@ -67,20 +66,20 @@ public class ConfirmOrderProductListAdapter {
                 textProduct.setText(createOrderProductDetailsList.get(i).getProductname());
             }
             if (createOrderProductDetailsList.get(i).getQty() != null && createOrderProductDetailsList.get(i).getUom() != null) {
-                if(createOrderProductDetailsList.get(i).getUom().equalsIgnoreCase("kg") || createOrderProductDetailsList.get(i).getUom().equalsIgnoreCase("no") || createOrderProductDetailsList.get(i).getUom().equalsIgnoreCase("lb")) {
-                    if(createOrderProductDetailsList.get(i).getUom().equalsIgnoreCase("kg") && Double.parseDouble(createOrderProductDetailsList.get(i).getQty()) < 1){
+                if (createOrderProductDetailsList.get(i).getUom().equalsIgnoreCase("kg") || createOrderProductDetailsList.get(i).getUom().equalsIgnoreCase("no") || createOrderProductDetailsList.get(i).getUom().equalsIgnoreCase("lb")) {
+                    if (createOrderProductDetailsList.get(i).getUom().equalsIgnoreCase("kg") && Double.parseDouble(createOrderProductDetailsList.get(i).getQty()) < 1) {
                         textQuantity.setText(String.format("%.2f", Double.parseDouble(createOrderProductDetailsList.get(i).getQty()) * 1000) + " " + "gm");
-                    }else {
-                        if(createOrderProductDetailsList.get(i).getUom().equalsIgnoreCase("no") || createOrderProductDetailsList.get(i).getUom().equalsIgnoreCase("lb")){
+                    } else {
+                        if (createOrderProductDetailsList.get(i).getUom().equalsIgnoreCase("no") || createOrderProductDetailsList.get(i).getUom().equalsIgnoreCase("lb")) {
                             textQuantity.setText((Double.parseDouble(createOrderProductDetailsList.get(i).getQty())) + " " + createOrderProductDetailsList.get(i).getUom());
-                        }else {
+                        } else {
                             textQuantity.setText(String.format("%.2f", Double.parseDouble(createOrderProductDetailsList.get(i).getQty())) + " " + createOrderProductDetailsList.get(i).getUom());
                         }
                     }
                 } else {
-                    if(Double.parseDouble(createOrderProductDetailsList.get(i).getQty()) >= 1000){
+                    if (Double.parseDouble(createOrderProductDetailsList.get(i).getQty()) >= 1000) {
                         textQuantity.setText(String.format("%.2f", Double.parseDouble(createOrderProductDetailsList.get(i).getQty()) / 1000) + " " + "kg");
-                    }else{
+                    } else {
                         textQuantity.setText(String.format("%.2f", Double.parseDouble(createOrderProductDetailsList.get(i).getQty())) + " " + createOrderProductDetailsList.get(i).getUom());
                     }
                 }
@@ -95,7 +94,6 @@ public class ConfirmOrderProductListAdapter {
                 ll_special_message.setVisibility(View.GONE);
                 view_special_message.setVisibility(View.GONE);
             }
-
 
 
             if (createOrderProductDetailsList.get(i).getUom() != null) {
@@ -113,8 +111,8 @@ public class ConfirmOrderProductListAdapter {
             ll_special_message.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Log.d("PopUp","OrderDetails");
-                    new PopUpForConfigurationCharges(context, v, Cart.configurationList((CreateOrderProductDetails)v.getTag()));
+                    Log.d("PopUp", "OrderDetails");
+                    new PopUpForConfigurationCharges(context, v, Cart.configurationList((CreateOrderProductDetails) v.getTag()));
                 }
             });
 

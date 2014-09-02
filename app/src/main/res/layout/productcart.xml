@@ -2,8 +2,8 @@
 
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:background="#304f6c"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#304f6c">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -21,26 +21,26 @@
             <ListView
                 android:id="@+id/lst_product_cart"
                 android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:divider="#304f6c"
-                android:dividerHeight="0dp"
-                android:layout_height="match_parent"></ListView>
+                android:dividerHeight="0dp"></ListView>
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/delivery_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_below="@+id/lstview"
             android:background="@drawable/rounded_white_color"
-            android:orientation="vertical"
-            android:id="@+id/delivery_layout"
-            android:layout_below="@+id/lstview">
+            android:orientation="vertical">
 
             <TextView
-                android:layout_marginTop="3dp"
-                android:textSize="18sp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
-                android:text="@string/availability_delivery_charges" />
+                android:layout_marginTop="3dp"
+                android:text="@string/availability_delivery_charges"
+                android:textSize="18sp" />
 
             <View
                 android:layout_width="match_parent"
@@ -48,52 +48,52 @@
                 android:background="#fd9717" />
 
             <EditText
+                android:id="@+id/editPincode"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:singleLine="true"
-                android:maxLength="6"
-                android:id="@+id/editPincode"
-                android:textSize="15sp"
-                android:layout_marginTop="10dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
+                android:layout_marginTop="10dp"
+                android:hint="@string/pincode"
                 android:inputType="number"
-                android:hint="@string/pincode" />
+                android:maxLength="6"
+                android:singleLine="true"
+                android:textSize="15sp" />
 
             <TextView
+                android:id="@+id/text_delivery_charges"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/text_delivery_charges"
-                android:text="@string/delivery_charges"
+                android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
-                android:layout_marginLeft="10dp" />
+                android:text="@string/delivery_charges" />
 
             <ListView
+                android:id="@+id/list_delivery_charges"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="10dp"
-                android:layout_marginLeft="10dp"
                 android:layout_marginBottom="10dp"
-                android:id="@+id/list_delivery_charges" />
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp" />
         </LinearLayout>
 
 
         <LinearLayout
-            android:layout_below="@+id/delivery_layout"
             android:id="@+id/summary_layout"
-            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/delivery_layout"
             android:layout_marginTop="3dp"
             android:background="@drawable/rounded_white_color"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:orientation="vertical">
 
             <TextView
                 android:id="@+id/txt_summary"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="18sp"
                 android:layout_marginLeft="5dp"
-                android:text="@string/summary" />
+                android:text="@string/summary"
+                android:textSize="18sp" />
 
             <View
                 android:layout_width="match_parent"
@@ -102,36 +102,36 @@
 
             <RelativeLayout
                 android:id="@+id/summary_details"
-                android:layout_marginTop="3dp"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_marginTop="3dp">
 
                 <TextView
                     android:id="@+id/txtlbl_sub_total"
                     android:layout_width="wrap_content"
-                    android:layout_alignRight="@+id/rs"
                     android:layout_height="wrap_content"
+                    android:layout_alignRight="@+id/rs"
                     android:layout_marginRight="15dp"
+                    android:text="@string/grand_total"
                     android:textSize="18sp"
-                    android:textStyle="bold"
-                    android:text="@string/grand_total" />
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/rs"
                     android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="2dp"
                     android:layout_toLeftOf="@+id/txt_sub_total"
                     android:text="@string/rs"
-                    android:layout_marginRight="2dp"
                     android:textSize="18sp"
-                    android:textStyle="bold"
-                    android:layout_height="wrap_content" />
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/txt_sub_total"
-                    android:layout_alignParentRight="true"
                     android:layout_width="wrap_content"
-                    android:layout_marginRight="10dp"
                     android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="10dp"
                     android:textSize="18sp"
                     android:textStyle="bold" />
 
@@ -140,23 +140,23 @@
         </LinearLayout>
 
         <LinearLayout
-            android:layout_below="@+id/summary_layout"
-            android:orientation="vertical"
-            android:layout_marginTop="3dp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/summary_layout"
+            android:layout_marginTop="3dp"
+            android:orientation="vertical">
 
             <Button
                 android:id="@+id/btn_place_an_order"
-                android:background="#fd9717"
-                android:singleLine="true"
-                android:gravity="center"
                 android:layout_width="match_parent"
-                android:textSize="20sp"
-                android:textColor="#fff"
-                android:textStyle="bold"
                 android:layout_height="wrap_content"
-                android:text="@string/place_an_order" />
+                android:background="#fd9717"
+                android:gravity="center"
+                android:singleLine="true"
+                android:text="@string/place_an_order"
+                android:textColor="#fff"
+                android:textSize="20sp"
+                android:textStyle="bold" />
         </LinearLayout>
     </RelativeLayout>
 </ScrollView>

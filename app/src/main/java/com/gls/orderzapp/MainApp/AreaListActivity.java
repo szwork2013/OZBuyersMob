@@ -37,6 +37,7 @@ import java.util.List;
  * Created by prajyot on 6/8/14.
  */
 public class AreaListActivity extends Activity {
+    public static boolean locationChanged = true;
     TextView city, state, country;
     LinearLayout llEditCurrentLocation;
     ListView areaListView;
@@ -44,13 +45,12 @@ public class AreaListActivity extends Activity {
     List<String> areaList = new ArrayList<>();
     SuccessResponseForAreaList successResponseForAreaList;
     CityAreaListAdapter areaListAdapter;
-    public static boolean locationChanged = true;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.area_details);
         findViewsById();
-
 
 
         llEditCurrentLocation.setOnClickListener(new View.OnClickListener() {
@@ -84,7 +84,7 @@ public class AreaListActivity extends Activity {
             @Override
             public void afterTextChanged(Editable editable) {
                 areaList.clear();
-                for(int i = 0; i < successResponseForAreaList.getSuccess().getArea().size(); i++) {
+                for (int i = 0; i < successResponseForAreaList.getSuccess().getArea().size(); i++) {
 
                     if ((successResponseForAreaList.getSuccess().getArea().get(i)).toLowerCase().contains((search.getText().toString().trim()).toLowerCase())) {
                         areaList.add(successResponseForAreaList.getSuccess().getArea().get(i));
@@ -97,7 +97,7 @@ public class AreaListActivity extends Activity {
         areaListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                area = parent.getItemAtPosition(position)+"";
+                area = parent.getItemAtPosition(position) + "";
                 storeArea();
                 finish();
             }
@@ -111,14 +111,14 @@ public class AreaListActivity extends Activity {
         new GetAreaListAsync().execute();
     }
 
-    public void storeArea(){
+    public void storeArea() {
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         SharedPreferences.Editor editor = sp.edit();
         editor.putString("USER_AREA", area);
         editor.commit();
     }
 
-    public void findViewsById(){
+    public void findViewsById() {
         city = (TextView) findViewById(R.id.city);
         state = (TextView) findViewById(R.id.state);
         country = (TextView) findViewById(R.id.country);
@@ -126,34 +126,34 @@ public class AreaListActivity extends Activity {
         areaListView = (ListView) findViewById(R.id.areaList);
     }
 
-    public String loadCountryPreference(){
+    public String loadCountryPreference() {
         String userArea = "";
         SharedPreferences spLoad = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         userArea = spLoad.getString("USER_COUNTRY", "IN");
         return userArea;
     }
 
-    public String loadStatePreference(){
+    public String loadStatePreference() {
         String userArea = "";
         SharedPreferences spLoad = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         userArea = spLoad.getString("USER_STATE", "Maharashtra");
         return userArea;
     }
 
-    public String loadCityPreference(){
+    public String loadCityPreference() {
         String userArea = "";
         SharedPreferences spLoad = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         userArea = spLoad.getString("USER_CITY", "Pune");
         return userArea;
     }
 
-    public void displayCurrentLocation(){
+    public void displayCurrentLocation() {
         city.setText(loadCityPreference());
         state.setText(loadStatePreference());
         country.setText(loadCountryPreference());
     }
 
-    public String getAreaList() throws Exception{
+    public String getAreaList() throws Exception {
         String resultGetCountryList = "";
         resultGetCountryList = ServerConnection.executeGet(getApplicationContext(), "/api/location/area?city=" + loadCityPreference());
         return resultGetCountryList;
@@ -163,6 +163,7 @@ public class AreaListActivity extends Activity {
         String connectedOrNot, resultGetArea, msg, code;
         JSONObject jObj;
         ProgressDialog progressDialog;
+
         @Override
         protected void onPreExecute() {
             progressDialog = ProgressDialog.show(AreaListActivity.this, "", "");
@@ -170,26 +171,26 @@ public class AreaListActivity extends Activity {
 
         @Override
         protected String doInBackground(String... params) {
-            try{
-                if(new CheckConnection(getApplicationContext()).isConnectingToInternet()) {
+            try {
+                if (new CheckConnection(getApplicationContext()).isConnectingToInternet()) {
                     connectedOrNot = "success";
                     resultGetArea = getAreaList();
-                    if (!resultGetArea.isEmpty()){
+                    if (!resultGetArea.isEmpty()) {
                         Log.d("getArea", resultGetArea);
                         jObj = new JSONObject(resultGetArea);
-                        if(jObj.has("success")){
+                        if (jObj.has("success")) {
                             areaList.clear();
                             successResponseForAreaList = new Gson().fromJson(resultGetArea, SuccessResponseForAreaList.class);
                             areaList.addAll(successResponseForAreaList.getSuccess().getArea());
                             Collections.sort(areaList, new CustomComparator());
 //                            listOfAreas.addAll(successResponseForAreaList.getSuccess().getArea());
-                        }else{
+                        } else {
                             JSONObject jObjError = jObj.getJSONObject("error");
                             msg = jObjError.getString("message");
                         }
                     }
                 }
-            }catch (Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
             }
             return connectedOrNot;
@@ -197,23 +198,23 @@ public class AreaListActivity extends Activity {
 
         @Override
         protected void onPostExecute(String connectedOrNot) {
-            try{
+            try {
                 progressDialog.dismiss();
-                if(connectedOrNot.equalsIgnoreCase("success")){
-                    if(!resultGetArea.isEmpty()){
-                        if(jObj.has("success")){
+                if (connectedOrNot.equalsIgnoreCase("success")) {
+                    if (!resultGetArea.isEmpty()) {
+                        if (jObj.has("success")) {
                             areaListAdapter = new CityAreaListAdapter(getApplicationContext(), areaList);
                             areaListView.setAdapter(areaListAdapter);
-                        }else{
+                        } else {
                             Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_LONG).show();
                         }
-                    }else{
+                    } else {
                         Toast.makeText(getApplicationContext(), "Server is not responding, please try again later", Toast.LENGTH_LONG).show();
                     }
-                }else{
+                } else {
                     Toast.makeText(getApplicationContext(), "Please check your internet connection", Toast.LENGTH_LONG).show();
                 }
-            }catch (Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }

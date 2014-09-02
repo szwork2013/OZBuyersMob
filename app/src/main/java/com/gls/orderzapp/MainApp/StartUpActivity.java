@@ -24,7 +24,6 @@ import com.gls.orderzapp.Utility.Cart;
 import com.gls.orderzapp.Utility.CheckConnection;
 import com.gls.orderzapp.Utility.GoogleAnalyticsUtility;
 import com.gls.orderzapp.Utility.ServerConnection;
-import com.gls.orderzapp.Utility.UtilityClassForLanguagePreferance;
 import com.google.gson.Gson;
 
 import org.json.JSONObject;
@@ -37,13 +36,13 @@ import org.json.JSONObject;
 public class StartUpActivity extends Activity implements View.OnClickListener {
     public static LinearLayout linearLayoutCategories;
     public static String searchString;
-   public static boolean isFirstTime = true;
+    public static boolean isFirstTime = true;
+    public static Menu menu1;
+    public static MenuItem signin, signup, logout;
     ActionBar actionBar;
     ImageView adBanner;
     ProviderSuccessResponse providerSuccessResponse;
     boolean isEditTextVisible = false;
-    public static Menu menu1;
-    public static MenuItem signin, signup, logout;
     EditText searchProducts = null;
     Context context;
 
@@ -136,7 +135,7 @@ public class StartUpActivity extends Activity implements View.OnClickListener {
     public void onCreateOptions(Menu menu) {
         try {
             menu.findItem(R.id.cart).getActionView().setOnClickListener(this);
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         Cart.cartCount(menu);
@@ -221,7 +220,7 @@ public class StartUpActivity extends Activity implements View.OnClickListener {
 //            startActivity(goToWebViewSellersAgreement);
 //            return true;
 //        }
-        if(id == R.id.feed_back){
+        if (id == R.id.feed_back) {
             new CheckSessionAsync().execute();
             return true;
         }
@@ -298,8 +297,8 @@ public class StartUpActivity extends Activity implements View.OnClickListener {
     }
 
     public class CheckSessionAsync extends AsyncTask<String, Integer, String> {
-        String connectedOrNot, msg, code, resultOfCheckSession;
         public JSONObject jObj;
+        String connectedOrNot, msg, code, resultOfCheckSession;
         ProgressDialog progressDialog;
 
 

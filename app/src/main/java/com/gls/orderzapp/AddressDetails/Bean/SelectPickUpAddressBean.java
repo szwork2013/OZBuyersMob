@@ -10,7 +10,7 @@ import java.util.List;
  */
 public class SelectPickUpAddressBean {
     String message;
-   List<Location> addresses = new ArrayList<>();
+    List<Location> addresses = new ArrayList<>();
 
     public String getMessage() {
         return message;

@@ -38,13 +38,13 @@ import org.json.JSONObject;
  * Created by prajyot on 2/4/14.
  */
 public class SignInActivity extends Activity {
+    public static boolean islogedin = false;
     TextView helpingHandTv, forgotPasswordText;
     EditText mobileNumberEditText, passwordEditText;
     Button signInButton;
     Context context;
     SignInPostData signInPostData;
     boolean backPresed = false;
-    public static boolean islogedin = false;
     Spinner countryCodeSpinner;
     String countryCode = "";
 
@@ -106,7 +106,6 @@ public class SignInActivity extends Activity {
         forgotPasswordText = (TextView) findViewById(R.id.textForgotPassword);
         countryCodeSpinner = (Spinner) findViewById(R.id.countryCodeSpinner);
 
-//        UtilityClassForLanguagePreferance.applyTypeface(UtilityClassForLanguagePreferance.getParentView(mobileNumberEditText), UtilityClassForLanguagePreferance.getTypeFace(getApplicationContext()));
     }
 
     public void forgotPassword(View view) {
@@ -118,10 +117,6 @@ public class SignInActivity extends Activity {
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.signin_menu, menu);
         View view = (View) menu.findItem(R.id.signup).getActionView();
-
-        // to get child view - example:
-        //ImageView image  = (ImageView)view.findViewById(R.id.my_item);
-        //image.setOnClickListener....
 
         view.setOnClickListener(new View.OnClickListener() {
 
@@ -188,8 +183,12 @@ public class SignInActivity extends Activity {
     public String loadCountryCodePreference() throws Exception{
         String countryCode = "";
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-        SuccessResponseOfUser successResponseOfUser = new Gson().fromJson(sp.getString("USER_DATA","91"), SuccessResponseOfUser.class);
-        countryCode = successResponseOfUser.getSuccess().getUser().
+        if(sp.getString("USER_DATA","").isEmpty()){
+            countryCode = "91";
+        }else {
+            SuccessResponseOfUser successResponseOfUser = new Gson().fromJson(sp.getString("USER_DATA", ""), SuccessResponseOfUser.class);
+            countryCode = successResponseOfUser.getSuccess().getUser().getCountrycode();
+        }
         return countryCode;
     }
 
@@ -320,10 +319,12 @@ public class SignInActivity extends Activity {
                 if (connectedOrNot.equalsIgnoreCase("success")) {
                     if(!resultGetCountryCode.isEmpty()){
                         if(jObj.has("success")){
-
                             CountryCodeAdapter objCountryCodeAdapter = new CountryCodeAdapter(getApplicationContext(), 0 ,successResponseForCountryCode.getSuccess().getCountrycode());
                             countryCodeSpinner.setAdapter(objCountryCodeAdapter);
-
+                            for(int i = 0 ; i < successResponseForCountryCode.getSuccess().getCountrycode().size() ; i++) {
+                                if(loadCountryCodePreference().equals(successResponseForCountryCode.getSuccess().getCountrycode().get(i).getCode()))
+                                countryCodeSpinner.setSelection(i);
+                            }
                         }else{
                             Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_LONG).show();
                         }

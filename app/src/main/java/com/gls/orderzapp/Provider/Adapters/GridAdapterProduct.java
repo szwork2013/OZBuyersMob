@@ -1,17 +1,19 @@
 package com.gls.orderzapp.Provider.Adapters;
 
-import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Typeface;
+import android.text.Spannable;
+import android.text.Spanned;
+import android.text.style.StrikethroughSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.gls.orderzapp.MainApp.MoreProductsListActivity;
@@ -19,7 +21,6 @@ import com.gls.orderzapp.MainApp.ProductDetailsActivity;
 import com.gls.orderzapp.Provider.Beans.BranchInfo;
 import com.gls.orderzapp.Provider.Beans.ProductDetails;
 import com.gls.orderzapp.Provider.Beans.ProviderDetails;
-import com.gls.orderzapp.Provider.Beans.SuccessReplyForIndividualProductDetails;
 import com.gls.orderzapp.R;
 import com.gls.orderzapp.Utility.Cart;
 import com.google.gson.Gson;
@@ -39,15 +40,14 @@ import java.util.List;
  */
 public class GridAdapterProduct extends BaseAdapter {
     Context context;
-     List<ProductDetails> productDetailsList = new ArrayList<>();
+    List<ProductDetails> productDetailsList = new ArrayList<>();
     ProductDetails productDetails;
-     ProviderDetails providerDetails;
+    ProviderDetails providerDetails;
     BranchInfo branchDetails;
-//    ImageView imageProduct, close_dialog;
+    //    ImageView imageProduct, close_dialog;
 //    TextView textProductName, textProductDescription, textProductPrice;
     com.nostra13.universalimageloader.core.ImageLoader imageLoader;
     DisplayImageOptions options;
-
 
 
     public GridAdapterProduct(Context context, List<ProductDetails> productDetailsList, BranchInfo branchDetails, ProviderDetails providerDetails) {
@@ -62,8 +62,8 @@ public class GridAdapterProduct extends BaseAdapter {
                 .cacheInMemory()
                 .cacheOnDisc()
                 .build();
-        Log.d("ProvderDetails",new Gson().toJson(providerDetails));
-        Log.d("productDetailsList size",productDetailsList.size()+"");
+        Log.d("ProvderDetails", new Gson().toJson(providerDetails));
+        Log.d("productDetailsList size", productDetailsList.size() + "");
 
     }
 
@@ -99,6 +99,9 @@ public class GridAdapterProduct extends BaseAdapter {
             TextView textProductName = (TextView) convertView.findViewById(R.id.text_provider_name);
             TextView textPrice = (TextView) convertView.findViewById(R.id.text_price);
             TextView textRupees = (TextView) convertView.findViewById(R.id.text_rupees);
+            TextView text_discount = (TextView) convertView.findViewById(R.id.txt_discount_onimage);
+            TextView original_price = (TextView) convertView.findViewById(R.id.original_price);
+            LinearLayout linear_layout_dicsount = (LinearLayout) convertView.findViewById(R.id.linear_layout_dicsount);
 
             String imagelogo = new Gson().toJson(productDetailsList.get(position));
             if (productDetailsList.get(position).getFoodtype() != null) {
@@ -116,6 +119,19 @@ public class GridAdapterProduct extends BaseAdapter {
                     nonVegImage.setVisibility(View.VISIBLE);
                 }
             }
+
+            if (productDetailsList.get(position).getDiscount() != null && productDetailsList.get(position).getDiscount().getCode() != null && !productDetailsList.get(position).getDiscount().getCode().equalsIgnoreCase("none")) {
+                linear_layout_dicsount.setVisibility(View.VISIBLE);
+                text_discount.setText(productDetailsList.get(position).getDiscount().getPercent() + "");
+                StrikethroughSpan STRIKE_THROUGH_SPAN = new StrikethroughSpan();
+                original_price.setText(String.format("%.2f", productDetailsList.get(position).getPrice().getValue()), TextView.BufferType.SPANNABLE);
+                Spannable spannable = (Spannable) original_price.getText();
+                spannable.setSpan(STRIKE_THROUGH_SPAN, 0, String.format("%.2f", productDetailsList.get(position).getPrice().getValue()).length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+            }else{
+                linear_layout_dicsount.setVisibility(View.GONE);
+            }
+
             if (imagelogo != null && imagelogo.contains("productlogo")) {
                 if (imagelogo.contains("more_image_to_load_more")) {
                     imageProduct.setImageDrawable(context.getResources().getDrawable(R.drawable.add_icon));
@@ -123,33 +139,37 @@ public class GridAdapterProduct extends BaseAdapter {
                     textProductName.setText(productDetailsList.get(position).getProductname());
                     textRupees.setVisibility(View.GONE);
                 } else {
-                    imageLoader = com.nostra13.universalimageloader.core.ImageLoader.getInstance();
-                    imageLoader.init(ImageLoaderConfiguration.createDefault(context));
-                    imageLoader.displayImage(productDetailsList.get(position).getProductlogo().getImage(), imageProduct, options, new SimpleImageLoadingListener() {
-                        boolean cacheFound;
+                    try {
+                        imageLoader = com.nostra13.universalimageloader.core.ImageLoader.getInstance();
+                        imageLoader.init(ImageLoaderConfiguration.createDefault(context));
+                        imageLoader.displayImage(productDetailsList.get(position).getProductlogo().getImage(), imageProduct, options, new SimpleImageLoadingListener() {
+                            boolean cacheFound;
 
-                        @Override
-                        public void onLoadingStarted(String imageUri, View view) {
-                            List<String> memCache = MemoryCacheUtil.findCacheKeysForImageUri(imageUri, ImageLoader.getInstance().getMemoryCache());
-                            cacheFound = !memCache.isEmpty();
-                            if (!cacheFound) {
-                                File discCache = DiscCacheUtil.findInCache(imageUri, ImageLoader.getInstance().getDiscCache());
-                                if (discCache != null) {
-                                    cacheFound = discCache.exists();
+                            @Override
+                            public void onLoadingStarted(String imageUri, View view) {
+                                List<String> memCache = MemoryCacheUtil.findCacheKeysForImageUri(imageUri, ImageLoader.getInstance().getMemoryCache());
+                                cacheFound = !memCache.isEmpty();
+                                if (!cacheFound) {
+                                    File discCache = DiscCacheUtil.findInCache(imageUri, ImageLoader.getInstance().getDiscCache());
+                                    if (discCache != null) {
+                                        cacheFound = discCache.exists();
+                                    }
                                 }
                             }
-                        }
 
-                        @Override
-                        public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
-                            if (cacheFound) {
+                            @Override
+                            public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
+                                if (cacheFound) {
 //                        MemoryCacheUtil.removeFromCache(imageUri, ImageLoader.getInstance().getMemoryCache());
 //                        DiscCacheUtil.removeFromCache(imageUri, ImageLoader.getInstance().getDiscCache());
 
-                                ImageLoader.getInstance().displayImage(imageUri, (ImageView) view);
+                                    ImageLoader.getInstance().displayImage(imageUri, (ImageView) view);
+                                }
                             }
-                        }
-                    });
+                        });
+                    }catch (Exception e){
+                        e.printStackTrace();
+                    }
                     textProductName.setText(productDetailsList.get(position).getProductname());
                     textPrice.setText(String.format("%.2f", productDetailsList.get(position).getPrice().getValue()));
 //                    textRupees.setText(productDetailsList.get(position).getPrice().getCurrency()+"");
@@ -172,9 +192,9 @@ public class GridAdapterProduct extends BaseAdapter {
                     } else {
                         if (providerDetails != null) {
                             ProductDetails productDetailsToAddIntoTheCart = new ProductDetails();
-                            if(providerDetails.getProvider().getProviderbrandname() != null) {
+                            if (providerDetails.getProvider().getProviderbrandname() != null) {
                                 productDetailsToAddIntoTheCart.setProviderName(providerDetails.getProvider().getProviderbrandname());
-                            }else{
+                            } else {
                                 productDetailsToAddIntoTheCart.setProviderName("");
                             }
                             if (productDetailsList.get(position).getMin_weight() != null) {
@@ -190,6 +210,15 @@ public class GridAdapterProduct extends BaseAdapter {
                             if (branchDetails.getLocation() != null) {
                                 productDetailsToAddIntoTheCart.setLocation(branchDetails.getLocation());
                             }
+
+                            if (branchDetails.getContact_supports() != null && !branchDetails.getContact_supports().isEmpty()) {
+                                productDetailsToAddIntoTheCart.setContact_supports(branchDetails.getContact_supports());
+                            }else{
+                                List<String>cont_no=new ArrayList<String>();
+                                cont_no.add("91-20-67211800");
+                                productDetailsToAddIntoTheCart.setContact_supports(cont_no);
+                            }
+
                             if (productDetailsList.get(position).getProductconfiguration() != null) {
                                 productDetailsToAddIntoTheCart.setProductconfiguration(productDetailsList.get(position).getProductconfiguration());
                             }
@@ -205,7 +234,7 @@ public class GridAdapterProduct extends BaseAdapter {
                             if (providerDetails.getProvider().getPaymentmode().getCod() != null) {
                                 productDetailsToAddIntoTheCart.getPaymentmode().setCod(providerDetails.getProvider().getPaymentmode().getCod());
                             }
-                            Log.d("homedel",providerDetails.getBranch().getDelivery().getIsprovidehomedelivery()+"");
+                            Log.d("homedel", providerDetails.getBranch().getDelivery().getIsprovidehomedelivery() + "");
                             if (providerDetails.getBranch().getDelivery() != null) {
                                 productDetailsToAddIntoTheCart.getDelivery().setIsprovidehomedelivery(providerDetails.getBranch().getDelivery().getIsprovidehomedelivery());
 
@@ -224,19 +253,20 @@ public class GridAdapterProduct extends BaseAdapter {
                             }
                             if (productDetailsList.get(position).getPrefereddeliverydate() != null) {
                                 productDetailsToAddIntoTheCart.setPrefereddeliverydate(productDetailsList.get(position).getPrefereddeliverydate());
-                            }else{
+                            } else {
                                 productDetailsToAddIntoTheCart.setPrefereddeliverydate("");
                             }
                             if (productDetailsList.get(position).getTimeslot() != null) {
                                 productDetailsToAddIntoTheCart.getTimeslot().setFrom(productDetailsList.get(position).getTimeslot().getFrom());
                                 productDetailsToAddIntoTheCart.getTimeslot().setTo(productDetailsList.get(position).getTimeslot().getTo());
 
-                            }else{
+                            } else {
                                 productDetailsToAddIntoTheCart.getTimeslot().setFrom(0);
                                 productDetailsToAddIntoTheCart.getTimeslot().setTo(0);
                             }
-
-
+                            if (productDetailsList.get(position).getDiscount() != null) {
+                                productDetailsToAddIntoTheCart.setDiscount(providerDetails.getProducts().get(position).getDiscount());
+                            }
                             if (productDetailsList.get(position).getFoodtype() != null) {
                                 productDetailsToAddIntoTheCart.setFoodtype(productDetailsList.get(position).getFoodtype());
                             }
@@ -269,7 +299,7 @@ public class GridAdapterProduct extends BaseAdapter {
                         productDetails.setBranchid(providerDetails.getBranch().getBranchid());
 //                        popUp(productDetails);
                         Intent goToProductDetailsActivity = new Intent(context, ProductDetailsActivity.class);
-                        goToProductDetailsActivity.putExtra("PRODUCT_DETAILS",new Gson().toJson(productDetails));
+                        goToProductDetailsActivity.putExtra("PRODUCT_DETAILS", new Gson().toJson(productDetails));
                         context.startActivity(goToProductDetailsActivity);
                     }
                     return false;
@@ -279,7 +309,8 @@ public class GridAdapterProduct extends BaseAdapter {
             e.printStackTrace();
         }
         return convertView;
-    }}
+    }
+}
 
 //    public void popUp(final ProductDetails productDetails) {
 //        try {

@@ -17,7 +17,6 @@ import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
-import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.gls.orderzapp.AddressDetails.Adapter.AdapterForSelectaddressList;
@@ -66,6 +65,7 @@ public class DeliveryPaymentActivity extends Activity {
     ProductDetails[] checkForPaymentModeValues;
     List<ProductDetails> checkForPaymentModeList;
     Boolean cashOnDelivery = true;
+    SuccessResponseOfUser successResponseOfUser;
 
     public static void selectDeliveryType() {
         new DeliveryChargesAndTypeAdapter(context);
@@ -84,11 +84,22 @@ public class DeliveryPaymentActivity extends Activity {
             setDeliveryAddress(loadPreferencesUserDataForDeliveryAddress());
             setBillingAddress(loadPreferencesUserDataForBillingAddress());
             selectDeliveryType();
+            setPaymentMode();
         } catch (Exception e) {
             e.printStackTrace();
         }
-        Log.d("CartDetailDeliveryPayment",new Gson().toJson(Cart.hm));
+        Log.d("CartDetailDeliveryPayment", new Gson().toJson(Cart.hm));
 
+    }
+
+    public void setPaymentMode(){
+        successResponseOfUser = new Gson().fromJson(loadPreferencesUser(), SuccessResponseOfUser.class);
+
+        if(!successResponseOfUser.getSuccess().getUser().getCountrycode().equals("91")){
+            cash_on_delivery.setVisibility(View.GONE);
+        }else{
+            cash_on_delivery.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override
@@ -96,6 +107,17 @@ public class DeliveryPaymentActivity extends Activity {
         super.onStart();
         //Get an Analytics tracker to report app starts & uncaught exceptions etc.
         com.google.android.gms.analytics.GoogleAnalytics.getInstance(this).reportActivityStart(this);
+    }
+
+    public String loadPreferencesUser() {
+        String user = "";
+        try {
+            SharedPreferences spLoad = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+            user = spLoad.getString("USER_DATA", null);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return user;
     }
 
     @Override
@@ -124,7 +146,6 @@ public class DeliveryPaymentActivity extends Activity {
                 }
             }
         }
-
     }
 
     public void selectPaymentMode() {
@@ -166,7 +187,7 @@ public class DeliveryPaymentActivity extends Activity {
                 Toast.makeText(getApplicationContext(), "Please select a payment mode", Toast.LENGTH_LONG).show();
                 return;
             }
-            if (DisplayDeliveryChargesAndType.deliveryTypeCheck() ==false) {
+            if (DisplayDeliveryChargesAndType.deliveryTypeCheck() == false) {
                 return;
             }
             setDataForBillingAndDeliveryAddress();
@@ -178,8 +199,9 @@ public class DeliveryPaymentActivity extends Activity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-//        DeliveryChargesAndTypeAdapter.delivery_type = "";
         payment_mode = "";
+        DisplayDeliveryChargesAndType.deliveryType.clear();
+        DisplayDeliveryChargesAndType.deliverytypebean.clear();
     }
 
     public void selectDeliveryDate(View view) {
@@ -233,9 +255,7 @@ public class DeliveryPaymentActivity extends Activity {
                 Log.d("current date", new Gson().toJson(TodaysDate));
                 if (selectedDate.before(TodaysDate)) {
                     Toast.makeText(getApplicationContext(), "Please select a valid date and time", Toast.LENGTH_LONG).show();
-
                 } else {
-
                     updateTime(yy, mm, dd, hh, min);
                 }
             }

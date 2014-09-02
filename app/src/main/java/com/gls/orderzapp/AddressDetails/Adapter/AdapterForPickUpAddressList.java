@@ -3,7 +3,6 @@ package com.gls.orderzapp.AddressDetails.Adapter;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,7 +10,6 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import com.gls.orderzapp.AddressDetails.Bean.ListOfPickupAddresses;
 import com.gls.orderzapp.AddressDetails.Bean.StorePickUpAddress;
 import com.gls.orderzapp.R;
 import com.gls.orderzapp.SignUp.Location;
@@ -25,21 +23,22 @@ import java.util.List;
  * Created by avinash on 18/7/14.
  */
 public class AdapterForPickUpAddressList extends BaseAdapter {
+    public static Location pickupAddressFromList;
+    public static Boolean isPickUpAddressSelected = false;
     Context context;
     List<Location> addresses = new ArrayList<>();
-    public static Location pickupAddressFromList;
-    public static Boolean isPickUpAddressSelected=false;
     String provider_id;
-//    public static String pickuparea = null;
+    //    public static String pickuparea = null;
     GsonBuilder gBuild = new GsonBuilder();
     Gson gson = gBuild.disableHtmlEscaping().create();
     String branch_id;
     String tag;
-    public AdapterForPickUpAddressList(Context context, List<Location> addresses,String provider_id, String branch_id, String tag) {
+
+    public AdapterForPickUpAddressList(Context context, List<Location> addresses, String provider_id, String branch_id, String tag) {
         this.context = context;
         this.addresses = addresses;
-        this.provider_id=provider_id;
-        isPickUpAddressSelected=false;
+        this.provider_id = provider_id;
+        isPickUpAddressSelected = false;
         this.branch_id = branch_id;
         this.tag = tag;
     }
@@ -98,12 +97,12 @@ public class AdapterForPickUpAddressList extends BaseAdapter {
                             pickupAddressFromList.setState(addresses.get(position).getState());
                             pickupAddressFromList.setZipcode(addresses.get(position).getZipcode());
                             pickupAddressFromList.setCity(addresses.get(position).getCity());
-                       Log.d("You selected area", addresses.get(position).getArea());
+                            Log.d("You selected area", addresses.get(position).getArea());
 
                             StorePickUpAddress storePickUpAddress = new StorePickUpAddress();
                             storePickUpAddress.setBranchid(branch_id);
                             storePickUpAddress.setLocation(pickupAddressFromList);
-                            isPickUpAddressSelected=true;
+                            isPickUpAddressSelected = true;
 
 
                             DisplayDeliveryChargesAndType.listOfPickupAddresses.getListPickUpAddress().add(storePickUpAddress);
@@ -112,8 +111,8 @@ public class AdapterForPickUpAddressList extends BaseAdapter {
 
 
                             Intent returnIntent = new Intent();
-                            returnIntent.putExtra("pickupaddress",gson.toJson(pickupAddressFromList));
-                            returnIntent.putExtra("providerid_forpickupaddress",provider_id);
+                            returnIntent.putExtra("pickupaddress", gson.toJson(pickupAddressFromList));
+                            returnIntent.putExtra("providerid_forpickupaddress", provider_id);
 
                             ((Activity) context).setResult(((Activity) context).RESULT_OK, returnIntent);
                             ((Activity) context).finish();
@@ -126,11 +125,9 @@ public class AdapterForPickUpAddressList extends BaseAdapter {
             });
 
 
-
-
-        }catch (Exception e) {
-                e.printStackTrace();
-            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return convertView;
     }
 }

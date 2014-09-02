@@ -4,11 +4,9 @@ import android.content.Context;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.gls.orderzapp.AddressDetails.Adapter.DisplayDeliveryChargesAndType;
 import com.gls.orderzapp.CreateOrder.CreateOrderBeans.AvailableDeliveryTimingSlots;
@@ -16,7 +14,6 @@ import com.gls.orderzapp.CreateOrder.CreateOrderBeans.CreateOrderProductDetails;
 import com.gls.orderzapp.CreateOrder.CreateOrderBeans.ProductConfiguration;
 import com.gls.orderzapp.CreateOrder.CreateOrderBeans.SuccessResponseForDeliveryChargesAndType;
 import com.gls.orderzapp.MainApp.CartActivity;
-import com.gls.orderzapp.Provider.Beans.DeliveryType;
 import com.gls.orderzapp.Provider.Beans.ProductConfigurationPrice;
 import com.gls.orderzapp.Provider.Beans.ProductDetails;
 import com.gls.orderzapp.R;
@@ -32,8 +29,8 @@ import java.util.List;
 public class Cart {
 
     public static HashMap<String, ProductDetails> hm = new HashMap<String, ProductDetails>();
-    static TextView numberTextOnCart;
     public static int productCount = 0;
+    static TextView numberTextOnCart;
 //    static Animation zoomin, zoomout;
 
     public static void addToCart(ProductDetails productDetails, Context context) {
@@ -44,7 +41,7 @@ public class Cart {
             productDetails.setCartCount(productCount + "");
             localProduct = productDetails;
 
-            hm.put(productCount +"" , localProduct);
+            hm.put(productCount + "", localProduct);
             setTextOnCartCount();
 
             Log.d("after adding to cart", new Gson().toJson(hm));
@@ -118,9 +115,9 @@ public class Cart {
             String[] keys = hm.keySet().toArray(new String[hm.size()]);
             for (int i = 0; i < getCount(); i++) {
                 if (hm.get(keys[i]).getPrice().getUom().equalsIgnoreCase("Kg")) {
-                    if(hm.get(keys[i]).getOrignalUom().equalsIgnoreCase("kg")) {
+                    if (hm.get(keys[i]).getOrignalUom().equalsIgnoreCase("kg")) {
                         temp_product_price = hm.get(keys[i]).getPrice().getValue() * Double.parseDouble(hm.get(keys[i]).getQuantity());
-                    }else{
+                    } else {
                         temp_product_price = (hm.get(keys[i]).getPrice().getValue() * Double.parseDouble(hm.get(keys[i]).getQuantity())) * 1000;
                     }
                     sub_total = sub_total + temp_product_price;
@@ -128,10 +125,10 @@ public class Cart {
                     temp_product_price = hm.get(keys[i]).getPrice().getValue() * Double.parseDouble(hm.get(keys[i]).getQuantity());
                     sub_total = sub_total + temp_product_price;
                 } else if (hm.get(keys[i]).getPrice().getUom().equalsIgnoreCase("Gm")) {
-                    if(hm.get(keys[i]).getOrignalUom().equalsIgnoreCase("kg")) {
+                    if (hm.get(keys[i]).getOrignalUom().equalsIgnoreCase("kg")) {
                         temp_product_price = ((Double.parseDouble(hm.get(keys[i]).getPrice().getValue() + "")) * (Double.parseDouble(hm.get(keys[i]).getQuantity()))) / 1000;
-                    }else{
-                        temp_product_price = ((Double.parseDouble(hm.get(keys[i]).getPrice().getValue() + "")) * (Double.parseDouble(hm.get(keys[i]).getQuantity()))) ;
+                    } else {
+                        temp_product_price = ((Double.parseDouble(hm.get(keys[i]).getPrice().getValue() + "")) * (Double.parseDouble(hm.get(keys[i]).getQuantity())));
                     }
                     sub_total = sub_total + temp_product_price;
                 } else if (hm.get(keys[i]).getPrice().getUom().equalsIgnoreCase("No")) {
@@ -149,14 +146,17 @@ public class Cart {
 
     public static double currentProviderSubTotal(List<CreateOrderProductDetails> list) {
         double total = 0.00;
+        Log.d("list", new Gson().toJson(list));
         try {
             for (int i = 0; i < list.size(); i++) {
 //                if (list.get(i).getUom().equalsIgnoreCase("kg") || list.get(i).getUom().equalsIgnoreCase("no") || list.get(i).getUom().equalsIgnoreCase("lb")) {
-                    total = total + Double.parseDouble(list.get(i).getOrderprice());
+                total = total + Double.parseDouble(list.get(i).getOrderprice());
 //                } else {
 //                    total = total + (Double.parseDouble(list.get(i).getOrderprice())) / 1000;
 //                }
             }
+
+            Log.d("total", new Gson().toJson(total));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -168,15 +168,15 @@ public class Cart {
         try {
             for (int i = 0; i < list.size(); i++) {
                 if (list.get(i).getPrice().getUom().equalsIgnoreCase("kg") || list.get(i).getPrice().getUom().equalsIgnoreCase("no") || list.get(i).getPrice().getUom().equalsIgnoreCase("lb")) {
-                   if(list.get(i).getOrignalUom().equalsIgnoreCase("gm")){
-                       total = total + Double.parseDouble(list.get(i).getQuantity()) * list.get(i).getPrice().getValue() * 1000;
-                   }else {
-                       total = total + Double.parseDouble(list.get(i).getQuantity()) * list.get(i).getPrice().getValue();
-                   }
+                    if (list.get(i).getOrignalUom().equalsIgnoreCase("gm")) {
+                        total = total + Double.parseDouble(list.get(i).getQuantity()) * list.get(i).getPrice().getValue() * 1000;
+                    } else {
+                        total = total + Double.parseDouble(list.get(i).getQuantity()) * list.get(i).getPrice().getValue();
+                    }
                 } else {
-                    if(list.get(i).getOrignalUom().equalsIgnoreCase("kg")) {
+                    if (list.get(i).getOrignalUom().equalsIgnoreCase("kg")) {
                         total = total + (Double.parseDouble(list.get(i).getQuantity()) * list.get(i).getPrice().getValue()) / 1000;
-                    }else{
+                    } else {
                         total = total + (Double.parseDouble(list.get(i).getQuantity()) * list.get(i).getPrice().getValue());
                     }
                 }
@@ -200,77 +200,76 @@ public class Cart {
                     hm.put(position, localProduct);
                 }
             }
-            Log.d("cart", new Gson().toJson(hm));
             CartActivity.grand_total.setText(String.format("%.2f", Cart.subTotal()));
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public static String returnUom(String cartCount){
+    public static String returnUom(String cartCount) {
         String uom = "";
         String[] mKeys = Cart.hm.keySet().toArray(new String[hm.size()]);
-        try{
-            for(int i = 0; i < mKeys.length; i++){
-                if(mKeys[i].equalsIgnoreCase(cartCount)){
+        try {
+            for (int i = 0; i < mKeys.length; i++) {
+                if (mKeys[i].equalsIgnoreCase(cartCount)) {
                     uom = Cart.hm.get(mKeys[i]).getPrice().getUom();
                 }
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return uom;
     }
+
     //*********
-    public static String returnOrignalUom(String cartCount){
+    public static String returnOrignalUom(String cartCount) {
         String orinalUom = "";
         Log.d("original uom", cartCount);
         String[] mKeys = Cart.hm.keySet().toArray(new String[hm.size()]);
-        try{
-            for(int i = 0; i < mKeys.length; i++){
-                if(mKeys[i].equalsIgnoreCase(cartCount)){
+        try {
+            for (int i = 0; i < mKeys.length; i++) {
+                if (mKeys[i].equalsIgnoreCase(cartCount)) {
 
                     orinalUom = Cart.hm.get(mKeys[i]).getOrignalUom();
                 }
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return orinalUom;
     }
 
-    public static double returnMinWeight(String cartCount){
-        double min_weight =0;
+    public static double returnMinWeight(String cartCount) {
+        double min_weight = 0;
         String[] mKeys = Cart.hm.keySet().toArray(new String[hm.size()]);
-        try{
-            for(int i = 0; i < mKeys.length; i++){
-                if(mKeys[i].equalsIgnoreCase(cartCount)){
-                    min_weight =Cart.hm.get(mKeys[i]).getMin_weight().getValue();
+        try {
+            for (int i = 0; i < mKeys.length; i++) {
+                if (mKeys[i].equalsIgnoreCase(cartCount)) {
+                    min_weight = Cart.hm.get(mKeys[i]).getMin_weight().getValue();
                 }
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return min_weight;
     }
-    public static double returnMaxWeight(String cartCount){
+
+    public static double returnMaxWeight(String cartCount) {
         double max_weight = 0;
         String[] mKeys = Cart.hm.keySet().toArray(new String[hm.size()]);
-        try{
-            for(int i = 0; i < mKeys.length; i++){
-                if(mKeys[i].equalsIgnoreCase(cartCount)){
-                    max_weight =Cart.hm.get(mKeys[i]).getMax_weight().getValue();
+        try {
+            for (int i = 0; i < mKeys.length; i++) {
+                if (mKeys[i].equalsIgnoreCase(cartCount)) {
+                    max_weight = Cart.hm.get(mKeys[i]).getMax_weight().getValue();
                 }
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return max_weight;
     }
 
-//*******************
-
-    public static void addMessageOnCake( ProductDetails productDetails, String messageoncake) {
+    public static void addMessageOnCake(ProductDetails productDetails, String messageoncake) {
         try {
             int hmSize = hm.size();
             String[] keys = hm.keySet().toArray(new String[hmSize]);
@@ -303,29 +302,29 @@ public class Cart {
         return al;
     }
 
-public static int deleteConfigObject()
-{
-    try{
-        String[] keys = hm.keySet().toArray(new String[hm.size()]);
-        final int keySize = keys.length;
-        for (int i = 0; i < keySize; i++) {
-            if (Cart.hm.get(keys[i]).getProductconfiguration().getConfiguration().size() > 0) {
-                for(int k=0;k<Cart.hm.get(keys[i]).getProductconfiguration().getConfiguration().size();k++)
-                {
-                if(Cart.hm.get(keys[i]).getProductconfiguration().getConfiguration().get(k).getProd_configtype().equalsIgnoreCase("msg")){
-                        if(Cart.hm.get(keys[i]).getProductconfiguration().getConfiguration().get(k).isChecked()==true && Cart.hm.get(keys[i]).getMessageonproduct().isEmpty() || Cart.hm.get(keys[i]).getMessageonproduct().equalsIgnoreCase("none"))
-                        {
-                            Cart.hm.get(keys[i]).getProductconfiguration().getConfiguration().get(k).setChecked(false);
+    public static int deleteConfigObject() {
+        try {
+            String[] keys = hm.keySet().toArray(new String[hm.size()]);
+            final int keySize = keys.length;
+            for (int i = 0; i < keySize; i++) {
+                if (Cart.hm.get(keys[i]).getProductconfiguration().getConfiguration().size() > 0) {
+                    for (int k = 0; k < Cart.hm.get(keys[i]).getProductconfiguration().getConfiguration().size(); k++) {
+                        if (Cart.hm.get(keys[i]).getProductconfiguration().getConfiguration().get(k).getProd_configtype().equalsIgnoreCase("msg")) {
+                            if (Cart.hm.get(keys[i]).getProductconfiguration().getConfiguration().get(k).isChecked() == true && Cart.hm.get(keys[i]).getMessageonproduct().isEmpty() || Cart.hm.get(keys[i]).getMessageonproduct().equalsIgnoreCase("none")) {
+                                Cart.hm.get(keys[i]).getProductconfiguration().getConfiguration().get(k).setChecked(false);
 
+                            }
                         }
-                }
+                    }
                 }
             }
-        }
 
-    }catch(Exception e){e.printStackTrace();}
-    return getCount();
-}
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return getCount();
+    }
+
     public static int deleteFromCartIfQuantityIsZero() {
         try {
             String[] keys = hm.keySet().toArray(new String[hm.size()]);
@@ -384,7 +383,6 @@ public static int deleteConfigObject()
     }
 
     public static List<ProductConfiguration> configurationList(CreateOrderProductDetails list) {
-        Log.d("create order product details", new Gson().toJson(list));
         List<ProductConfiguration> configurationList = new ArrayList<>();
         try {
             for (int j = 0; j < list.getProductconfiguration().size(); j++) {
@@ -416,24 +414,17 @@ public static int deleteConfigObject()
 
     public static double returnDeliveryCharges(SuccessResponseForDeliveryChargesAndType succesResponseForDeliveryChargesAndType) {
         double deliveryCharges = 0.0;
-        Log.d("delivery charges", new Gson().toJson(succesResponseForDeliveryChargesAndType));
-
         try {
             for (int i = 0; i < succesResponseForDeliveryChargesAndType.getSuccess().getDeliverycharge().size(); i++) {
-//                Log.d("ddddddddddType", DisplayDeliveryChargesAndType.deliveryType.get(i).split("_")[1]);
-//                if (DisplayDeliveryChargesAndType.deliveryType.get(i).split("_")[1].equalsIgnoreCase("home")) {
-//                    Log.d("hhhhhhhhhhome", deliveryCharges+"");
-//                    deliveryCharges = deliveryCharges + succesResponseForDeliveryChargesAndType.getSuccess().getDeliverycharge().get(i).getCharge();
-//                } else {
-//                    Log.d("pppppppppppickup", deliveryCharges+"");
-//                    deliveryCharges = deliveryCharges + 0.0;
-//                }
-
-                for(int j = 0; j < DisplayDeliveryChargesAndType.deliveryType.size(); j++){
-                    if(DisplayDeliveryChargesAndType.deliveryType.get(j).split("_")[0].equals(succesResponseForDeliveryChargesAndType.getSuccess().getDeliverycharge().get(i).getBranchid())){
-                        if(DisplayDeliveryChargesAndType.deliveryType.get(j).split("_")[1].equalsIgnoreCase("home")){
-                            deliveryCharges = deliveryCharges + succesResponseForDeliveryChargesAndType.getSuccess().getDeliverycharge().get(i).getCharge();
-                        }else{
+                for (int j = 0; j < DisplayDeliveryChargesAndType.deliveryType.size(); j++) {
+                    if (DisplayDeliveryChargesAndType.deliveryType.get(j).split("_")[0].equals(succesResponseForDeliveryChargesAndType.getSuccess().getDeliverycharge().get(i).getBranchid())) {
+                        if (DisplayDeliveryChargesAndType.deliveryType.get(j).split("_")[1].equalsIgnoreCase("home")) {
+                            if (succesResponseForDeliveryChargesAndType.getSuccess().getDeliverycharge().get(i).isIsdeliverychargeinpercent() == true) {
+                                deliveryCharges = deliveryCharges + ((succesResponseForDeliveryChargesAndType.getSuccess().getDeliverycharge().get(i).getCharge() * deliveryCharges(succesResponseForDeliveryChargesAndType.getSuccess().getDeliverycharge().get(i).getBranchid())) / 100);
+                            } else {
+                                deliveryCharges = deliveryCharges + succesResponseForDeliveryChargesAndType.getSuccess().getDeliverycharge().get(i).getCharge();
+                            }
+                        } else {
                             deliveryCharges = deliveryCharges + 0.0;
                         }
                     }
@@ -442,31 +433,31 @@ public static int deleteConfigObject()
         } catch (Exception e) {
             e.printStackTrace();
         }
-        Log.d("charge", deliveryCharges+"");
+        Log.d("charge", deliveryCharges + "");
         return deliveryCharges;
     }
 
-    public static void saveDeliveryTypeInfoInCart(String branchId, String deliveryType){
-        try{
+    public static void saveDeliveryTypeInfoInCart(String branchId, String deliveryType) {
+        try {
             String[] keys = Cart.hm.keySet().toArray(new String[hm.size()]);
-            for(int i = 0; i < hm.size(); i++){
-                if(hm.get(keys[i]).getBranchid().equals(branchId)){
+            for (int i = 0; i < hm.size(); i++) {
+                if (hm.get(keys[i]).getBranchid().equals(branchId)) {
                     hm.get(keys[i]).getDeliveryType().setDeliveryType(deliveryType);
                     hm.get(keys[i]).getDeliveryType().setBranchId(branchId);
                 }
             }
 
             Log.d("cart after saving deliverytype", new Gson().toJson(hm));
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public static void saveTimeSlot(String branchid, AvailableDeliveryTimingSlots availableDeliveryTimingSlots,String date){
+    public static void saveTimeSlot(String branchid, AvailableDeliveryTimingSlots availableDeliveryTimingSlots, String date) {
 
         String[] keys = hm.keySet().toArray(new String[hm.size()]);
-        for(int i = 0 ; i < hm.size(); i++){
-            if(hm.get(keys[i]).getBranchid().equals(branchid)){
+        for (int i = 0; i < hm.size(); i++) {
+            if (hm.get(keys[i]).getBranchid().equals(branchid)) {
                 hm.get(keys[i]).setTimeslot(availableDeliveryTimingSlots);
                 hm.get(keys[i]).setPrefereddeliverydate(date);
             }
@@ -475,28 +466,27 @@ public static int deleteConfigObject()
         Log.d("cart after adding timelots", new Gson().toJson(hm));
     }
 
-    public static void saveOrderInstructions(String branchid, String orderInstruction){
+    public static void saveOrderInstructions(String branchid, String orderInstruction) {
         String[] keys = hm.keySet().toArray(new String[hm.size()]);
-        for(int i = 0; i < hm.size(); i++){
-            if(hm.get(keys[i]).getBranchid().equals(branchid)){
+        for (int i = 0; i < hm.size(); i++) {
+            if (hm.get(keys[i]).getBranchid().equals(branchid)) {
                 hm.get(keys[i]).getDeliveryType().setOrderinstructions(orderInstruction);
             }
         }
     }
-
 
     public static void addFoodTypeConfiguration(String cartCount,
                                                 String prod_configtype,
                                                 String prod_configname,
                                                 ProductConfigurationPrice prod_configprice,
                                                 boolean checked,
-                                                String foodType){
+                                                String foodType) {
 
         String[] keys = Cart.hm.keySet().toArray(new String[hm.size()]);
-        for(int i = 0 ; i < hm.size(); i++){
-            if(cartCount.equals(Cart.hm.get(keys[i]).getCartCount())){
-                for(int j = 0; j < hm.get(keys[i]).getProductconfiguration().getConfiguration().size(); j++){
-                    if(hm.get(keys[i]).getProductconfiguration().getConfiguration().get(j).getProd_configtype().equals("ftp")) {
+        for (int i = 0; i < hm.size(); i++) {
+            if (cartCount.equals(Cart.hm.get(keys[i]).getCartCount())) {
+                for (int j = 0; j < hm.get(keys[i]).getProductconfiguration().getConfiguration().size(); j++) {
+                    if (hm.get(keys[i]).getProductconfiguration().getConfiguration().get(j).getProd_configtype().equals("ftp")) {
                         hm.get(keys[i]).getProductconfiguration().getConfiguration().get(j).setChecked(checked);
                         hm.get(keys[i]).getProductconfiguration().getConfiguration().get(j).setFoodType(foodType);
                         hm.get(keys[i]).getProductconfiguration().getConfiguration().get(j).setProd_configname(prod_configname);
@@ -506,7 +496,41 @@ public static int deleteConfigObject()
                 }
             }
         }
+    }
 
-
+    public static double deliveryCharges(String branchid) {
+        String[] keys = Cart.hm.keySet().toArray(new String[hm.size()]);
+        double subTotal = 0.0;
+        double temp_product_price = 0.0;
+        try {
+            for (int i = 0; i < hm.size(); i++) {
+                if (branchid.equals(hm.get(keys[i]).getBranchid())) {
+                    if (hm.get(keys[i]).getPrice().getUom().equalsIgnoreCase("Kg")) {
+                        if (hm.get(keys[i]).getOrignalUom().equalsIgnoreCase("kg")) {
+                            temp_product_price = hm.get(keys[i]).getPrice().getValue() * Double.parseDouble(hm.get(keys[i]).getQuantity());
+                        } else {
+                            temp_product_price = (hm.get(keys[i]).getPrice().getValue() * Double.parseDouble(hm.get(keys[i]).getQuantity())) * 1000;
+                        }
+                        subTotal = subTotal + temp_product_price;
+                    } else if (hm.get(keys[i]).getPrice().getUom().equalsIgnoreCase("lb")) {
+                        temp_product_price = hm.get(keys[i]).getPrice().getValue() * Double.parseDouble(hm.get(keys[i]).getQuantity());
+                        subTotal = subTotal + temp_product_price;
+                    } else if (hm.get(keys[i]).getPrice().getUom().equalsIgnoreCase("Gm")) {
+                        if (hm.get(keys[i]).getOrignalUom().equalsIgnoreCase("kg")) {
+                            temp_product_price = ((Double.parseDouble(hm.get(keys[i]).getPrice().getValue() + "")) * (Double.parseDouble(hm.get(keys[i]).getQuantity()))) / 1000;
+                        } else {
+                            temp_product_price = ((Double.parseDouble(hm.get(keys[i]).getPrice().getValue() + "")) * (Double.parseDouble(hm.get(keys[i]).getQuantity())));
+                        }
+                        subTotal = subTotal + temp_product_price;
+                    } else if (hm.get(keys[i]).getPrice().getUom().equalsIgnoreCase("No")) {
+                        temp_product_price = hm.get(keys[i]).getPrice().getValue() * Double.parseDouble(hm.get(keys[i]).getQuantity());
+                        subTotal = subTotal + temp_product_price;
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return subTotal;
     }
 }

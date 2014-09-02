@@ -52,6 +52,7 @@ public class CreateOrderProductDetails {
     public void setProductconfiguration(List<ProductConfiguration> productconfiguration) {
         this.productconfiguration = productconfiguration;
     }
+
     public Location getLocation() {
         return location;
     }
