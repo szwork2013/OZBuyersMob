@@ -128,5 +128,6 @@
     <string name="no_suborder_cancel">No Suborder to cancel</string>
     <string name="feedback_hint">Please share your comments, concerns, suggestions, or complaints. We are here to help you out.</string>
     <string name="feedback">Feedback</string>
+    <string name="countryCode">Select Country Code</string>
 
 </resources>

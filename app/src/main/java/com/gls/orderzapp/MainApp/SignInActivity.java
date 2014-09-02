@@ -12,13 +12,19 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.gls.orderzapp.CountryCode.CountryCode;
+import com.gls.orderzapp.CountryCode.CountryCodeAdapter;
+import com.gls.orderzapp.CountryCode.SuccessResponseForCountryCode;
 import com.gls.orderzapp.R;
 import com.gls.orderzapp.SignIn.SignInPostData;
+import com.gls.orderzapp.User.SuccessResponseOfUser;
 import com.gls.orderzapp.Utility.CheckConnection;
 import com.gls.orderzapp.Utility.GoogleAnalyticsUtility;
 import com.gls.orderzapp.Utility.ServerConnection;
@@ -39,6 +45,8 @@ public class SignInActivity extends Activity {
     SignInPostData signInPostData;
     boolean backPresed = false;
     public static boolean islogedin = false;
+    Spinner countryCodeSpinner;
+    String countryCode = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +58,18 @@ public class SignInActivity extends Activity {
         setContentView(R.layout.sign_in);
 
         findViewsById();
+        new CountryCodeAsync().execute();
+        countryCodeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+               countryCode = ((CountryCode)adapterView.getItemAtPosition(i)).getCode();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
     }
 
     @Override
@@ -84,6 +104,7 @@ public class SignInActivity extends Activity {
         passwordEditText = (EditText) findViewById(R.id.passwordEditText);
         signInButton = (Button) findViewById(R.id.buttonSignIn);
         forgotPasswordText = (TextView) findViewById(R.id.textForgotPassword);
+        countryCodeSpinner = (Spinner) findViewById(R.id.countryCodeSpinner);
 
 //        UtilityClassForLanguagePreferance.applyTypeface(UtilityClassForLanguagePreferance.getParentView(mobileNumberEditText), UtilityClassForLanguagePreferance.getTypeFace(getApplicationContext()));
     }
@@ -159,11 +180,18 @@ public class SignInActivity extends Activity {
     public void setPostSignInParameters() {
 
         signInPostData = new SignInPostData();
-        signInPostData.setMobileno("91" + mobileNumberEditText.getText().toString().trim());
+        signInPostData.setMobileno(countryCode + mobileNumberEditText.getText().toString().trim());
         signInPostData.setPassword(passwordEditText.getText().toString().trim());
 
     }
 
+    public String loadCountryCodePreference() throws Exception{
+        String countryCode = "";
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        SuccessResponseOfUser successResponseOfUser = new Gson().fromJson(sp.getString("USER_DATA","91"), SuccessResponseOfUser.class);
+        countryCode = successResponseOfUser.getSuccess().getUser().
+        return countryCode;
+    }
 
     class SignInAsync extends AsyncTask<String, Integer, String> {
         JSONObject jObj;
@@ -220,7 +248,6 @@ public class SignInActivity extends Activity {
                             if (jObj.has("success")) {
                                 Toast.makeText(context, msg, Toast.LENGTH_LONG).show();
                                 islogedin = true;
-//                                SignInActivity.this.finish();
                                 backPresed = false;
 
                                 Intent returnIntent = new Intent();
@@ -245,6 +272,68 @@ public class SignInActivity extends Activity {
                     e.printStackTrace();
                 }
             } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public String getCountryCodeList() throws Exception{
+        String resultGetCountryCode = "";
+        resultGetCountryCode = ServerConnection.executeGet(getApplicationContext(), "/api/countrycode");
+
+        Log.d("response of resultGetCountryCode",resultGetCountryCode);
+        return resultGetCountryCode;
+    }
+
+    class CountryCodeAsync extends AsyncTask<String,Integer,String>{
+        String resultGetCountryCode, msg, code, connectedOrNot;
+        JSONObject jObj;
+        SuccessResponseForCountryCode successResponseForCountryCode;
+        @Override
+        protected String doInBackground(String... strings) {
+            try {
+                if(new CheckConnection(getApplicationContext()).isConnectingToInternet()) {
+                    connectedOrNot = "success";
+                    resultGetCountryCode = getCountryCodeList();
+                    if(!resultGetCountryCode.isEmpty()){
+                       jObj = new JSONObject(resultGetCountryCode);
+                        if(jObj.has("success")){
+                           successResponseForCountryCode = new Gson().fromJson(resultGetCountryCode, SuccessResponseForCountryCode.class);
+                        }else{
+                            JSONObject jObjError = jObj.getJSONObject("error");
+                            msg = jObjError.getString("message");
+                            code = jObjError.getString("code");
+                        }
+                    }
+                }else{
+                    connectedOrNot = "error";
+                }
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+            return connectedOrNot;
+        }
+
+        @Override
+        protected void onPostExecute(String connectedOrNot) {
+            try {
+                if (connectedOrNot.equalsIgnoreCase("success")) {
+                    if(!resultGetCountryCode.isEmpty()){
+                        if(jObj.has("success")){
+
+                            CountryCodeAdapter objCountryCodeAdapter = new CountryCodeAdapter(getApplicationContext(), 0 ,successResponseForCountryCode.getSuccess().getCountrycode());
+                            countryCodeSpinner.setAdapter(objCountryCodeAdapter);
+
+                        }else{
+                            Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_LONG).show();
+                        }
+                    }else{
+                        Toast.makeText(getApplicationContext(), "Server is not responding please try again later", Toast.LENGTH_LONG).show();
+                    }
+                } else {
+                    Toast.makeText(getApplicationContext(), "Please check your internet connection", Toast.LENGTH_LONG).show();
+                }
+            }catch (Exception e){
                 e.printStackTrace();
             }
         }
