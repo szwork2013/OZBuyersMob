@@ -53,7 +53,7 @@ public class SignUpActivity extends ActionBarActivity {
     Context context;
     AutoCompleteTextView auto_area, pincodeEditText;
     EditText mobileNoEditText, passwordEditText, usernameEditText, address1EditText, address2EditText, cityEditText, areaEditText,
-            countryCodeEditText, countryEditText, stateEditText, emailEditText, firstnameEditText;
+             countryEditText, stateEditText, emailEditText, firstnameEditText;
     Button signUpButton;
     //    String SENDER_ID = "926441694335";
     String SENDER_ID = "13920985466";
@@ -186,7 +186,7 @@ public class SignUpActivity extends ActionBarActivity {
         pincodeEditText = (AutoCompleteTextView) findViewById(R.id.edtTextPincode);
         emailEditText = (EditText) findViewById(R.id.editTextEmail);
         signUpButton = (Button) findViewById(R.id.buttonSignUp);
-        countryCodeEditText = (EditText) findViewById(R.id.editTextCountryCode);
+      //  countryCodeEditText = (EditText) findViewById(R.id.editTextCountryCode);
         countryEditText = (EditText) findViewById(R.id.editTextCountry);
         stateEditText = (EditText) findViewById(R.id.editTextState);
         auto_area = (AutoCompleteTextView) findViewById(R.id.auto_area);
@@ -324,7 +324,7 @@ public class SignUpActivity extends ActionBarActivity {
         sendSignUpData = new SendSignUpData();
         sendSignUpData.setUsertype("individual");
 //        sendSignUpData.setMobileno(mobileNoEditText.getText().toString().trim());
-        sendSignUpData.setMobileno(countryCodeEditText.getText().toString().trim() + mobileNoEditText.getText().toString().trim());
+        sendSignUpData.setMobileno( mobileNoEditText.getText().toString().trim());
         sendSignUpData.setPassword(passwordEditText.getText().toString().trim());
         sendSignUpData.setUsername(usernameEditText.getText().toString().trim());
         sendSignUpData.setFirstname(firstnameEditText.getText().toString().trim());
@@ -403,6 +403,12 @@ public class SignUpActivity extends ActionBarActivity {
         resultGetCountryList = ServerConnection.executeGet(getApplicationContext(), "/api/location?key=country&value=country");
         return resultGetCountryList;
     }
+
+//    public String getCountryList() throws Exception {
+//        String resultGetCountryList = "";
+//        resultGetCountryList = ServerConnection.executeGet(getApplicationContext(), "/api/countrycode");
+//        return resultGetCountryList;
+//    }
 
     public String getStatesList() throws Exception {
         String resultGetCountryList = "";

@@ -16,33 +16,18 @@
             android:layout_height="fill_parent"
             android:background="#fff">
 
-            <EditText
-                android:id="@+id/editTextCountryCode"
-                android:layout_width="50dp"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentTop="true"
-                android:layout_marginTop="10dp"
-                android:editable="false"
-                android:ems="10"
-                android:enabled="false"
-                android:gravity="center_horizontal|center_vertical"
-                android:inputType="number"
-                android:maxLength="2"
-                android:singleLine="true"
-                android:text="91"
-                android:textSize="18sp" />
+
 
             <EditText
                 android:id="@+id/editTextMobileNUmber"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentTop="true"
                 android:layout_marginLeft="5dp"
                 android:layout_marginTop="10dp"
-                android:layout_toRightOf="@+id/editTextCountryCode"
+
                 android:ems="10"
                 android:hint="@string/mobile"
                 android:inputType="phone"
