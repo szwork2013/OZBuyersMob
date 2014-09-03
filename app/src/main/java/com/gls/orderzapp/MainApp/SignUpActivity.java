@@ -155,8 +155,6 @@ public class SignUpActivity extends ActionBarActivity {
                 storeZipCode();
             }
         });
-
-
     }
 
     @Override
@@ -217,20 +215,16 @@ public class SignUpActivity extends ActionBarActivity {
     }
 
     public void storeRegistrationId(Context context, String regId) {
-
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
         SharedPreferences.Editor edit = sp.edit();
         edit.putString("REG_ID", regId);
         edit.commit();
-
     }
 
     public String getRegistrationId() {
-
         SharedPreferences spLoad = PreferenceManager.getDefaultSharedPreferences(context);
         String regId = spLoad.getString("REG_ID", "");
         return regId;
-
     }
 
     public void signUp(View view) {
@@ -323,7 +317,6 @@ public class SignUpActivity extends ActionBarActivity {
         signUpData = new SignUpDataInUserObject();
         sendSignUpData = new SendSignUpData();
         sendSignUpData.setUsertype("individual");
-//        sendSignUpData.setMobileno(mobileNoEditText.getText().toString().trim());
         sendSignUpData.setMobileno( mobileNoEditText.getText().toString().trim());
         sendSignUpData.setPassword(passwordEditText.getText().toString().trim());
         sendSignUpData.setUsername(usernameEditText.getText().toString().trim());
@@ -403,12 +396,6 @@ public class SignUpActivity extends ActionBarActivity {
         resultGetCountryList = ServerConnection.executeGet(getApplicationContext(), "/api/location?key=country&value=country");
         return resultGetCountryList;
     }
-
-//    public String getCountryList() throws Exception {
-//        String resultGetCountryList = "";
-//        resultGetCountryList = ServerConnection.executeGet(getApplicationContext(), "/api/countrycode");
-//        return resultGetCountryList;
-//    }
 
     public String getStatesList() throws Exception {
         String resultGetCountryList = "";
