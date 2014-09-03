@@ -16,8 +16,6 @@
             android:layout_height="fill_parent"
             android:background="#fff">
 
-
-
             <EditText
                 android:id="@+id/editTextMobileNUmber"
                 android:layout_width="match_parent"
@@ -206,6 +204,7 @@
                 <View
                     android:layout_width="fill_parent"
                     android:layout_height="1dp"
+                    android:id="@+id/country_view"
                     android:background="#304f6c" />
 
                 <TextView
@@ -214,6 +213,7 @@
                     android:layout_marginBottom="5dp"
                     android:layout_marginTop="5dp"
                     android:text="State: "
+                    android:id="@+id/state_textview"
                     android:textColor="#000"
                     android:textSize="18sp"
                     android:textStyle="bold" />
@@ -226,7 +226,28 @@
                 <View
                     android:layout_width="fill_parent"
                     android:layout_height="1dp"
+                    android:id="@+id/state_view"
                     android:background="#304f6c" />
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/edit_state"
+                    android:layout_marginTop="10dp"
+                    android:textSize="18sp"
+                    android:hint="@string/state"
+                    android:visibility="gone"
+                    />
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/edit_city"
+                    android:layout_marginTop="10dp"
+                    android:textSize="18sp"
+                    android:hint="@string/city"
+                    android:visibility="gone"
+                    />
 
                 <TextView
                     android:layout_width="match_parent"
@@ -234,6 +255,7 @@
                     android:layout_marginBottom="5dp"
                     android:layout_marginTop="5dp"
                     android:text="City: "
+                    android:id="@+id/city_textview"
                     android:textColor="#000"
                     android:textSize="18sp"
                     android:textStyle="bold" />
@@ -246,6 +268,7 @@
                 <View
                     android:layout_width="fill_parent"
                     android:layout_height="1dp"
+                    android:id="@+id/city_view"
                     android:background="#304f6c" />
 
                 <TextView
@@ -293,6 +316,8 @@
                     android:layout_height="wrap_content"
                     android:visibility="gone" />
             </LinearLayout>
+
+
 
             <TextView
                 android:id="@+id/txt_tc"
