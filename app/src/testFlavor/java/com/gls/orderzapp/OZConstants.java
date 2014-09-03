@@ -12,5 +12,5 @@ public class OZConstants {
 
     //OrderZapp REST server URL
     public static String OZ_ENVIRONMENT = "TEST";
-    public static String OZ_REST_URL = "http://ec2-54-254-210-45.ap-southeast-1.compute.amazonaws.com:9090";
+    public static String OZ_REST_URL = "http://ec2-54-254-210-45.ap-southeast-1.compute.amazonaws.com:9091";
 }

@@ -267,6 +267,7 @@ public class OrderDetailsActivity extends Activity {
             createOrderData.setOrderdata(createOrderCartList);
             new AdapterForMultipleProviders(context, createOrderCartList.getCart(), orderDeliveryAddressDetails).setMultipleProvidersList();
             displayOrderData();
+            Log.d("SellirDT",new Gson().toJson(OrderDetailsActivity.createOrderCartList.getSellerdelivery()));
         } catch (Exception e) {
             e.printStackTrace();
         }

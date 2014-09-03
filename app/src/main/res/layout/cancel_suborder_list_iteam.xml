@@ -10,7 +10,9 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:clickable="true"
-        android:padding="2dp"
+        android:text="sdfsdfs"
+        android:padding="5dp"
+        android:singleLine="false"
         android:textColor="#000"
         android:textSize="18dp" />
 </LinearLayout>

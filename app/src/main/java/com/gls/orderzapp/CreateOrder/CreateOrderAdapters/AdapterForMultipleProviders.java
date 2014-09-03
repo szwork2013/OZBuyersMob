@@ -16,6 +16,7 @@ import com.gls.orderzapp.CreateOrder.CreateOrderBeans.SellerDelivery;
 import com.gls.orderzapp.MainApp.OrderDetailsActivity;
 import com.gls.orderzapp.R;
 import com.gls.orderzapp.Utility.Cart;
+import com.google.gson.Gson;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -90,13 +91,13 @@ public class AdapterForMultipleProviders {
                     list.clear();
                     list.add(createOrderProductDetailsList.get(i));
                     providers.add(branchid);
-
                     for (int j = 0; j < Cart.hm.size(); j++) {
                         if (branchIds.contains(Cart.hm.get(keys[j]).getBranchid())) {
 
                         } else {
                             if (branchid.equals(Cart.hm.get(keys[j]).getBranchid())) {
-
+                                branchIds.add(Cart.hm.get(keys[j]).getBranchid());
+                                Log.d("BranchIds",branchIds+"");
                                 if (Cart.hm.get(keys[j]).getDeliveryType().getDeliveryType().equalsIgnoreCase("home")) {
                                     deliveryType = "Home Delivery";
                                 } else {
@@ -113,13 +114,6 @@ public class AdapterForMultipleProviders {
                                     Log.d("Cont No111",Cart.hm.get(keys[j]).getContact_supports().get(cont_list));
                                     contact_no = contact_no.concat(Cart.hm.get(keys[j]).getContact_supports().get(cont_list) + ",");
                                 }
-
-
-//                                Log.d("del type", deliveryType);
-//                                deliveryDate = Cart.hm.get(keys[j]).getPrefereddeliverydate().toString();
-//                                //*******************
-
-
                                 if (Cart.hm.get(keys[j]).getTimeslot() != null) {
                                     DecimalFormat formatter = new DecimalFormat("00");
                                     getFromHrs = (int) Cart.hm.get(keys[j]).getTimeslot().getFrom();
@@ -149,6 +143,7 @@ public class AdapterForMultipleProviders {
                                 sellerDelivery.setPrefdeldtime(deliveryDate);
                                 sellerDelivery.setContact_supports(contact_no);
                                 sellerDelivery.setPrefdeltimeslot(Cart.hm.get(keys[j]).getTimeslot());
+                                Log.d("PD",providerName+"--"+Cart.hm.get(keys[j]).getDeliveryType().getDeliveryType());
                                 sellerDelivery.setDeliverytype(Cart.hm.get(keys[j]).getDeliveryType().getDeliveryType());
                                 sellerDelivery.setDelivery_address(orderDeliveryAddress);
 
@@ -203,6 +198,7 @@ public class AdapterForMultipleProviders {
                                     }
                                 }
                                 OrderDetailsActivity.createOrderCartList.getSellerdelivery().add(sellerDelivery);
+
                                 adddeliveryTypes.setBranchid(branchid);
                                 adddeliveryTypes.setDeliverytype(Cart.hm.get(keys[j]).getDeliveryType().getDeliveryType());
                                 OrderDetailsActivity.createOrderCartList.getDeliverytypes().add(adddeliveryTypes);
