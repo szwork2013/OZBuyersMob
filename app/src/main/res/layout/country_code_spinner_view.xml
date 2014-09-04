@@ -10,7 +10,7 @@
         android:layout_gravity="center"
         android:gravity="center"
         android:textColor="#000"
-        android:textSize="16sp"
+        android:textSize="18sp"
         android:id="@+id/code"/>
 
 </LinearLayout>

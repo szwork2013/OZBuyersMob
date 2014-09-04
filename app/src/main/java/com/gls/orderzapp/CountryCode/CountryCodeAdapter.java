@@ -61,7 +61,7 @@ public class CountryCodeAdapter extends ArrayAdapter {
             countryCodeTextView.setText(countryCodeList.get(position).getCode());
         }
         if(countryCodeList.get(position).getCountry()!=null) {
-            countryName.setText(countryCodeList.get(position).getCountry());
+            countryName.setText(Character.toUpperCase(countryCodeList.get(position).getCountry().charAt(0)) + countryCodeList.get(position).getCountry().substring(1));
         }
 
         return view;

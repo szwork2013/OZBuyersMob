@@ -112,71 +112,6 @@
                 android:singleLine="true"
                 android:textSize="18sp" />
 
-            <!--<EditText-->
-            <!--android:id="@+id/editTextCity"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_below="@+id/editTextAddress2"-->
-            <!--android:layout_centerHorizontal="true"-->
-            <!--android:layout_marginTop="10dp"-->
-            <!--android:hint="@string/city"-->
-            <!--android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"-->
-            <!--android:inputType="text"-->
-            <!--android:singleLine="true"-->
-            <!--android:textSize="18sp" />-->
-
-            <!--<EditText-->
-            <!--android:id="@+id/editTextArea"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_below="@+id/editTextCity"-->
-            <!--android:layout_centerHorizontal="true"-->
-            <!--android:layout_marginTop="10dp"-->
-            <!--android:hint="@string/area"-->
-            <!--android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz 123456789./"-->
-            <!--android:inputType="text"-->
-            <!--android:singleLine="true"-->
-            <!--android:textSize="18sp" />-->
-
-            <!--<EditText-->
-            <!--android:id="@+id/editTextState"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_below="@+id/editTextArea"-->
-            <!--android:layout_centerHorizontal="true"-->
-            <!--android:layout_marginTop="10dp"-->
-            <!--android:hint="@string/state"-->
-            <!--android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"-->
-            <!--android:inputType="text"-->
-            <!--android:singleLine="true"-->
-            <!--android:textSize="18sp" />-->
-
-            <!--<EditText-->
-            <!--android:id="@+id/editTextCountry"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_below="@+id/editTextState"-->
-            <!--android:layout_centerHorizontal="true"-->
-            <!--android:layout_marginTop="10dp"-->
-            <!--android:hint="@string/country"-->
-            <!--android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"-->
-            <!--android:inputType="text"-->
-            <!--android:singleLine="true"-->
-            <!--android:textSize="18sp" />-->
-
-            <!--<EditText-->
-            <!--android:id="@+id/editTextPincode"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_below="@+id/editTextCountry"-->
-            <!--android:layout_centerHorizontal="true"-->
-            <!--android:layout_marginTop="10dp"-->
-            <!--android:ems="10"-->
-            <!--android:maxLength="6"-->
-            <!--android:singleLine="true"-->
-            <!--android:hint="@string/pincode"-->
-            <!--android:inputType="number"-->
-            <!--android:textSize="18sp" />-->
             <LinearLayout
                 android:id="@+id/ll_city_area"
                 android:layout_width="match_parent"
@@ -271,21 +206,13 @@
                     android:id="@+id/city_view"
                     android:background="#304f6c" />
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="5dp"
-                    android:layout_marginTop="5dp"
-                    android:text="@string/areawithcolon"
-                    android:textColor="#000"
-                    android:textSize="18sp"
-                    android:textStyle="bold" />
 
                 <AutoCompleteTextView
                     android:id="@+id/auto_area"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:completionThreshold="2"
+                    android:layout_marginTop="10dp"
                     android:hint="@string/area"
                     android:singleLine="true"
                     android:textSize="18sp" />

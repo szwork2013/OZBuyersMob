@@ -447,7 +447,7 @@ public class SignUpActivity extends ActionBarActivity {
 
     public String getCountryList() throws Exception {
         String resultGetCountryList = "";
-        resultGetCountryList = ServerConnection.executeGet(getApplicationContext(), "/api/location?key=country&value=country");
+        resultGetCountryList = ServerConnection.executeGet(getApplicationContext(), "/api/country");
         return resultGetCountryList;
     }
 

@@ -39,7 +39,6 @@ public class VerifyUserActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         context = VerifyUserActivity.this;
         ((GoogleAnalyticsUtility) getApplication()).getTracker(GoogleAnalyticsUtility.TrackerName.APP_TRACKER);
-//        UtilityClassForLanguagePreferance.setLocale(getApplicationContext());
         setContentView(R.layout.verify_user_activity);
         findViewsById();
     }
