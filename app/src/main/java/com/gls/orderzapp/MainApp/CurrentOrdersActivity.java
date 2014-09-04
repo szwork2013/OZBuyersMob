@@ -106,6 +106,7 @@ public class CurrentOrdersActivity extends MyOrdersListActivity {
                     if (!resultOfMyOrders.isEmpty()) {
                         if (jObj.has("success")) {
                             orderExists();
+
                             mainOrderList.setAdapter(new MainOrderListAdapter(context, successResponseForMyOrders.getSuccess().getOrders()));
 
                         } else {

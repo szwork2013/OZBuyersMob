@@ -136,14 +136,16 @@ public class MainOrderListAdapter extends BaseAdapter {
                 TextView noCancellableOrder = (TextView) dialogView.findViewById(R.id.noCancellableOrder);
                 TextView txt_order_cancel_warning = (TextView) dialogView.findViewById(R.id.txt_order_cancel_warning);
                 LinearLayout llNoOrderToCancel = (LinearLayout) dialogView.findViewById(R.id.llNoOrderToCancel);
-                if (myOrderList.get(position).getPayment().getMode().equalsIgnoreCase("COD")) {
-                    txt_order_cancel_warning.setVisibility(View.GONE);
-                } else {
-                    txt_order_cancel_warning.setVisibility(View.VISIBLE);
-                }
+                Log.d("myOrderSubOrder", new Gson().toJson(myOrderList.get(position)));
+                    if (myOrderList.get(position).getPayment().getMode().equalsIgnoreCase("COD")) {
+                        txt_order_cancel_warning.setVisibility(View.GONE);
+                    } else {
+                        txt_order_cancel_warning.setVisibility(View.VISIBLE);
+                    }
+
 
                 list_cancel_order.removeAllViews();
-                Log.d("myOrderSubOrder", new Gson().toJson(myOrderList.get(position).getSuborder()));
+
 //                CancelOrderItemAdapter.suborderid.clear();
                 for (int j = 0; j < myOrderList.get(position).getSuborder().size(); j++) {
                     if (myOrderList.get(position).getSuborder().get(j).getStatus().equalsIgnoreCase("orderreceived") || myOrderList.get(position).getSuborder().get(j).getStatus().equalsIgnoreCase("accepted")) {

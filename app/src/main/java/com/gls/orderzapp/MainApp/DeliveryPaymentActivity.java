@@ -69,14 +69,8 @@ public class DeliveryPaymentActivity extends Activity {
     public static void selectDeliveryType() {
         new DeliveryChargesAndTypeAdapter(context);
     }
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        ((GoogleAnalyticsUtility) getApplication()).getTracker(GoogleAnalyticsUtility.TrackerName.APP_TRACKER);
-        setContentView(R.layout.delivery_payment_activity);
-        context = DeliveryPaymentActivity.this;
-        findViewsById();
+    public void runOnResume()
+    {
         checkPaymentmode();
         selectPaymentMode();
         try {
@@ -86,6 +80,25 @@ public class DeliveryPaymentActivity extends Activity {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        ((GoogleAnalyticsUtility) getApplication()).getTracker(GoogleAnalyticsUtility.TrackerName.APP_TRACKER);
+        setContentView(R.layout.delivery_payment_activity);
+        context = DeliveryPaymentActivity.this;
+        findViewsById();
+        runOnResume();
+//        checkPaymentmode();
+//        selectPaymentMode();
+//        try {
+//            setDeliveryAddress(loadPreferencesUserDataForDeliveryAddress());
+//            setBillingAddress(loadPreferencesUserDataForBillingAddress());
+//            selectDeliveryType();
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
         Log.d("CartDetailDeliveryPayment", new Gson().toJson(Cart.hm));
 
     }
@@ -107,6 +120,7 @@ public class DeliveryPaymentActivity extends Activity {
     @Override
     protected void onResume() {
         super.onResume();
+//        runOnResume();
     }
 
     public void checkPaymentmode() {

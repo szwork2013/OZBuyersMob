@@ -1,6 +1,15 @@
 apply plugin: 'android'
 
 android {
+    signingConfigs {
+        OZKey {
+            keyAlias 'oz'
+            keyPassword 'sq9oF6312Z'
+            storeFile file('/home/avi/Documents/OzKey/OZKey.ketstore')
+            storePassword 'hA450b82si'
+
+        }
+    }
     compileSdkVersion 19
     buildToolsVersion '19.1.0'
     defaultConfig {
@@ -17,27 +26,30 @@ android {
         release {
             runProguard false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
+            zipAlign true
+            signingConfig signingConfigs.OZKey
         }
+        debug {
+
+        }
+
     }
     productFlavors {
         devFlavor {
-            applicationId "com.gls.orderzapp.dev"
+            applicationId 'com.gls.orderzapp.dev'
         }
-
         testFlavor {
-            applicationId "com.gls.orderzapp.test"
+            applicationId 'com.gls.orderzapp.test'
         }
-
         demoFlavor {
-            applicationId "com.gls.orderzapp.demo"
+            applicationId 'com.gls.orderzapp.demo'
         }
-
         productionFlavor {
-            applicationId "com.gls.orderzapp.prod"
+            applicationId 'com.gls.orderzapp.prod'
+            signingConfig signingConfigs.OZKey
         }
-
         productionSecureFlavor {
-            applicationId "com.gls.orderzapp.prodsecure"
+            applicationId 'com.gls.orderzapp.prodsecure'
         }
     }
 }

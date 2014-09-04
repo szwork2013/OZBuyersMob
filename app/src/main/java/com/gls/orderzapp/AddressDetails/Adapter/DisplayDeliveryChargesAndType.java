@@ -152,6 +152,7 @@ public class DisplayDeliveryChargesAndType {
                     switch (checkedId) {
                         case R.id.pick_up:
                             Cart.saveDeliveryTypeInfoInCart(checkForDeliveryModeList.get(group.getId() - 200).getBranchid(), "pickup");
+                            btn_selct_pickup_address.setText(null);
                             btn_selct_pickup_address.setVisibility(View.VISIBLE);
                             ll_delivery_charges.setVisibility(View.INVISIBLE);
                             for (int k = 0; k < deliveryType.size(); k++) {
