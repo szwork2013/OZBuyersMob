@@ -13,7 +13,7 @@ import java.util.HashMap;
 public class GoogleAnalyticsUtility extends Application {
 
     // The following line should be changed to include the correct property id.
-    private static final String PROPERTY_ID = "UA-52118777-1";
+    private static final String PROPERTY_ID = "UA-54358226-1";
 
     //Logging TAG
     private static final String TAG = "OrderZapp";

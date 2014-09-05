@@ -56,7 +56,7 @@ public class SignUpActivity extends ActionBarActivity {
             countryCodeEditText, countryEditText, stateEditText, emailEditText, firstnameEditText;
     Button signUpButton;
     //    String SENDER_ID = "926441694335";
-    String SENDER_ID = "1088135189222";
+    String SENDER_ID = "13920985466";
     SignUpDataInUserObject signUpData;
     SendSignUpData sendSignUpData;
 
