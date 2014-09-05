@@ -106,7 +106,7 @@
     <orderEntry type="library" exported="" name="support-v4-19.1.0" level="project" />
     <orderEntry type="library" exported="" name="httpmime-4.2.1" level="project" />
     <orderEntry type="library" exported="" name="GoogleAnalyticsServicesAndroid_3.02" level="project" />
-    <orderEntry type="library" exported="" name="play-services-5.2.08" level="project" />
+    <orderEntry type="library" exported="" name="play-services-5.0.89" level="project" />
     <orderEntry type="library" exported="" name="universal-image-loader-1.8.0" level="project" />
   </component>
 </module>
