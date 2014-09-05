@@ -266,7 +266,7 @@ public class SignUpActivity extends ActionBarActivity {
     }
 
     public void signUp(View view) {
-        if (mobileNoEditText.getText().toString().trim().length() < 10) {
+        if (mobileNoEditText.getText().toString().trim().length() < 10 && mobileNoEditText.getText().toString().trim().replaceAll(" ", "").length() < 10) {
             Toast.makeText(getApplicationContext(), "Please enter a correct mobile number", Toast.LENGTH_LONG).show();
             return;
         }

@@ -3,7 +3,7 @@
     package="com.gls.orderzapp">
 
     <permission
-        android:name="com.google.android.gcm.demo.app.permission.C2D_MESSAGE"
+        android:name="com.gls.orderzapp.permission.C2D_MESSAGE"
         android:protectionLevel="signature" />
     <!-- <uses-permission android:name="com.google.android.gcm.demo.app.permission.C2D_MESSAGE" /> -->
 
