@@ -1,12 +1,17 @@
 package com.gls.orderzapp.MainApp;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.gls.orderzapp.Provider.Beans.BranchInfo;
 import com.gls.orderzapp.Provider.Beans.ProviderBean;
@@ -30,6 +35,7 @@ public class ProviderDetailsActivity extends Activity {
     TextView textProviderName, textProviderDescription, provider_cont_info, provider_cont_info_address;
     com.nostra13.universalimageloader.core.ImageLoader imageLoader;
     DisplayImageOptions options;
+    LinearLayout ll_contact_support;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,11 +95,30 @@ public class ProviderDetailsActivity extends Activity {
             textProviderDescription.setText(provider.getProviderbrandname());
         }
         if (branchinfo.getContact_supports() != null && !branchinfo.getContact_supports().isEmpty()) {
-            String cont_no = "";
+//            String cont_no = "";
+            Log.d("size", branchinfo.getContact_supports().size()+"");
             for (int i = 0; i < branchinfo.getContact_supports().size(); i++) {
-                cont_no = cont_no.concat(branchinfo.getContact_supports().get(i) + ",");
+                final TextView number = new TextView(getApplicationContext());
+                number.setTextColor(Color.parseColor("#00ffff"));
+                if(i == branchinfo.getContact_supports().size()-1) {
+                    number.setText(branchinfo.getContact_supports().get(i));
+                }else{
+                    number.setText(branchinfo.getContact_supports().get(i)+", ");
+                }
+                number.setId(i+100);
+                ll_contact_support.addView(number, i+1);
+
+                number.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent callIntent = new Intent(Intent.ACTION_CALL);
+                        callIntent.setData(Uri.parse("tel:"+branchinfo.getContact_supports().get(view.getId()-100).replaceAll(",","")));
+                        startActivity(callIntent);
+//                        Toast.makeText(getApplicationContext(), branchinfo.getContact_supports().get(view.getId()-100).replaceAll(",",""), Toast.LENGTH_LONG).show();
+                    }
+                });
             }
-            provider_cont_info.setText(cont_no);
+//            provider_cont_info.setText(cont_no);
         }
         else{provider_cont_info.setText("91-20-67211800");}
         if (branchinfo.getLocation() != null) {
@@ -114,6 +139,7 @@ public class ProviderDetailsActivity extends Activity {
         textProviderDescription = (TextView) findViewById(R.id.provider_description);
         provider_cont_info = (TextView) findViewById(R.id.provider_cont_info);
         provider_cont_info_address = (TextView) findViewById(R.id.provider_cont_info_address);
+        ll_contact_support = (LinearLayout) findViewById(R.id.ll_contact_support);
 
     }
 }
