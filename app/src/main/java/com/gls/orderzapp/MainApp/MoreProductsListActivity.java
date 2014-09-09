@@ -257,7 +257,8 @@ public class MoreProductsListActivity extends Activity implements View.OnClickLi
 
                             lastProductId = providerSuccessResponse.getSuccess().getProvider().get(0).getProducts().get(providerSuccessResponse.getSuccess().getProvider().get(0).getProducts().size() - 1).getProductid();
                             Toast.makeText(getApplicationContext(), providerSuccessResponse.getSuccess().getMessage(), Toast.LENGTH_LONG).show();
-                            productDetailsList.addAll(0, providerSuccessResponse.getSuccess().getProvider().get(0).getProducts());
+                            productDetailsList.addAll(providerSuccessResponse.getSuccess().getProvider().get(0).getProducts());
+
                             gridAdapterProduct = new GridAdapterProduct(context, productDetailsList, providerSuccessResponse.getSuccess().getProvider().get(0).getBranch(), providerDetails);
                             gridView.setAdapter(gridAdapterProduct);
                         } else {

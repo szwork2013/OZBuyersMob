@@ -4,6 +4,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Typeface;
+import android.text.Spannable;
+import android.text.Spanned;
+import android.text.style.StrikethroughSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -63,7 +66,6 @@ public class GridAdapterProviderCategories extends BaseAdapter {
                 .cacheInMemory()
                 .cacheOnDisc()
                 .build();
-
     }
 
     @Override
@@ -98,6 +100,7 @@ public class GridAdapterProviderCategories extends BaseAdapter {
             TextView textPrice = (TextView) convertView.findViewById(R.id.text_price);
             TextView textRupees = (TextView) convertView.findViewById(R.id.text_rupees);
             TextView text_discount = (TextView) convertView.findViewById(R.id.txt_discount_onimage);
+            TextView original_price = (TextView) convertView.findViewById(R.id.original_price);
             LinearLayout linear_layout_dicsount = (LinearLayout) convertView.findViewById(R.id.linear_layout_dicsount);
 
             String imagelogo = new Gson().toJson(productDetailsList.get(position));
@@ -117,9 +120,26 @@ public class GridAdapterProviderCategories extends BaseAdapter {
                     nonVegImage.setVisibility(View.VISIBLE);
                 }
             }
-            if (productDetailsList.get(position).getDiscount() != null && !productDetailsList.get(position).getDiscount().getCode().equalsIgnoreCase("none")) {
+            try {
+                Log.d("productid", productDetailsList.get(position).getProductid());
+                if (productDetailsList.get(position).getProductid().equals("3he63hc4zgu")) {
+                    Log.d("discount on test", new Gson().toJson(productDetailsList.get(position).getDiscount()));
+                }
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+            if (productDetailsList.get(position).getDiscount() != null && productDetailsList.get(position).getDiscount().getCode() != null && !productDetailsList.get(position).getDiscount().getCode().equalsIgnoreCase("none")) {
                 linear_layout_dicsount.setVisibility(View.VISIBLE);
                 text_discount.setText(productDetailsList.get(position).getDiscount().getPercent() + "");
+                StrikethroughSpan STRIKE_THROUGH_SPAN = new StrikethroughSpan();
+                original_price.setText(String.format("%.2f", productDetailsList.get(position).getPrice().getValue()), TextView.BufferType.SPANNABLE);
+//                original_price.setText(String.format("%.2f", 1000.00, TextView.BufferType.SPANNABLE));
+                Spannable spannable = (Spannable) original_price.getText();
+                spannable.setSpan(STRIKE_THROUGH_SPAN, 0, String.format("%.2f", productDetailsList.get(position).getPrice().getValue()).length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+//                spannable.setSpan(STRIKE_THROUGH_SPAN, 0, String.format("%.2f", 1000.00).length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+            }else{
+                linear_layout_dicsount.setVisibility(View.GONE);
             }
             if (imagelogo != null && imagelogo.contains("productlogo")) {
                 if (productDetailsList.get(position).getProductlogo().getImage().equals("more_image_to_load_more")) {
@@ -162,14 +182,24 @@ public class GridAdapterProviderCategories extends BaseAdapter {
                     if (productDetailsList.get(position).getProductname() != null) {
                         textProductName.setText(productDetailsList.get(position).getProductname());
                     }
-                    textPrice.setText(String.format("%.2f", productDetailsList.get(position).getPrice().getValue()));
-//                    textRupees.setText(productDetailsList.get(position).getPrice().getCurrency()+"");
+                    if (productDetailsList.get(position).getDiscount() != null && !productDetailsList.get(position).getDiscount().getCode().equalsIgnoreCase("none")) {
+                        textPrice.setText(String.format("%.2f", (productDetailsList.get(position).getPrice().getValue() * (100 - productDetailsList.get(position).getDiscount().getPercent()))/100));
+
+                    }else {
+                        textPrice.setText(String.format("%.2f", productDetailsList.get(position).getPrice().getValue()));
+                    }
                 }
             } else {
                 if (productDetailsList.get(position).getProductname() != null) {
                     textProductName.setText(productDetailsList.get(position).getProductname());
                 }
-                textPrice.setText(String.format("%.2f", productDetailsList.get(position).getPrice().getValue()));
+                if (productDetailsList.get(position).getDiscount() != null && !productDetailsList.get(position).getDiscount().getCode().equalsIgnoreCase("none")) {
+                    textPrice.setText(String.format("%.2f", (productDetailsList.get(position).getPrice().getValue() * (100 - productDetailsList.get(position).getDiscount().getPercent()))/100));
+
+                }else {
+                    textPrice.setText(String.format("%.2f", productDetailsList.get(position).getPrice().getValue()));
+                }
+
             }
 
             convertView.setOnClickListener(new View.OnClickListener() {

@@ -49,7 +49,9 @@ public class CityAreaListAdapter extends BaseAdapter {
         }
         TextView name = (TextView) convertView.findViewById(R.id.name);
 
-        name.setText(list.get(position));
+        if(list.get(position) != null || !list.get(position).isEmpty() || list.get(position).length() >= 1) {
+            name.setText(Character.toUpperCase(list.get(position).charAt(0)) + list.get(position).substring(1));
+        }
         return convertView;
     }
 }

@@ -416,15 +416,6 @@ public class Cart {
         double deliveryCharges = 0.0;
         try {
             for (int i = 0; i < succesResponseForDeliveryChargesAndType.getSuccess().getDeliverycharge().size(); i++) {
-//                Log.d("ddddddddddType", DisplayDeliveryChargesAndType.deliveryType.get(i).split("_")[1]);
-//                if (DisplayDeliveryChargesAndType.deliveryType.get(i).split("_")[1].equalsIgnoreCase("home")) {
-//                    Log.d("hhhhhhhhhhome", deliveryCharges+"");
-//                    deliveryCharges = deliveryCharges + succesResponseForDeliveryChargesAndType.getSuccess().getDeliverycharge().get(i).getCharge();
-//                } else {
-//                    Log.d("pppppppppppickup", deliveryCharges+"");
-//                    deliveryCharges = deliveryCharges + 0.0;
-//                }
-
                 for (int j = 0; j < DisplayDeliveryChargesAndType.deliveryType.size(); j++) {
                     if (DisplayDeliveryChargesAndType.deliveryType.get(j).split("_")[0].equals(succesResponseForDeliveryChargesAndType.getSuccess().getDeliverycharge().get(i).getBranchid())) {
                         if (DisplayDeliveryChargesAndType.deliveryType.get(j).split("_")[1].equalsIgnoreCase("home")) {

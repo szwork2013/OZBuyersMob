@@ -12,16 +12,25 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.gls.orderzapp.CountryCode.CountryCode;
+import com.gls.orderzapp.CountryCode.CountryCodeAdapter;
+import com.gls.orderzapp.CountryCode.SuccessResponseForCountryCode;
 import com.gls.orderzapp.R;
 import com.gls.orderzapp.SignIn.SignInPostData;
+import com.gls.orderzapp.User.SuccessResponseOfUser;
 import com.gls.orderzapp.Utility.CheckConnection;
 import com.gls.orderzapp.Utility.GoogleAnalyticsUtility;
 import com.gls.orderzapp.Utility.ServerConnection;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GooglePlayServicesUtil;
+import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -37,8 +46,13 @@ public class SignInActivity extends Activity {
     EditText mobileNumberEditText, passwordEditText;
     Button signInButton;
     Context context;
+    String regid = "";
+    String SENDER_ID = "13920985466";
+    GoogleCloudMessaging gcm;
     SignInPostData signInPostData;
     boolean backPresed = false;
+    Spinner countryCodeSpinner;
+    String countryCode = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +64,18 @@ public class SignInActivity extends Activity {
         setContentView(R.layout.sign_in);
 
         findViewsById();
+        new CountryCodeAsync().execute();
+        countryCodeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+               countryCode = ((CountryCode)adapterView.getItemAtPosition(i)).getCode();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
     }
 
     @Override
@@ -61,6 +87,38 @@ public class SignInActivity extends Activity {
 
     }
 
+    private boolean checkPlayServices() {
+        int resultCode = GooglePlayServicesUtil.isGooglePlayServicesAvailable(this);
+        if (resultCode != ConnectionResult.SUCCESS) {
+            if (GooglePlayServicesUtil.isUserRecoverableError(resultCode)) {
+//                GooglePlayServicesUtil.getErrorDialog(resultCode, this,
+//                        PLAY_SERVICES_RESOLUTION_REQUEST).show();
+                return true;
+            } else {
+                Toast.makeText(context, "Device is not supported", Toast.LENGTH_LONG).show();
+                finish();
+            }
+            return false;
+        }
+        return true;
+    }
+
+    public void storeRegistrationId(Context context, String regId) {
+
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
+        SharedPreferences.Editor edit = sp.edit();
+        edit.putString("REG_ID", regId);
+        edit.commit();
+
+    }
+
+    public String getRegistrationId() {
+
+        SharedPreferences spLoad = PreferenceManager.getDefaultSharedPreferences(context);
+        String regId = spLoad.getString("REG_ID", "");
+        return regId;
+
+    }
     @Override
     protected void onStop() {
         super.onStop();
@@ -84,8 +142,8 @@ public class SignInActivity extends Activity {
         passwordEditText = (EditText) findViewById(R.id.passwordEditText);
         signInButton = (Button) findViewById(R.id.buttonSignIn);
         forgotPasswordText = (TextView) findViewById(R.id.textForgotPassword);
+        countryCodeSpinner = (Spinner) findViewById(R.id.countryCodeSpinner);
 
-//        UtilityClassForLanguagePreferance.applyTypeface(UtilityClassForLanguagePreferance.getParentView(mobileNumberEditText), UtilityClassForLanguagePreferance.getTypeFace(getApplicationContext()));
     }
 
     public void forgotPassword(View view) {
@@ -97,10 +155,6 @@ public class SignInActivity extends Activity {
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.signin_menu, menu);
         View view = (View) menu.findItem(R.id.signup).getActionView();
-
-        // to get child view - example:
-        //ImageView image  = (ImageView)view.findViewById(R.id.my_item);
-        //image.setOnClickListener....
 
         view.setOnClickListener(new View.OnClickListener() {
 
@@ -137,9 +191,13 @@ public class SignInActivity extends Activity {
             Toast.makeText(context, "Enter password", Toast.LENGTH_LONG).show();
             return;
         }
-        setPostSignInParameters();
 
-        new SignInAsync().execute();
+
+        if (checkPlayServices()) {
+            setPostSignInParameters();
+            new SignInAsync().execute();
+        }
+
     }
 
     public String postSignIn() {
@@ -159,11 +217,22 @@ public class SignInActivity extends Activity {
     public void setPostSignInParameters() {
 
         signInPostData = new SignInPostData();
-        signInPostData.setMobileno("91" + mobileNumberEditText.getText().toString().trim());
+        signInPostData.setMobileno(countryCode + mobileNumberEditText.getText().toString().trim());
         signInPostData.setPassword(passwordEditText.getText().toString().trim());
 
     }
 
+    public String loadCountryCodePreference() throws Exception{
+        String countryCode = "";
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        if(sp.getString("USER_DATA","").isEmpty()){
+            countryCode = "91";
+        }else {
+            SuccessResponseOfUser successResponseOfUser = new Gson().fromJson(sp.getString("USER_DATA", ""), SuccessResponseOfUser.class);
+            countryCode = successResponseOfUser.getSuccess().getUser().getCountrycode();
+        }
+        return countryCode;
+    }
 
     class SignInAsync extends AsyncTask<String, Integer, String> {
         JSONObject jObj;
@@ -181,6 +250,26 @@ public class SignInActivity extends Activity {
             try {
                 if (new CheckConnection(context).isConnectingToInternet()) {
                     connectedOrNot = "success";
+
+                    regid = getRegistrationId();
+                    if (regid.isEmpty()) {
+                        if (gcm == null) {
+                            try {
+                                gcm = GoogleCloudMessaging.getInstance(context);
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        }
+                        try {
+                            regid = gcm.register(SENDER_ID);
+                            Log.d("gcmid", regid);
+                            System.out.print(regid);
+                            storeRegistrationId(context, regid);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+
                     resultSignIn = postSignIn();
                     if (!resultSignIn.isEmpty()) {
                         jObj = new JSONObject(resultSignIn);
@@ -220,7 +309,6 @@ public class SignInActivity extends Activity {
                             if (jObj.has("success")) {
                                 Toast.makeText(context, msg, Toast.LENGTH_LONG).show();
                                 islogedin = true;
-//                                SignInActivity.this.finish();
                                 backPresed = false;
 
                                 Intent returnIntent = new Intent();
@@ -245,6 +333,70 @@ public class SignInActivity extends Activity {
                     e.printStackTrace();
                 }
             } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public String getCountryCodeList() throws Exception{
+        String resultGetCountryCode = "";
+        resultGetCountryCode = ServerConnection.executeGet(getApplicationContext(), "/api/countrycode");
+
+        Log.d("response of resultGetCountryCode",resultGetCountryCode);
+        return resultGetCountryCode;
+    }
+
+    class CountryCodeAsync extends AsyncTask<String,Integer,String>{
+        String resultGetCountryCode, msg, code, connectedOrNot;
+        JSONObject jObj;
+        SuccessResponseForCountryCode successResponseForCountryCode;
+        @Override
+        protected String doInBackground(String... strings) {
+            try {
+                if(new CheckConnection(getApplicationContext()).isConnectingToInternet()) {
+                    connectedOrNot = "success";
+                    resultGetCountryCode = getCountryCodeList();
+                    if(!resultGetCountryCode.isEmpty()){
+                       jObj = new JSONObject(resultGetCountryCode);
+                        if(jObj.has("success")){
+                           successResponseForCountryCode = new Gson().fromJson(resultGetCountryCode, SuccessResponseForCountryCode.class);
+                        }else{
+                            JSONObject jObjError = jObj.getJSONObject("error");
+                            msg = jObjError.getString("message");
+                            code = jObjError.getString("code");
+                        }
+                    }
+                }else{
+                    connectedOrNot = "error";
+                }
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+            return connectedOrNot;
+        }
+
+        @Override
+        protected void onPostExecute(String connectedOrNot) {
+            try {
+                if (connectedOrNot.equalsIgnoreCase("success")) {
+                    if(!resultGetCountryCode.isEmpty()){
+                        if(jObj.has("success")){
+                            CountryCodeAdapter objCountryCodeAdapter = new CountryCodeAdapter(getApplicationContext(), 0 ,successResponseForCountryCode.getSuccess().getCountrycode());
+                            countryCodeSpinner.setAdapter(objCountryCodeAdapter);
+                            for(int i = 0 ; i < successResponseForCountryCode.getSuccess().getCountrycode().size() ; i++) {
+                                if(loadCountryCodePreference().equals(successResponseForCountryCode.getSuccess().getCountrycode().get(i).getCode()))
+                                countryCodeSpinner.setSelection(i);
+                            }
+                        }else{
+                            Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_LONG).show();
+                        }
+                    }else{
+                        Toast.makeText(getApplicationContext(), "Server is not responding please try again later", Toast.LENGTH_LONG).show();
+                    }
+                } else {
+                    Toast.makeText(getApplicationContext(), "Please check your internet connection", Toast.LENGTH_LONG).show();
+                }
+            }catch (Exception e){
                 e.printStackTrace();
             }
         }

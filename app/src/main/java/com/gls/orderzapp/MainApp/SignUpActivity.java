@@ -17,6 +17,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.gls.orderzapp.Cart.Adapters.CityAreaListAdapter;
@@ -53,9 +54,14 @@ public class SignUpActivity extends ActionBarActivity {
     Context context;
     AutoCompleteTextView auto_area, pincodeEditText;
     EditText mobileNoEditText, passwordEditText, usernameEditText, address1EditText, address2EditText, cityEditText, areaEditText,
-            countryCodeEditText, countryEditText, stateEditText, emailEditText, firstnameEditText;
+             countryEditText, stateEditText, emailEditText, firstnameEditText, edit_state, edit_city;
     Button signUpButton;
+
     //    String SENDER_ID = "926441694335";
+
+    TextView state_textview, city_textview;
+    View country_view, state_view, city_view;
+
     String SENDER_ID = "13920985466";
     SignUpDataInUserObject signUpData;
     SendSignUpData sendSignUpData;
@@ -89,7 +95,34 @@ public class SignUpActivity extends ActionBarActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 country = parent.getItemAtPosition(position) + "";
-                new GetStatesListAsync().execute();
+                if(country.equalsIgnoreCase("india")) {
+                    edit_city.setVisibility(View.GONE);
+                    edit_state.setVisibility(View.GONE);
+                    state_spinner.setVisibility(View.VISIBLE);
+                    city_spinner.setVisibility(View.VISIBLE);
+                    state_textview.setVisibility(View.VISIBLE);
+                    state_view.setVisibility(View.VISIBLE);
+                    city_textview.setVisibility(View.VISIBLE);
+                    city_view.setVisibility(View.VISIBLE);
+                    new GetStatesListAsync().execute();
+                }else{
+                    areaList.clear();
+                    zipcodeList.clear();
+                    edit_city.setVisibility(View.VISIBLE);
+                    edit_state.setVisibility(View.VISIBLE);
+                    state_spinner.setVisibility(View.GONE);
+                    city_spinner.setVisibility(View.GONE);
+                    state_textview.setVisibility(View.GONE);
+                    state_view.setVisibility(View.GONE);
+                    city_textview.setVisibility(View.GONE);
+                    city_view.setVisibility(View.GONE);
+                    adapter = new ArrayAdapter<String>(getApplicationContext(), R.layout.area, areaList);
+                    adapter.notifyDataSetChanged();
+                    auto_area.setAdapter(adapter);
+                    zipcodeAdapter = new ArrayAdapter<String>(getApplicationContext(), R.layout.area, zipcodeList);
+                    pincodeEditText.setAdapter(zipcodeAdapter);
+
+                }
             }
 
             @Override
@@ -98,12 +131,13 @@ public class SignUpActivity extends ActionBarActivity {
             }
         });
 
-
         state_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 state = parent.getItemAtPosition(position) + "";
-                new GetCityListAsync().execute();
+//                if(country.equalsIgnoreCase("india")) {
+                    new GetCityListAsync().execute();
+//                }
             }
 
             @Override
@@ -119,8 +153,10 @@ public class SignUpActivity extends ActionBarActivity {
                 Log.d("cityy", city);
                 areaList.clear();
                 zipcodeList.clear();
-                new GetZipCodeListAsync().execute();
-                new GetAreaListAsync().execute();
+//                if(country.equalsIgnoreCase("india")) {
+                    new GetZipCodeListAsync().execute();
+                    new GetAreaListAsync().execute();
+//                }
             }
 
             @Override
@@ -128,13 +164,9 @@ public class SignUpActivity extends ActionBarActivity {
 
             }
         });
-        adapter = new ArrayAdapter<String>(getApplicationContext(), R.layout.area, areaList);
-        adapter.notifyDataSetChanged();
-        auto_area.setAdapter(adapter);
 
 
-        zipcodeAdapter = new ArrayAdapter<String>(getApplicationContext(), R.layout.area, zipcodeList);
-        pincodeEditText.setAdapter(zipcodeAdapter);
+
 
         listOfZipCode.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -155,8 +187,6 @@ public class SignUpActivity extends ActionBarActivity {
                 storeZipCode();
             }
         });
-
-
     }
 
     @Override
@@ -186,7 +216,6 @@ public class SignUpActivity extends ActionBarActivity {
         pincodeEditText = (AutoCompleteTextView) findViewById(R.id.edtTextPincode);
         emailEditText = (EditText) findViewById(R.id.editTextEmail);
         signUpButton = (Button) findViewById(R.id.buttonSignUp);
-        countryCodeEditText = (EditText) findViewById(R.id.editTextCountryCode);
         countryEditText = (EditText) findViewById(R.id.editTextCountry);
         stateEditText = (EditText) findViewById(R.id.editTextState);
         auto_area = (AutoCompleteTextView) findViewById(R.id.auto_area);
@@ -196,8 +225,13 @@ public class SignUpActivity extends ActionBarActivity {
         city_spinner = (Spinner) findViewById(R.id.city_spinner);
         listOfAreas = (ListView) findViewById(R.id.listOfAreas);
         listOfZipCode = (ListView) findViewById(R.id.listOfZipCode);
-
-//        UtilityClassForLanguagePreferance.applyTypeface(UtilityClassForLanguagePreferance.getParentView(passwordEditText), UtilityClassForLanguagePreferance.getTypeFace(context));
+        edit_state = (EditText) findViewById(R.id.edit_state);
+        edit_city = (EditText) findViewById(R.id.edit_city);
+        country_view = findViewById(R.id.country_view);
+        state_textview = (TextView) findViewById(R.id.state_textview);
+        state_view = findViewById(R.id.state_view);
+        city_textview = (TextView) findViewById(R.id.city_textview);
+        city_view = findViewById(R.id.city_view);
     }
 
     private boolean checkPlayServices() {
@@ -217,24 +251,20 @@ public class SignUpActivity extends ActionBarActivity {
     }
 
     public void storeRegistrationId(Context context, String regId) {
-
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
         SharedPreferences.Editor edit = sp.edit();
         edit.putString("REG_ID", regId);
         edit.commit();
-
     }
 
     public String getRegistrationId() {
-
         SharedPreferences spLoad = PreferenceManager.getDefaultSharedPreferences(context);
         String regId = spLoad.getString("REG_ID", "");
         return regId;
-
     }
 
     public void signUp(View view) {
-        if (mobileNoEditText.getText().toString().trim().length() < 10) {
+        if (mobileNoEditText.getText().toString().trim().length() < 10 && mobileNoEditText.getText().toString().trim().replaceAll(" ", "").length() < 10) {
             Toast.makeText(getApplicationContext(), "Please enter a correct mobile number", Toast.LENGTH_LONG).show();
             return;
         }
@@ -269,14 +299,16 @@ public class SignUpActivity extends ActionBarActivity {
         }
         if (auto_area.getText().toString().trim().length() > 0) {
             int j = 0;
-            for (int i = 0; i < areaList.size(); i++) {
-                if (auto_area.getText().toString().trim().equalsIgnoreCase(areaList.get(i).toString())) {
-                    j++;
+            if(country.equalsIgnoreCase("india")) {
+                for (int i = 0; i < areaList.size(); i++) {
+                    if (auto_area.getText().toString().trim().equalsIgnoreCase(areaList.get(i).toString())) {
+                        j++;
+                    }
                 }
-            }
-            if (j == 0) {
-                Toast.makeText(getApplicationContext(), "Please enter correct area ", Toast.LENGTH_LONG).show();
-                return;
+                if (j == 0) {
+                    Toast.makeText(getApplicationContext(), "Please enter correct area ", Toast.LENGTH_LONG).show();
+                    return;
+                }
             }
         }
 
@@ -286,17 +318,31 @@ public class SignUpActivity extends ActionBarActivity {
         }
         if (pincodeEditText.getText().toString().trim().length() > 0) {
             int j = 0;
-            for (int i = 0; i < zipcodeList.size(); i++) {
-                if (pincodeEditText.getText().toString().trim().equalsIgnoreCase(zipcodeList.get(i).toString())) {
-                    j++;
+            if(country.equalsIgnoreCase("india")) {
+                for (int i = 0; i < zipcodeList.size(); i++) {
+                    if (pincodeEditText.getText().toString().trim().equalsIgnoreCase(zipcodeList.get(i).toString())) {
+                        j++;
+                    }
                 }
-            }
-            if (j == 0) {
-                Toast.makeText(getApplicationContext(), "Please enter correct PinCode ", Toast.LENGTH_LONG).show();
-                return;
+                if (j == 0) {
+                    Toast.makeText(getApplicationContext(), "Please enter correct PinCode ", Toast.LENGTH_LONG).show();
+                    return;
+                }
             }
         }
 
+        if(!country.equalsIgnoreCase("india")){
+            if(edit_state.getText().toString().trim().length() == 0) {
+                Toast.makeText(getApplicationContext(), "Please enter state", Toast.LENGTH_LONG).show();
+                return;
+            }
+            if(edit_city.getText().toString().trim().length() == 0){
+                Toast.makeText(getApplicationContext(), "Please enter city", Toast.LENGTH_LONG).show();
+                return;
+            }
+            state = edit_state.getText().toString().trim();
+            city = edit_city.getText().toString().trim();
+        }
         if (checkPlayServices()) {
 
             new RegisterToGcmInBackground(context).execute();
@@ -323,8 +369,7 @@ public class SignUpActivity extends ActionBarActivity {
         signUpData = new SignUpDataInUserObject();
         sendSignUpData = new SendSignUpData();
         sendSignUpData.setUsertype("individual");
-//        sendSignUpData.setMobileno(mobileNoEditText.getText().toString().trim());
-        sendSignUpData.setMobileno(countryCodeEditText.getText().toString().trim() + mobileNoEditText.getText().toString().trim());
+        sendSignUpData.setMobileno( mobileNoEditText.getText().toString().trim());
         sendSignUpData.setPassword(passwordEditText.getText().toString().trim());
         sendSignUpData.setUsername(usernameEditText.getText().toString().trim());
         sendSignUpData.setFirstname(firstnameEditText.getText().toString().trim());
@@ -333,11 +378,6 @@ public class SignUpActivity extends ActionBarActivity {
         sendSignUpData.getLocation().setAddress1(address1EditText.getText().toString().trim());
         sendSignUpData.getLocation().setAddress2(address2EditText.getText().toString().trim());
         sendSignUpData.getLocation().setZipcode(pincodeEditText.getText().toString().trim());
-//        sendSignUpData.getLocation().setCity(cityEditText.getText().toString().trim());
-//        sendSignUpData.getLocation().setArea(areaEditText.getText().toString().trim());
-//        sendSignUpData.getLocation().setCountry(countryEditText.getText().toString().trim());
-//        sendSignUpData.getLocation().setState(stateEditText.getText().toString().trim());
-
         sendSignUpData.getLocation().setCity(city);
         sendSignUpData.getLocation().setArea(auto_area.getText().toString().trim());
         sendSignUpData.getLocation().setCountry(country);
@@ -405,7 +445,7 @@ public class SignUpActivity extends ActionBarActivity {
 
     public String getCountryList() throws Exception {
         String resultGetCountryList = "";
-        resultGetCountryList = ServerConnection.executeGet(getApplicationContext(), "/api/location?key=country&value=country");
+        resultGetCountryList = ServerConnection.executeGet(getApplicationContext(), "/api/country");
         return resultGetCountryList;
     }
 
@@ -467,6 +507,8 @@ public class SignUpActivity extends ActionBarActivity {
                         }
                         try {
                             regid = gcm.register(SENDER_ID);
+                            Log.d("gcmid", regid);
+                            System.out.print(regid);
                             storeRegistrationId(context, regid);
                         } catch (Exception e) {
                             e.printStackTrace();
@@ -546,7 +588,6 @@ public class SignUpActivity extends ActionBarActivity {
                         jObj = new JSONObject(resultGetCountry);
                         if (jObj.has("success")) {
                             successResponseForCountryList = new Gson().fromJson(resultGetCountry, SuccessResponseForCountryList.class);
-//                            listCountry.addAll(successResponseForCountryList.getSuccess().getCountry());
                         } else {
                             JSONObject jObjError = jObj.getJSONObject("error");
                             msg = jObjError.getString("message");
@@ -602,13 +643,9 @@ public class SignUpActivity extends ActionBarActivity {
                     connectedOrNot = "success";
                     resultGetStates = getStatesList();
                     if (!resultGetStates.isEmpty()) {
-                        Log.d("resultGetCountry", resultGetStates);
                         jObj = new JSONObject(resultGetStates);
                         if (jObj.has("success")) {
-//                            listState.clear();
-
                             successResponseForStatesList = new Gson().fromJson(resultGetStates, SuccessResponseForStatesList.class);
-//                            listState.addAll(successResponseForStatesList.getSuccess().getStates());
                         } else {
                             JSONObject jObjError = jObj.getJSONObject("error");
                             msg = jObjError.getString("message");
@@ -714,8 +751,7 @@ public class SignUpActivity extends ActionBarActivity {
         @Override
         protected void onPreExecute() {
             progressDialog = ProgressDialog.show(SignUpActivity.this, "", "");
-            areaList.clear();
-            Log.d("AreaList", "clear");
+
         }
 
         @Override
@@ -725,14 +761,13 @@ public class SignUpActivity extends ActionBarActivity {
                     connectedOrNot = "success";
                     resultGetArea = getAreaList();
                     if (!resultGetArea.isEmpty()) {
-                        Log.d("getArea", resultGetArea);
                         jObj = new JSONObject(resultGetArea);
                         if (jObj.has("success")) {
                             areaList.clear();
                             successResponseForAreaList = new Gson().fromJson(resultGetArea, SuccessResponseForAreaList.class);
                             areaList.addAll(successResponseForAreaList.getSuccess().getArea());
+                            Log.d("arealist", new Gson().toJson(areaList));
                             Collections.sort(areaList, new CustomComparator());
-//                            listOfAreas.addAll(successResponseForAreaList.getSuccess().getArea());
                         } else {
                             JSONObject jObjError = jObj.getJSONObject("error");
                             msg = jObjError.getString("message");
@@ -752,6 +787,9 @@ public class SignUpActivity extends ActionBarActivity {
                 if (connectedOrNot.equalsIgnoreCase("success")) {
                     if (!resultGetArea.isEmpty()) {
                         if (jObj.has("success")) {
+                            adapter = new ArrayAdapter<String>(getApplicationContext(), R.layout.area, areaList);
+                            adapter.notifyDataSetChanged();
+                            auto_area.setAdapter(adapter);
                         } else {
                             Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_LONG).show();
                         }
@@ -817,6 +855,9 @@ public class SignUpActivity extends ActionBarActivity {
                 if (connectedOrNot.equalsIgnoreCase("success")) {
                     if (!resultZipCode.isEmpty()) {
                         if (jObj.has("success")) {
+                            zipcodeAdapter = new ArrayAdapter<String>(getApplicationContext(), R.layout.area, zipcodeList);
+                            pincodeEditText.setAdapter(zipcodeAdapter);
+
                         } else {
                             Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_LONG).show();
                         }

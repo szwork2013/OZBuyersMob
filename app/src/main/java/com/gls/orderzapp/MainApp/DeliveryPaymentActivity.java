@@ -65,6 +65,7 @@ public class DeliveryPaymentActivity extends Activity {
     ProductDetails[] checkForPaymentModeValues;
     List<ProductDetails> checkForPaymentModeList;
     Boolean cashOnDelivery = true;
+    SuccessResponseOfUser successResponseOfUser;
 
     public static void selectDeliveryType() {
         new DeliveryChargesAndTypeAdapter(context);
@@ -77,6 +78,7 @@ public class DeliveryPaymentActivity extends Activity {
             setDeliveryAddress(loadPreferencesUserDataForDeliveryAddress());
             setBillingAddress(loadPreferencesUserDataForBillingAddress());
             selectDeliveryType();
+            setPaymentMode();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -103,11 +105,32 @@ public class DeliveryPaymentActivity extends Activity {
 
     }
 
+    public void setPaymentMode(){
+        successResponseOfUser = new Gson().fromJson(loadPreferencesUser(), SuccessResponseOfUser.class);
+
+        if(!successResponseOfUser.getSuccess().getUser().getCountrycode().equals("91")){
+            cash_on_delivery.setVisibility(View.GONE);
+        }else{
+            cash_on_delivery.setVisibility(View.VISIBLE);
+        }
+    }
+
     @Override
     protected void onStart() {
         super.onStart();
         //Get an Analytics tracker to report app starts & uncaught exceptions etc.
         com.google.android.gms.analytics.GoogleAnalytics.getInstance(this).reportActivityStart(this);
+    }
+
+    public String loadPreferencesUser() {
+        String user = "";
+        try {
+            SharedPreferences spLoad = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+            user = spLoad.getString("USER_DATA", null);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return user;
     }
 
     @Override
@@ -137,7 +160,6 @@ public class DeliveryPaymentActivity extends Activity {
                 }
             }
         }
-
     }
 
     public void selectPaymentMode() {
@@ -247,9 +269,7 @@ public class DeliveryPaymentActivity extends Activity {
                 Log.d("current date", new Gson().toJson(TodaysDate));
                 if (selectedDate.before(TodaysDate)) {
                     Toast.makeText(getApplicationContext(), "Please select a valid date and time", Toast.LENGTH_LONG).show();
-
                 } else {
-
                     updateTime(yy, mm, dd, hh, min);
                 }
             }

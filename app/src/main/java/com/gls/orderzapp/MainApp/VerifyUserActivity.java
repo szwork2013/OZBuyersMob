@@ -39,7 +39,6 @@ public class VerifyUserActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         context = VerifyUserActivity.this;
         ((GoogleAnalyticsUtility) getApplication()).getTracker(GoogleAnalyticsUtility.TrackerName.APP_TRACKER);
-//        UtilityClassForLanguagePreferance.setLocale(getApplicationContext());
         setContentView(R.layout.verify_user_activity);
         findViewsById();
     }
@@ -104,7 +103,7 @@ public class VerifyUserActivity extends ActionBarActivity {
 
         @Override
         protected void onPreExecute() {
-//            pd = ProgressDialog.show(VerifyUserActivity.this, "", "");
+            pd = ProgressDialog.show(VerifyUserActivity.this, "", "");
         }
 
         @Override
@@ -144,7 +143,7 @@ public class VerifyUserActivity extends ActionBarActivity {
         @Override
         protected void onPostExecute(String connectedOrNot) {
             try {
-//                pd.dismiss();
+                pd.dismiss();
                 if (connectedOrNot.equals("success")) {
                     if (!resultVerify.isEmpty()) {
                         if (jObj.has("success")) {
