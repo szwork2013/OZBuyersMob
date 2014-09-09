@@ -68,8 +68,9 @@ public class GcmIntentService extends IntentService {
                 }
                 Log.i("GCMDemo", "Completed work @ " + SystemClock.elapsedRealtime());
                 // Post notification of received message.
-                String msg = "Your order No: " + extras.get("suborderid").toString() + " has " + extras.get("status").toString();
-                sendNotification(msg);
+//                String msg = "Your order No: " + extras.get("suborderid").toString() + " has " + extras.get("status").toString();
+                String msg = intent.getStringExtra("data");
+               sendNotification(msg);
                 Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
                 Ringtone r = RingtoneManager.getRingtone(getApplicationContext(), notification);
                 r.play();

@@ -58,7 +58,6 @@ public class SignUpActivity extends ActionBarActivity {
     Button signUpButton;
     TextView state_textview, city_textview;
     View country_view, state_view, city_view;
-    //    String SENDER_ID = "926441694335";
     String SENDER_ID = "13920985466";
     SignUpDataInUserObject signUpData;
     SendSignUpData sendSignUpData;
@@ -113,11 +112,9 @@ public class SignUpActivity extends ActionBarActivity {
                     state_view.setVisibility(View.GONE);
                     city_textview.setVisibility(View.GONE);
                     city_view.setVisibility(View.GONE);
-
                     adapter = new ArrayAdapter<String>(getApplicationContext(), R.layout.area, areaList);
                     adapter.notifyDataSetChanged();
                     auto_area.setAdapter(adapter);
-
                     zipcodeAdapter = new ArrayAdapter<String>(getApplicationContext(), R.layout.area, zipcodeList);
                     pincodeEditText.setAdapter(zipcodeAdapter);
 
@@ -215,7 +212,6 @@ public class SignUpActivity extends ActionBarActivity {
         pincodeEditText = (AutoCompleteTextView) findViewById(R.id.edtTextPincode);
         emailEditText = (EditText) findViewById(R.id.editTextEmail);
         signUpButton = (Button) findViewById(R.id.buttonSignUp);
-      //  countryCodeEditText = (EditText) findViewById(R.id.editTextCountryCode);
         countryEditText = (EditText) findViewById(R.id.editTextCountry);
         stateEditText = (EditText) findViewById(R.id.editTextState);
         auto_area = (AutoCompleteTextView) findViewById(R.id.auto_area);
@@ -232,8 +228,6 @@ public class SignUpActivity extends ActionBarActivity {
         state_view = findViewById(R.id.state_view);
         city_textview = (TextView) findViewById(R.id.city_textview);
         city_view = findViewById(R.id.city_view);
-
-//        UtilityClassForLanguagePreferance.applyTypeface(UtilityClassForLanguagePreferance.getParentView(passwordEditText), UtilityClassForLanguagePreferance.getTypeFace(context));
     }
 
     private boolean checkPlayServices() {
