@@ -1,4 +1,4 @@
-package com.gls.orderzapp.Provider.Adapters;
+package com.gls.orderzapp.DrawerDetails.Adapter;
 
 import android.app.Activity;
 import android.content.Context;
@@ -11,8 +11,11 @@ import android.widget.BaseExpandableListAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.gls.orderzapp.DrawerDetails.Bean.LevelFourCategoryDoc;
+import com.gls.orderzapp.DrawerDetails.Bean.LevelFourCategoryProvider;
 import com.gls.orderzapp.Provider.Beans.BranchInfo;
 import com.gls.orderzapp.R;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -25,12 +28,12 @@ import java.util.List;
 public class DrawerExpandableListAdapter extends BaseExpandableListAdapter {
 
     private Context _context;
-    private List<String> _listDataHeader; // header titles
+    private List<LevelFourCategoryDoc> _listDataHeader; // header titles
     // child data in format of header title, child title
-    private HashMap<String, List<String>> _listDataChild;
+    private HashMap<String, List<LevelFourCategoryProvider>> _listDataChild;
 
-    public DrawerExpandableListAdapter(Context context, List<String> listDataHeader,
-                                 HashMap<String, List<String>> listChildData) {
+    public DrawerExpandableListAdapter(Context context, List<LevelFourCategoryDoc> listDataHeader,
+                                 HashMap<String, List<LevelFourCategoryProvider>> listChildData) {
         this._context = context;
         this._listDataHeader = listDataHeader;
         this._listDataChild = listChildData;
@@ -38,8 +41,12 @@ public class DrawerExpandableListAdapter extends BaseExpandableListAdapter {
 
     @Override
     public Object getChild(int groupPosition, int childPosititon) {
-        return this._listDataChild.get(this._listDataHeader.get(groupPosition))
-                .get(childPosititon);
+
+        return this._listDataHeader.get(groupPosition).getProvider().get(childPosititon).getProvidername();
+    }
+    public Object getChildID(int groupPosition, int childPosititon) {
+
+        return "provider/"+this._listDataHeader.get(groupPosition).getProvider().get(childPosititon).getProviderid()+"/category/"+this._listDataHeader.get(groupPosition).getCategoryid();
     }
 
     @Override
@@ -52,6 +59,7 @@ public class DrawerExpandableListAdapter extends BaseExpandableListAdapter {
                              boolean isLastChild, View convertView, ViewGroup parent) {
 
         final String childText = (String) getChild(groupPosition, childPosition);
+        final String getcategoryproviderid=(String)getChildID(groupPosition, childPosition);
 
         if (convertView == null) {
             LayoutInflater infalInflater = (LayoutInflater) this._context
@@ -66,7 +74,7 @@ public class DrawerExpandableListAdapter extends BaseExpandableListAdapter {
         txtListChild.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.d("Text press", txtListChild.getText().toString());
+                Log.d("Text press",getcategoryproviderid);
             }
         });
         return convertView;
@@ -74,13 +82,12 @@ public class DrawerExpandableListAdapter extends BaseExpandableListAdapter {
 
     @Override
     public int getChildrenCount(int groupPosition) {
-        return this._listDataChild.get(this._listDataHeader.get(groupPosition))
-                .size();
+        return this._listDataHeader.get(groupPosition).getProvider().size();
     }
 
     @Override
     public Object getGroup(int groupPosition) {
-        return this._listDataHeader.get(groupPosition);
+        return this._listDataHeader.get(groupPosition).getCategoryname();
     }
 
     @Override

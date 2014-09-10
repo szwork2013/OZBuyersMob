@@ -16,18 +16,18 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
-import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.gls.orderzapp.DrawerDetails.Bean.CategorySuccessResponse;
+import com.gls.orderzapp.DrawerDetails.Bean.LevelFourCategoryDoc;
+import com.gls.orderzapp.DrawerDetails.Bean.LevelFourCategoryProvider;
 import com.gls.orderzapp.Provider.Adapters.AdapterForProviderCategories;
-import com.gls.orderzapp.Provider.Adapters.DrawerExpandableListAdapter;
-import com.gls.orderzapp.Provider.Beans.BranchInfo;
+import com.gls.orderzapp.DrawerDetails.Adapter.DrawerExpandableListAdapter;
 import com.gls.orderzapp.Provider.Beans.ProviderSuccessResponse;
 import com.gls.orderzapp.R;
 import com.gls.orderzapp.Utility.Cart;
@@ -61,11 +61,12 @@ public class StartUpActivity extends Activity implements View.OnClickListener {
     ImageView adBanner;
     TextView allCategories;
     ProviderSuccessResponse providerSuccessResponse;
+    CategorySuccessResponse categorySuccessResponse;
     boolean isEditTextVisible = false;
     EditText searchProducts = null;
-    List<String> listDataHeader;
+    List<LevelFourCategoryDoc> listDataHeader;
     List<String> listDataHeaderID;
-    HashMap<String, List<String>> listDataChild;
+    HashMap<String, List<LevelFourCategoryProvider>> listDataChild;
     Context context;
 
     @Override
@@ -89,6 +90,7 @@ public class StartUpActivity extends Activity implements View.OnClickListener {
 
 //Get list of all product and provider
         new GetProviderAndProductListAsync().execute();
+        new GetCategoryListAsync().execute();
         drawerActions();
 
     }
@@ -99,19 +101,22 @@ public class StartUpActivity extends Activity implements View.OnClickListener {
     //*********************
 
     private void prepareDrawerListData() {
-        listDataHeader = new ArrayList<String>();
-        listDataChild = new HashMap<String, List<String>>();
-                                    for(int cat=0;cat<providerSuccessResponse.getSuccess().getProvider().size();cat++){
-                                        listDataHeader.add(providerSuccessResponse.getSuccess().getProvider().get(cat).getBranch().getBranchname());
-                                        listDataHeaderID.add(providerSuccessResponse.getSuccess().getProvider().get(cat).getBranch().getBranchid());
-                            }
-        for(int cont_no=0;cont_no<listDataHeader.size();cont_no++){
-            List<String> temp= new ArrayList<String>();
-            for(int i=0;i<providerSuccessResponse.getSuccess().getProvider().get(cont_no).getBranch().getContact_supports().size();i++){
-            temp.add(providerSuccessResponse.getSuccess().getProvider().get(cont_no).getBranch().getContact_supports().get(i));}
-            listDataChild.put(listDataHeader.get(cont_no), temp);
-        }
 
+        listDataHeader = new ArrayList<LevelFourCategoryDoc>();
+        listDataChild = new HashMap<String, List<LevelFourCategoryProvider>>();
+
+        for(int ci=0;ci<categorySuccessResponse.getSuccess().getDoc().size();ci++)
+        {
+            listDataHeader.add(categorySuccessResponse.getSuccess().getDoc().get(ci));
+        }
+        for(int cont_no=0;cont_no<listDataHeader.size();cont_no++){
+            List<LevelFourCategoryProvider> temp= new ArrayList<LevelFourCategoryProvider>();
+            for(int i=0;i<categorySuccessResponse.getSuccess().getDoc().get(cont_no).getProvider().size();i++)
+            {
+            temp.add(categorySuccessResponse.getSuccess().getDoc().get(cont_no).getProvider().get(i));
+            }
+            listDataChild.put(listDataHeader.get(cont_no).getCategoryid(), temp);
+        }
         mDrawerList.setAdapter(new DrawerExpandableListAdapter(context, listDataHeader, listDataChild));
     }
     public void drawerActions() {
@@ -192,6 +197,79 @@ public class StartUpActivity extends Activity implements View.OnClickListener {
 //				mDrawerList.getWidth());
 
     }
+
+    //    To for API,to get list of  Category,
+    public String getCategoryList() {
+        String resultGetCategoryList = "";
+        try {
+            resultGetCategoryList = ServerConnection.executeGet(getApplicationContext(), "/api/levelfourcategory");
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return resultGetCategoryList;
+    }
+    class GetCategoryListAsync extends AsyncTask<String, Integer, String> {
+        String resultGetCategory, connectedOrNot, msg, code;
+        JSONObject jObj;
+
+        @Override
+        protected void onPreExecute() {
+
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+            try {
+                if (new CheckConnection(getApplicationContext()).isConnectingToInternet()) {
+                    connectedOrNot = "success";
+                        resultGetCategory = getCategoryList();
+                    if (!resultGetCategory.isEmpty()) {
+                        Log.d("search result", resultGetCategory);
+                        jObj = new JSONObject(resultGetCategory);
+                        if (jObj.has("success")) {
+                            categorySuccessResponse = new Gson().fromJson(resultGetCategory, CategorySuccessResponse.class);
+                        } else {
+                            JSONObject jObjError = jObj.getJSONObject("error");
+                            msg = jObjError.getString("message");
+//                            code = jObjError.getString("code");
+                        }
+                    }
+                } else {
+                    connectedOrNot = "error";
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return connectedOrNot;
+        }
+
+        @Override
+        protected void onPostExecute(String connectedOrNot) {
+            try {
+
+                if (connectedOrNot.equals("success")) {
+                    StartUpActivity.linearLayoutCategories.removeAllViews();
+                    if (!resultGetCategory.isEmpty()) {
+                        if (jObj.has("success")) {
+                            Log.d("","DrawerLoad");
+                            prepareDrawerListData();
+                        } else {
+                            Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_LONG).show();
+                        }
+                    } else {
+                        Toast.makeText(getApplicationContext(), "Server is not responding please try again later", Toast.LENGTH_LONG).show();
+                    }
+                } else {
+                    Toast.makeText(getApplicationContext(), "Please check your internet connection", Toast.LENGTH_LONG).show();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+
 
     //*********************
     //********************
@@ -631,9 +709,6 @@ public class StartUpActivity extends Activity implements View.OnClickListener {
                         if (jObj.has("success")) {
                             new AdapterForProviderCategories(context, providerSuccessResponse.getSuccess().getProvider()).setProductCategories();
                             Log.d("","DrawerLoad");
-                            prepareDrawerListData();
-
-
                         } else {
                             Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_LONG).show();
                         }

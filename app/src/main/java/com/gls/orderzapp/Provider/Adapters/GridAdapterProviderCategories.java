@@ -120,14 +120,14 @@ public class GridAdapterProviderCategories extends BaseAdapter {
                     nonVegImage.setVisibility(View.VISIBLE);
                 }
             }
-            try {
-                Log.d("productid", productDetailsList.get(position).getProductid());
-                if (productDetailsList.get(position).getProductid().equals("3he63hc4zgu")) {
-                    Log.d("discount on test", new Gson().toJson(productDetailsList.get(position).getDiscount()));
-                }
-            }catch (Exception e){
-                e.printStackTrace();
-            }
+//            try {
+//                Log.d("productid", productDetailsList.get(position).getProductid());
+//                if (productDetailsList.get(position).getProductid().equals("3he63hc4zgu")) {
+//                    Log.d("discount on test", new Gson().toJson(productDetailsList.get(position).getDiscount()));
+//                }
+//            }catch (Exception e){
+//                e.printStackTrace();
+//            }
             if (productDetailsList.get(position).getDiscount() != null && productDetailsList.get(position).getDiscount().getCode() != null && !productDetailsList.get(position).getDiscount().getCode().equalsIgnoreCase("none")) {
                 linear_layout_dicsount.setVisibility(View.VISIBLE);
                 text_discount.setText(productDetailsList.get(position).getDiscount().getPercent() + "");
