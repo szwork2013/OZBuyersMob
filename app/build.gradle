@@ -62,6 +62,7 @@ dependencies {
     // You must install or update the Support Repository through the SDK manager to use this dependency.
     // You must install or update the Support Repository through the SDK manager to use this dependency.
     // You must install or update the Support Repository through the SDK manager to use this dependency.
+    // You must install or update the Support Repository through the SDK manager to use this dependency.
     compile 'com.android.support:appcompat-v7:19.0.+'
     compile 'com.google.code.gson:gson:2.2.+'
     compile 'com.google.android.gms:play-services:5.0.89'

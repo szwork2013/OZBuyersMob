@@ -259,7 +259,7 @@ public class GridAdapterProduct extends BaseAdapter {
                                 productDetailsToAddIntoTheCart.getTimeslot().setTo(0);
                             }
                             if (productDetailsList.get(position).getDiscount() != null) {
-                                productDetailsToAddIntoTheCart.setDiscount(providerDetails.getProducts().get(position).getDiscount());
+                                productDetailsToAddIntoTheCart.setDiscount(productDetailsList.get(position).getDiscount());
                             }
                             if (productDetailsList.get(position).getFoodtype() != null) {
                                 productDetailsToAddIntoTheCart.setFoodtype(productDetailsList.get(position).getFoodtype());
