@@ -5,19 +5,29 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.app.ActionBarDrawerToggle;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
+import android.widget.ExpandableListAdapter;
+import android.widget.ExpandableListView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.gls.orderzapp.Provider.Adapters.AdapterForProviderCategories;
+import com.gls.orderzapp.Provider.Adapters.DrawerExpandableListAdapter;
+import com.gls.orderzapp.Provider.Beans.BranchInfo;
 import com.gls.orderzapp.Provider.Beans.ProviderSuccessResponse;
 import com.gls.orderzapp.R;
 import com.gls.orderzapp.Utility.Cart;
@@ -28,12 +38,20 @@ import com.google.gson.Gson;
 
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
+
 //import android.support.v7.app.ActionBar;
 
 /**
  * Created by avinash on 2/4/14.
  */
 public class StartUpActivity extends Activity implements View.OnClickListener {
+    private DrawerLayout mDrawerLayout;
+    public static ExpandableListView mDrawerList;
+    private ActionBarDrawerToggle mDrawerToggle;
     public static LinearLayout linearLayoutCategories;
     public static String searchString;
     public static boolean isFirstTime = true;
@@ -41,9 +59,13 @@ public class StartUpActivity extends Activity implements View.OnClickListener {
     public static MenuItem signin, signup, logout;
     ActionBar actionBar;
     ImageView adBanner;
+    TextView allCategories;
     ProviderSuccessResponse providerSuccessResponse;
     boolean isEditTextVisible = false;
     EditText searchProducts = null;
+    List<String> listDataHeader;
+    List<String> listDataHeaderID;
+    HashMap<String, List<String>> listDataChild;
     Context context;
 
     @Override
@@ -64,9 +86,118 @@ public class StartUpActivity extends Activity implements View.OnClickListener {
 //        Set Actionbar title null
         actionBar.setTitle("");
         findViewsById();
+
 //Get list of all product and provider
         new GetProviderAndProductListAsync().execute();
+        drawerActions();
+
     }
+    //*********************
+    //********************
+    //-------------Drawer start
+    //*********************
+    //*********************
+
+    private void prepareDrawerListData() {
+        listDataHeader = new ArrayList<String>();
+        listDataChild = new HashMap<String, List<String>>();
+                                    for(int cat=0;cat<providerSuccessResponse.getSuccess().getProvider().size();cat++){
+                                        listDataHeader.add(providerSuccessResponse.getSuccess().getProvider().get(cat).getBranch().getBranchname());
+                                        listDataHeaderID.add(providerSuccessResponse.getSuccess().getProvider().get(cat).getBranch().getBranchid());
+                            }
+        for(int cont_no=0;cont_no<listDataHeader.size();cont_no++){
+            List<String> temp= new ArrayList<String>();
+            for(int i=0;i<providerSuccessResponse.getSuccess().getProvider().get(cont_no).getBranch().getContact_supports().size();i++){
+            temp.add(providerSuccessResponse.getSuccess().getProvider().get(cont_no).getBranch().getContact_supports().get(i));}
+            listDataChild.put(listDataHeader.get(cont_no), temp);
+        }
+
+        mDrawerList.setAdapter(new DrawerExpandableListAdapter(context, listDataHeader, listDataChild));
+    }
+    public void drawerActions() {
+
+        try{
+
+            mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+            allCategories = (TextView) findViewById(R.id.txt_category_all);
+
+            mDrawerList = (ExpandableListView) findViewById(R.id.left_drawer);
+
+            // set a custom shadow that overlays the main content when the drawer
+
+            mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow,
+                    GravityCompat.START);
+
+            // ActionBarDrawerToggle ties together the proper interactions
+            // between the sliding drawer and the action bar icon
+            mDrawerToggle = new ActionBarDrawerToggle(this, /* host Activity */
+                    mDrawerLayout,/* DrawerLayout object */
+                    R.drawable.ic_navigation_drawer, /* nav drawer image to replace 'Up' caret */
+                    R.string.drawer_open,/* "open drawer" description for accessibility */
+                    R.string.drawer_close /* "close drawer" description for accessibility */
+            ) {
+
+
+
+                public void onDrawerClosed(View view) {
+                    // getActionBar().setTitle(mTitle);
+                    if (android.os.Build.VERSION.SDK_INT > 10) {
+                        invalidateOptionsMenu(); // creates call to
+                    }							// onPrepareOptionsMenu()
+
+                }
+
+                public void onDrawerOpened(View drawerView) {
+                    // getActionBar().setTitle(mDrawerTitle);
+                    if (android.os.Build.VERSION.SDK_INT > 10) {
+                        invalidateOptionsMenu(); // creates call to
+                    }				// onPrepareOptionsMenu()
+                }
+            };
+
+            mDrawerLayout.setDrawerListener(mDrawerToggle);
+        }catch(Exception e){
+
+            e.printStackTrace();
+
+        }
+    }
+
+    @Override
+    protected void onPostCreate(Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+        // Sync the toggle state after onRestoreInstanceState has occurred.
+        try{
+            mDrawerToggle.syncState();
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+
+//		pendinglist.clear();
+        super.onConfigurationChanged(newConfig);
+
+//		// Pass any configuration change to the drawer toggles
+        mDrawerToggle.onConfigurationChanged(newConfig);
+
+    }
+
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+//		mDrawerList.setIndicatorBounds(mDrawerList.getRight() - 40,
+//				mDrawerList.getWidth());
+
+    }
+
+    //*********************
+    //********************
+    //------Drawer End
+    //*********************
+    //*********************
 
     @Override
     protected void onStart() {
@@ -129,6 +260,7 @@ public class StartUpActivity extends Activity implements View.OnClickListener {
     @Override
     public void onBackPressed() {
         isFirstTime = true;
+        moveTaskToBack(true);
         super.onBackPressed();
     }
 
@@ -498,6 +630,10 @@ public class StartUpActivity extends Activity implements View.OnClickListener {
                     if (!resultGetProviderAndProduct.isEmpty()) {
                         if (jObj.has("success")) {
                             new AdapterForProviderCategories(context, providerSuccessResponse.getSuccess().getProvider()).setProductCategories();
+                            Log.d("","DrawerLoad");
+                            prepareDrawerListData();
+
+
                         } else {
                             Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_LONG).show();
                         }
