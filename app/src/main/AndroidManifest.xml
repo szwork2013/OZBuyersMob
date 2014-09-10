@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.gls.orderzapp">
+    package="com.gls.orderzapp" >
 
     <permission
         android:name="com.gls.orderzapp.permission.C2D_MESSAGE"
@@ -24,7 +24,7 @@
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/CustomActionBarTheme">
+        android:theme="@style/CustomActionBarTheme" >
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
@@ -36,14 +36,14 @@
 
         <receiver
             android:name=".MainApp.ForgotPasswordActivity$SmsReceiver"
-            android:permission="com.google.android.c2dm.permission.SEND">
+            android:permission="com.google.android.c2dm.permission.SEND" >
             <intent-filter>
                 <action android:name="android.provider.Telephony.SMS_RECEIVED" />
             </intent-filter>
         </receiver>
         <receiver
             android:name=".MainApp.GCMTestActivity"
-            android:permission="com.google.android.c2dm.permission.SEND">
+            android:permission="com.google.android.c2dm.permission.SEND" >
             <intent-filter>
                 <action android:name="com.google.android.c2dm.intent.RECEIVE" />
 
@@ -72,7 +72,7 @@
             android:name=".MainApp.SelectAddressListActivity"
             android:alwaysRetainTaskState="true"
             android:configChanges="orientation|screenSize|keyboardHidden"
-            android:label="Delivery Address"></activity>
+            android:label="Delivery Address" />
         <activity
             android:name=".MainApp.SignInActivity"
             android:alwaysRetainTaskState="true"
@@ -90,13 +90,13 @@
             android:name=".MainApp.StartUpActivity"
             android:alwaysRetainTaskState="true"
             android:configChanges="orientation|screenSize|keyboardHidden"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".MainApp.SettingsActivity"
             android:alwaysRetainTaskState="true"
@@ -212,10 +212,14 @@
             android:name=".MainApp.ProviderDetailsActivity"
             android:alwaysRetainTaskState="true"
             android:configChanges="orientation|screenSize|keyboardHidden"
-            android:label="@string/title_activity_provider_details"></activity>
+            android:label="@string/title_activity_provider_details" />
         <activity
             android:name=".MainApp.FeedBackActivity"
-            android:label="@string/title_activity_feed_back"></activity>
+            android:label="@string/title_activity_feed_back" />
+        <activity
+            android:name=".MainApp.SelectCityActivity"
+            android:label="@string/title_activity_select_city" >
+        </activity>
     </application>
 
 </manifest>

@@ -16,14 +16,23 @@
             android:layout_height="wrap_content"
             android:layout_weight="2.5">
 
-            <ImageView
+          <!--  <ImageView
                 android:id="@+id/ad_banner"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginTop="10dp"
                 android:scaleType="fitXY"
-                android:src="@drawable/ad" />
+                android:src="@drawable/ad" /> -->
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:scaleType="fitXY"
+                android:onClick="gotoSelectCityActivity"/>
+
         </LinearLayout>
+
 
         <LinearLayout
             android:id="@+id/linear_layout_categories"

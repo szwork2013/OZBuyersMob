@@ -133,11 +133,12 @@
     <string name="contact_numbers">Contact No :</string>
     <string name="contact_details">Contacts Details :</string>
     <string name="username_withcolon">Username :</string>
-   <string name="close">Close</string>
+    <string name="close">Close</string>
     <string name="firstname_withcolon">First Name :</string>
     <string name="mobile_withcolon">Mobile Number :</string>
     <string name="emailaddress_withcolon">Email Address :</string>
     <string name="userprofile">User Profile</string>
     <string name="language">Language :</string>
+    <string name="title_activity_select_city">Select city</string>
 
 </resources>
