@@ -67,6 +67,7 @@ public class StartUpActivity extends Activity implements View.OnClickListener {
     List<String> listDataHeaderID;
     HashMap<String, List<String>> listDataChild;
     Context context;
+    public static TextView added_to_cart;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -216,6 +217,7 @@ public class StartUpActivity extends Activity implements View.OnClickListener {
     //Initialize all the view
     public void findViewsById() {
         linearLayoutCategories = (LinearLayout) findViewById(R.id.linear_layout_categories);
+        added_to_cart = (TextView) findViewById(R.id.added_to_cart);
         //adBanner = (ImageView) findViewById(R.id.ad_banner);
     }
 

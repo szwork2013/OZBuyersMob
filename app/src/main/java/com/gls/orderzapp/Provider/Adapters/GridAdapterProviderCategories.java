@@ -11,6 +11,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -18,6 +20,7 @@ import android.widget.TextView;
 
 import com.gls.orderzapp.MainApp.MoreProductsListActivity;
 import com.gls.orderzapp.MainApp.ProductDetailsActivity;
+import com.gls.orderzapp.MainApp.StartUpActivity;
 import com.gls.orderzapp.Provider.Beans.BranchInfo;
 import com.gls.orderzapp.Provider.Beans.ProductConfiguration;
 import com.gls.orderzapp.Provider.Beans.ProductConfigurationDetails;
@@ -41,7 +44,7 @@ import java.util.List;
 /**
  * Created by prajyot on 7/4/14.
  */
-public class GridAdapterProviderCategories extends BaseAdapter {
+public class GridAdapterProviderCategories extends BaseAdapter implements Animation.AnimationListener{
     public static String branch_id = "";
     Context context;
     List<ProductDetails> productDetailsList = new ArrayList<>();
@@ -53,6 +56,7 @@ public class GridAdapterProviderCategories extends BaseAdapter {
     com.nostra13.universalimageloader.core.ImageLoader imageLoader;
     DisplayImageOptions options;
     ProductDetails productDetailsToAddIntoTheCart;
+    Animation slide_down, slide_up, zoom_in, zoom_out;
 
     public GridAdapterProviderCategories(Context context, List<ProductDetails> productDetailsList, BranchInfo branchDetails, ProviderDetails providerDetails) {
         this.context = context;
@@ -66,6 +70,20 @@ public class GridAdapterProviderCategories extends BaseAdapter {
                 .cacheInMemory()
                 .cacheOnDisc()
                 .build();
+
+        slide_down = AnimationUtils.loadAnimation(context,
+                R.anim.slide_down);
+        slide_down.setAnimationListener(this);
+
+        slide_up = AnimationUtils.loadAnimation(context,
+                R.anim.slide_up);
+        slide_up.setAnimationListener(this);
+
+        zoom_in = AnimationUtils.loadAnimation(context, R.anim.zoomin);
+        zoom_in.setAnimationListener(this);
+
+        zoom_out = AnimationUtils.loadAnimation(context, R.anim.zoomout);
+        zoom_out.setAnimationListener(this);
     }
 
     @Override
@@ -148,7 +166,11 @@ public class GridAdapterProviderCategories extends BaseAdapter {
                     textProductName.setText(productDetailsList.get(position).getProductname());
                     textRupees.setVisibility(View.GONE);
                 } else {
+
+
                     try {
+
+
                         imageLoader = com.nostra13.universalimageloader.core.ImageLoader.getInstance();
                         imageLoader.init(ImageLoaderConfiguration.createDefault(context));
                         imageLoader.displayImage(productDetailsList.get(position).getProductlogo().getImage(), imageProduct, options, new SimpleImageLoadingListener() {
@@ -213,6 +235,10 @@ public class GridAdapterProviderCategories extends BaseAdapter {
                             goToMoreProducts.putExtra("MoreProductsListActivity", new Gson().toJson(providerDetails));
                             context.startActivity(goToMoreProducts);
                         } else {
+                            StartUpActivity.added_to_cart.setVisibility(View.VISIBLE);
+                            StartUpActivity.added_to_cart.startAnimation(slide_down);
+
+
                             productDetailsToAddIntoTheCart = new ProductDetails();
 
                             if (providerDetails.getProvider().getPaymentmode() != null) {
@@ -336,6 +362,7 @@ public class GridAdapterProviderCategories extends BaseAdapter {
                             }
 //                        if(productDetailsToAddIntoTheCart!=null) {
                             Cart.addToCart(productDetailsToAddIntoTheCart, context);
+                            Cart.numberTextOnCart.startAnimation(zoom_in);
                             productDetailsToAddIntoTheCart = null;
 //                        }
                         }
@@ -362,5 +389,27 @@ public class GridAdapterProviderCategories extends BaseAdapter {
             e.printStackTrace();
         }
         return convertView;
+    }
+
+    @Override
+    public void onAnimationStart(Animation animation) {
+
+    }
+
+    @Override
+    public void onAnimationEnd(Animation animation) {
+        if(animation == slide_down) {
+            StartUpActivity.added_to_cart.startAnimation(slide_up);
+            StartUpActivity.added_to_cart.setVisibility(View.GONE);
+        }else if(animation == zoom_in){
+            Cart.numberTextOnCart.startAnimation(zoom_out);
+        }
+
+
+    }
+
+    @Override
+    public void onAnimationRepeat(Animation animation) {
+
     }
 }
