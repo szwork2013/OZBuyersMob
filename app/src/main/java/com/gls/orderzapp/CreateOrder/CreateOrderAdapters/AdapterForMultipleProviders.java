@@ -1,8 +1,12 @@
 package com.gls.orderzapp.CreateOrder.CreateOrderAdapters;
 
 import android.content.Context;
+import android.content.Intent;
+import android.graphics.Color;
+import android.net.Uri;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -32,6 +36,7 @@ public class AdapterForMultipleProviders {
     List<CreateOrderProductDetails> createOrderProductDetailsList;
     List<CreateOrderProductDetails> list = new ArrayList<>();
     List<String> branchIds = new ArrayList<>();
+    List<String> contactSupportsList = new ArrayList<>();
     LayoutInflater li;
     String pickupaddress = "";
     TextView textGrandTotal, delivery_charge, deliveryTypeText, deliveryDateText, deliveryTimeText, deliveryAddressText, contact_noText;
@@ -78,6 +83,7 @@ public class AdapterForMultipleProviders {
                     deliveryTimeText = (TextView) llProductsForProvider.findViewById(R.id.delivery_time_slot);
                     deliveryAddressText = (TextView) llProductsForProvider.findViewById(R.id.delivery_address);
                     contact_noText = (TextView) llProductsForProvider.findViewById(R.id.contact_no);
+                    LinearLayout ll_contact_support = (LinearLayout) llProductsForProvider.findViewById(R.id.ll_contact_support);
 
 
                     if (i > 0) {
@@ -104,16 +110,43 @@ public class AdapterForMultipleProviders {
                                     deliveryType = "Pick-Up";
                                 }
 
-                                for(int cont_list=0;cont_list<Cart.hm.get(keys[j]).getContact_supports().size();cont_list++) {
-                                    contact_no=contact_no.concat(Cart.hm.get(keys[j]).getContact_supports().get(cont_list)+",");
-                                }
+//                                for(int cont_list=0;cont_list<Cart.hm.get(keys[j]).getContact_supports().size();cont_list++) {
+//                                    contact_no=contact_no.concat(Cart.hm.get(keys[j]).getContact_supports().get(cont_list)+",");
+//                                }
 
                                 deliveryDate=Cart.hm.get(keys[j]).getPrefereddeliverydate().toString();
-                                contact_no = "";
-                                for (int cont_list = 0; cont_list < Cart.hm.get(keys[j]).getContact_supports().size(); cont_list++) {
-                                    Log.d("Cont No111",Cart.hm.get(keys[j]).getContact_supports().get(cont_list));
-                                    contact_no = contact_no.concat(Cart.hm.get(keys[j]).getContact_supports().get(cont_list) + ",");
+                                Log.d(" cart contact size", Cart.hm.get(keys[j]).getContact_supports().size()+"");
+                                contactSupportsList.addAll(Cart.hm.get(keys[j]).getContact_supports());
+                                Log.d("contact size", contactSupportsList.size()+"");
+                                for (int cont_list = 0; cont_list < contactSupportsList.size(); cont_list++) {
+//                                    Log.d("Cont No111",Cart.hm.get(keys[j]).getContact_supports().get(cont_list));
+                                    contact_no = contact_no.concat(contactSupportsList.get(cont_list) + ",");
+//                                    contactSupportsList.add(contactSupportsList.get(cont_list));
+                                    TextView contactSupportNumbers = new TextView(context);
+                                    contactSupportNumbers.setTextColor(Color.parseColor("#00ffff"));
+
+                                    if(cont_list == contactSupportsList.size() - 1) {
+                                        contactSupportNumbers.setText(contactSupportsList.get(cont_list));
+                                    }else{
+                                        contactSupportNumbers.setText(contactSupportsList.get(cont_list)+", ");
+                                    }
+
+                                    contactSupportNumbers.setId(cont_list+100);
+                                    ll_contact_support.addView(contactSupportNumbers, cont_list+1);
+
+                                    contactSupportNumbers.setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View view) {
+                                            Intent callIntent = new Intent(Intent.ACTION_CALL);
+                                            callIntent.setData(Uri.parse("tel:" + contactSupportsList.get(view.getId() - 100).replaceAll(",", "")));
+                                            callIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                            context.startActivity(callIntent);
+                                        }
+                                    });
                                 }
+
+
+
                                 if (Cart.hm.get(keys[j]).getTimeslot() != null) {
                                     DecimalFormat formatter = new DecimalFormat("00");
                                     getFromHrs = (int) Cart.hm.get(keys[j]).getTimeslot().getFrom();
@@ -217,7 +250,7 @@ public class AdapterForMultipleProviders {
                     deliveryTypeText.setText(deliveryType);
                     deliveryTimeText.setText("Between " + deliveryTime);
                     deliveryDateText.setText(deliveryDate);
-                    contact_noText.setText(contact_no);
+//                    contact_noText.setText(contact_no);
                     OrderDetailsActivity.llProductsList.addView(llProductsForProvider);
                 }
             }
