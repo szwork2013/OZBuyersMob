@@ -20,6 +20,7 @@ import android.widget.Toast;
 import com.gls.orderzapp.Provider.Adapters.AdapterForProviderCategories;
 import com.gls.orderzapp.Provider.Beans.ProviderSuccessResponse;
 import com.gls.orderzapp.R;
+import com.gls.orderzapp.User.SuccessResponseOfUser;
 import com.gls.orderzapp.Utility.Cart;
 import com.gls.orderzapp.Utility.CheckConnection;
 import com.gls.orderzapp.Utility.GoogleAnalyticsUtility;
@@ -45,6 +46,8 @@ public class StartUpActivity extends Activity implements View.OnClickListener {
     boolean isEditTextVisible = false;
     EditText searchProducts = null;
     Context context;
+    SuccessResponseOfUser successResponseOfUser;
+    int SIGNINCODE = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -116,12 +119,9 @@ public class StartUpActivity extends Activity implements View.OnClickListener {
     @Override
     protected void onResume() {
         super.onResume();
-        Log.d("onresume", "onresume");
         if (isFirstTime == true) {
-            Log.d("if", "if");
             isFirstTime = false;
         } else {
-            Log.d("else", "else");
             onCreateOptions(menu1);
         }
     }
@@ -171,8 +171,10 @@ public class StartUpActivity extends Activity implements View.OnClickListener {
             return true;
         }
         if (id == R.id.action_settings) {
-            Intent setting = new Intent(StartUpActivity.this, SettingsActivity.class);
-            startActivity(setting);
+            new CheckSessionAsync().execute();
+            SIGNINCODE = 2;
+//            Intent setting = new Intent(StartUpActivity.this, SettingsActivity.class);
+//            startActivity(setting);
             return true;
         }
         if (id == R.id.action_privacypolicy) {
@@ -222,6 +224,7 @@ public class StartUpActivity extends Activity implements View.OnClickListener {
 //        }
         if (id == R.id.feed_back) {
             new CheckSessionAsync().execute();
+            SIGNINCODE = 1;
             return true;
         }
         if (id == R.id.menu_search) {
@@ -289,8 +292,15 @@ public class StartUpActivity extends Activity implements View.OnClickListener {
                     startActivity(feedBack);
 //                    finish();
 
-                } else if (resultCode == RESULT_CANCELED) {
-                    finish();
+                }
+                break;
+
+            case 2:
+                if (resultCode == RESULT_OK) {
+                    Intent feedBack = new Intent(StartUpActivity.this, SettingsActivity.class);
+                    startActivity(feedBack);
+//                    finish();
+
                 }
                 break;
         }
@@ -344,15 +354,19 @@ public class StartUpActivity extends Activity implements View.OnClickListener {
                 if (connectedOrNot.equals("success")) {
                     if (!resultOfCheckSession.isEmpty()) {
                         if (jObj.has("success")) {
-                            Intent deliveryPayment = new Intent(StartUpActivity.this, FeedBackActivity.class);
-                            startActivity(deliveryPayment);
-//                            finish();
-
+                            if(SIGNINCODE == 1) {
+                                Intent feedback = new Intent(StartUpActivity.this, FeedBackActivity.class);
+                                startActivity(feedback);
+                            }else{
+                                Intent settings = new Intent(StartUpActivity.this, SettingsActivity.class);
+                                startActivity(settings);
+                            }
                         } else {
                             Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_LONG).show();
                             if (code.equals("AL001")) {
-                                Intent goToSignin = new Intent(StartUpActivity.this, SignInActivity.class);
-                                startActivityForResult(goToSignin, 1);
+                                    Intent goToSignin = new Intent(StartUpActivity.this, SignInActivity.class);
+                                    startActivityForResult(goToSignin, SIGNINCODE);
+
                             }
                         }
                     } else {
@@ -512,4 +526,71 @@ public class StartUpActivity extends Activity implements View.OnClickListener {
             }
         }
     }
+
+//    private class CheckSessionAsync extends AsyncTask<String, Integer, String> {
+//        String connectedOrNot, msg, code, resultOfCheckSession;
+//        JSONObject jObj;
+//        ProgressDialog progressDialog;
+//
+//        @Override
+//        protected void onPreExecute() {
+//            progressDialog = ProgressDialog.show(StartUpActivity.this, "", "");
+//        }
+//
+//        @Override
+//        protected String doInBackground(String... params) {
+//            try {
+//                if (new CheckConnection(getApplicationContext()).isConnectingToInternet()) {
+//                    connectedOrNot = "success";
+//                    resultOfCheckSession = getSessionStatus();
+//                    if (!resultOfCheckSession.isEmpty()) {
+//                        jObj = new JSONObject(resultOfCheckSession);
+//                        if (jObj.has("success")) {
+//                            JSONObject jObjSuccess = jObj.getJSONObject("success");
+//                            msg = jObjSuccess.getString("message");
+//                        } else {
+//                            JSONObject jObjError = jObj.getJSONObject("error");
+//                            msg = jObjError.getString("message");
+//                            code = jObjError.getString("code");
+//                        }
+//                    }
+//                } else {
+//                    connectedOrNot = "error";
+//                }
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
+//            return connectedOrNot;
+//        }
+//
+//        @Override
+//        protected void onPostExecute(String connectedOrNot) {
+//            try {
+//                progressDialog.dismiss();
+//                if (connectedOrNot.equals("success")) {
+//                    if (!resultOfCheckSession.isEmpty()) {
+//
+//                        if (jObj.has("success")) {
+//                            Intent deliveryActivity = new Intent(StartUpActivity.this, SettingsActivity.class);
+//                            startActivity(deliveryActivity);
+//                            successResponseOfUser = new Gson().fromJson(loadPreferencesUser(), SuccessResponseOfUser.class);
+//                            displayUserData();
+//                        } else {
+//                            Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_LONG).show();
+//                            if (code.equals("AL001")) {
+//                                Intent goToSignin = new Intent(StartUpActivity.this, SignInActivity.class);
+//                                startActivity(goToSignin);
+//                            }
+//                        }
+//                    } else {
+//                        Toast.makeText(getApplicationContext(), "Server is not responding please try again later", Toast.LENGTH_LONG).show();
+//                    }
+//                } else {
+//                    Toast.makeText(getApplicationContext(), "Please check your internet connection", Toast.LENGTH_LONG).show();
+//                }
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
+//        }
+//    }
 }

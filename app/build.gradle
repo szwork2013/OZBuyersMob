@@ -51,6 +51,12 @@ android {
         productionSecureFlavor {
             applicationId 'com.gls.orderzapp.prodsecure'
         }
+        productionSupportDev {
+            applicationId 'com.gls.orderzapp.prodsupportdev'
+        }
+        productionSupportTest {
+            applicationId 'com.gls.orderzapp.prodsupporttest'
+        }
     }
 }
 

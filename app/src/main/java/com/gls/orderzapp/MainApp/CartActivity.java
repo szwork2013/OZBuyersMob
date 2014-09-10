@@ -284,7 +284,7 @@ public class CartActivity extends Activity {
                         if (jObj.has("success")) {
                             Intent deliveryActivity = new Intent(CartActivity.this, DeliveryPaymentActivity.class);
                             startActivity(deliveryActivity);
-                            finish();
+//                            finish();
                         } else {
                             Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_LONG).show();
                             if (code.equals("AL001")) {

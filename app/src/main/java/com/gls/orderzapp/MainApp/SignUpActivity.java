@@ -73,13 +73,13 @@ public class SignUpActivity extends ActionBarActivity {
     CityAreaListAdapter cityCountryListAdapter, cityStateListAdapter, cityListAdapter;
     String country = "", state = "", city = "", area = "", zipcode = "";
     ArrayAdapter<String> zipcodeAdapter, adapter;
+    ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ((GoogleAnalyticsUtility) getApplication()).getTracker(GoogleAnalyticsUtility.TrackerName.APP_TRACKER);
         context = SignUpActivity.this;
-//        UtilityClassForLanguagePreferance.setLocale(getApplicationContext());
         setContentView(R.layout.sign_up);
 
         findViewsById();
@@ -90,6 +90,8 @@ public class SignUpActivity extends ActionBarActivity {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 country = parent.getItemAtPosition(position) + "";
                 new GetStatesListAsync().execute();
+
+
             }
 
             @Override
@@ -128,13 +130,6 @@ public class SignUpActivity extends ActionBarActivity {
 
             }
         });
-        adapter = new ArrayAdapter<String>(getApplicationContext(), R.layout.area, areaList);
-        adapter.notifyDataSetChanged();
-        auto_area.setAdapter(adapter);
-
-
-        zipcodeAdapter = new ArrayAdapter<String>(getApplicationContext(), R.layout.area, zipcodeList);
-        pincodeEditText.setAdapter(zipcodeAdapter);
 
         listOfZipCode.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -527,7 +522,7 @@ public class SignUpActivity extends ActionBarActivity {
     class GetCountryListAsync extends AsyncTask<String, Integer, String> {
         String connectedOrNot, resultGetCountry, msg, code;
         JSONObject jObj;
-        ProgressDialog progressDialog;
+//        ProgressDialog progressDialog;
 
         @Override
         protected void onPreExecute() {
@@ -562,7 +557,7 @@ public class SignUpActivity extends ActionBarActivity {
         @Override
         protected void onPostExecute(String connectedOrNot) {
             try {
-                progressDialog.dismiss();
+//                progressDialog.dismiss();
                 if (connectedOrNot.equalsIgnoreCase("success")) {
                     if (!resultGetCountry.isEmpty()) {
                         if (jObj.has("success")) {
@@ -587,12 +582,12 @@ public class SignUpActivity extends ActionBarActivity {
     class GetStatesListAsync extends AsyncTask<String, Integer, String> {
         String connectedOrNot, resultGetStates, msg, code;
         JSONObject jObj;
-        ProgressDialog progressDialog;
+//        ProgressDialog progressDialog;
 
         @Override
         protected void onPreExecute() {
-            progressDialog = ProgressDialog.show(SignUpActivity.this, "", "");
-            progressDialog.setCancelable(true);
+//            progressDialog = ProgressDialog.show(SignUpActivity.this, "", "");
+//            progressDialog.setCancelable(true);
         }
 
         @Override
@@ -624,7 +619,7 @@ public class SignUpActivity extends ActionBarActivity {
         @Override
         protected void onPostExecute(String connectedOrNot) {
             try {
-                progressDialog.dismiss();
+//                progressDialog.dismiss();
                 if (connectedOrNot.equalsIgnoreCase("success")) {
                     if (!resultGetStates.isEmpty()) {
                         if (jObj.has("success")) {
@@ -649,12 +644,12 @@ public class SignUpActivity extends ActionBarActivity {
     class GetCityListAsync extends AsyncTask<String, Integer, String> {
         String connectedOrNot, resultGetCities, msg, code;
         JSONObject jObj;
-        ProgressDialog progressDialog;
+//        ProgressDialog progressDialog;
 
         @Override
         protected void onPreExecute() {
-            progressDialog = ProgressDialog.show(SignUpActivity.this, "", "");
-            progressDialog.setCancelable(true);
+//            progressDialog = ProgressDialog.show(SignUpActivity.this, "", "");
+//            progressDialog.setCancelable(true);
         }
 
         @Override
@@ -683,7 +678,7 @@ public class SignUpActivity extends ActionBarActivity {
         @Override
         protected void onPostExecute(String connectedOrNot) {
             try {
-                progressDialog.dismiss();
+//                progressDialog.dismiss();
                 if (connectedOrNot.equalsIgnoreCase("success")) {
                     if (!resultGetCities.isEmpty()) {
                         if (jObj.has("success")) {
@@ -709,11 +704,11 @@ public class SignUpActivity extends ActionBarActivity {
     class GetAreaListAsync extends AsyncTask<String, Integer, String> {
         String connectedOrNot, resultGetArea, msg, code;
         JSONObject jObj;
-        ProgressDialog progressDialog;
+//        ProgressDialog progressDialog;
 
         @Override
         protected void onPreExecute() {
-            progressDialog = ProgressDialog.show(SignUpActivity.this, "", "");
+//            progressDialog = ProgressDialog.show(SignUpActivity.this, "", "");
             areaList.clear();
             Log.d("AreaList", "clear");
         }
@@ -748,10 +743,14 @@ public class SignUpActivity extends ActionBarActivity {
         @Override
         protected void onPostExecute(String connectedOrNot) {
             try {
-                progressDialog.dismiss();
+//                progressDialog.dismiss();
                 if (connectedOrNot.equalsIgnoreCase("success")) {
                     if (!resultGetArea.isEmpty()) {
                         if (jObj.has("success")) {
+                            adapter = new ArrayAdapter<String>(getApplicationContext(), R.layout.area, areaList);
+                            adapter.notifyDataSetChanged();
+                            auto_area.setAdapter(adapter);
+
                         } else {
                             Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_LONG).show();
                         }
@@ -775,12 +774,12 @@ public class SignUpActivity extends ActionBarActivity {
     class GetZipCodeListAsync extends AsyncTask<String, Integer, String> {
         String connectedOrNot, resultZipCode, msg, code;
         JSONObject jObj;
-        ProgressDialog progressDialog;
+//        ProgressDialog progressDialog;
 
         @Override
         protected void onPreExecute() {
-            progressDialog = ProgressDialog.show(SignUpActivity.this, "", "");
-            progressDialog.setCancelable(true);
+//            progressDialog = ProgressDialog.show(SignUpActivity.this, "", "");
+//            progressDialog.setCancelable(true);
             zipcodeList.clear();
             Log.d("ZipCodeList", "clear");
         }
@@ -817,6 +816,9 @@ public class SignUpActivity extends ActionBarActivity {
                 if (connectedOrNot.equalsIgnoreCase("success")) {
                     if (!resultZipCode.isEmpty()) {
                         if (jObj.has("success")) {
+                            zipcodeAdapter = new ArrayAdapter<String>(getApplicationContext(), R.layout.area, zipcodeList);
+                            pincodeEditText.setAdapter(zipcodeAdapter);
+
                         } else {
                             Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_LONG).show();
                         }
