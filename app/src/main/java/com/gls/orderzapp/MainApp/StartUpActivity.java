@@ -133,9 +133,8 @@ public class StartUpActivity extends Activity implements View.OnClickListener {
             mDrawerList = (ExpandableListView) findViewById(R.id.left_drawer);
 
             // set a custom shadow that overlays the main content when the drawer
-mDrawerLayout.setScrimColor(Color.parseColor("#FFFFFF"));
-            mDrawerLayout.setDrawerShadow(null,
-                    View.GONE);
+            mDrawerLayout.setDrawerShadow(R.drawable.drawerbg,
+                    GravityCompat.START);
 
             // ActionBarDrawerToggle ties together the proper interactions
             // between the sliding drawer and the action bar icon
@@ -150,21 +149,17 @@ mDrawerLayout.setScrimColor(Color.parseColor("#FFFFFF"));
 
                 public void onDrawerClosed(View view) {
                     // getActionBar().setTitle(mTitle);
-                    if (android.os.Build.VERSION.SDK_INT > 10) {
-                        invalidateOptionsMenu(); // creates call to
-                    }							// onPrepareOptionsMenu()
-
+                        invalidateOptionsMenu();
                 }
 
                 public void onDrawerOpened(View drawerView) {
                     // getActionBar().setTitle(mDrawerTitle);
-                    if (android.os.Build.VERSION.SDK_INT > 10) {
                         invalidateOptionsMenu(); // creates call to
-                    }				// onPrepareOptionsMenu()
                 }
             };
 
             mDrawerLayout.setDrawerListener(mDrawerToggle);
+
         }catch(Exception e){
 
             e.printStackTrace();
@@ -281,6 +276,7 @@ mDrawerLayout.setScrimColor(Color.parseColor("#FFFFFF"));
         StartUpActivity.cid=cid;
 
         new GetProviderAndProductListDrawerAsync().execute();
+        mDrawerLayout.closeDrawers();
     }
     public String getProductList(){
         String resultProductList = "";
@@ -301,8 +297,8 @@ mDrawerLayout.setScrimColor(Color.parseColor("#FFFFFF"));
 
         @Override
         protected void onPreExecute() {
-//            progressDialog = ProgressDialog.show(StartUpActivity.this, "", "Getting Products...");
-//            progressDialog.setCancelable(true);
+            progressDialog = ProgressDialog.show(StartUpActivity.this, "", "Getting Products...");
+            progressDialog.setCancelable(true);
         }
 
         @Override
@@ -338,7 +334,7 @@ mDrawerLayout.setScrimColor(Color.parseColor("#FFFFFF"));
         @Override
         protected void onPostExecute(String connectedOrNot) {
             try {
-//                progressDialog.dismiss();
+                progressDialog.dismiss();
                 if (connectedOrNot.equals("success")) {
                     StartUpActivity.linearLayoutCategories.removeAllViews();
                     if (!resultGetProviderAndProduct.isEmpty()) {
@@ -462,6 +458,9 @@ mDrawerLayout.setScrimColor(Color.parseColor("#FFFFFF"));
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
+        if (mDrawerToggle.onOptionsItemSelected(item)) {
+            return true;
+        }
         if (id == R.id.action_about) {
             Intent goToWebViewAbout = new Intent(StartUpActivity.this, WebViewActivity.class);
             goToWebViewAbout.putExtra("URL", ServerConnection.url + "/api/statictemplates?type=AU");

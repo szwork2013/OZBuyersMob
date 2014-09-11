@@ -11,7 +11,6 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:textSize="17dp"
-        android:textStyle="bold"
         android:background="?android:attr/activatedBackgroundIndicator"
         android:textAppearance="?android:attr/textAppearanceListItemSmall"
         android:text="Header"
