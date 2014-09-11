@@ -87,10 +87,12 @@ public class StartUpActivity extends Activity implements View.OnClickListener {
 //        UtilityClassForLanguagePreferance.setLocale(getApplicationContext());
         //Get a Tracker (should auto-report)
         setContentView(R.layout.startup_activity);
+
         context = StartUpActivity.this;
         actionBar = getActionBar();
 //        Set Actionbar title null
         actionBar.setTitle("");
+        actionBar.setDisplayHomeAsUpEnabled(true);
         findViewsById();
 
 //Get list of all product and provider
