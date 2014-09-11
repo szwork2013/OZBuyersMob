@@ -34,7 +34,7 @@ public class SelectAddressListActivity extends Activity {
         setContentView(R.layout.selectaddressactivitylist_layout);
         ((GoogleAnalyticsUtility) getApplication()).getTracker(GoogleAnalyticsUtility.TrackerName.APP_TRACKER);
         context = SelectAddressListActivity.this;
-        isAddNewaddress = false;
+//        isAddNewaddress = false;
         findViewsById();
         new GetAddressListAsync().execute();
 

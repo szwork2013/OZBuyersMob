@@ -34,9 +34,7 @@ import java.util.List;
  */
 public class DisplayDeliveryChargesAndType {
     public static Context context;
-    //    public static String[] delivery_mode;
     public static String[] order_instruction;
-    //    public static String[] delivery_mode_branchid;
     public static List<String> deliveryType = new ArrayList<>();
     public static List<DeliveryTypeBean> deliverytypebean = new ArrayList<>();
     public static SuccessResponseForDeliveryChargesAndType listOfDeliveryCharges;
@@ -60,13 +58,12 @@ public class DisplayDeliveryChargesAndType {
 
     public static boolean deliveryTypeCheck() {
         boolean deliverycheck = false;
+        Log.d("delivery type", new Gson().toJson(deliveryType));
+        Log.d("delivery type bean", new Gson().toJson(deliverytypebean));
         if (checkForDeliveryModeList.size() == deliveryType.size()) {
             for (int l = 0; l < deliveryType.size(); l++) {
-                Log.d("delivery ttype", new Gson().toJson(deliveryType));
                 if (deliveryType.get(l) != null) {
                     if (deliverytypebean.get(l).getDeliveryType().equalsIgnoreCase("pickup")) {
-                        Log.d("pickuppppppppppppppppppp", new Gson().toJson(deliveryType.get(l)));
-
                         if (deliverytypebean.get(l).getPickUpArea() == null) {
                             deliverycheck = false;
                             Toast.makeText(context, "Please select your pickup address", Toast.LENGTH_LONG).show();
@@ -74,9 +71,7 @@ public class DisplayDeliveryChargesAndType {
                         } else {
                             deliverycheck = true;
                         }
-
                     } else if (deliverytypebean.get(l).getDeliveryType().equalsIgnoreCase("home")) {
-                        Log.d("homeeeeeeeeeeeeeeeeeeeeeeee", new Gson().toJson(deliveryType.get(l)));
                         deliverycheck = true;
                     }
                 } else {
@@ -84,11 +79,9 @@ public class DisplayDeliveryChargesAndType {
                     deliverycheck = false;
                     break;
                 }
-
             }
         } else {
             Toast.makeText(context, "Please select your delivery type", Toast.LENGTH_LONG).show();
-            Log.d("3", "3");
             deliverycheck = false;
         }
         return deliverycheck;

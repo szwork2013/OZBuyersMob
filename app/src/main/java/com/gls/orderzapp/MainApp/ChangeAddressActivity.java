@@ -14,6 +14,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.gls.orderzapp.AddressDetails.Bean.ListOfDeliveryAddress;
 import com.gls.orderzapp.R;
 import com.gls.orderzapp.SignUp.Location;
 import com.gls.orderzapp.User.SettingsUserData;
@@ -34,16 +35,13 @@ public class ChangeAddressActivity extends Activity {
     public static EditText edittext_address1, edittext_address2, edittext_area, edittext_city, edittext_state, edittext_country, edittext_zipcode;
     public static boolean isAddressChanged = false;
     TextView text_address;
+    public static ListOfDeliveryAddress deliveryAddressList;
     Context context;
-    String userID, user;
+    String userID;
     Button save_address;
     Bundle bundle;
-    UserDetails userDetails;
-    SettingsUserData settingsUserData;
     SuccessResponseOfUser successResponseForUserID;
     Location location;
-    //    SuccessResponseOfUser successResponseOfUser;
-    DeliveryPaymentActivity deliveryPaymentActivity;
     GsonBuilder gsonBuild = new GsonBuilder();
     Gson gson = gsonBuild.disableHtmlEscaping().create();
 
@@ -56,9 +54,9 @@ public class ChangeAddressActivity extends Activity {
         Log.d("cheng", "chenge");
         findViewsById();
         bundle = getIntent().getExtras();
-        deliveryPaymentActivity = new DeliveryPaymentActivity();
+//        deliveryPaymentActivity = new DeliveryPaymentActivity();
 
-        isAddressChanged = false;
+//        isAddressChanged = false;
     }
 
     @Override
@@ -119,6 +117,20 @@ public class ChangeAddressActivity extends Activity {
             return;
         }
         if (bundle.getString("User_Address").equals("DeliveryAddress")) {
+
+           deliveryAddressList = new ListOfDeliveryAddress();
+            Location location = new Location();
+//            if (deliveryaddresses.get(position).getAddress() != null) {
+                location.setAddress1(edittext_address1.getText().toString());
+                location.setAddress2(edittext_address2.getText().toString());
+                location.setArea(edittext_area.getText().toString());
+                location.setCountry(edittext_country.getText().toString());
+                location.setState(edittext_state.getText().toString());
+                location.setZipcode(edittext_zipcode.getText().toString());
+                location.setCity(edittext_city.getText().toString());
+                deliveryAddressList.setAddress(location);
+//            }
+
             DeliveryPaymentActivity.shipping_address_textview.setText(edittext_address1.getText().toString() + ", " +
                     edittext_address2.getText().toString() + ", " +
                     edittext_area.getText().toString() + ", \n" +
@@ -127,14 +139,15 @@ public class ChangeAddressActivity extends Activity {
                     edittext_state.getText().toString() + ", " +
                     edittext_country.getText().toString() + ".");
             isAddressChanged = true;
+            SelectAddressListActivity.isAddNewaddress = false;
             loadPreferencesUserDataForDeliveryAddress();
-            DeliveryPaymentActivity.shipping_address_textview.setText(edittext_address1.getText().toString() + ", " +
-                    edittext_address2.getText().toString() + ", " +
-                    edittext_area.getText().toString() + ", \n" +
-                    edittext_city.getText().toString() + ". " +
-                    edittext_zipcode.getText().toString() + "\n" +
-                    edittext_state.getText().toString() + ", " +
-                    edittext_country.getText().toString() + ".");
+//            DeliveryPaymentActivity.shipping_address_textview.setText(edittext_address1.getText().toString() + ", " +
+//                    edittext_address2.getText().toString() + ", " +
+//                    edittext_area.getText().toString() + ", \n" +
+//                    edittext_city.getText().toString() + ". " +
+//                    edittext_zipcode.getText().toString() + "\n" +
+//                    edittext_state.getText().toString() + ", " +
+//                    edittext_country.getText().toString() + ".");
             ((Activity) context).setResult(((Activity) context).RESULT_OK);
             finish();
 
@@ -174,10 +187,7 @@ public class ChangeAddressActivity extends Activity {
         return user;
     }
 
-
-
     //********************
-
 
     public String loadPreferencesUser() {
         String user = "";

@@ -169,6 +169,7 @@ public class ResetStaticData {
         ChangeAddressActivity.edittext_country.setText("");
         ChangeAddressActivity.edittext_zipcode.setText("");
         ChangeAddressActivity.isAddressChanged = false;
+        ChangeAddressActivity.deliveryAddressList = null;
     }
 
     public static void staticCartActivity() throws Exception {
