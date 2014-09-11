@@ -6,6 +6,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
@@ -57,9 +58,10 @@ public class StartUpActivity extends Activity implements View.OnClickListener {
     public static boolean isFirstTime = true;
     public static Menu menu1;
     public static MenuItem signin, signup, logout;
+    public static String pid,cid;
     ActionBar actionBar;
     ImageView adBanner;
-    TextView allCategories;
+
     ProviderSuccessResponse providerSuccessResponse;
     CategorySuccessResponse categorySuccessResponse;
     boolean isEditTextVisible = false;
@@ -67,7 +69,7 @@ public class StartUpActivity extends Activity implements View.OnClickListener {
     List<LevelFourCategoryDoc> listDataHeader;
     List<String> listDataHeaderID;
     HashMap<String, List<LevelFourCategoryProvider>> listDataChild;
-    Context context;
+    static Context context;
     public static TextView added_to_cart;
 
     @Override
@@ -90,9 +92,10 @@ public class StartUpActivity extends Activity implements View.OnClickListener {
         findViewsById();
 
 //Get list of all product and provider
-        new GetProviderAndProductListAsync().execute();
+//        new GetProviderAndProductListAsync().execute();
         new GetCategoryListAsync().execute();
         drawerActions();
+        new GetProviderAndProductListAsync().execute();
 
     }
     //*********************
@@ -125,14 +128,14 @@ public class StartUpActivity extends Activity implements View.OnClickListener {
         try{
 
             mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-            allCategories = (TextView) findViewById(R.id.txt_category_all);
+
 
             mDrawerList = (ExpandableListView) findViewById(R.id.left_drawer);
 
             // set a custom shadow that overlays the main content when the drawer
-
-            mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow,
-                    GravityCompat.START);
+mDrawerLayout.setScrimColor(Color.parseColor("#FFFFFF"));
+            mDrawerLayout.setDrawerShadow(null,
+                    View.GONE);
 
             // ActionBarDrawerToggle ties together the proper interactions
             // between the sliding drawer and the action bar icon
@@ -253,7 +256,7 @@ public class StartUpActivity extends Activity implements View.OnClickListener {
                     StartUpActivity.linearLayoutCategories.removeAllViews();
                     if (!resultGetCategory.isEmpty()) {
                         if (jObj.has("success")) {
-                            Log.d("","DrawerLoad");
+                            Log.d("","DrawerLoad2");
                             prepareDrawerListData();
                         } else {
                             Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_LONG).show();
@@ -270,7 +273,98 @@ public class StartUpActivity extends Activity implements View.OnClickListener {
         }
     }
 
+//*********************
+    //*****************
+    public void stringValue(String pid,String cid)
+    {
+        StartUpActivity.pid=pid;
+        StartUpActivity.cid=cid;
 
+        new GetProviderAndProductListDrawerAsync().execute();
+    }
+    public String getProductList(){
+        String resultProductList = "";
+        try {
+            Log.d("pid:",pid);
+            Log.d("cid:",cid);
+            resultProductList = ServerConnection.executeGet(context, "/api/searchproduct/provider/"+pid+"/category/"+cid);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return resultProductList;
+    }
+
+    class GetProviderAndProductListDrawerAsync extends AsyncTask<String, Integer, String> {
+        String resultGetProviderAndProduct, connectedOrNot, msg, code;
+        ProgressDialog progressDialog;
+        JSONObject jObj;
+
+        @Override
+        protected void onPreExecute() {
+//            progressDialog = ProgressDialog.show(StartUpActivity.this, "", "Getting Products...");
+//            progressDialog.setCancelable(true);
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+            try {
+                if (new CheckConnection(context).isConnectingToInternet()) {
+                    connectedOrNot = "success";
+                    if (searchProducts == null) {
+                        resultGetProviderAndProduct = getProductList();
+                        Log.d("search resultDrawerList1", resultGetProviderAndProduct);
+                    }
+                    if (!resultGetProviderAndProduct.isEmpty()) {
+                        Log.d("search resultDrawerList", resultGetProviderAndProduct);
+                        jObj = new JSONObject(resultGetProviderAndProduct);
+                        if (jObj.has("success")) {
+                            providerSuccessResponse=null;
+                            providerSuccessResponse = new Gson().fromJson(resultGetProviderAndProduct, ProviderSuccessResponse.class);
+                        } else {
+                            JSONObject jObjError = jObj.getJSONObject("error");
+                            msg = jObjError.getString("message");
+//                            code = jObjError.getString("code");
+                        }
+                    }
+                } else {
+                    connectedOrNot = "error";
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return connectedOrNot;
+        }
+
+        @Override
+        protected void onPostExecute(String connectedOrNot) {
+            try {
+//                progressDialog.dismiss();
+                if (connectedOrNot.equals("success")) {
+                    StartUpActivity.linearLayoutCategories.removeAllViews();
+                    if (!resultGetProviderAndProduct.isEmpty()) {
+                        if (jObj.has("success")) {
+                            Log.d("providerResponseDrawer",new Gson().toJson(providerSuccessResponse));
+                            new AdapterForProviderCategories(context, providerSuccessResponse.getSuccess().getProvider()).setProductCategories();
+                            Log.d("","DrawerList");
+                        } else {
+                            Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_LONG).show();
+                        }
+                    } else {
+                        Toast.makeText(getApplicationContext(), "Server is not responding please try again later", Toast.LENGTH_LONG).show();
+                    }
+                } else {
+                    Toast.makeText(getApplicationContext(), "Please check your internet connection", Toast.LENGTH_LONG).show();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+
+
+    //******************
+    //*****************
 
     //*********************
     //********************

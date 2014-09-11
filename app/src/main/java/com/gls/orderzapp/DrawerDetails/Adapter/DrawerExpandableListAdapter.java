@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.gls.orderzapp.DrawerDetails.Bean.LevelFourCategoryDoc;
 import com.gls.orderzapp.DrawerDetails.Bean.LevelFourCategoryProvider;
+import com.gls.orderzapp.MainApp.StartUpActivity;
 import com.gls.orderzapp.Provider.Beans.BranchInfo;
 import com.gls.orderzapp.R;
 import com.google.gson.Gson;
@@ -44,11 +45,14 @@ public class DrawerExpandableListAdapter extends BaseExpandableListAdapter {
 
         return this._listDataHeader.get(groupPosition).getProvider().get(childPosititon).getProvidername();
     }
-    public Object getChildID(int groupPosition, int childPosititon) {
+    public Object getProviderID(int groupPosition, int childPosititon) {
 
-        return "provider/"+this._listDataHeader.get(groupPosition).getProvider().get(childPosititon).getProviderid()+"/category/"+this._listDataHeader.get(groupPosition).getCategoryid();
+        return this._listDataHeader.get(groupPosition).getProvider().get(childPosititon).getProviderid();
     }
+    public Object getCategoryID(int groupPosition) {
 
+        return this._listDataHeader.get(groupPosition).getCategoryid();
+    }
     @Override
     public long getChildId(int groupPosition, int childPosition) {
         return childPosition;
@@ -59,8 +63,8 @@ public class DrawerExpandableListAdapter extends BaseExpandableListAdapter {
                              boolean isLastChild, View convertView, ViewGroup parent) {
 
         final String childText = (String) getChild(groupPosition, childPosition);
-        final String getcategoryproviderid=(String)getChildID(groupPosition, childPosition);
-
+        final String getcategoryid=(String)getCategoryID(groupPosition);
+        final String getproviderid=(String)getProviderID(groupPosition, childPosition);
         if (convertView == null) {
             LayoutInflater infalInflater = (LayoutInflater) this._context
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -74,7 +78,9 @@ public class DrawerExpandableListAdapter extends BaseExpandableListAdapter {
         txtListChild.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.d("Text press",getcategoryproviderid);
+                StartUpActivity st=(StartUpActivity)_context;
+                st.stringValue(getproviderid,getcategoryid);
+
             }
         });
         return convertView;
@@ -112,7 +118,6 @@ public class DrawerExpandableListAdapter extends BaseExpandableListAdapter {
 
         TextView lblListHeader = (TextView) convertView
                 .findViewById(R.id.lblListHeader);
-        lblListHeader.setTypeface(null, Typeface.BOLD);
         lblListHeader.setText(headerTitle);
 
         return convertView;

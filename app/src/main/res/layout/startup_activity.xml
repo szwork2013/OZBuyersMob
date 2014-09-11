@@ -62,32 +62,26 @@
             android:visibility="gone"/>
     </FrameLayout>
     <LinearLayout android:id="@+id/drawerList"
-        android:layout_width="240dp"
+        android:layout_width="200dp"
         android:layout_marginTop="10dp"
         android:layout_marginLeft="5dp"
         android:layout_height="match_parent"
         android:layout_gravity="start"
         android:orientation="vertical"
-        android:background="#fff">
+        android:background="#d23d3d3d">
         <TextView
             android:id="@+id/txt_category"
-            android:text="Select Category"
-            android:textSize="14dp"
-            android:textColor="#000"
+            android:text="@string/select_category"
+            android:textSize="18dp"
+            android:textColor="#fff"
+            android:textStyle="bold"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
         <LinearLayout
             android:orientation="vertical"
-            android:layout_marginLeft="10dp"
+            android:layout_marginLeft="15dp"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-        <TextView
-            android:id="@+id/txt_category_all"
-            android:text="All"
-            android:textSize="14dp"
-            android:textColor="#000"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
         <ExpandableListView
             android:id="@+id/left_drawer"
             android:layout_width="match_parent"

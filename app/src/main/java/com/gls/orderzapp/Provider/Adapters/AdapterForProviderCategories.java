@@ -50,6 +50,7 @@ public class AdapterForProviderCategories {
     DisplayImageOptions options;
 
     public AdapterForProviderCategories(Context context, List<ProviderDetails> providerDetailsList) {
+        Log.d("Adpter","Construct");
         this.context = context;
         this.providerDetailsList = providerDetailsList;
         options = new DisplayImageOptions.Builder()
