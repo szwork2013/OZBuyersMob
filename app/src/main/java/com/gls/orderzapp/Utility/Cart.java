@@ -28,12 +28,12 @@ import java.util.List;
 /**
  * Created by prajyot on 10/4/14.
  */
-public class Cart implements Animation.AnimationListener{
+public class Cart {
 
     public static HashMap<String, ProductDetails> hm = new HashMap<String, ProductDetails>();
     public static int productCount = 0;
-    static TextView numberTextOnCart;
-    static Animation zoomin, zoomout;
+    public static TextView numberTextOnCart;
+//    static Animation zoomin, zoomout;
 
     public static void addToCart(ProductDetails productDetails, Context context) {
 
@@ -46,8 +46,6 @@ public class Cart implements Animation.AnimationListener{
             localProduct = productDetails;
 
             hm.put(productCount + "", localProduct);
-            zoomin = AnimationUtils.loadAnimation(context, R.anim.zoomin);
-            zoomout = AnimationUtils.loadAnimation(context, R.anim.zoomout);
 
             setTextOnCartCount();
 
@@ -58,34 +56,7 @@ public class Cart implements Animation.AnimationListener{
         }
     }
 
-    @Override
-    public void onAnimationEnd(Animation animation) {
-        // Take any action after completing the animation
 
-        // check for fade in animation
-        if (animation == zoomin) {
-            zoomin.setAnimationListener(this);
-//            Toast.makeText(getApplicationContext(), "Animation Stopped",
-//                    Toast.LENGTH_SHORT).show();
-            zoomout.setAnimationListener(this);
-
-        }else{
-
-        }
-
-    }
-
-    @Override
-    public void onAnimationRepeat(Animation animation) {
-        // TODO Auto-generated method stub
-
-    }
-
-    @Override
-    public void onAnimationStart(Animation animation) {
-        // TODO Auto-generated method stub
-
-    }
 
     public static int getCount() {
         return hm.size();
@@ -126,9 +97,8 @@ public class Cart implements Animation.AnimationListener{
     public static void setTextOnCartCount() {
         try {
             numberTextOnCart.setVisibility(View.VISIBLE);
-            numberTextOnCart.startAnimation(zoomin);
             numberTextOnCart.setText(Cart.getCount() + "");
-            numberTextOnCart.startAnimation(zoomout);
+
         } catch (Exception e) {
             e.printStackTrace();
         }

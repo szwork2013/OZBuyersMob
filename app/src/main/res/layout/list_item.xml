@@ -1,16 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="55dip"
+    android:layout_height="wrap_content"
+    android:padding="2dp"
     android:orientation="vertical" >
-
     <TextView
         android:id="@+id/lblListItem"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:textSize="17dip"
-        android:paddingTop="5dp"
-        android:paddingBottom="5dp"
-        android:paddingLeft="?android:attr/expandableListPreferredChildPaddingLeft" />
+        android:textSize="15dp"
+        android:layout_marginLeft="10dp"
+        android:background="?android:attr/activatedBackgroundIndicator"
+        android:textAppearance="?android:attr/textAppearanceListItemSmall"
+        android:layout_marginTop="3dp"
+        android:textColor="#fff"
+       />
+    <View  android:layout_width="fill_parent"
+        android:layout_marginLeft="10dp"
+        android:background="#ff9f9f9f"
+        android:layout_height="1dp"/>
 
 </LinearLayout>
