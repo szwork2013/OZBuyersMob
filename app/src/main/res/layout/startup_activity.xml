@@ -32,7 +32,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:scaleType="fitXY"
-                android:onClick="gotoSelectCityActivity"/>
+                android:onClick="gotoSelectCityActivity"
+                android:id="@+id/cityName"/>
 
         </LinearLayout>
 
