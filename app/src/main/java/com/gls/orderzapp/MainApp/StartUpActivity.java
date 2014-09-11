@@ -5,10 +5,12 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -61,7 +63,7 @@ public class StartUpActivity extends Activity implements View.OnClickListener {
     public static String pid,cid;
     ActionBar actionBar;
     ImageView adBanner;
-
+    TextView allCategories,cityName;
     ProviderSuccessResponse providerSuccessResponse;
     CategorySuccessResponse categorySuccessResponse;
     boolean isEditTextVisible = false;
@@ -385,7 +387,8 @@ public class StartUpActivity extends Activity implements View.OnClickListener {
     //Initialize all the view
     public void findViewsById() {
         linearLayoutCategories = (LinearLayout) findViewById(R.id.linear_layout_categories);
-        added_to_cart = (TextView) findViewById(R.id.added_to_cart);
+        cityName = (TextView) findViewById(R.id.cityName);
+       added_to_cart = (TextView) findViewById(R.id.added_to_cart);
         //adBanner = (ImageView) findViewById(R.id.ad_banner);
     }
 
@@ -417,6 +420,8 @@ public class StartUpActivity extends Activity implements View.OnClickListener {
     @Override
     protected void onResume() {
         super.onResume();
+        cityName.setText(loadSearchByCityPreference());
+
         Log.d("onresume", "onresume");
         if (isFirstTime == true) {
             Log.d("if", "if");
@@ -671,6 +676,20 @@ public class StartUpActivity extends Activity implements View.OnClickListener {
             }
         }
     }
+    public String loadSearchByCityPreference(){
+        String city = "";
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        city = sp.getString("SEARCH_CITY","Pune");
+        return city;
+    }
+
+    public void gotoSelectCityActivity(View v){
+
+        Intent intent = new Intent(StartUpActivity.this,SelectCityActivity.class);
+        startActivityForResult(intent,3);
+
+    }
+
 
     class LogOutAsync extends AsyncTask<String, Integer, String> {
         JSONObject jObj;
@@ -710,12 +729,6 @@ public class StartUpActivity extends Activity implements View.OnClickListener {
             return connectedOrNot;
         }
 
-        public void gotoSelectCityActivity(View v){
-
-            Intent intent = new Intent(StartUpActivity.this,SelectCityActivity.class);
-            startActivityForResult(intent,3);
-
-        }
 
         @Override
         protected void onPostExecute(String connectedOrNot) {

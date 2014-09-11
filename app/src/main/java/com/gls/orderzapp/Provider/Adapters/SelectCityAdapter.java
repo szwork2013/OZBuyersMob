@@ -3,16 +3,29 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import com.gls.orderzapp.Provider.Beans.SelectCityDetails;
 import com.gls.orderzapp.R;
+
+import java.util.List;
 
 /**
  * Created by amit on 10/9/14.
  */
-public class SelectCityAdapter extends BaseAdapter  {
+public class SelectCityAdapter extends ArrayAdapter {
     Context context;
+    List<String> selectcity;
+
+    public SelectCityAdapter(Context context, int resource, List<String> selectcity){
+        super(context,resource,selectcity);
+        this.context = context;
+        this.selectcity = selectcity;
+
+
+    }
 
 
     @Override
@@ -38,7 +51,9 @@ public class SelectCityAdapter extends BaseAdapter  {
         }
 
         TextView cityname = (TextView) convertView.findViewById(R.id.CityNameText);
+        cityname.setText(selectcity.get(position));
+       // if()
 
-        return null;
+        return convertView;
     }
 }
