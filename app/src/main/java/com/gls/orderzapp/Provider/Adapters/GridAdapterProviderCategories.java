@@ -17,6 +17,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.gls.orderzapp.MainApp.MoreProductsListActivity;
 import com.gls.orderzapp.MainApp.ProductDetailsActivity;
@@ -51,8 +52,6 @@ public class GridAdapterProviderCategories extends BaseAdapter implements Animat
     ProductDetails productDetails;
     ProviderDetails providerDetails;
     BranchInfo branchDetails;
-    ImageView imageProduct, close_dialog;
-    TextView textProductName, textProductDescription, textProductPrice;
     com.nostra13.universalimageloader.core.ImageLoader imageLoader;
     DisplayImageOptions options;
     ProductDetails productDetailsToAddIntoTheCart;
@@ -398,14 +397,13 @@ public class GridAdapterProviderCategories extends BaseAdapter implements Animat
 
     @Override
     public void onAnimationEnd(Animation animation) {
+        Toast.makeText(context, "animation end", Toast.LENGTH_SHORT).show();
         if(animation == slide_down) {
             StartUpActivity.added_to_cart.startAnimation(slide_up);
             StartUpActivity.added_to_cart.setVisibility(View.GONE);
         }else if(animation == zoom_in){
             Cart.numberTextOnCart.startAnimation(zoom_out);
         }
-
-
     }
 
     @Override

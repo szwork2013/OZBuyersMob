@@ -4,11 +4,25 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
-
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:id="@+id/ll_support_numbers"
+        android:visibility="gone"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="10dp">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Support numbers : "
+        android:textColor="#000"
+        android:textSize="18sp"
+        android:textStyle="bold"/>
+    </LinearLayout>
     <WebView
         android:id="@+id/web_view"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-
         android:layout_gravity="center_horizontal" />
 </LinearLayout>
