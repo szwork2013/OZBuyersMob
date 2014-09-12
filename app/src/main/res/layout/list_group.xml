@@ -3,16 +3,20 @@
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:padding="8dp"
-    android:background="#000000">
-
+  >
 
     <TextView
         android:id="@+id/lblListHeader"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:paddingLeft="?android:attr/expandableListPreferredItemPaddingLeft"
-        android:textSize="17dp"
-        android:textColor="#f9f93d" />
+        android:textSize="18dp"
+        android:background="?android:attr/activatedBackgroundIndicator"
+        android:textAppearance="?android:attr/textAppearanceListItemSmall"
+        android:text="Header"
+        android:textColor="#fff" />
+    <View  android:layout_width="fill_parent"
+        android:background="#ff9f9f9f"
+        android:layout_marginRight="20dp"
+        android:layout_height="2dp"/>
 
 </LinearLayout>
