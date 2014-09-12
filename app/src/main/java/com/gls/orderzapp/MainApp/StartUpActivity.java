@@ -205,10 +205,10 @@ public class StartUpActivity extends Activity implements View.OnClickListener {
     public String getCategoryList() {
         String resultGetCategoryList = "";
         try {
-            if(loadSearchByCityPreference()!=null){
-                resultGetCategoryList = ServerConnection.executeGet(getApplicationContext(), "/api/levelfourcategory?city="+loadSearchByCityPreference());
+            if(loadSearchByCityPreference().isEmpty()||loadSearchByCityPreference()==null||loadSearchByCityPreference().equalsIgnoreCase("All")){
+                resultGetCategoryList = ServerConnection.executeGet(getApplicationContext(), "/api/levelfourcategory");
             }else{
-            resultGetCategoryList = ServerConnection.executeGet(getApplicationContext(), "/api/levelfourcategory");
+                resultGetCategoryList = ServerConnection.executeGet(getApplicationContext(), "/api/levelfourcategory?city="+loadSearchByCityPreference());
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -565,12 +565,10 @@ public class StartUpActivity extends Activity implements View.OnClickListener {
         String resultGetProviderAndProduct = "";
         try {
 
-            if(loadSearchByCityPreference()!= null){
-
-                resultGetProviderAndProduct = ServerConnection.executeGet(getApplicationContext(), "/api/searchproduct/" + param+"?city="+loadSearchByCityPreference());
-            }else{
-
+            if(loadSearchByCityPreference().isEmpty()||loadSearchByCityPreference()==null||loadSearchByCityPreference().equalsIgnoreCase("All")){
                 resultGetProviderAndProduct = ServerConnection.executeGet(getApplicationContext(), "/api/searchproduct/" + param);
+            }else{
+                resultGetProviderAndProduct = ServerConnection.executeGet(getApplicationContext(), "/api/searchproduct/" + param+"?city="+loadSearchByCityPreference());
             }
 
 
@@ -618,7 +616,8 @@ public class StartUpActivity extends Activity implements View.OnClickListener {
             case 3:
                 if(resultCode == RESULT_OK){
                     loadSearchByCityPreference();
-
+                    new GetCategoryListAsync().execute();
+                    drawerActions();
                     new GetProviderAndProductListAsync().execute();
 
                 }

@@ -362,7 +362,7 @@ public class GridAdapterProviderCategories extends BaseAdapter implements Animat
                             }
 //                        if(productDetailsToAddIntoTheCart!=null) {
                             Cart.addToCart(productDetailsToAddIntoTheCart, context);
-                            Cart.numberTextOnCart.startAnimation(zoom_in);
+//                            Cart.numberTextOnCart.startAnimation(zoom_in);
                             productDetailsToAddIntoTheCart = null;
 //                        }
                         }
