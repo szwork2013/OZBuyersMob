@@ -392,7 +392,7 @@ mDrawerLayout.setScrimColor(Color.parseColor("#FFFFFF"));
     public void findViewsById() {
         linearLayoutCategories = (LinearLayout) findViewById(R.id.linear_layout_categories);
         cityName = (TextView) findViewById(R.id.cityName);
-       added_to_cart = (TextView) findViewById(R.id.added_to_cart);
+        added_to_cart = (TextView) findViewById(R.id.added_to_cart);
         //adBanner = (ImageView) findViewById(R.id.ad_banner);
     }
 
@@ -561,7 +561,15 @@ mDrawerLayout.setScrimColor(Color.parseColor("#FFFFFF"));
     public String getProviderAndProductsList(String param) {
         String resultGetProviderAndProduct = "";
         try {
-            resultGetProviderAndProduct = ServerConnection.executeGet(getApplicationContext(), "/api/searchproduct/" + param);
+
+            if(loadSearchByCityPreference()!= null){
+
+                resultGetProviderAndProduct = ServerConnection.executeGet(getApplicationContext(), "/api/searchproduct/" + param+"?city="+loadSearchByCityPreference());
+            }else{
+
+                resultGetProviderAndProduct = ServerConnection.executeGet(getApplicationContext(), "/api/searchproduct/" + param);
+            }
+
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -604,6 +612,14 @@ mDrawerLayout.setScrimColor(Color.parseColor("#FFFFFF"));
                     finish();
                 }
                 break;
+            case 3:
+                if(resultCode == RESULT_OK){
+                    loadSearchByCityPreference();
+
+                    new GetProviderAndProductListAsync().execute();
+
+                }
+
         }
     }
 
@@ -680,11 +696,13 @@ mDrawerLayout.setScrimColor(Color.parseColor("#FFFFFF"));
     public String loadSearchByCityPreference(){
         String city = "";
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-        city = sp.getString("SEARCH_CITY","Pune");
+        city = sp.getString("SEARCH_CITY","");
+        Log.d("city value ",city);
         return city;
     }
 
     public void gotoSelectCityActivity(View v){
+//        Toast.makeText(getApplicationContext(),"Hello amit ",Toast.LENGTH_LONG).show();
 
         Intent intent = new Intent(StartUpActivity.this,SelectCityActivity.class);
         startActivityForResult(intent,3);
@@ -791,7 +809,7 @@ mDrawerLayout.setScrimColor(Color.parseColor("#FFFFFF"));
                         if (searchProducts.getText().toString().trim().length() > 0) {
                             searchString = searchProducts.getText().toString().trim();
                             resultGetProviderAndProduct = getProviderAndProductsList(searchString.replaceAll(" ", "%20"));
-                        } else {
+                        } else{
                             resultGetProviderAndProduct = getProviderAndProductsList("");
                         }
                     }

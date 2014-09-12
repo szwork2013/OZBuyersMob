@@ -30,12 +30,12 @@ public class SelectCityAdapter extends ArrayAdapter {
 
     @Override
     public int getCount() {
-        return 0;
+        return selectcity.size();
     }
 
     @Override
     public Object getItem(int i) {
-        return null;
+        return selectcity.get(i);
     }
 
     @Override
@@ -51,7 +51,11 @@ public class SelectCityAdapter extends ArrayAdapter {
         }
 
         TextView cityname = (TextView) convertView.findViewById(R.id.CityNameText);
-        cityname.setText(selectcity.get(position));
+        if(!selectcity.get(position).isEmpty()) {
+            String city = Character.toUpperCase(selectcity.get(position).charAt(0)) + selectcity.get(position).substring(1);
+
+            cityname.setText(city);
+        }
        // if()
 
         return convertView;
