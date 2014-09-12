@@ -174,7 +174,7 @@ public class DeliveryChargesAndTypeAdapter {
                             LayoutInflater li = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                             llDeliveryChargeAndType = (LinearLayout) li.inflate(R.layout.delivery_charge_type, null);
 //                            new DisplayDeliveryChargesAndType(context, successResponseForDeliveryCharges, checkForDeliveryModeList);
-                            DisplayDeliveryChargesAndType.deliveryType.clear();
+//                            DisplayDeliveryChargesAndType.deliveryType.clear();
                             new DisplayDeliveryChargesAndType(context, successResponseForDeliveryCharges, SortedProviderList);
                             DeliveryPaymentActivity.ll_deliver_charge_type.removeAllViews();
                             DeliveryPaymentActivity.ll_deliver_charge_type.addView(llDeliveryChargeAndType);

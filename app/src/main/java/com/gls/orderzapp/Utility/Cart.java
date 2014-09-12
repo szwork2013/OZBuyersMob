@@ -425,9 +425,9 @@ public class Cart {
 //                    deliveryCharges = deliveryCharges + 0.0;
 //                }
 
-                for (int j = 0; j < DisplayDeliveryChargesAndType.deliveryType.size(); j++) {
-                    if (DisplayDeliveryChargesAndType.deliveryType.get(j).split("_")[0].equals(succesResponseForDeliveryChargesAndType.getSuccess().getDeliverycharge().get(i).getBranchid())) {
-                        if (DisplayDeliveryChargesAndType.deliveryType.get(j).split("_")[1].equalsIgnoreCase("home")) {
+                for (int j = 0; j < DisplayDeliveryChargesAndType.deliverytypebean.size(); j++) {
+                    if (DisplayDeliveryChargesAndType.deliverytypebean.get(j).getBranchid().equals(succesResponseForDeliveryChargesAndType.getSuccess().getDeliverycharge().get(i).getBranchid())) {
+                        if (DisplayDeliveryChargesAndType.deliverytypebean.get(j).getDeliveryType().equalsIgnoreCase("home")) {
                             if (succesResponseForDeliveryChargesAndType.getSuccess().getDeliverycharge().get(i).isIsdeliverychargeinpercent() == true) {
                                 deliveryCharges = deliveryCharges + ((succesResponseForDeliveryChargesAndType.getSuccess().getDeliverycharge().get(i).getCharge() * deliveryCharges(succesResponseForDeliveryChargesAndType.getSuccess().getDeliverycharge().get(i).getBranchid())) / 100);
                             } else {

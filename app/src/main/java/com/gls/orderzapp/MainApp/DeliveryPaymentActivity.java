@@ -182,7 +182,7 @@ public class DeliveryPaymentActivity extends Activity {
     public void onBackPressed() {
         super.onBackPressed();
         payment_mode = "";
-        DisplayDeliveryChargesAndType.deliveryType.clear();
+//        DisplayDeliveryChargesAndType.deliveryType.clear();
         DisplayDeliveryChargesAndType.deliverytypebean.clear();
     }
 

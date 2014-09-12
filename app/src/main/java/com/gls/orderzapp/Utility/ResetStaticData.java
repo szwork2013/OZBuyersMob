@@ -197,7 +197,7 @@ public class ResetStaticData {
     public static void staticDisplayDeliveryChargesAndType() throws Exception {
         DisplayDeliveryChargesAndType.order_instruction = null;
         DisplayDeliveryChargesAndType.checkForDeliveryModeList.clear();
-        DisplayDeliveryChargesAndType.deliveryType.clear();
+//        DisplayDeliveryChargesAndType.deliveryType.clear();
         DisplayDeliveryChargesAndType.listOfDeliveryCharges = null;
         DisplayDeliveryChargesAndType.listPickUpButtons.clear();
         DisplayDeliveryChargesAndType.deliverytypebean.clear();

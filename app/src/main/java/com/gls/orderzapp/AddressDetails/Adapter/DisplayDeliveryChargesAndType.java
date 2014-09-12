@@ -35,7 +35,7 @@ import java.util.List;
 public class DisplayDeliveryChargesAndType {
     public static Context context;
     public static String[] order_instruction;
-    public static List<String> deliveryType = new ArrayList<>();
+//    public static List<String> deliveryType = new ArrayList<>();
     public static List<DeliveryTypeBean> deliverytypebean = new ArrayList<>();
     public static SuccessResponseForDeliveryChargesAndType listOfDeliveryCharges;
     public static ListOfPickupAddresses listOfPickupAddresses = new ListOfPickupAddresses();
@@ -58,11 +58,11 @@ public class DisplayDeliveryChargesAndType {
 
     public static boolean deliveryTypeCheck() {
         boolean deliverycheck = false;
-        Log.d("delivery type", new Gson().toJson(deliveryType));
+//        Log.d("delivery type", new Gson().toJson(deliveryType));
         Log.d("delivery type bean", new Gson().toJson(deliverytypebean));
-        if (checkForDeliveryModeList.size() == deliveryType.size()) {
-            for (int l = 0; l < deliveryType.size(); l++) {
-                if (deliveryType.get(l) != null) {
+        if (checkForDeliveryModeList.size() == deliverytypebean.size()) {
+            for (int l = 0; l < deliverytypebean.size(); l++) {
+                if (deliverytypebean.get(l) != null) {
                     if (deliverytypebean.get(l).getDeliveryType().equalsIgnoreCase("pickup")) {
                         if (deliverytypebean.get(l).getPickUpArea() == null) {
                             deliverycheck = false;
@@ -148,10 +148,10 @@ public class DisplayDeliveryChargesAndType {
                             btn_selct_pickup_address.setText(null);
                             btn_selct_pickup_address.setVisibility(View.VISIBLE);
                             ll_delivery_charges.setVisibility(View.INVISIBLE);
-                            for (int k = 0; k < deliveryType.size(); k++) {
-                                if (deliveryType.get(k).split("_")[0].equals(checkForDeliveryModeList.get(group.getId() - 200).getBranchid())) {
-                                    deliveryType.remove(k);
-                                }
+                            for (int k = 0; k < deliverytypebean.size(); k++) {
+//                                if (deliveryType.get(k).split("_")[0].equals(checkForDeliveryModeList.get(group.getId() - 200).getBranchid())) {
+//                                    deliveryType.remove(k);
+//                                }
 
                                 if(deliverytypebean.get(k).getBranchid().equals(checkForDeliveryModeList.get(group.getId() - 200).getBranchid())) {
                                     deliverytypebean.remove(k);
@@ -161,17 +161,18 @@ public class DisplayDeliveryChargesAndType {
                             deliveryTypeBean.setBranchid(checkForDeliveryModeList.get(group.getId() - 200).getBranchid());
                             deliveryTypeBean.setDeliveryType("pickup");
                             deliverytypebean.add(deliveryTypeBean);
-                            deliveryType.add(checkForDeliveryModeList.get(group.getId() - 200).getBranchid() + "_" + "pickup");
+//                            deliveryType.add(checkForDeliveryModeList.get(group.getId() - 200).getBranchid() + "_" + "pickup");
+                            Log.d("delivery type", new Gson().toJson(deliverytypebean));
                             break;
 
                         case R.id.home_delivery:
                             ll_delivery_charges.setVisibility(View.VISIBLE);
                             Cart.saveDeliveryTypeInfoInCart(checkForDeliveryModeList.get(group.getId() - 200).getBranchid(), "home");
                             btn_selct_pickup_address.setVisibility(View.INVISIBLE);
-                            for (int k = 0; k < deliveryType.size(); k++) {
-                                if (deliveryType.get(k).split("_")[0].equals(checkForDeliveryModeList.get(group.getId() - 200).getBranchid())) {
-                                    deliveryType.remove(k);
-                                }
+                            for (int k = 0; k < deliverytypebean.size(); k++) {
+//                                if (deliveryType.get(k).split("_")[0].equals(checkForDeliveryModeList.get(group.getId() - 200).getBranchid())) {
+//                                    deliveryType.remove(k);
+//                                }
 
                                 if(deliverytypebean.get(k).getBranchid().equals(checkForDeliveryModeList.get(group.getId() - 200).getBranchid())) {
                                     deliverytypebean.remove(k);
@@ -181,7 +182,9 @@ public class DisplayDeliveryChargesAndType {
                             deliveryTypeBeanDelivery.setBranchid(checkForDeliveryModeList.get(group.getId() - 200).getBranchid());
                             deliveryTypeBeanDelivery.setDeliveryType("home");
                             deliverytypebean.add(deliveryTypeBeanDelivery);
-                            deliveryType.add(checkForDeliveryModeList.get(group.getId() - 200).getBranchid() + "_" + "home");
+//                            deliveryType.add(checkForDeliveryModeList.get(group.getId() - 200).getBranchid() + "_" + "home");
+
+                            Log.d("delivery type", new Gson().toJson(deliverytypebean));
                             break;
                     }
                 }
