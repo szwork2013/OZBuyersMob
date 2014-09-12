@@ -8,8 +8,8 @@
         android:id="@+id/lblListItem"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:textSize="15dp"
-        android:layout_marginLeft="10dp"
+        android:textSize="16dp"
+        android:layout_marginLeft="15dp"
         android:background="?android:attr/activatedBackgroundIndicator"
         android:textAppearance="?android:attr/textAppearanceListItemSmall"
         android:layout_marginTop="3dp"
@@ -17,6 +17,7 @@
        />
     <View  android:layout_width="fill_parent"
         android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
         android:background="#ff9f9f9f"
         android:layout_height="1dp"/>
 

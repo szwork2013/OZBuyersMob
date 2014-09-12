@@ -119,7 +119,6 @@ public class DrawerExpandableListAdapter extends BaseExpandableListAdapter {
         TextView lblListHeader = (TextView) convertView
                 .findViewById(R.id.lblListHeader);
         lblListHeader.setText(headerTitle);
-
         return convertView;
     }
 
