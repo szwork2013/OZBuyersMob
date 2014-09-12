@@ -205,8 +205,11 @@ public class StartUpActivity extends Activity implements View.OnClickListener {
     public String getCategoryList() {
         String resultGetCategoryList = "";
         try {
+            if(loadSearchByCityPreference()!=null){
+                resultGetCategoryList = ServerConnection.executeGet(getApplicationContext(), "/api/levelfourcategory?city="+loadSearchByCityPreference());
+            }else{
             resultGetCategoryList = ServerConnection.executeGet(getApplicationContext(), "/api/levelfourcategory");
-
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -310,10 +313,8 @@ public class StartUpActivity extends Activity implements View.OnClickListener {
             try {
                 if (new CheckConnection(context).isConnectingToInternet()) {
                     connectedOrNot = "success";
-                    if (searchProducts == null) {
                         resultGetProviderAndProduct = getProductList();
                         Log.d("search resultDrawerList1", resultGetProviderAndProduct);
-                    }
                     if (!resultGetProviderAndProduct.isEmpty()) {
                         Log.d("search resultDrawerList", resultGetProviderAndProduct);
                         jObj = new JSONObject(resultGetProviderAndProduct);
@@ -544,6 +545,7 @@ public class StartUpActivity extends Activity implements View.OnClickListener {
                 searchProducts = search;
                 actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM
                         | ActionBar.DISPLAY_SHOW_HOME);
+                actionBar.setDisplayHomeAsUpEnabled(true);
             } else {
                 new GetProviderAndProductListAsync().execute();
             }
@@ -681,7 +683,7 @@ public class StartUpActivity extends Activity implements View.OnClickListener {
     public String loadSearchByCityPreference(){
         String city = "";
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-        city = sp.getString("SEARCH_CITY","Pune");
+        city = sp.getString("SEARCH_CITY","");
         return city;
     }
 

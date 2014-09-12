@@ -5,18 +5,18 @@
     android:orientation="vertical"
   >
 
-
     <TextView
         android:id="@+id/lblListHeader"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:textSize="17dp"
+        android:textSize="18dp"
         android:background="?android:attr/activatedBackgroundIndicator"
         android:textAppearance="?android:attr/textAppearanceListItemSmall"
         android:text="Header"
         android:textColor="#fff" />
     <View  android:layout_width="fill_parent"
         android:background="#ff9f9f9f"
+        android:layout_marginRight="10dp"
         android:layout_height="2dp"/>
 
 </LinearLayout>
