@@ -39,9 +39,10 @@
                        android:background="#fff"
                        android:onClick="gotoSelectCityActivity"
                        android:clickable="true"
-                       android:text="Your selected City is "
+                       android:text="@string/selected_city"
                        android:textStyle="bold"
                        android:textSize="16sp"
+                       android:id="@+id/selectTheCity"
 />
 
                    <TextView
@@ -54,7 +55,8 @@
                        android:onClick="gotoSelectCityActivity"
                        android:textStyle="bold"
                        android:textSize="16sp"
-                       android:id="@+id/cityName"/>
+                       android:id="@+id/cityName"
+                       android:layout_marginLeft="2dp"/>
 
                 </LinearLayout>
                 <LinearLayout

@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.gls.orderzapp.Provider.Beans.SelectCityDetails;
 import com.gls.orderzapp.R;
 
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -22,7 +23,12 @@ public class SelectCityAdapter extends ArrayAdapter {
     public SelectCityAdapter(Context context, int resource, List<String> selectcity){
         super(context,resource,selectcity);
         this.context = context;
+
         this.selectcity = selectcity;
+
+        selectcity.removeAll(Arrays.asList(null,""));
+
+       // this.selectcity.add(0,"ALL");
 
 
     }
@@ -45,16 +51,21 @@ public class SelectCityAdapter extends ArrayAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
+
         if(convertView == null) {
             LayoutInflater li = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = li.inflate(R.layout.select_city_item, null);
         }
 
         TextView cityname = (TextView) convertView.findViewById(R.id.CityNameText);
-        if(!selectcity.get(position).isEmpty()) {
+
+        if(!selectcity.get(position).trim().isEmpty() || !selectcity.get(position).equals("") ) {
+
             String city = Character.toUpperCase(selectcity.get(position).charAt(0)) + selectcity.get(position).substring(1);
 
             cityname.setText(city);
+
+           // cityname.setText(selectcity.get(position));
         }
        // if()
 

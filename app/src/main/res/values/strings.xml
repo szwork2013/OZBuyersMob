@@ -143,5 +143,6 @@
     <string name="language">Language :</string>
     <string name="title_activity_select_city">Select city</string>
     <string name="select_category">Select Category</string>
-
+    <string name="selected_city">Your selected City is </string>
+    <string name="please_select_city">Click to select City </string>
 </resources>

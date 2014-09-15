@@ -24,9 +24,15 @@ import com.google.gson.Gson;
 
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
 public class SelectCityActivity extends ActionBarActivity {
 
     ListView cityList;
+    List<String> cities = new ArrayList<>();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +46,7 @@ public class SelectCityActivity extends ActionBarActivity {
 
     public void findViewsById(){
         cityList = (ListView) findViewById(R.id.CityList);
+
     }
 
 
@@ -136,8 +143,13 @@ public class SelectCityActivity extends ActionBarActivity {
                 progressDialog.dismiss();
                     if(connectedOrNot.equalsIgnoreCase("success")){
                         if(jobj.has("success")){
-                            SelectCityAdapter objSelectCityAdapter = new SelectCityAdapter(getApplicationContext(),0,objSuccessResponseForCity.getSuccess().getCity());
+                            cities.add(0,"All");
+
+                            cities.addAll(objSuccessResponseForCity.getSuccess().getCity());
+                            SelectCityAdapter objSelectCityAdapter = new SelectCityAdapter(getApplicationContext(),0,cities);
+                           // SelectCityAdapter objSelectCityAdapter = new SelectCityAdapter(getApplicationContext(),0,cities);
                             cityList.setAdapter(objSelectCityAdapter);
+                           // cityList.add(0,"All");
 
                            // if(int i=0;i<obj)
 

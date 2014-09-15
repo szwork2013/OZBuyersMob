@@ -63,7 +63,7 @@ public class StartUpActivity extends Activity implements View.OnClickListener {
     public static String pid,cid;
     ActionBar actionBar;
     ImageView adBanner;
-    TextView allCategories,cityName;
+    TextView allCategories,cityName, selectedCityName;
     ProviderSuccessResponse providerSuccessResponse;
     CategorySuccessResponse categorySuccessResponse;
     boolean isEditTextVisible = false;
@@ -392,6 +392,7 @@ public class StartUpActivity extends Activity implements View.OnClickListener {
         linearLayoutCategories = (LinearLayout) findViewById(R.id.linear_layout_categories);
         cityName = (TextView) findViewById(R.id.cityName);
         added_to_cart = (TextView) findViewById(R.id.added_to_cart);
+        selectedCityName = (TextView)findViewById(R.id.selectTheCity);
         //adBanner = (ImageView) findViewById(R.id.ad_banner);
     }
 
@@ -424,6 +425,15 @@ public class StartUpActivity extends Activity implements View.OnClickListener {
     protected void onResume() {
         super.onResume();
         cityName.setText(loadSearchByCityPreference());
+        if(cityName.getText().toString().equalsIgnoreCase("All"))
+        {
+            cityName.setVisibility(View.GONE);
+            selectedCityName.setText(R.string.please_select_city);
+        }
+        else{
+            selectedCityName.setText(R.string.selected_city);
+            cityName.setVisibility(View.VISIBLE);
+        }
 
         Log.d("onresume", "onresume");
         if (isFirstTime == true) {
@@ -697,13 +707,14 @@ public class StartUpActivity extends Activity implements View.OnClickListener {
         }
     }
     public String loadSearchByCityPreference(){
-        String city = "";
+        String city,city1 = "";
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         city = sp.getString("SEARCH_CITY","");
+        city1 = city.substring(0,1).toUpperCase() + city.substring(1);
 
 
 
-        return city;
+        return city1;
     }
 
     public void gotoSelectCityActivity(View v){
