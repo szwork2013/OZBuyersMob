@@ -92,16 +92,6 @@ public class DeliveryPaymentActivity extends Activity {
         context = DeliveryPaymentActivity.this;
         findViewsById();
         runOnResume();
-//        checkPaymentmode();
-//        selectPaymentMode();
-//        try {
-//            setDeliveryAddress(loadPreferencesUserDataForDeliveryAddress());
-//            setBillingAddress(loadPreferencesUserDataForBillingAddress());
-//            selectDeliveryType();
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-        Log.d("CartDetailDeliveryPayment", new Gson().toJson(Cart.hm));
 
     }
 
@@ -214,7 +204,7 @@ public class DeliveryPaymentActivity extends Activity {
     public void onBackPressed() {
         super.onBackPressed();
         payment_mode = "";
-        DisplayDeliveryChargesAndType.deliveryType.clear();
+//        DisplayDeliveryChargesAndType.deliveryType.clear();
         DisplayDeliveryChargesAndType.deliverytypebean.clear();
     }
 
@@ -265,8 +255,6 @@ public class DeliveryPaymentActivity extends Activity {
 
                 Date selectedDate = calendar.getTime();
                 Date TodaysDate = c.getTime();
-                Log.d("selected date", new Gson().toJson(selectedDate));
-                Log.d("current date", new Gson().toJson(TodaysDate));
                 if (selectedDate.before(TodaysDate)) {
                     Toast.makeText(getApplicationContext(), "Please select a valid date and time", Toast.LENGTH_LONG).show();
                 } else {
@@ -317,7 +305,6 @@ public class DeliveryPaymentActivity extends Activity {
         alertDialog.dismiss();
 
     }
-
 
     public void showPopUp(View view) {
         new AddressPopUpMenu(DeliveryPaymentActivity.this, view).handlePopupEvents();
@@ -426,7 +413,6 @@ public class DeliveryPaymentActivity extends Activity {
         CreateOrderAddressDetails createOrderBillingAddressDetails = new CreateOrderAddressDetails();
         CreateOrderAddressDetails createOrderDeliveryAddressDetails = new CreateOrderAddressDetails();
 
-//        createOrderBillingAddressDetails.setDate();
         if (successResponseOfUserBillingAddress.getSuccess().getUser().getLocation() != null) {
             createOrderBillingAddressDetails.setAddress1(successResponseOfUserBillingAddress.getSuccess().getUser().getLocation().getAddress1());
             createOrderBillingAddressDetails.setAddress2(successResponseOfUserBillingAddress.getSuccess().getUser().getLocation().getAddress2());
@@ -436,22 +422,16 @@ public class DeliveryPaymentActivity extends Activity {
             createOrderBillingAddressDetails.setState(successResponseOfUserBillingAddress.getSuccess().getUser().getLocation().getState());
             createOrderBillingAddressDetails.setCountry(successResponseOfUserBillingAddress.getSuccess().getUser().getLocation().getCountry());
         }
-//        if (DeliveryChargesAndTypeAdapter.delivery_type.equalsIgnoreCase("Home Delivery")) {
         if (ChangeAddressActivity.isAddressChanged == true) {
-            SelectAddressListActivity.isAddNewaddress = false;
-            ChangeAddressActivity.isAddressChanged = false;
-            createOrderDeliveryAddressDetails.setAddress1(ChangeAddressActivity.edittext_address1.getText().toString().trim());
-            createOrderDeliveryAddressDetails.setAddress2(ChangeAddressActivity.edittext_address2.getText().toString().trim());
-            createOrderDeliveryAddressDetails.setArea(ChangeAddressActivity.edittext_area.getText().toString().trim());
-            createOrderDeliveryAddressDetails.setCity(ChangeAddressActivity.edittext_city.getText().toString().trim());
-            createOrderDeliveryAddressDetails.setZipcode(ChangeAddressActivity.edittext_zipcode.getText().toString().trim());
-            createOrderDeliveryAddressDetails.setState(ChangeAddressActivity.edittext_state.getText().toString().trim());
-            createOrderDeliveryAddressDetails.setCountry(ChangeAddressActivity.edittext_country.getText().toString().trim());
+            createOrderDeliveryAddressDetails.setAddress1(ChangeAddressActivity.deliveryAddressList.getAddress().getAddress1());
+            createOrderDeliveryAddressDetails.setAddress2(ChangeAddressActivity.deliveryAddressList.getAddress().getAddress2());
+            createOrderDeliveryAddressDetails.setArea(ChangeAddressActivity.deliveryAddressList.getAddress().getArea());
+            createOrderDeliveryAddressDetails.setCity(ChangeAddressActivity.deliveryAddressList.getAddress().getCity());
+            createOrderDeliveryAddressDetails.setZipcode(ChangeAddressActivity.deliveryAddressList.getAddress().getZipcode());
+            createOrderDeliveryAddressDetails.setState(ChangeAddressActivity.deliveryAddressList.getAddress().getState());
+            createOrderDeliveryAddressDetails.setCountry(ChangeAddressActivity.deliveryAddressList.getAddress().getCountry());
         } else if (SelectAddressListActivity.isAddNewaddress == true) {
-            SelectAddressListActivity.isAddNewaddress = false;
-            ChangeAddressActivity.isAddressChanged = false;
             createOrderDeliveryAddressDetails.setDeliveryaddressid(AdapterForSelectaddressList.deliveryaddressid);
-            Log.d("createOrderDeliveryAddressDetails_ID", AdapterForSelectaddressList.deliveryaddressid);
             createOrderDeliveryAddressDetails.setAddress1(AdapterForSelectaddressList.deliveryAddressList.getAddress().getAddress1());
             createOrderDeliveryAddressDetails.setAddress2(AdapterForSelectaddressList.deliveryAddressList.getAddress().getAddress2());
             createOrderDeliveryAddressDetails.setArea(AdapterForSelectaddressList.deliveryAddressList.getAddress().getArea());

@@ -169,6 +169,7 @@ public class ResetStaticData {
         ChangeAddressActivity.edittext_country.setText("");
         ChangeAddressActivity.edittext_zipcode.setText("");
         ChangeAddressActivity.isAddressChanged = false;
+        ChangeAddressActivity.deliveryAddressList = null;
     }
 
     public static void staticCartActivity() throws Exception {
@@ -196,7 +197,7 @@ public class ResetStaticData {
     public static void staticDisplayDeliveryChargesAndType() throws Exception {
         DisplayDeliveryChargesAndType.order_instruction = null;
         DisplayDeliveryChargesAndType.checkForDeliveryModeList.clear();
-        DisplayDeliveryChargesAndType.deliveryType.clear();
+//        DisplayDeliveryChargesAndType.deliveryType.clear();
         DisplayDeliveryChargesAndType.listOfDeliveryCharges = null;
         DisplayDeliveryChargesAndType.listPickUpButtons.clear();
         DisplayDeliveryChargesAndType.deliverytypebean.clear();

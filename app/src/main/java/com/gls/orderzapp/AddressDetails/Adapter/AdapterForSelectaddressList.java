@@ -12,6 +12,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.gls.orderzapp.AddressDetails.Bean.ListOfDeliveryAddress;
+import com.gls.orderzapp.MainApp.ChangeAddressActivity;
 import com.gls.orderzapp.MainApp.DeliveryPaymentActivity;
 import com.gls.orderzapp.MainApp.SelectAddressListActivity;
 import com.gls.orderzapp.R;
@@ -106,6 +107,7 @@ public class AdapterForSelectaddressList extends BaseAdapter {
                                     deliveryAddressList.getAddress().getState() + ", " +
                                     deliveryAddressList.getAddress().getCountry() + ".");
                             SelectAddressListActivity.isAddNewaddress = true;
+                            ChangeAddressActivity.isAddressChanged = false;
                             loadPreferencesUserDataForDeliveryAddress();
                             ((Activity) context).setResult(((Activity) context).RESULT_OK);
                             ((Activity) context).finish();

@@ -140,20 +140,15 @@ public class OrderDetailsActivity extends Activity {
     }
 
     public void findViewsById() {
-//        orderDetailsList = (ListView)findViewById(R.id.listView);
         llProductsList = (LinearLayout) findViewById(R.id.listProducts);
-//        txt_delivery_date=(TextView) findViewById(R.id.txt_delivery_date);
         textGrandTotal = (TextView) findViewById(R.id.grand_total_text);
-
         grandTotal = (TextView) findViewById(R.id.grand_total);
         delivery_type = (TextView) findViewById(R.id.delivery_type);
         billingAddressTextView = (TextView) findViewById(R.id.billing_address_textview);
-
         payment_mode_group = (RadioGroup) findViewById(R.id.payment_mode_group);
         cash_on_delivery = (RadioButton) findViewById(R.id.cash_on_delivery);
         credit_card = (RadioButton) findViewById(R.id.credit_card);
         payment_mode = (TextView) findViewById(R.id.payment_mode);
-//        address_list = (ListView) findViewById(R.id.address_list);
     }
 
     @Override
