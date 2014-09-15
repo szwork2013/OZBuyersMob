@@ -94,7 +94,6 @@ public class StartUpActivity extends Activity implements View.OnClickListener {
         actionBar.setTitle("");
         actionBar.setDisplayHomeAsUpEnabled(true);
         findViewsById();
-
 //Get list of all product and provider
         new GetCategoryListAsync().execute();
         drawerActions();
@@ -366,6 +365,7 @@ public class StartUpActivity extends Activity implements View.OnClickListener {
         cityName = (TextView) findViewById(R.id.cityName);
         added_to_cart = (TextView) findViewById(R.id.added_to_cart);
         selectedCityName = (TextView)findViewById(R.id.selectTheCity);
+
     }
 
     @Override
@@ -406,8 +406,6 @@ public class StartUpActivity extends Activity implements View.OnClickListener {
             selectedCityName.setText(R.string.selected_city);
             cityName.setVisibility(View.VISIBLE);
         }
-
-        Log.d("onresume", "onresume");
         if (isFirstTime == true) {
             isFirstTime = false;
         } else {

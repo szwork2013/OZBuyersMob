@@ -336,7 +336,6 @@ public class GridAdapterProduct extends BaseAdapter implements Animation.Animati
 
     @Override
     public void onAnimationEnd(Animation animation) {
-        Toast.makeText(context, "animation end", Toast.LENGTH_SHORT).show();
         if(animation == slide_down) {
             StartUpActivity.added_to_cart.startAnimation(slide_up);
             StartUpActivity.added_to_cart.setVisibility(View.GONE);
