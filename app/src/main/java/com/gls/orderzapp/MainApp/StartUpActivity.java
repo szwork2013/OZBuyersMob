@@ -404,6 +404,7 @@ public class StartUpActivity extends Activity implements View.OnClickListener {
         }
         else{
             selectedCityName.setText(R.string.selected_city);
+
             cityName.setVisibility(View.VISIBLE);
         }
         if (isFirstTime == true) {
@@ -538,6 +539,7 @@ public class StartUpActivity extends Activity implements View.OnClickListener {
             if(loadSearchByCityPreference().isEmpty()||loadSearchByCityPreference()==null||loadSearchByCityPreference().equalsIgnoreCase("All")){
                 resultGetProviderAndProduct = ServerConnection.executeGet(getApplicationContext(), "/api/searchproduct/" + param);
             }else{
+
                 resultGetProviderAndProduct = ServerConnection.executeGet(getApplicationContext(), "/api/searchproduct/" + param+"?city="+loadSearchByCityPreference());
             }
 
@@ -676,11 +678,9 @@ public class StartUpActivity extends Activity implements View.OnClickListener {
         String city,city1 = "";
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         city = sp.getString("SEARCH_CITY","");
-        if(city.length() > 0) {
+        if(city.length()>0) {
             city1 = city.substring(0, 1).toUpperCase() + city.substring(1);
         }
-
-
         return city1;
     }
 

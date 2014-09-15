@@ -99,7 +99,7 @@ public class ProviderDetailsActivity extends Activity {
             Log.d("size", branchinfo.getContact_supports().size()+"");
             for (int i = 0; i < branchinfo.getContact_supports().size(); i++) {
                 final TextView number = new TextView(getApplicationContext());
-                number.setTextColor(Color.parseColor("#00ffff"));
+                number.setTextColor(Color.parseColor("#304f6c"));
                 if(i == branchinfo.getContact_supports().size()-1) {
                     number.setText(branchinfo.getContact_supports().get(i));
                 }else{
