@@ -205,10 +205,10 @@ public class StartUpActivity extends Activity implements View.OnClickListener {
     public String getCategoryList() {
         String resultGetCategoryList = "";
         try {
-            if(loadSearchByCityPreference()!=null){
-                resultGetCategoryList = ServerConnection.executeGet(getApplicationContext(), "/api/levelfourcategory?city="+loadSearchByCityPreference());
+            if(loadSearchByCityPreference().isEmpty()||loadSearchByCityPreference()==null||loadSearchByCityPreference().equalsIgnoreCase("All")){
+                resultGetCategoryList = ServerConnection.executeGet(getApplicationContext(), "/api/levelfourcategory");
             }else{
-            resultGetCategoryList = ServerConnection.executeGet(getApplicationContext(), "/api/levelfourcategory");
+                resultGetCategoryList = ServerConnection.executeGet(getApplicationContext(), "/api/levelfourcategory?city="+loadSearchByCityPreference());
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -453,6 +453,7 @@ public class StartUpActivity extends Activity implements View.OnClickListener {
     }
 
     public void onCreateOptions(Menu menu) {
+        Log.d("count startup", Cart.getCount()+"");
         try {
             menu.findItem(R.id.cart).getActionView().setOnClickListener(this);
         } catch (Exception e) {
@@ -531,18 +532,6 @@ public class StartUpActivity extends Activity implements View.OnClickListener {
             startActivity(goToMyOrdersActivity);
             return true;
         }
-//        if (id == R.id.action_get_social) {
-//            Intent goToGetSocialActivity = new Intent(StartUpActivity.this, GetSocialActivity.class);
-//            startActivity(goToGetSocialActivity);
-//            return true;
-//        }
-//        if (id == R.id.action_sellers_agreement) {
-//            Intent goToWebViewSellersAgreement = new Intent(StartUpActivity.this, WebViewActivity.class);
-//            goToWebViewSellersAgreement.putExtra("URL", ServerConnection.url + "/api/statictemplates?type=SA");
-//            goToWebViewSellersAgreement.putExtra("ACTIVITY_NAME", "Sellers Agreement");
-//            startActivity(goToWebViewSellersAgreement);
-//            return true;
-//        }
         if (id == R.id.feed_back) {
             new CheckSessionAsync().execute();
             return true;
@@ -575,12 +564,10 @@ public class StartUpActivity extends Activity implements View.OnClickListener {
         String resultGetProviderAndProduct = "";
         try {
 
-            if(loadSearchByCityPreference()!= null){
-
-                resultGetProviderAndProduct = ServerConnection.executeGet(getApplicationContext(), "/api/searchproduct/" + param+"?city="+loadSearchByCityPreference());
-            }else{
-
+            if(loadSearchByCityPreference().isEmpty()||loadSearchByCityPreference()==null||loadSearchByCityPreference().equalsIgnoreCase("All")){
                 resultGetProviderAndProduct = ServerConnection.executeGet(getApplicationContext(), "/api/searchproduct/" + param);
+            }else{
+                resultGetProviderAndProduct = ServerConnection.executeGet(getApplicationContext(), "/api/searchproduct/" + param+"?city="+loadSearchByCityPreference());
             }
 
 
@@ -619,8 +606,6 @@ public class StartUpActivity extends Activity implements View.OnClickListener {
                 if (resultCode == RESULT_OK) {
                     Intent feedBack = new Intent(StartUpActivity.this, FeedBackActivity.class);
                     startActivity(feedBack);
-//                    finish();
-
                 } else if (resultCode == RESULT_CANCELED) {
                     finish();
                 }
@@ -628,7 +613,8 @@ public class StartUpActivity extends Activity implements View.OnClickListener {
             case 3:
                 if(resultCode == RESULT_OK){
                     loadSearchByCityPreference();
-
+                    new GetCategoryListAsync().execute();
+                    drawerActions();
                     new GetProviderAndProductListAsync().execute();
 
                 }

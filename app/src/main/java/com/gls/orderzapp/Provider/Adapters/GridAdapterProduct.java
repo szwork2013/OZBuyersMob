@@ -11,13 +11,17 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.gls.orderzapp.MainApp.MoreProductsListActivity;
 import com.gls.orderzapp.MainApp.ProductDetailsActivity;
+import com.gls.orderzapp.MainApp.StartUpActivity;
 import com.gls.orderzapp.Provider.Beans.BranchInfo;
 import com.gls.orderzapp.Provider.Beans.ProductDetails;
 import com.gls.orderzapp.Provider.Beans.ProviderDetails;
@@ -38,7 +42,7 @@ import java.util.List;
 /**
  * Created by avinash on 24/6/14.
  */
-public class GridAdapterProduct extends BaseAdapter {
+public class GridAdapterProduct extends BaseAdapter implements Animation.AnimationListener{
     Context context;
     List<ProductDetails> productDetailsList = new ArrayList<>();
     ProductDetails productDetails;
@@ -46,6 +50,8 @@ public class GridAdapterProduct extends BaseAdapter {
     BranchInfo branchDetails;
     com.nostra13.universalimageloader.core.ImageLoader imageLoader;
     DisplayImageOptions options;
+    Animation slide_down, slide_up, zoom_in, zoom_out;
+
 
     public GridAdapterProduct(Context context, List<ProductDetails> productDetailsList, BranchInfo branchDetails, ProviderDetails providerDetails) {
         this.context = context;
@@ -59,6 +65,20 @@ public class GridAdapterProduct extends BaseAdapter {
                 .cacheInMemory()
                 .cacheOnDisc()
                 .build();
+
+        slide_down = AnimationUtils.loadAnimation(context,
+                R.anim.slide_down);
+        slide_down.setAnimationListener(this);
+
+        slide_up = AnimationUtils.loadAnimation(context,
+                R.anim.slide_up);
+        slide_up.setAnimationListener(this);
+
+        zoom_in = AnimationUtils.loadAnimation(context, R.anim.zoomin);
+        zoom_in.setAnimationListener(this);
+
+        zoom_out = AnimationUtils.loadAnimation(context, R.anim.zoomout);
+        zoom_out.setAnimationListener(this);
     }
 
     @Override
@@ -185,6 +205,9 @@ public class GridAdapterProduct extends BaseAdapter {
                         context.startActivity(goToMoreProducts);
                     } else {
                         if (providerDetails != null) {
+                            StartUpActivity.added_to_cart.setVisibility(View.VISIBLE);
+                            StartUpActivity.added_to_cart.startAnimation(slide_down);
+
                             ProductDetails productDetailsToAddIntoTheCart = new ProductDetails();
                             if (providerDetails.getProvider().getProviderbrandname() != null) {
                                 productDetailsToAddIntoTheCart.setProviderName(providerDetails.getProvider().getProviderbrandname());
@@ -280,6 +303,7 @@ public class GridAdapterProduct extends BaseAdapter {
                                 productDetailsToAddIntoTheCart.setProductdescription(productDetailsList.get(position).getProductdescription());
                             }
                             Cart.addToCart(productDetailsToAddIntoTheCart, context);
+                            Cart.numberTextOnCart.startAnimation(zoom_in);
                         }
                     }
                 }
@@ -303,6 +327,27 @@ public class GridAdapterProduct extends BaseAdapter {
             e.printStackTrace();
         }
         return convertView;
+    }
+
+    @Override
+    public void onAnimationStart(Animation animation) {
+
+    }
+
+    @Override
+    public void onAnimationEnd(Animation animation) {
+        Toast.makeText(context, "animation end", Toast.LENGTH_SHORT).show();
+        if(animation == slide_down) {
+            StartUpActivity.added_to_cart.startAnimation(slide_up);
+            StartUpActivity.added_to_cart.setVisibility(View.GONE);
+        }else if(animation == zoom_in){
+            Cart.numberTextOnCart.startAnimation(zoom_out);
+        }
+    }
+
+    @Override
+    public void onAnimationRepeat(Animation animation) {
+
     }
 }
 

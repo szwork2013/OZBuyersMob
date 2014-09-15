@@ -1,7 +1,11 @@
 package com.gls.orderzapp.MyOrders.MyOrderDetailAdapters;
 
 import android.content.Context;
+import android.content.Intent;
+import android.graphics.Color;
+import android.net.Uri;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -11,6 +15,7 @@ import com.gls.orderzapp.R;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
@@ -23,10 +28,13 @@ public class AdapterForSubOrders {
     Context context;
     LinearLayout mainLayout;
     List<SubOrderDetails> subOrderDetailsList;
+    List<String> support_contacts;
 
     public AdapterForSubOrders(Context context, List<SubOrderDetails> subOrderDetailsList) {
         this.context = context;
         this.subOrderDetailsList = subOrderDetailsList;
+
+        support_contacts  = new ArrayList();
     }
 
     public void setMultipleProvidersList() {
@@ -44,6 +52,7 @@ public class AdapterForSubOrders {
             TextView delivery_time_slot_my_order = (TextView) mainLayout.findViewById(R.id.delivery_time_slot_final_order);
             TextView delivery_address_my_order = (TextView) mainLayout.findViewById(R.id.delivery_address_final_order);
             TextView cont_no_final_order = (TextView) mainLayout.findViewById(R.id.cont_no_final_order);
+            LinearLayout ll_cont_no = (LinearLayout) mainLayout.findViewById(R.id.ll_cont_no);
 
             ll = (LinearLayout) mainLayout.findViewById(R.id.ll);
             if (subOrderDetailsList.get(i).getProductprovider() != null) {
@@ -85,12 +94,29 @@ public class AdapterForSubOrders {
                             + "," + subOrderDetailsList.get(i).getPickup_address().getCountry());
                 }
             }
-            if (subOrderDetailsList.get(i).getProductprovider().getContact_supports() != null) {
-                String cont = "";
-                for (int cont_int = 0; cont_int < subOrderDetailsList.get(i).getProductprovider().getContact_supports().size(); cont_int++) {
-                    cont = cont.concat(subOrderDetailsList.get(i).getProductprovider().getContact_supports().get(cont_int) + ",");
+
+            support_contacts.addAll(subOrderDetailsList.get(i).getProductprovider().getContact_supports());
+            for (int j = 0; j < support_contacts.size(); j++) {
+                final TextView number = new TextView(context);
+                number.setTextColor(Color.parseColor("#00ffff"));
+                if(j == support_contacts.size()-1) {
+                    number.setText(support_contacts.get(j));
+                }else{
+                    number.setText(support_contacts.get(j)+", ");
                 }
-                cont_no_final_order.setText(cont);
+                number.setId(j+100);
+                ll_cont_no.addView(number, j+1);
+
+                number.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent callIntent = new Intent(Intent.ACTION_CALL);
+                        callIntent.setData(Uri.parse("tel:" + support_contacts.get(view.getId() - 100).replaceAll(",", "")));
+                        callIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        context.startActivity(callIntent);
+//                        Toast.makeText(getApplicationContext(), branchinfo.getContact_supports().get(view.getId()-100).replaceAll(",",""), Toast.LENGTH_LONG).show();
+                    }
+                });
             }
 
             if (subOrderDetailsList.get(i).getPrefdeltimeslot() != null) {

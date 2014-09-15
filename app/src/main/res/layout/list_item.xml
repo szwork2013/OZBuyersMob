@@ -17,7 +17,7 @@
        />
     <View  android:layout_width="fill_parent"
         android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
+        android:layout_marginRight="20dp"
         android:background="#ff9f9f9f"
         android:layout_height="1dp"/>
 

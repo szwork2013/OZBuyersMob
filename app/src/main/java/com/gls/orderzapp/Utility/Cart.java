@@ -68,9 +68,13 @@ public class Cart {
             ImageView imageCart = (ImageView) badgeLayout.findViewById(R.id.img_badge);
             numberTextOnCart = (TextView) badgeLayout.findViewById(R.id.text_badge);
             //do not show the count if count is 0
+
             if (getCount() > 0) {
                 setTextOnCartCount();
             } else {
+                Log.d("count", getCount()+"");
+                    Cart.numberTextOnCart.clearAnimation();
+
                 numberTextOnCart.setVisibility(View.GONE);
             }
         } catch (Exception e) {
