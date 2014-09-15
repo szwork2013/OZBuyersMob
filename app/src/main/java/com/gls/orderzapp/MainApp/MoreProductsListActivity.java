@@ -15,6 +15,7 @@ import android.view.MenuInflater;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.GridView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.gls.orderzapp.Provider.Adapters.GridAdapterProduct;
@@ -47,9 +48,9 @@ public class MoreProductsListActivity extends Activity implements View.OnClickLi
     ProviderDetails providerDetails;
     GridAdapterProduct gridAdapterProduct;
     List<ProductDetails> productDetailsList = new ArrayList<>();
-
     SwipeRefreshLayout swipeView;
     String lastProductId;
+    public static TextView added_to_cart;
 
 
     @Override
@@ -67,6 +68,7 @@ public class MoreProductsListActivity extends Activity implements View.OnClickLi
         providerDetails = new ProviderDetails();
         providerDetails = new Gson().fromJson(getIntent().getStringExtra("MoreProductsListActivity"), ProviderDetails.class);
         gridView = (GridView) findViewById(R.id.grid_categories);
+        added_to_cart = (TextView) findViewById(R.id.added_to_cart);
         swipeView = (SwipeRefreshLayout) findViewById(R.id.swipe);
         swipeView.setEnabled(false);
         String[] s = new String[1];

@@ -375,7 +375,6 @@ public class GridAdapterProviderCategories extends BaseAdapter implements Animat
                     productDetails = productDetailsList.get(position);
                     if (productDetails.getProductname() != null && !productDetails.getProductname().equals("more")) {
                         productDetails.setBranchid(providerDetails.getBranch().getBranchid());
-//                        popUp(productDetails);
                         Intent goToProductDetailsActivity = new Intent(context, ProductDetailsActivity.class);
                         goToProductDetailsActivity.putExtra("PRODUCT_DETAILS", new Gson().toJson(productDetails));
                         context.startActivity(goToProductDetailsActivity);

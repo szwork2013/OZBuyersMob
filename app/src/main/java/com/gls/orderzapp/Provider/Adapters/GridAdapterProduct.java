@@ -205,8 +205,8 @@ public class GridAdapterProduct extends BaseAdapter implements Animation.Animati
                         context.startActivity(goToMoreProducts);
                     } else {
                         if (providerDetails != null) {
-                            StartUpActivity.added_to_cart.setVisibility(View.VISIBLE);
-                            StartUpActivity.added_to_cart.startAnimation(slide_down);
+                            MoreProductsListActivity.added_to_cart.setVisibility(View.VISIBLE);
+                            MoreProductsListActivity.added_to_cart.startAnimation(slide_down);
 
                             ProductDetails productDetailsToAddIntoTheCart = new ProductDetails();
                             if (providerDetails.getProvider().getProviderbrandname() != null) {
@@ -336,10 +336,9 @@ public class GridAdapterProduct extends BaseAdapter implements Animation.Animati
 
     @Override
     public void onAnimationEnd(Animation animation) {
-        Toast.makeText(context, "animation end", Toast.LENGTH_SHORT).show();
         if(animation == slide_down) {
-            StartUpActivity.added_to_cart.startAnimation(slide_up);
-            StartUpActivity.added_to_cart.setVisibility(View.GONE);
+            MoreProductsListActivity.added_to_cart.startAnimation(slide_up);
+            MoreProductsListActivity.added_to_cart.setVisibility(View.GONE);
         }else if(animation == zoom_in){
             Cart.numberTextOnCart.startAnimation(zoom_out);
         }
