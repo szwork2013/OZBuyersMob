@@ -43,7 +43,7 @@ public class DrawerExpandableListAdapter extends BaseExpandableListAdapter {
     @Override
     public Object getChild(int groupPosition, int childPosititon) {
 
-        return this._listDataHeader.get(groupPosition).getProvider().get(childPosititon).getProvidername();
+        return this._listDataHeader.get(groupPosition).getProvider().get(childPosititon).getProviderbrandname();
     }
     public Object getProviderID(int groupPosition, int childPosititon) {
 

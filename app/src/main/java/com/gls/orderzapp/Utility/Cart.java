@@ -428,9 +428,19 @@ public class Cart {
         double deliveryCharges = 0.0;
         try {
             for (int i = 0; i < succesResponseForDeliveryChargesAndType.getSuccess().getDeliverycharge().size(); i++) {
-                for (int j = 0; j < DisplayDeliveryChargesAndType.deliveryType.size(); j++) {
-                    if (DisplayDeliveryChargesAndType.deliveryType.get(j).split("_")[0].equals(succesResponseForDeliveryChargesAndType.getSuccess().getDeliverycharge().get(i).getBranchid())) {
-                        if (DisplayDeliveryChargesAndType.deliveryType.get(j).split("_")[1].equalsIgnoreCase("home")) {
+
+//                Log.d("ddddddddddType", DisplayDeliveryChargesAndType.deliveryType.get(i).split("_")[1]);
+//                if (DisplayDeliveryChargesAndType.deliveryType.get(i).split("_")[1].equalsIgnoreCase("home")) {
+//                    Log.d("hhhhhhhhhhome", deliveryCharges+"");
+//                    deliveryCharges = deliveryCharges + succesResponseForDeliveryChargesAndType.getSuccess().getDeliverycharge().get(i).getCharge();
+//                } else {
+//                    Log.d("pppppppppppickup", deliveryCharges+"");
+//                    deliveryCharges = deliveryCharges + 0.0;
+//                }
+
+                for (int j = 0; j < DisplayDeliveryChargesAndType.deliverytypebean.size(); j++) {
+                    if (DisplayDeliveryChargesAndType.deliverytypebean.get(j).getBranchid().equals(succesResponseForDeliveryChargesAndType.getSuccess().getDeliverycharge().get(i).getBranchid())) {
+                        if (DisplayDeliveryChargesAndType.deliverytypebean.get(j).getDeliveryType().equalsIgnoreCase("home")) {
                             if (succesResponseForDeliveryChargesAndType.getSuccess().getDeliverycharge().get(i).isIsdeliverychargeinpercent() == true) {
                                 deliveryCharges = deliveryCharges + ((succesResponseForDeliveryChargesAndType.getSuccess().getDeliverycharge().get(i).getCharge() * deliveryCharges(succesResponseForDeliveryChargesAndType.getSuccess().getDeliverycharge().get(i).getBranchid())) / 100);
                             } else {

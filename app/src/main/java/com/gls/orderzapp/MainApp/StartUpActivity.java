@@ -7,7 +7,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
-import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -33,6 +32,7 @@ import com.gls.orderzapp.Provider.Adapters.AdapterForProviderCategories;
 import com.gls.orderzapp.DrawerDetails.Adapter.DrawerExpandableListAdapter;
 import com.gls.orderzapp.Provider.Beans.ProviderSuccessResponse;
 import com.gls.orderzapp.R;
+import com.gls.orderzapp.User.SuccessResponseOfUser;
 import com.gls.orderzapp.Utility.Cart;
 import com.gls.orderzapp.Utility.CheckConnection;
 import com.gls.orderzapp.Utility.GoogleAnalyticsUtility;
@@ -60,19 +60,20 @@ public class StartUpActivity extends Activity implements View.OnClickListener {
     public static boolean isFirstTime = true;
     public static Menu menu1;
     public static MenuItem signin, signup, logout;
-    public static String pid,cid;
+    public static String providerId,clientId;
     ActionBar actionBar;
-    ImageView adBanner;
-    TextView allCategories,cityName, selectedCityName;
+    TextView cityName, selectedCityName;
     ProviderSuccessResponse providerSuccessResponse;
     CategorySuccessResponse categorySuccessResponse;
     boolean isEditTextVisible = false;
     EditText searchProducts = null;
-    List<LevelFourCategoryDoc> listDataHeader;
-    List<String> listDataHeaderID;
-    HashMap<String, List<LevelFourCategoryProvider>> listDataChild;
+    List<LevelFourCategoryDoc> listCategoryDrawer;
+    HashMap<String, List<LevelFourCategoryProvider>> listCategoryDrawerChild;
     static Context context;
     public static TextView added_to_cart;
+//    Context context;
+//    SuccessResponseOfUser successResponseOfUser;
+    int SIGNINCODE = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,7 +85,6 @@ public class StartUpActivity extends Activity implements View.OnClickListener {
             finish();
             return;
         }
-//        UtilityClassForLanguagePreferance.setLocale(getApplicationContext());
         //Get a Tracker (should auto-report)
         setContentView(R.layout.startup_activity);
 
@@ -96,36 +96,31 @@ public class StartUpActivity extends Activity implements View.OnClickListener {
         findViewsById();
 
 //Get list of all product and provider
-//        new GetProviderAndProductListAsync().execute();
         new GetCategoryListAsync().execute();
         drawerActions();
         new GetProviderAndProductListAsync().execute();
 
     }
-    //*********************
-    //********************
-    //-------------Drawer start
-    //*********************
-    //*********************
+    //Display Drawer
 
     private void prepareDrawerListData() {
 
-        listDataHeader = new ArrayList<LevelFourCategoryDoc>();
-        listDataChild = new HashMap<String, List<LevelFourCategoryProvider>>();
+        listCategoryDrawer = new ArrayList<LevelFourCategoryDoc>();
+        listCategoryDrawerChild = new HashMap<String, List<LevelFourCategoryProvider>>();
 
         for(int ci=0;ci<categorySuccessResponse.getSuccess().getDoc().size();ci++)
         {
-            listDataHeader.add(categorySuccessResponse.getSuccess().getDoc().get(ci));
+            listCategoryDrawer.add(categorySuccessResponse.getSuccess().getDoc().get(ci));
         }
-        for(int cont_no=0;cont_no<listDataHeader.size();cont_no++){
-            List<LevelFourCategoryProvider> temp= new ArrayList<LevelFourCategoryProvider>();
+        for(int cont_no=0;cont_no<listCategoryDrawer.size();cont_no++){
+            List<LevelFourCategoryProvider> tempProviderList= new ArrayList<LevelFourCategoryProvider>();
             for(int i=0;i<categorySuccessResponse.getSuccess().getDoc().get(cont_no).getProvider().size();i++)
             {
-            temp.add(categorySuccessResponse.getSuccess().getDoc().get(cont_no).getProvider().get(i));
+                tempProviderList.add(categorySuccessResponse.getSuccess().getDoc().get(cont_no).getProvider().get(i));
             }
-            listDataChild.put(listDataHeader.get(cont_no).getCategoryid(), temp);
+            listCategoryDrawerChild.put(listCategoryDrawer.get(cont_no).getCategoryid(), tempProviderList);
         }
-        mDrawerList.setAdapter(new DrawerExpandableListAdapter(context, listDataHeader, listDataChild));
+        mDrawerList.setAdapter(new DrawerExpandableListAdapter(context, listCategoryDrawer, listCategoryDrawerChild));
     }
     public void drawerActions() {
 
@@ -152,12 +147,10 @@ public class StartUpActivity extends Activity implements View.OnClickListener {
 
 
                 public void onDrawerClosed(View view) {
-                    // getActionBar().setTitle(mTitle);
                         invalidateOptionsMenu();
                 }
 
                 public void onDrawerOpened(View drawerView) {
-                    // getActionBar().setTitle(mDrawerTitle);
                         invalidateOptionsMenu(); // creates call to
                 }
             };
@@ -238,7 +231,6 @@ public class StartUpActivity extends Activity implements View.OnClickListener {
                         } else {
                             JSONObject jObjError = jObj.getJSONObject("error");
                             msg = jObjError.getString("message");
-//                            code = jObjError.getString("code");
                         }
                     }
                 } else {
@@ -258,7 +250,6 @@ public class StartUpActivity extends Activity implements View.OnClickListener {
                     StartUpActivity.linearLayoutCategories.removeAllViews();
                     if (!resultGetCategory.isEmpty()) {
                         if (jObj.has("success")) {
-                            Log.d("","DrawerLoad2");
                             prepareDrawerListData();
                         } else {
                             Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_LONG).show();
@@ -275,12 +266,12 @@ public class StartUpActivity extends Activity implements View.OnClickListener {
         }
     }
 
-//*********************
-    //*****************
-    public void stringValue(String pid,String cid)
+    public void stringValue(String providerid,String clientid)
     {
-        StartUpActivity.pid=pid;
-        StartUpActivity.cid=cid;
+        Log.d("ProviderId",providerid);
+        Log.d("ClientId",clientid);
+        StartUpActivity.providerId=providerid;
+        StartUpActivity.clientId=clientid;
 
         new GetProviderAndProductListDrawerAsync().execute();
         mDrawerLayout.closeDrawers();
@@ -288,9 +279,7 @@ public class StartUpActivity extends Activity implements View.OnClickListener {
     public String getProductList(){
         String resultProductList = "";
         try {
-            Log.d("pid:",pid);
-            Log.d("cid:",cid);
-            resultProductList = ServerConnection.executeGet(context, "/api/searchproduct/provider/"+pid+"/category/"+cid);
+            resultProductList = ServerConnection.executeGet(context, "/api/searchproduct/provider/"+providerId+"/category/"+clientId);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -314,9 +303,7 @@ public class StartUpActivity extends Activity implements View.OnClickListener {
                 if (new CheckConnection(context).isConnectingToInternet()) {
                     connectedOrNot = "success";
                         resultGetProviderAndProduct = getProductList();
-                        Log.d("search resultDrawerList1", resultGetProviderAndProduct);
                     if (!resultGetProviderAndProduct.isEmpty()) {
-                        Log.d("search resultDrawerList", resultGetProviderAndProduct);
                         jObj = new JSONObject(resultGetProviderAndProduct);
                         if (jObj.has("success")) {
                             providerSuccessResponse=null;
@@ -324,7 +311,6 @@ public class StartUpActivity extends Activity implements View.OnClickListener {
                         } else {
                             JSONObject jObjError = jObj.getJSONObject("error");
                             msg = jObjError.getString("message");
-//                            code = jObjError.getString("code");
                         }
                     }
                 } else {
@@ -344,9 +330,7 @@ public class StartUpActivity extends Activity implements View.OnClickListener {
                     StartUpActivity.linearLayoutCategories.removeAllViews();
                     if (!resultGetProviderAndProduct.isEmpty()) {
                         if (jObj.has("success")) {
-                            Log.d("providerResponseDrawer",new Gson().toJson(providerSuccessResponse));
                             new AdapterForProviderCategories(context, providerSuccessResponse.getSuccess().getProvider()).setProductCategories();
-                            Log.d("","DrawerList");
                         } else {
                             Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_LONG).show();
                         }
@@ -361,17 +345,6 @@ public class StartUpActivity extends Activity implements View.OnClickListener {
             }
         }
     }
-
-
-
-    //******************
-    //*****************
-
-    //*********************
-    //********************
-    //------Drawer End
-    //*********************
-    //*********************
 
     @Override
     protected void onStart() {
@@ -393,7 +366,6 @@ public class StartUpActivity extends Activity implements View.OnClickListener {
         cityName = (TextView) findViewById(R.id.cityName);
         added_to_cart = (TextView) findViewById(R.id.added_to_cart);
         selectedCityName = (TextView)findViewById(R.id.selectTheCity);
-        //adBanner = (ImageView) findViewById(R.id.ad_banner);
     }
 
     @Override
@@ -438,10 +410,8 @@ public class StartUpActivity extends Activity implements View.OnClickListener {
 
         Log.d("onresume", "onresume");
         if (isFirstTime == true) {
-            Log.d("if", "if");
             isFirstTime = false;
         } else {
-            Log.d("else", "else");
             onCreateOptions(menu1);
         }
     }
@@ -496,8 +466,10 @@ public class StartUpActivity extends Activity implements View.OnClickListener {
             return true;
         }
         if (id == R.id.action_settings) {
-            Intent setting = new Intent(StartUpActivity.this, SettingsActivity.class);
-            startActivity(setting);
+            new CheckSessionAsync().execute();
+            SIGNINCODE = 2;
+//            Intent setting = new Intent(StartUpActivity.this, SettingsActivity.class);
+//            startActivity(setting);
             return true;
         }
         if (id == R.id.action_privacypolicy) {
@@ -535,6 +507,7 @@ public class StartUpActivity extends Activity implements View.OnClickListener {
         }
         if (id == R.id.feed_back) {
             new CheckSessionAsync().execute();
+            SIGNINCODE = 1;
             return true;
         }
         if (id == R.id.menu_search) {
@@ -608,8 +581,13 @@ public class StartUpActivity extends Activity implements View.OnClickListener {
                 if (resultCode == RESULT_OK) {
                     Intent feedBack = new Intent(StartUpActivity.this, FeedBackActivity.class);
                     startActivity(feedBack);
-                } else if (resultCode == RESULT_CANCELED) {
-                    finish();
+                }
+                break;
+
+            case 2:
+                if (resultCode == RESULT_OK) {
+                    Intent feedBack = new Intent(StartUpActivity.this, SettingsActivity.class);
+                    startActivity(feedBack);
                 }
                 break;
             case 3:
@@ -672,15 +650,19 @@ public class StartUpActivity extends Activity implements View.OnClickListener {
                 if (connectedOrNot.equals("success")) {
                     if (!resultOfCheckSession.isEmpty()) {
                         if (jObj.has("success")) {
-                            Intent deliveryPayment = new Intent(StartUpActivity.this, FeedBackActivity.class);
-                            startActivity(deliveryPayment);
-//                            finish();
-
+                            if(SIGNINCODE == 1) {
+                                Intent feedback = new Intent(StartUpActivity.this, FeedBackActivity.class);
+                                startActivity(feedback);
+                            }else{
+                                Intent settings = new Intent(StartUpActivity.this, SettingsActivity.class);
+                                startActivity(settings);
+                            }
                         } else {
                             Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_LONG).show();
                             if (code.equals("AL001")) {
-                                Intent goToSignin = new Intent(StartUpActivity.this, SignInActivity.class);
-                                startActivityForResult(goToSignin, 1);
+                                    Intent goToSignin = new Intent(StartUpActivity.this, SignInActivity.class);
+                                    startActivityForResult(goToSignin, SIGNINCODE);
+
                             }
                         }
                     } else {
@@ -698,10 +680,16 @@ public class StartUpActivity extends Activity implements View.OnClickListener {
         String city,city1 = "";
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         city = sp.getString("SEARCH_CITY","");
+<<<<<<< HEAD
         if(city.length()>0) {
             city1 = city.substring(0, 1).toUpperCase() + city.substring(1);
         }
 
+=======
+        if(city.length() > 0) {
+            city1 = city.substring(0, 1).toUpperCase() + city.substring(1);
+        }
+>>>>>>> d11c6a78223a2351ca0b3e471a7d4aa8af21a72d
 
 
         return city1;
@@ -863,4 +851,71 @@ public class StartUpActivity extends Activity implements View.OnClickListener {
             }
         }
     }
+
+//    private class CheckSessionAsync extends AsyncTask<String, Integer, String> {
+//        String connectedOrNot, msg, code, resultOfCheckSession;
+//        JSONObject jObj;
+//        ProgressDialog progressDialog;
+//
+//        @Override
+//        protected void onPreExecute() {
+//            progressDialog = ProgressDialog.show(StartUpActivity.this, "", "");
+//        }
+//
+//        @Override
+//        protected String doInBackground(String... params) {
+//            try {
+//                if (new CheckConnection(getApplicationContext()).isConnectingToInternet()) {
+//                    connectedOrNot = "success";
+//                    resultOfCheckSession = getSessionStatus();
+//                    if (!resultOfCheckSession.isEmpty()) {
+//                        jObj = new JSONObject(resultOfCheckSession);
+//                        if (jObj.has("success")) {
+//                            JSONObject jObjSuccess = jObj.getJSONObject("success");
+//                            msg = jObjSuccess.getString("message");
+//                        } else {
+//                            JSONObject jObjError = jObj.getJSONObject("error");
+//                            msg = jObjError.getString("message");
+//                            code = jObjError.getString("code");
+//                        }
+//                    }
+//                } else {
+//                    connectedOrNot = "error";
+//                }
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
+//            return connectedOrNot;
+//        }
+//
+//        @Override
+//        protected void onPostExecute(String connectedOrNot) {
+//            try {
+//                progressDialog.dismiss();
+//                if (connectedOrNot.equals("success")) {
+//                    if (!resultOfCheckSession.isEmpty()) {
+//
+//                        if (jObj.has("success")) {
+//                            Intent deliveryActivity = new Intent(StartUpActivity.this, SettingsActivity.class);
+//                            startActivity(deliveryActivity);
+//                            successResponseOfUser = new Gson().fromJson(loadPreferencesUser(), SuccessResponseOfUser.class);
+//                            displayUserData();
+//                        } else {
+//                            Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_LONG).show();
+//                            if (code.equals("AL001")) {
+//                                Intent goToSignin = new Intent(StartUpActivity.this, SignInActivity.class);
+//                                startActivity(goToSignin);
+//                            }
+//                        }
+//                    } else {
+//                        Toast.makeText(getApplicationContext(), "Server is not responding please try again later", Toast.LENGTH_LONG).show();
+//                    }
+//                } else {
+//                    Toast.makeText(getApplicationContext(), "Please check your internet connection", Toast.LENGTH_LONG).show();
+//                }
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
+//        }
+//    }
 }
