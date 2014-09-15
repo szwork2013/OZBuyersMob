@@ -174,9 +174,6 @@ public class GridAdapterProduct extends BaseAdapter implements Animation.Animati
                             @Override
                             public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
                                 if (cacheFound) {
-//                        MemoryCacheUtil.removeFromCache(imageUri, ImageLoader.getInstance().getMemoryCache());
-//                        DiscCacheUtil.removeFromCache(imageUri, ImageLoader.getInstance().getDiscCache());
-
                                     ImageLoader.getInstance().displayImage(imageUri, (ImageView) view);
                                 }
                             }
@@ -251,7 +248,6 @@ public class GridAdapterProduct extends BaseAdapter implements Animation.Animati
                             if (providerDetails.getProvider().getPaymentmode().getCod() != null) {
                                 productDetailsToAddIntoTheCart.getPaymentmode().setCod(providerDetails.getProvider().getPaymentmode().getCod());
                             }
-                            Log.d("homedel", providerDetails.getBranch().getDelivery().getIsprovidehomedelivery() + "");
                             if (providerDetails.getBranch().getDelivery() != null) {
                                 productDetailsToAddIntoTheCart.getDelivery().setIsprovidehomedelivery(providerDetails.getBranch().getDelivery().getIsprovidehomedelivery());
 
