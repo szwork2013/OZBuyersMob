@@ -678,18 +678,9 @@ public class StartUpActivity extends Activity implements View.OnClickListener {
         String city,city1 = "";
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         city = sp.getString("SEARCH_CITY","");
-<<<<<<< HEAD
         if(city.length()>0) {
             city1 = city.substring(0, 1).toUpperCase() + city.substring(1);
         }
-
-=======
-        if(city.length() > 0) {
-            city1 = city.substring(0, 1).toUpperCase() + city.substring(1);
-        }
->>>>>>> d11c6a78223a2351ca0b3e471a7d4aa8af21a72d
-
-
         return city1;
     }
 
