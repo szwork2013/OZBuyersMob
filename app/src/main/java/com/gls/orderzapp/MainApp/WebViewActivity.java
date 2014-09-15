@@ -49,7 +49,6 @@ public class WebViewActivity extends Activity {
         WebView web_view = (WebView) findViewById(R.id.web_view);
         url = getIntent().getStringExtra("URL");
         web_view.getSettings().setJavaScriptEnabled(true);
-//        web_view.getSettings().setLoadWithOverviewMode(true);
         web_view.getSettings().setUseWideViewPort(true);
         web_view.getSettings().setDisplayZoomControls(true);
         web_view.getSettings().setDefaultFontSize(20);
@@ -150,7 +149,6 @@ public class WebViewActivity extends Activity {
                                         Intent callIntent = new Intent(Intent.ACTION_CALL);
                                         callIntent.setData(Uri.parse("tel:" + successResponseForSupportContact.getSuccess().getOz_conatactsupport().get(view.getId() - 100).replaceAll(",", "")));
                                         startActivity(callIntent);
-//                        Toast.makeText(getApplicationContext(), branchinfo.getContact_supports().get(view.getId()-100).replaceAll(",",""), Toast.LENGTH_LONG).show();
                                     }
                                 });
                             }
