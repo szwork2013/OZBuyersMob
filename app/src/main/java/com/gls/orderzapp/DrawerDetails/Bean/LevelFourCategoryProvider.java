@@ -6,6 +6,15 @@ package com.gls.orderzapp.DrawerDetails.Bean;
 public class LevelFourCategoryProvider {
     String providerid;
     String providername;
+    String providerbrandname;
+
+    public String getProviderbrandname() {
+        return providerbrandname;
+    }
+
+    public void setProviderbrandname(String providerbrandname) {
+        this.providerbrandname = providerbrandname;
+    }
 
     public String getProviderid() {
         return providerid;

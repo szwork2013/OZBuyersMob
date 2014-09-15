@@ -361,7 +361,7 @@ public class GridAdapterProviderCategories extends BaseAdapter implements Animat
                             }
 //                        if(productDetailsToAddIntoTheCart!=null) {
                             Cart.addToCart(productDetailsToAddIntoTheCart, context);
-//                            Cart.numberTextOnCart.startAnimation(zoom_in);
+                            Cart.numberTextOnCart.startAnimation(zoom_in);
                             productDetailsToAddIntoTheCart = null;
 //                        }
                         }
@@ -397,7 +397,6 @@ public class GridAdapterProviderCategories extends BaseAdapter implements Animat
 
     @Override
     public void onAnimationEnd(Animation animation) {
-        Toast.makeText(context, "animation end", Toast.LENGTH_SHORT).show();
         if(animation == slide_down) {
             StartUpActivity.added_to_cart.startAnimation(slide_up);
             StartUpActivity.added_to_cart.setVisibility(View.GONE);
