@@ -3,7 +3,9 @@
     android:id="@+id/swipe"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-
+<FrameLayout
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -67,4 +69,17 @@
                 android:verticalSpacing="7dp" />
         </LinearLayout>
     </LinearLayout>
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="50dp"
+        android:gravity="center"
+        android:background="#80000000"
+        android:id="@+id/added_to_cart"
+        android:text="Added to cart"
+        android:textColor="#fff"
+        android:textStyle="bold"
+        android:textSize="18sp"
+        android:layout_alignParentTop="true"
+        android:visibility="gone"/>
+    </FrameLayout>
 </android.support.v4.widget.SwipeRefreshLayout>

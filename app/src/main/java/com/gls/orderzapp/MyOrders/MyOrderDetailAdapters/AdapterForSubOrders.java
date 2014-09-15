@@ -96,26 +96,43 @@ public class AdapterForSubOrders {
             }
 
             support_contacts.addAll(subOrderDetailsList.get(i).getProductprovider().getContact_supports());
-            for (int j = 0; j < support_contacts.size(); j++) {
+            if(support_contacts.size() > 0) {
+                for (int j = 0; j < support_contacts.size(); j++) {
+                    final TextView number = new TextView(context);
+                    number.setTextColor(Color.parseColor("#00ffff"));
+                    if (j == support_contacts.size() - 1) {
+                        number.setText(support_contacts.get(j));
+                    } else {
+                        number.setText(support_contacts.get(j) + ", ");
+                    }
+                    number.setId(j + 100);
+                    ll_cont_no.addView(number, j + 1);
+
+                    number.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            Intent callIntent = new Intent(Intent.ACTION_CALL);
+                            callIntent.setData(Uri.parse("tel:" + support_contacts.get(view.getId() - 100).replaceAll(",", "")));
+                            callIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            context.startActivity(callIntent);
+//                        Toast.makeText(getApplicationContext(), branchinfo.getContact_supports().get(view.getId()-100).replaceAll(",",""), Toast.LENGTH_LONG).show();
+                        }
+                    });
+                }
+            }else {
                 final TextView number = new TextView(context);
                 number.setTextColor(Color.parseColor("#00ffff"));
-                if(j == support_contacts.size()-1) {
-                    number.setText(support_contacts.get(j));
-                }else{
-                    number.setText(support_contacts.get(j)+", ");
-                }
-                number.setId(j+100);
-                ll_cont_no.addView(number, j+1);
+                number.setText("02067211800");
 
                 number.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         Intent callIntent = new Intent(Intent.ACTION_CALL);
-                        callIntent.setData(Uri.parse("tel:" + support_contacts.get(view.getId() - 100).replaceAll(",", "")));
+                        callIntent.setData(Uri.parse("tel:" + ((TextView) view).getText().toString()));
                         callIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         context.startActivity(callIntent);
-//                        Toast.makeText(getApplicationContext(), branchinfo.getContact_supports().get(view.getId()-100).replaceAll(",",""), Toast.LENGTH_LONG).show();
                     }
+
                 });
             }
 

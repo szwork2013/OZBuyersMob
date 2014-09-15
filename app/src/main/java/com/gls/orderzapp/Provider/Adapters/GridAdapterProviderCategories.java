@@ -303,7 +303,7 @@ public class GridAdapterProviderCategories extends BaseAdapter implements Animat
                                 productDetailsToAddIntoTheCart.setContact_supports(branchDetails.getContact_supports());
                             }else{
                                 List<String>cont_no=new ArrayList<String>();
-                                cont_no.add("91-20-67211800");
+                                cont_no.add("02067211800");
                                 productDetailsToAddIntoTheCart.setContact_supports(cont_no);
                             }
 
@@ -375,7 +375,6 @@ public class GridAdapterProviderCategories extends BaseAdapter implements Animat
                     productDetails = productDetailsList.get(position);
                     if (productDetails.getProductname() != null && !productDetails.getProductname().equals("more")) {
                         productDetails.setBranchid(providerDetails.getBranch().getBranchid());
-//                        popUp(productDetails);
                         Intent goToProductDetailsActivity = new Intent(context, ProductDetailsActivity.class);
                         goToProductDetailsActivity.putExtra("PRODUCT_DETAILS", new Gson().toJson(productDetails));
                         context.startActivity(goToProductDetailsActivity);
