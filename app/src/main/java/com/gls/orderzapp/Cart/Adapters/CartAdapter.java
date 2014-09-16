@@ -167,6 +167,7 @@ public class CartAdapter {
                     public void onClick(View view) {
                         Intent goToPrivacyPolicy = new Intent(context, WebViewActivity.class);
                         goToPrivacyPolicy.putExtra("URL", ServerConnection.url + "/api/branchpolicy/" + productList.get(view.getId() - 2000).getProviderid() + "/" + productList.get(view.getId() - 2000).getBranchid() + "?type=all&response_type=html");
+                       goToPrivacyPolicy.putExtra("ACTIVITY_NAME","Policy");
                         goToPrivacyPolicy.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         context.startActivity(goToPrivacyPolicy);
 
