@@ -134,7 +134,7 @@ public class WebViewActivity extends Activity {
                         if (jObj.has("success")) {
                             for (int i = 0; i < successResponseForSupportContact.getSuccess().getOz_conatactsupport().size(); i++) {
                                 final TextView number = new TextView(getApplicationContext());
-                                number.setTextColor(Color.parseColor("#00ffff"));
+                                number.setTextColor(Color.parseColor("#304f6c"));
                                 if(i == successResponseForSupportContact.getSuccess().getOz_conatactsupport().size()-1) {
                                     number.setText(successResponseForSupportContact.getSuccess().getOz_conatactsupport().get(i));
                                 }else{

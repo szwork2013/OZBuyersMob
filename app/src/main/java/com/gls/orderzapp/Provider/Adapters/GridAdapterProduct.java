@@ -174,9 +174,6 @@ public class GridAdapterProduct extends BaseAdapter implements Animation.Animati
                             @Override
                             public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
                                 if (cacheFound) {
-//                        MemoryCacheUtil.removeFromCache(imageUri, ImageLoader.getInstance().getMemoryCache());
-//                        DiscCacheUtil.removeFromCache(imageUri, ImageLoader.getInstance().getDiscCache());
-
                                     ImageLoader.getInstance().displayImage(imageUri, (ImageView) view);
                                 }
                             }
@@ -251,7 +248,6 @@ public class GridAdapterProduct extends BaseAdapter implements Animation.Animati
                             if (providerDetails.getProvider().getPaymentmode().getCod() != null) {
                                 productDetailsToAddIntoTheCart.getPaymentmode().setCod(providerDetails.getProvider().getPaymentmode().getCod());
                             }
-                            Log.d("homedel", providerDetails.getBranch().getDelivery().getIsprovidehomedelivery() + "");
                             if (providerDetails.getBranch().getDelivery() != null) {
                                 productDetailsToAddIntoTheCart.getDelivery().setIsprovidehomedelivery(providerDetails.getBranch().getDelivery().getIsprovidehomedelivery());
 
@@ -290,8 +286,13 @@ public class GridAdapterProduct extends BaseAdapter implements Animation.Animati
                             if (productDetailsList.get(position).getMax_weight() != null) {
                                 productDetailsToAddIntoTheCart.setMax_weight(productDetailsList.get(position).getMax_weight());
                             }
+//
                             if (productDetailsList.get(position).getMin_weight() != null) {
-                                productDetailsToAddIntoTheCart.setMin_weight(productDetailsList.get(position).getMin_weight());
+                                if (productDetailsList.get(position).getPrice().getUom().equalsIgnoreCase("no") || productDetailsList.get(position).getPrice().getUom().equalsIgnoreCase("lb")) {
+                                    productDetailsToAddIntoTheCart.setQuantity((productDetailsList.get(position).getMin_weight().getValue() + "").split("\\.")[0]);
+                                } else {
+                                    productDetailsToAddIntoTheCart.setQuantity(productDetailsList.get(position).getMin_weight().getValue() + "");
+                                }
                             }
                             if (productDetailsList.get(position).getProductimage() != null) {
                                 productDetailsToAddIntoTheCart.setProductimage(productDetailsList.get(position).getProductimage());

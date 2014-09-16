@@ -99,7 +99,7 @@ public class AdapterForSubOrders {
             if(support_contacts.size() > 0) {
                 for (int j = 0; j < support_contacts.size(); j++) {
                     final TextView number = new TextView(context);
-                    number.setTextColor(Color.parseColor("#00ffff"));
+                    number.setTextColor(Color.parseColor("#304f6c"));
                     if (j == support_contacts.size() - 1) {
                         number.setText(support_contacts.get(j));
                     } else {
@@ -121,7 +121,7 @@ public class AdapterForSubOrders {
                 }
             }else {
                 final TextView number = new TextView(context);
-                number.setTextColor(Color.parseColor("#00ffff"));
+                number.setTextColor(Color.parseColor("#304f6c"));
                 number.setText("02067211800");
 
                 number.setOnClickListener(new View.OnClickListener() {

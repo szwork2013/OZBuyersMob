@@ -123,7 +123,7 @@ public class AdapterForMultipleProviders {
                                     contact_no = contact_no.concat(contactSupportsList.get(cont_list) + ",");
 //                                    contactSupportsList.add(contactSupportsList.get(cont_list));
                                     TextView contactSupportNumbers = new TextView(context);
-                                    contactSupportNumbers.setTextColor(Color.parseColor("#00ffff"));
+                                    contactSupportNumbers.setTextColor(Color.parseColor("#304f6c"));
 
                                     if(cont_list == contactSupportsList.size() - 1) {
                                         contactSupportNumbers.setText(contactSupportsList.get(cont_list));

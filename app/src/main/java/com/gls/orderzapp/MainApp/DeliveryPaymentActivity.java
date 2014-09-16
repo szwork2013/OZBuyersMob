@@ -327,6 +327,7 @@ public class DeliveryPaymentActivity extends Activity {
             case CHANGE_ADDRESS:
                 if (resultCode == RESULT_OK) {
                     Log.d("Change_address", "Change_address");
+                    DisplayDeliveryChargesAndType.deliverytypebean.clear();
                     selectDeliveryType();
                 }
                 break;
