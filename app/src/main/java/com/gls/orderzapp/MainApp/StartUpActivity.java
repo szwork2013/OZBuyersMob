@@ -56,6 +56,7 @@ public class StartUpActivity extends Activity implements View.OnClickListener {
     public static ExpandableListView mDrawerList;
     private ActionBarDrawerToggle mDrawerToggle;
     public static LinearLayout linearLayoutCategories;
+    LinearLayout ll_city;
     public static String searchString;
     public static boolean isFirstTime = true;
     public static Menu menu1;
@@ -71,8 +72,6 @@ public class StartUpActivity extends Activity implements View.OnClickListener {
     HashMap<String, List<LevelFourCategoryProvider>> listCategoryDrawerChild;
     static Context context;
     public static TextView added_to_cart;
-//    Context context;
-//    SuccessResponseOfUser successResponseOfUser;
     int SIGNINCODE = 0;
 
     @Override
@@ -365,7 +364,7 @@ public class StartUpActivity extends Activity implements View.OnClickListener {
         cityName = (TextView) findViewById(R.id.cityName);
         added_to_cart = (TextView) findViewById(R.id.added_to_cart);
         selectedCityName = (TextView)findViewById(R.id.selectTheCity);
-
+        ll_city = (LinearLayout) findViewById(R.id.ll_city);
     }
 
     @Override
@@ -396,17 +395,20 @@ public class StartUpActivity extends Activity implements View.OnClickListener {
     @Override
     protected void onResume() {
         super.onResume();
-        cityName.setText(loadSearchByCityPreference());
-        if(cityName.getText().toString().equalsIgnoreCase("All"))
-        {
-            cityName.setVisibility(View.GONE);
-            selectedCityName.setText(R.string.please_select_city);
+        if(!loadSearchByCityPreference().isEmpty()){
+            cityName.setText(loadSearchByCityPreference());
+        }else {
+            cityName.setText("Select city");
         }
-        else{
-            selectedCityName.setText(R.string.selected_city);
-
-            cityName.setVisibility(View.VISIBLE);
-        }
+//        if(cityName.getText().toString().equalsIgnoreCase("All"))
+//        {
+////            cityName.setVisibility(View.GONE);
+//            selectedCityName.setText(R.string.please_select_city);
+//        }
+//        else{
+//            selectedCityName.setText(R.string.selected_city);
+//            cityName.setVisibility(View.VISIBLE);
+//        }
         if (isFirstTime == true) {
             isFirstTime = false;
         } else {
@@ -681,6 +683,7 @@ public class StartUpActivity extends Activity implements View.OnClickListener {
         if(city.length()>0) {
             city1 = city.substring(0, 1).toUpperCase() + city.substring(1);
         }
+
         return city1;
     }
 

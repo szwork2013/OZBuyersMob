@@ -91,7 +91,11 @@ public class SelectCityActivity extends ActionBarActivity {
     public void storageOfCity(String citySelected){
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         SharedPreferences.Editor editor = sp.edit();
-        editor.putString("SEARCH_CITY",citySelected);
+        if(citySelected.equalsIgnoreCase("all")){
+            editor.putString("SEARCH_CITY", "");
+        }else {
+            editor.putString("SEARCH_CITY", citySelected);
+        }
         editor.commit();
        // city = sp.
 

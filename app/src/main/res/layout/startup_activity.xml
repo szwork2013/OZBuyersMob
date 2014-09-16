@@ -24,6 +24,7 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
                     android:id="@+id/ll_city"
+                   android:onClick="gotoSelectCityActivity"
                    android:layout_marginLeft="5dp"
                    android:layout_marginRight="5dp"
                     android:background="@drawable/city_stroke_color"
@@ -35,7 +36,6 @@
                        android:layout_height="wrap_content"
                        android:scaleType="fitXY"
                        android:background="#00000fff"
-                       android:onClick="gotoSelectCityActivity"
                        android:clickable="true"
                        android:text="@string/selected_city"
                        android:textStyle="bold"
@@ -50,9 +50,8 @@
                        android:gravity="center"
                        android:background="#00000fff"
                        android:clickable="true"
-                       android:onClick="gotoSelectCityActivity"
-
                        android:textStyle="bold"
+                       android:onClick="gotoSelectCityActivity"
                        android:textSize="16sp"
                        android:id="@+id/cityName"
                        android:layout_marginLeft="2dp"/>
