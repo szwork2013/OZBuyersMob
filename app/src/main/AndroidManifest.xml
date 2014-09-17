@@ -10,7 +10,8 @@
 
     <!-- This app has permission to register and receive data message. -->
     <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
-    <uses-permission android:name="android.permission.CALL_PHONE"/>
+    <uses-permission android:name="android.permission.CALL_PHONE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -127,7 +128,11 @@
             android:name=".MainApp.OrderDetailsActivity"
             android:alwaysRetainTaskState="true"
             android:configChanges="orientation|screenSize|keyboardHidden"
-            android:label="Payment" />
+            android:label="Payment" >
+            <intent-filter>
+                <action android:name="android.intent.action.CALL" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".MainApp.TempActivity"
             android:alwaysRetainTaskState="true"
@@ -220,6 +225,10 @@
         <activity
             android:name=".MainApp.SelectCityActivity"
             android:label="@string/title_activity_select_city" >
+        </activity>
+        <activity
+            android:name=".MainApp.Test"
+            android:label="@string/title_activity_test" >
         </activity>
     </application>
 

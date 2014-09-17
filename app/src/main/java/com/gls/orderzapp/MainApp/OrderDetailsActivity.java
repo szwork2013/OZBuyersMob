@@ -72,6 +72,8 @@ public class OrderDetailsActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
         setContentView(R.layout.order_details);
 
 
@@ -136,6 +138,7 @@ public class OrderDetailsActivity extends Activity {
 
     @Override
     protected void onResume() {
+        Log.d("cart", new Gson().toJson(Cart.hm));
         super.onResume();
     }
 
