@@ -61,7 +61,7 @@ public class StartUpActivity extends Activity implements View.OnClickListener {
     public static boolean isFirstTime = true;
     public static Menu menu1;
     public static MenuItem signin, signup, logout;
-    public static String providerId,clientId;
+    public static String providerId,categoryId;
     ActionBar actionBar;
     TextView cityName, selectedCityName;
     ProviderSuccessResponse providerSuccessResponse;
@@ -269,7 +269,7 @@ public class StartUpActivity extends Activity implements View.OnClickListener {
         Log.d("ProviderId",providerid);
         Log.d("ClientId",clientid);
         StartUpActivity.providerId=providerid;
-        StartUpActivity.clientId=clientid;
+        StartUpActivity.categoryId=clientid;
 
         new GetProviderAndProductListDrawerAsync().execute();
         mDrawerLayout.closeDrawers();
@@ -277,7 +277,12 @@ public class StartUpActivity extends Activity implements View.OnClickListener {
     public String getProductList(){
         String resultProductList = "";
         try {
-            resultProductList = ServerConnection.executeGet(context, "/api/searchproduct/provider/"+providerId+"/category/"+clientId);
+            if(loadSearchByCityPreference().isEmpty()||loadSearchByCityPreference()==null||loadSearchByCityPreference().equalsIgnoreCase("All")) {
+                resultProductList = ServerConnection.executeGet(context, "/api/searchproduct/provider/" + providerId + "/category/" + categoryId);
+            }else
+            {
+                resultProductList = ServerConnection.executeGet(context, "/api/searchproduct/provider/" + providerId + "/category/" + categoryId+"?city="+loadSearchByCityPreference());
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
