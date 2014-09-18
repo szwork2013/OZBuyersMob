@@ -220,7 +220,8 @@ public class ForgotPasswordActivity extends Activity {
 
         @Override
         protected void onPreExecute() {
-//            progressDialog = ProgressDialog.show(ForgotPasswordActivity.this, "", "");
+            progressDialog = ProgressDialog.show(ForgotPasswordActivity.this, "", "");
+            progressDialog.setCancelable(true);
         }
 
         @Override
@@ -252,7 +253,7 @@ public class ForgotPasswordActivity extends Activity {
 
         @Override
         protected void onPostExecute(String connectedOrNot) {
-//            progressDialog.dismiss();
+            progressDialog.dismiss();
             try {
                 if (connectedOrNot.equals("success")) {
                     if (!resultPostMobileNumber.isEmpty()) {
@@ -283,7 +284,8 @@ public class ForgotPasswordActivity extends Activity {
 
         @Override
         protected void onPreExecute() {
-//            progressDialog = ProgressDialog.show(ForgotPasswordActivity.this, "", "");
+            progressDialog = ProgressDialog.show(ForgotPasswordActivity.this, "", "");
+            progressDialog.setCancelable(true);
         }
 
         @Override

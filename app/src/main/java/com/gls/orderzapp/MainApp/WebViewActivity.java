@@ -34,7 +34,9 @@ import java.util.List;
  */
 public class WebViewActivity extends Activity {
     String url;
-    LinearLayout ll_support_numbers;
+    LinearLayout ll_support_numbers, ll_phone_email;
+    TextView email;
+    List<String> contact_supports = new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,7 +45,9 @@ public class WebViewActivity extends Activity {
         setTitle(getIntent().getStringExtra("ACTIVITY_NAME"));
 
         ll_support_numbers = (LinearLayout) findViewById(R.id.ll_support_numbers);
-        if(getIntent().getStringExtra("ACTIVITY_NAME").equals("Help")){
+        ll_phone_email = (LinearLayout) findViewById(R.id.ll_phone_email);
+        email = (TextView) findViewById(R.id.email);
+        if(getIntent().getStringExtra("ACTIVITY_NAME").equals("Help") || getIntent().getStringExtra("ACTIVITY_NAME").equals("About")){
             displaySupportNumbers();
         }
         WebView web_view = (WebView) findViewById(R.id.web_view);
@@ -81,7 +85,7 @@ public class WebViewActivity extends Activity {
     }
 
     public void displaySupportNumbers(){
-        ll_support_numbers.setVisibility(View.VISIBLE);
+        ll_phone_email.setVisibility(View.VISIBLE);
         new GetSupportNumbers().execute();
     }
 
@@ -113,7 +117,11 @@ public class WebViewActivity extends Activity {
                         jObj = new JSONObject(resultSupportNumbers);
                         if(jObj.has("success")){
                             successResponseForSupportContact = new Gson().fromJson(resultSupportNumbers, SuccessResponseForSupportContact.class);
-
+                            for(int a = 0; a < successResponseForSupportContact.getSuccess().getOz_contactsupport().getPhone().size(); a++){
+                                if(a<2) {
+                                    contact_supports.add(successResponseForSupportContact.getSuccess().getOz_contactsupport().getPhone().get(a));
+                                }
+                            }
                         }
                     }
                 } else {
@@ -132,13 +140,13 @@ public class WebViewActivity extends Activity {
                 if (connectedOrNot.equals("success")) {
                     if (!resultSupportNumbers.isEmpty()) {
                         if (jObj.has("success")) {
-                            for (int i = 0; i < successResponseForSupportContact.getSuccess().getOz_conatactsupport().size(); i++) {
+                            for (int i = 0; i < contact_supports.size(); i++) {
                                 final TextView number = new TextView(getApplicationContext());
                                 number.setTextColor(Color.parseColor("#304f6c"));
-                                if(i == successResponseForSupportContact.getSuccess().getOz_conatactsupport().size()-1) {
-                                    number.setText(successResponseForSupportContact.getSuccess().getOz_conatactsupport().get(i));
+                                if(i == contact_supports.size()-1) {
+                                    number.setText(contact_supports.get(i));
                                 }else{
-                                    number.setText(successResponseForSupportContact.getSuccess().getOz_conatactsupport().get(i)+", ");
+                                    number.setText(contact_supports.get(i)+", ");
                                 }
                                 number.setId(i+100);
                                 ll_support_numbers.addView(number, i+1);
@@ -147,8 +155,29 @@ public class WebViewActivity extends Activity {
                                     @Override
                                     public void onClick(View view) {
                                         Intent callIntent = new Intent(Intent.ACTION_CALL);
-                                        callIntent.setData(Uri.parse("tel:" + successResponseForSupportContact.getSuccess().getOz_conatactsupport().get(view.getId() - 100).replaceAll(",", "")));
+                                        callIntent.setData(Uri.parse("tel:" + contact_supports.get(view.getId() - 100)));
                                         startActivity(callIntent);
+                                    }
+                                });
+
+                            }
+
+                            if(successResponseForSupportContact.getSuccess().getOz_contactsupport().getEmail() != null) {
+                                email.setText(successResponseForSupportContact.getSuccess().getOz_contactsupport().getEmail());
+
+                                email.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View view) {
+                                        Intent i = new Intent(Intent.ACTION_SENDTO);
+                                        i.setType("text/plain");
+                                        i.setData(Uri.parse("mailto:" + successResponseForSupportContact.getSuccess().getOz_contactsupport().getEmail()));
+                                        i.putExtra(Intent.EXTRA_SUBJECT, "");
+                                        i.putExtra(Intent.EXTRA_TEXT   , "");
+                                        try {
+                                            startActivity(Intent.createChooser(i, "Send mail..."));
+                                        } catch (android.content.ActivityNotFoundException ex) {
+                                            Toast.makeText(WebViewActivity.this, "There are no email clients installed.", Toast.LENGTH_SHORT).show();
+                                        }
                                     }
                                 });
                             }

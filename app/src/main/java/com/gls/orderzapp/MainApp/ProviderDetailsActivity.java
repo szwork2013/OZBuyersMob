@@ -25,6 +25,7 @@ import com.nostra13.universalimageloader.core.assist.MemoryCacheUtil;
 import com.nostra13.universalimageloader.core.assist.SimpleImageLoadingListener;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 public class ProviderDetailsActivity extends Activity {
@@ -36,6 +37,7 @@ public class ProviderDetailsActivity extends Activity {
     com.nostra13.universalimageloader.core.ImageLoader imageLoader;
     DisplayImageOptions options;
     LinearLayout ll_contact_support;
+    List<String> contact_supports = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,15 +97,18 @@ public class ProviderDetailsActivity extends Activity {
             textProviderDescription.setText(provider.getProviderbrandname());
         }
         if (branchinfo.getContact_supports() != null && !branchinfo.getContact_supports().isEmpty()) {
-//            String cont_no = "";
-            Log.d("size", branchinfo.getContact_supports().size()+"");
-            for (int i = 0; i < branchinfo.getContact_supports().size(); i++) {
+            for(int a = 0; a < branchinfo.getContact_supports().size(); a++){
+                if(a < 2) {
+                    contact_supports.add(branchinfo.getContact_supports().get(a));
+                }
+            }
+            for (int i = 0; i < contact_supports.size(); i++) {
                 final TextView number = new TextView(getApplicationContext());
                 number.setTextColor(Color.parseColor("#304f6c"));
-                if(i == branchinfo.getContact_supports().size()-1) {
-                    number.setText(branchinfo.getContact_supports().get(i));
+                if(i == contact_supports.size()-1) {
+                    number.setText(contact_supports.get(i));
                 }else{
-                    number.setText(branchinfo.getContact_supports().get(i)+", ");
+                    number.setText(contact_supports.get(i)+", ");
                 }
                 number.setId(i+100);
                 ll_contact_support.addView(number, i+1);
@@ -112,13 +117,11 @@ public class ProviderDetailsActivity extends Activity {
                     @Override
                     public void onClick(View view) {
                         Intent callIntent = new Intent(Intent.ACTION_CALL);
-                        callIntent.setData(Uri.parse("tel:"+branchinfo.getContact_supports().get(view.getId()-100).replaceAll(",","")));
+                        callIntent.setData(Uri.parse("tel:"+contact_supports.get(view.getId()-100)));
                         startActivity(callIntent);
-//                        Toast.makeText(getApplicationContext(), branchinfo.getContact_supports().get(view.getId()-100).replaceAll(",",""), Toast.LENGTH_LONG).show();
                     }
                 });
             }
-//            provider_cont_info.setText(cont_no);
         }
         else{provider_cont_info.setText("91-20-67211800");}
         if (branchinfo.getLocation() != null) {

@@ -95,7 +95,12 @@ public class AdapterForSubOrders {
                 }
             }
 
-            support_contacts.addAll(subOrderDetailsList.get(i).getProductprovider().getContact_supports());
+            for(int a = 0; a < subOrderDetailsList.get(i).getProductprovider().getContact_supports().size() ; a++){
+                if(a < 2) {
+                    support_contacts.add(subOrderDetailsList.get(i).getProductprovider().getContact_supports().get(a));
+                }
+            }
+//            support_contacts.addAll(subOrderDetailsList.get(i).getProductprovider().getContact_supports());
             if(support_contacts.size() > 0) {
                 for (int j = 0; j < support_contacts.size(); j++) {
                     final TextView number = new TextView(context);

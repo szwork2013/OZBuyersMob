@@ -58,10 +58,10 @@ public class SelectPickUpAddressActivity extends Activity {
         com.google.android.gms.analytics.GoogleAnalytics.getInstance(this).reportActivityStop(this);
     }
 
-    public String getGetPickUpAddressList(String param) {
+    public String getGetPickUpAddressList(String providerid, String branchid) {
         String resultGedAddressList = "";
         try {
-            resultGedAddressList = ServerConnection.executeGet(getApplicationContext(), "/api/pickupaddress/" + param);
+            resultGedAddressList = ServerConnection.executeGet(getApplicationContext(), "/api/pickupaddress/" + providerid+"/"+branchid);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -88,7 +88,7 @@ public class SelectPickUpAddressActivity extends Activity {
                 if (new CheckConnection(getApplicationContext()).isConnectingToInternet()) {
                     connectedOrNot = "success";
                     Log.d("Provider id in bundle", bundle.getString("providerid"));
-                    resultGetPickUpAddressList = getGetPickUpAddressList(bundle.getString("providerid"));
+                    resultGetPickUpAddressList = getGetPickUpAddressList(bundle.getString("providerid"), bundle.getString("branchid"));
                     if (!resultGetPickUpAddressList.isEmpty()) {
                         Log.d("search result", new Gson().toJson(resultGetPickUpAddressList));
                         jObj = new JSONObject(resultGetPickUpAddressList);
@@ -97,7 +97,6 @@ public class SelectPickUpAddressActivity extends Activity {
                         } else {
                             JSONObject jObjError = jObj.getJSONObject("error");
                             msg = jObjError.getString("message");
-//                            code = jObjError.getString("code");
                         }
                     }
                 } else {
