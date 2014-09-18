@@ -34,7 +34,8 @@ import java.util.List;
  */
 public class WebViewActivity extends Activity {
     String url;
-    LinearLayout ll_support_numbers;
+    LinearLayout ll_support_numbers, ll_phone_email;
+    TextView email;
     List<String> contact_supports = new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +45,8 @@ public class WebViewActivity extends Activity {
         setTitle(getIntent().getStringExtra("ACTIVITY_NAME"));
 
         ll_support_numbers = (LinearLayout) findViewById(R.id.ll_support_numbers);
+        ll_phone_email = (LinearLayout) findViewById(R.id.ll_phone_email);
+        email = (TextView) findViewById(R.id.email);
         if(getIntent().getStringExtra("ACTIVITY_NAME").equals("Help") || getIntent().getStringExtra("ACTIVITY_NAME").equals("About")){
             displaySupportNumbers();
         }
@@ -82,7 +85,7 @@ public class WebViewActivity extends Activity {
     }
 
     public void displaySupportNumbers(){
-        ll_support_numbers.setVisibility(View.VISIBLE);
+        ll_phone_email.setVisibility(View.VISIBLE);
         new GetSupportNumbers().execute();
     }
 
@@ -114,9 +117,9 @@ public class WebViewActivity extends Activity {
                         jObj = new JSONObject(resultSupportNumbers);
                         if(jObj.has("success")){
                             successResponseForSupportContact = new Gson().fromJson(resultSupportNumbers, SuccessResponseForSupportContact.class);
-                            for(int a = 0; a < successResponseForSupportContact.getSuccess().getOz_conatactsupport().size(); a++){
+                            for(int a = 0; a < successResponseForSupportContact.getSuccess().getOz_contactsupport().getPhone().size(); a++){
                                 if(a<2) {
-                                    contact_supports.add(successResponseForSupportContact.getSuccess().getOz_conatactsupport().get(a));
+                                    contact_supports.add(successResponseForSupportContact.getSuccess().getOz_contactsupport().getPhone().get(a));
                                 }
                             }
                         }
@@ -154,6 +157,27 @@ public class WebViewActivity extends Activity {
                                         Intent callIntent = new Intent(Intent.ACTION_CALL);
                                         callIntent.setData(Uri.parse("tel:" + contact_supports.get(view.getId() - 100)));
                                         startActivity(callIntent);
+                                    }
+                                });
+
+                            }
+
+                            if(successResponseForSupportContact.getSuccess().getOz_contactsupport().getEmail() != null) {
+                                email.setText(successResponseForSupportContact.getSuccess().getOz_contactsupport().getEmail());
+
+                                email.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View view) {
+                                        Intent i = new Intent(Intent.ACTION_SENDTO);
+                                        i.setType("text/plain");
+                                        i.setData(Uri.parse("mailto:" + successResponseForSupportContact.getSuccess().getOz_contactsupport().getEmail()));
+                                        i.putExtra(Intent.EXTRA_SUBJECT, "");
+                                        i.putExtra(Intent.EXTRA_TEXT   , "");
+                                        try {
+                                            startActivity(Intent.createChooser(i, "Send mail..."));
+                                        } catch (android.content.ActivityNotFoundException ex) {
+                                            Toast.makeText(WebViewActivity.this, "There are no email clients installed.", Toast.LENGTH_SHORT).show();
+                                        }
                                     }
                                 });
                             }

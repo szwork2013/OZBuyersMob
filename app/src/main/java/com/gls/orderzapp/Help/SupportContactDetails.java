@@ -8,14 +8,14 @@ import java.util.List;
  */
 public class SupportContactDetails {
     String message;
-    List<String> oz_conatactsupport = new ArrayList<>();
+    PhoneAndEmailSupport oz_contactsupport;
 
-    public List<String> getOz_conatactsupport() {
-        return oz_conatactsupport;
+    public PhoneAndEmailSupport getOz_contactsupport() {
+        return oz_contactsupport;
     }
 
-    public void setOz_conatactsupport(List<String> oz_conatactsupport) {
-        this.oz_conatactsupport = oz_conatactsupport;
+    public void setOz_contactsupport(PhoneAndEmailSupport oz_contactsupport) {
+        this.oz_contactsupport = oz_contactsupport;
     }
 
     public String getMessage() {
