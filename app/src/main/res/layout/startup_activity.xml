@@ -28,7 +28,7 @@
                    android:layout_marginLeft="5dp"
                    android:clickable="true"
                    android:layout_marginRight="5dp"
-                    android:background="@drawable/city_stroke_color"
+                    android:background="@drawable/text_click_style"
                    android:gravity="center"
                    android:padding="2dp">
 
@@ -52,9 +52,9 @@
                        android:gravity="center"
                        android:background="#00000fff"
                        android:clickable="true"
-                android:textStyle="bold"
+                       android:textStyle="bold"
                        android:onClick="gotoSelectCityActivity"
-                       android:textSize="16sp"
+                       android:textSize="17sp"
                        android:id="@+id/cityName"
                        android:layout_marginLeft="2dp"/>
 

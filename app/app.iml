@@ -8,12 +8,20 @@
     </facet>
     <facet type="android" name="Android">
       <configuration>
+<<<<<<< HEAD
+        <option name="SELECTED_BUILD_VARIANT" value="demoFlavorDebug" />
+        <option name="ASSEMBLE_TASK_NAME" value="assembleDemoFlavorDebug" />
+        <option name="COMPILE_JAVA_TASK_NAME" value="compileDemoFlavorDebugJava" />
+        <option name="ASSEMBLE_TEST_TASK_NAME" value="assembleDemoFlavorDebugTest" />
+        <option name="SOURCE_GEN_TASK_NAME" value="generateDemoFlavorDebugSources" />
+=======
         <option name="SELECTED_BUILD_VARIANT" value="testFlavorDebug" />
         <option name="ASSEMBLE_TASK_NAME" value="assembleTestFlavorDebug" />
         <option name="COMPILE_JAVA_TASK_NAME" value="compileTestFlavorDebugJava" />
         <option name="ASSEMBLE_TEST_TASK_NAME" value="assembleTestFlavorDebugTest" />
         <option name="SOURCE_GEN_TASK_NAME" value="generateTestFlavorDebugSources" />
         <option name="TEST_SOURCE_GEN_TASK_NAME" value="generateTestFlavorDebugTestSources" />
+>>>>>>> 4984e4088a3d63116f2ff9d2f4bc237ca881e9b6
         <option name="ALLOW_USER_CONFIGURATION" value="false" />
         <option name="MANIFEST_FILE_RELATIVE_PATH" value="/src/main/AndroidManifest.xml" />
         <option name="RES_FOLDER_RELATIVE_PATH" value="/src/main/res" />
