@@ -1,14 +1,20 @@
 package com.gls.orderzapp.CreateOrder.CreateOrderAdapters;
 
+import android.content.ActivityNotFoundException;
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
+import android.telephony.PhoneStateListener;
+import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.gls.orderzapp.AddressDetails.Adapter.DeliveryChargesAndTypeAdapter;
 import com.gls.orderzapp.AddressDetails.Adapter.DisplayDeliveryChargesAndType;
@@ -18,6 +24,7 @@ import com.gls.orderzapp.CreateOrder.CreateOrderBeans.DeliveryChargeDetails;
 import com.gls.orderzapp.CreateOrder.CreateOrderBeans.DeliveryTypes;
 import com.gls.orderzapp.CreateOrder.CreateOrderBeans.SellerDelivery;
 import com.gls.orderzapp.MainApp.OrderDetailsActivity;
+import com.gls.orderzapp.MainApp.Test;
 import com.gls.orderzapp.R;
 import com.gls.orderzapp.Utility.Cart;
 import com.google.gson.Gson;
@@ -110,18 +117,17 @@ public class AdapterForMultipleProviders {
                                     deliveryType = "Pick-Up";
                                 }
 
-//                                for(int cont_list=0;cont_list<Cart.hm.get(keys[j]).getContact_supports().size();cont_list++) {
-//                                    contact_no=contact_no.concat(Cart.hm.get(keys[j]).getContact_supports().get(cont_list)+",");
-//                                }
-
                                 deliveryDate=Cart.hm.get(keys[j]).getPrefereddeliverydate().toString();
-                                Log.d(" cart contact size", Cart.hm.get(keys[j]).getContact_supports().size()+"");
-                                contactSupportsList.addAll(Cart.hm.get(keys[j]).getContact_supports());
-                                Log.d("contact size", contactSupportsList.size()+"");
+
+                                for(int a= 0; a < Cart.hm.get(keys[j]).getContact_supports().size(); a++){
+                                    if(a<2) {
+                                        contactSupportsList.add(Cart.hm.get(keys[j]).getContact_supports().get(a));
+                                    }
+                                }
+//                                contactSupportsList.addAll(Cart.hm.get(keys[j]).getContact_supports());
                                 for (int cont_list = 0; cont_list < contactSupportsList.size(); cont_list++) {
-//                                    Log.d("Cont No111",Cart.hm.get(keys[j]).getContact_supports().get(cont_list));
+
                                     contact_no = contact_no.concat(contactSupportsList.get(cont_list) + ",");
-//                                    contactSupportsList.add(contactSupportsList.get(cont_list));
                                     TextView contactSupportNumbers = new TextView(context);
                                     contactSupportNumbers.setTextColor(Color.parseColor("#304f6c"));
 
@@ -137,15 +143,16 @@ public class AdapterForMultipleProviders {
                                     contactSupportNumbers.setOnClickListener(new View.OnClickListener() {
                                         @Override
                                         public void onClick(View view) {
-                                            Intent callIntent = new Intent(Intent.ACTION_CALL);
-                                            callIntent.setData(Uri.parse("tel:" + contactSupportsList.get(view.getId() - 100).replaceAll(",", "")));
-                                            callIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                            context.startActivity(callIntent);
-                                        }
+                                            try {
+                                                Intent callIntent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + contactSupportsList.get(view.getId() - 100).replaceAll(",", "")));
+                                                context.startActivity(callIntent);
+                                            }catch (ActivityNotFoundException ac){
+                                                Log.d("not found", "not found");
+                                            }
+                                       }
                                     });
+
                                 }
-
-
 
                                 if (Cart.hm.get(keys[j]).getTimeslot() != null) {
                                     DecimalFormat formatter = new DecimalFormat("00");
@@ -265,3 +272,5 @@ public class AdapterForMultipleProviders {
         }
     }
 }
+//}
+
