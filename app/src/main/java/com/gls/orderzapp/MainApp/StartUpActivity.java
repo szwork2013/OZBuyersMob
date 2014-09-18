@@ -278,14 +278,17 @@ public class StartUpActivity extends Activity implements View.OnClickListener {
         String resultProductList = "";
         try {
             if(loadSearchByCityPreference().isEmpty()||loadSearchByCityPreference()==null||loadSearchByCityPreference().equalsIgnoreCase("All")) {
+               Log.d("All","All");
                 resultProductList = ServerConnection.executeGet(context, "/api/searchproduct/provider/" + providerId + "/category/" + categoryId);
             }else
             {
+                Log.d("City","City");
                 resultProductList = ServerConnection.executeGet(context, "/api/searchproduct/provider/" + providerId + "/category/" + categoryId+"?city="+loadSearchByCityPreference());
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
+        Log.d("ResultProductList",new Gson().toJson(resultProductList));
         return resultProductList;
     }
 
