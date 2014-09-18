@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
+import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -394,11 +395,14 @@ public class StartUpActivity extends Activity implements View.OnClickListener {
 
     @Override
     protected void onResume() {
+        Typeface font = Typeface.createFromAsset(getAssets(), "Lobster_1.3.otf");
         super.onResume();
         if(!loadSearchByCityPreference().isEmpty()){
             cityName.setText(loadSearchByCityPreference());
+            cityName.setTypeface(font);
         }else {
             cityName.setText("Select city");
+            cityName.setTypeface(font);
         }
 //        if(cityName.getText().toString().equalsIgnoreCase("All"))
 //        {
