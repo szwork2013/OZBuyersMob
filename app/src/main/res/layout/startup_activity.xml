@@ -52,11 +52,7 @@
                        android:gravity="center"
                        android:background="#00000fff"
                        android:clickable="true"
-<<<<<<< HEAD
-                       android:onClick="gotoSelectCityActivity"
-=======
->>>>>>> 3715ddef58e5a0d50841947b127d5635a040b38f
-                       android:textStyle="bold"
+                android:textStyle="bold"
                        android:onClick="gotoSelectCityActivity"
                        android:textSize="16sp"
                        android:id="@+id/cityName"
