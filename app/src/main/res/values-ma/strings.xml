@@ -19,6 +19,8 @@
     <string name="country">Country</string>
     <string name="signup">Sign-up</string>
     <string name="emailaddress">Email Address</string>
+    <string name="drawer_open">Open navigation drawer</string>
+    <string name="drawer_close">Close navigation drawer</string>
     <string name="signin">Sign-In</string>
     <string name="firstname">First Name</string>
     <string name="setting">Setting</string>
@@ -129,6 +131,7 @@
     <string name="no_suborder_cancel">No Suborder to cancel</string>
     <string name="feedback_hint">Please share your comments, concerns, suggestions, or complaints. We are here to help you out.</string>
     <string name="feedback">Feedback</string>
+    <string name="countryCode">Select Country Code</string>
     <string name="contact_numbers">Contact No :</string>
     <string name="contact_details">Contacts Details :</string>
     <string name="username_withcolon">Username :</string>
@@ -138,5 +141,10 @@
     <string name="emailaddress_withcolon">Email Address :</string>
     <string name="userprofile">User Profile</string>
     <string name="language">Language :</string>
+    <string name="title_activity_select_city">Select city</string>
+    <string name="select_category">Select Category</string>
+    <string name="selected_city"></string>
+    <string name="please_select_city">Select City </string>
+    <string name="title_activity_test">Test</string>
 
 </resources>

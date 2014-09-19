@@ -24,7 +24,6 @@ import com.gls.orderzapp.CreateOrder.CreateOrderBeans.DeliveryChargeDetails;
 import com.gls.orderzapp.CreateOrder.CreateOrderBeans.DeliveryTypes;
 import com.gls.orderzapp.CreateOrder.CreateOrderBeans.SellerDelivery;
 import com.gls.orderzapp.MainApp.OrderDetailsActivity;
-import com.gls.orderzapp.MainApp.Test;
 import com.gls.orderzapp.R;
 import com.gls.orderzapp.Utility.Cart;
 import com.google.gson.Gson;
