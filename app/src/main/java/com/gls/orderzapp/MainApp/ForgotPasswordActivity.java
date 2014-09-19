@@ -37,7 +37,6 @@ public class ForgotPasswordActivity extends Activity {
     public static TextView textOtp, otp;
     LinearLayout llMobileNumber, llOtp;
     EditText editMobileNumber, editOtp;
-    //    TextView textRegenerateToken;
     Button buttonMobileSubmit, buttonOtpSubmit;
     ForgotPasswordPostData forgotPasswordPostData;
 
@@ -77,13 +76,8 @@ public class ForgotPasswordActivity extends Activity {
         int id = item.getItemId();
         switch (id) {
             case R.id.reg_verification_tokken:
-//                Intent regeneratIntent = new Intent(ForgotPasswordActivity.this, RegenerateVerificationToken.class);
-//                startActivity(regeneratIntent);
-//                this.finish();
                 savePreference(true);
                 displayForgotPassword();
-//                llMobileNumber.setVisibility(View.VISIBLE);
-//                llOtp.setVisibility(View.GONE);
                 break;
         }
         return super.onOptionsItemSelected(item);
@@ -96,7 +90,6 @@ public class ForgotPasswordActivity extends Activity {
         editOtp = (EditText) findViewById(R.id.editOtp);
         buttonMobileSubmit = (Button) findViewById(R.id.buttonSubmitMobileNumber);
         buttonOtpSubmit = (Button) findViewById(R.id.buttonSubmitOtp);
-//        textRegenerateToken = (TextView)    findViewById(R.id.textRegenerateToken);
         textOtp = (TextView) findViewById(R.id.textOtp);
         otp = (TextView) findViewById(R.id.otp);
     }
@@ -320,7 +313,7 @@ public class ForgotPasswordActivity extends Activity {
 
         @Override
         protected void onPostExecute(String connectedOrNot) {
-//            progressDialog.dismiss();
+            progressDialog.dismiss();
             try {
                 if (connectedOrNot.equals("success")) {
                     if (!resultPostOtp.isEmpty()) {
@@ -342,6 +335,4 @@ public class ForgotPasswordActivity extends Activity {
             }
         }
     }
-
-    ;
 }
