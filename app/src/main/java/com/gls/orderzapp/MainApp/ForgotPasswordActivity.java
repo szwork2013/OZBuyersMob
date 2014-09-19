@@ -37,7 +37,6 @@ public class ForgotPasswordActivity extends Activity {
     public static TextView textOtp, otp;
     LinearLayout llMobileNumber, llOtp;
     EditText editMobileNumber, editOtp;
-    //    TextView textRegenerateToken;
     Button buttonMobileSubmit, buttonOtpSubmit;
     ForgotPasswordPostData forgotPasswordPostData;
 
@@ -49,10 +48,7 @@ public class ForgotPasswordActivity extends Activity {
 
         findViewsById();
 
-        if (loadPreference() == false) {
-            llMobileNumber.setVisibility(View.GONE);
-            llOtp.setVisibility(View.VISIBLE);
-        }
+        displayForgotPassword();
     }
 
     @Override
@@ -80,11 +76,8 @@ public class ForgotPasswordActivity extends Activity {
         int id = item.getItemId();
         switch (id) {
             case R.id.reg_verification_tokken:
-                Intent regeneratIntent = new Intent(ForgotPasswordActivity.this, RegenerateVerificationToken.class);
-                startActivity(regeneratIntent);
-                this.finish();
-//                llMobileNumber.setVisibility(View.VISIBLE);
-//                llOtp.setVisibility(View.GONE);
+                savePreference(true);
+                displayForgotPassword();
                 break;
         }
         return super.onOptionsItemSelected(item);
@@ -97,7 +90,6 @@ public class ForgotPasswordActivity extends Activity {
         editOtp = (EditText) findViewById(R.id.editOtp);
         buttonMobileSubmit = (Button) findViewById(R.id.buttonSubmitMobileNumber);
         buttonOtpSubmit = (Button) findViewById(R.id.buttonSubmitOtp);
-//        textRegenerateToken = (TextView)    findViewById(R.id.textRegenerateToken);
         textOtp = (TextView) findViewById(R.id.textOtp);
         otp = (TextView) findViewById(R.id.otp);
     }
@@ -109,11 +101,6 @@ public class ForgotPasswordActivity extends Activity {
         }
         new SubmitMobileNumberAsync().execute();
     }
-
-//    public void regenerateToken(View view){
-//        llMobileNumber.setVisibility(View.VISIBLE);
-//        llOtp.setVisibility(View.GONE);
-//    }
 
     public void submitOtp(View view) {
         if (editOtp.getText().toString().trim().length() == 0) {
@@ -128,6 +115,16 @@ public class ForgotPasswordActivity extends Activity {
         SharedPreferences.Editor edit = sp.edit();
         edit.putBoolean("ISVERIFIED", isverified);
         edit.commit();
+    }
+
+    public void displayForgotPassword(){
+        if (loadPreference() == false) {
+            llMobileNumber.setVisibility(View.GONE);
+            llOtp.setVisibility(View.VISIBLE);
+        }else{
+            llMobileNumber.setVisibility(View.VISIBLE);
+            llOtp.setVisibility(View.GONE);
+        }
     }
 
     public boolean loadPreference() {
@@ -260,8 +257,7 @@ public class ForgotPasswordActivity extends Activity {
                         if (jObj.has("success")) {
                             Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_LONG).show();
                             savePreference(false);
-                            llMobileNumber.setVisibility(View.GONE);
-                            llOtp.setVisibility(View.VISIBLE);
+                            displayForgotPassword();
                         } else {
                             Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_LONG).show();
                         }
@@ -317,7 +313,7 @@ public class ForgotPasswordActivity extends Activity {
 
         @Override
         protected void onPostExecute(String connectedOrNot) {
-//            progressDialog.dismiss();
+            progressDialog.dismiss();
             try {
                 if (connectedOrNot.equals("success")) {
                     if (!resultPostOtp.isEmpty()) {
@@ -339,6 +335,4 @@ public class ForgotPasswordActivity extends Activity {
             }
         }
     }
-
-    ;
 }

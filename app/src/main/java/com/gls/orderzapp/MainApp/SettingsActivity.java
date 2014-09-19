@@ -55,7 +55,12 @@ public class SettingsActivity extends ActionBarActivity {
         ((GoogleAnalyticsUtility) getApplication()).getTracker(GoogleAnalyticsUtility.TrackerName.APP_TRACKER);
         findViewsById();
         languageSpinnerActions();
-
+        try {
+            successResponseOfUser = new Gson().fromJson(loadUserPreference(), SuccessResponseOfUser.class);
+            displayUserData();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -72,10 +77,15 @@ public class SettingsActivity extends ActionBarActivity {
         com.google.android.gms.analytics.GoogleAnalytics.getInstance(this).reportActivityStop(this);
     }
 
+    public String loadUserPreference() throws Exception{
+        String user = "";
+        SharedPreferences spLoad = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        user = spLoad.getString("USER_DATA", null);
+        return user;
+    }
     @Override
     protected void onResume() {
         super.onResume();
-
     }
 
     public void displayUserData() throws Exception {
@@ -213,19 +223,10 @@ public class SettingsActivity extends ActionBarActivity {
         editTextState = (EditText) findViewById(R.id.editTextState);
     }
 
-    public String loadPreferencesUser() {
-        String user = "";
-        try {
-            SharedPreferences spLoad = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-            user = spLoad.getString("USER_DATA", null);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return user;
-    }
+
 
     public void storeUserPreferences() {
-        successResponseOfUser = new Gson().fromJson(loadPreferencesUser(), SuccessResponseOfUser.class);
+//        successResponseOfUser = new Gson().fromJson(loadPreferencesUser(), SuccessResponseOfUser.class);
 //        SuccessResponseOfUser user = new Gson().fromJson(userData, SuccessResponseOfUser.class);
         Location location = new Location();
         location.setAddress1(address1EditText.getText().toString().trim());
@@ -335,15 +336,6 @@ public class SettingsActivity extends ActionBarActivity {
         }
     }
 
-    public String getSessionStatus() {
-        String resultOfCheckSession = "";
-        try {
-            resultOfCheckSession = ServerConnection.executeGet(getApplicationContext(), "/api/isloggedin");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return resultOfCheckSession;
-    }
 
     public String postSettingsData() {
         String resultOfSaveSettings = "";
@@ -404,7 +396,7 @@ public class SettingsActivity extends ActionBarActivity {
                         jObj = new JSONObject(resultOfSaveSettings);
                         if (jObj.has("success")) {
                             storeUserPreferences();
-                            successResponseOfUser = new Gson().fromJson(loadPreferencesUser(), SuccessResponseOfUser.class);
+                           // successResponseOfUser = new Gson().fromJson(resultOfSaveSettings, SuccessResponseOfUser.class);
                             jObjSuccess = jObj.getJSONObject("success");
                             msg = jObjSuccess.getString("message");
                         } else {
@@ -430,7 +422,6 @@ public class SettingsActivity extends ActionBarActivity {
                     if (!resultOfSaveSettings.isEmpty()) {
                         if (jObj.has("success")) {
 
-                            displayUserData();
                             Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_LONG).show();
                             finish();
                         } else {

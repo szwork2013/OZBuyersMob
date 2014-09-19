@@ -38,6 +38,7 @@ public class CityStateCountryActivity extends Activity {
     SuccessResponseForCityList successResponseForCityList;
     CityAreaListAdapter countrylistAdapter, stateslistAdapter, cityListAdapter;
     String country, state, city;
+    ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -169,7 +170,7 @@ public class CityStateCountryActivity extends Activity {
     class GetCountryListAsync extends AsyncTask<String, Integer, String> {
         String connectedOrNot, resultGetCountry, msg, code;
         JSONObject jObj;
-        ProgressDialog progressDialog;
+
 
         @Override
         protected void onPreExecute() {
@@ -203,7 +204,7 @@ public class CityStateCountryActivity extends Activity {
         @Override
         protected void onPostExecute(String connectedOrNot) {
             try {
-                progressDialog.dismiss();
+//                progressDialog.dismiss();
                 if (connectedOrNot.equalsIgnoreCase("success")) {
                     if (!resultGetCountry.isEmpty()) {
                         if (jObj.has("success")) {
@@ -228,11 +229,11 @@ public class CityStateCountryActivity extends Activity {
     class GetStatesListAsync extends AsyncTask<String, Integer, String> {
         String connectedOrNot, resultGetStates, msg, code;
         JSONObject jObj;
-        ProgressDialog progressDialog;
+//        ProgressDialog progressDialog;
 
         @Override
         protected void onPreExecute() {
-            progressDialog = ProgressDialog.show(CityStateCountryActivity.this, "", "");
+//            progressDialog = ProgressDialog.show(CityStateCountryActivity.this, "", "");
         }
 
         @Override
@@ -264,7 +265,7 @@ public class CityStateCountryActivity extends Activity {
         @Override
         protected void onPostExecute(String connectedOrNot) {
             try {
-                progressDialog.dismiss();
+//                progressDialog.dismiss();
                 if (connectedOrNot.equalsIgnoreCase("success")) {
                     if (!resultGetStates.isEmpty()) {
                         if (jObj.has("success")) {
@@ -291,11 +292,11 @@ public class CityStateCountryActivity extends Activity {
     class GetCityListAsync extends AsyncTask<String, Integer, String> {
         String connectedOrNot, resultGetCities, msg, code;
         JSONObject jObj;
-        ProgressDialog progressDialog;
+//        ProgressDialog progressDialog;
 
         @Override
         protected void onPreExecute() {
-            progressDialog = ProgressDialog.show(CityStateCountryActivity.this, "", "");
+//            progressDialog = ProgressDialog.show(CityStateCountryActivity.this, "", "");
         }
 
         @Override
