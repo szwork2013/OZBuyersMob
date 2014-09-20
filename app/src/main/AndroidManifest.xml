@@ -226,10 +226,6 @@
             android:name=".MainApp.SelectCityActivity"
             android:label="@string/title_activity_select_city" >
         </activity>
-        <activity
-            android:name=".MainApp.Test"
-            android:label="@string/title_activity_test" >
-        </activity>
     </application>
 
 </manifest>
