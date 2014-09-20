@@ -121,7 +121,7 @@ public class SignUpActivity extends ActionBarActivity {
                     auto_area.setAdapter(adapter);
                     zipcodeAdapter = new ArrayAdapter<String>(getApplicationContext(), R.layout.area, zipcodeList);
                     pincodeEditText.setAdapter(zipcodeAdapter);
-
+                    progressDialog.dismiss();
                 }
 //                new GetStatesListAsync().execute();
 
@@ -602,7 +602,7 @@ public class SignUpActivity extends ActionBarActivity {
         @Override
         protected void onPostExecute(String connectedOrNot) {
             try {
-//                progressDialog.dismiss();
+
                 if (connectedOrNot.equalsIgnoreCase("success")) {
                     if (!resultGetCountry.isEmpty()) {
                         if (jObj.has("success")) {
@@ -631,8 +631,10 @@ public class SignUpActivity extends ActionBarActivity {
 
         @Override
         protected void onPreExecute() {
-//            progressDialog = ProgressDialog.show(SignUpActivity.this, "", "");
-//            progressDialog.setCancelable(true);
+            if(country.equalsIgnoreCase("india")) {
+            progressDialog = ProgressDialog.show(SignUpActivity.this, "", "");
+            progressDialog.setCancelable(true);
+            }
         }
 
         @Override
@@ -668,6 +670,7 @@ public class SignUpActivity extends ActionBarActivity {
                             state_spinner.setAdapter(cityStateListAdapter);
                             state_spinner.setSelection(successResponseForStatesList.getSuccess().getStates().indexOf(loadStatePreference()));
                         } else {
+                            progressDialog.dismiss();
                             Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_LONG).show();
                         }
                     } else {
@@ -728,6 +731,7 @@ public class SignUpActivity extends ActionBarActivity {
                             city_spinner.setAdapter(cityListAdapter);
                             city_spinner.setSelection(successResponseForCityList.getSuccess().getCity().indexOf(loadCityPreference()));
                         } else {
+                            progressDialog.dismiss();
                             Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_LONG).show();
                         }
                     } else {
@@ -790,6 +794,7 @@ public class SignUpActivity extends ActionBarActivity {
                             adapter.notifyDataSetChanged();
                             auto_area.setAdapter(adapter);
                        } else {
+                            progressDialog.dismiss();
                             Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_LONG).show();
                         }
                     } else {
