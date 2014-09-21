@@ -310,7 +310,6 @@ public class SignInActivity extends Activity {
                                 Toast.makeText(context, msg, Toast.LENGTH_LONG).show();
                                 islogedin = true;
                                 backPresed = false;
-
                                 Intent returnIntent = new Intent();
                                 returnIntent.putExtra("USER", resultSignIn);
                                 setResult(RESULT_OK, returnIntent);

@@ -207,6 +207,7 @@ public class StartUpActivity extends Activity implements View.OnClickListener {
         }
         return resultGetCategoryList;
     }
+
     class GetCategoryListAsync extends AsyncTask<String, Integer, String> {
         String resultGetCategory, connectedOrNot, msg, code;
         JSONObject jObj;
@@ -244,7 +245,6 @@ public class StartUpActivity extends Activity implements View.OnClickListener {
         @Override
         protected void onPostExecute(String connectedOrNot) {
             try {
-
                 if (connectedOrNot.equals("success")) {
                     StartUpActivity.linearLayoutCategories.removeAllViews();
                     if (!resultGetCategory.isEmpty()) {
@@ -267,8 +267,6 @@ public class StartUpActivity extends Activity implements View.OnClickListener {
 
     public void stringValue(String providerid,String clientid)
     {
-        Log.d("ProviderId",providerid);
-        Log.d("ClientId",clientid);
         StartUpActivity.providerId=providerid;
         StartUpActivity.categoryId=clientid;
 
@@ -412,15 +410,6 @@ public class StartUpActivity extends Activity implements View.OnClickListener {
             cityName.setText("Select city");
             cityName.setTypeface(font);
         }
-//        if(cityName.getText().toString().equalsIgnoreCase("All"))
-//        {
-////            cityName.setVisibility(View.GONE);
-//            selectedCityName.setText(R.string.please_select_city);
-//        }
-//        else{
-//            selectedCityName.setText(R.string.selected_city);
-//            cityName.setVisibility(View.VISIBLE);
-//        }
         if (isFirstTime == true) {
             isFirstTime = false;
         } else {
@@ -480,8 +469,6 @@ public class StartUpActivity extends Activity implements View.OnClickListener {
         if (id == R.id.action_settings) {
             new CheckSessionAsync().execute();
             SIGNINCODE = 2;
-//            Intent setting = new Intent(StartUpActivity.this, SettingsActivity.class);
-//            startActivity(setting);
             return true;
         }
         if (id == R.id.action_privacypolicy) {
@@ -610,7 +597,6 @@ public class StartUpActivity extends Activity implements View.OnClickListener {
                     new GetProviderAndProductListAsync().execute();
 
                 }
-
         }
     }
 
@@ -855,71 +841,4 @@ public class StartUpActivity extends Activity implements View.OnClickListener {
             }
         }
     }
-
-//    private class CheckSessionAsync extends AsyncTask<String, Integer, String> {
-//        String connectedOrNot, msg, code, resultOfCheckSession;
-//        JSONObject jObj;
-//        ProgressDialog progressDialog;
-//
-//        @Override
-//        protected void onPreExecute() {
-//            progressDialog = ProgressDialog.show(StartUpActivity.this, "", "");
-//        }
-//
-//        @Override
-//        protected String doInBackground(String... params) {
-//            try {
-//                if (new CheckConnection(getApplicationContext()).isConnectingToInternet()) {
-//                    connectedOrNot = "success";
-//                    resultOfCheckSession = getSessionStatus();
-//                    if (!resultOfCheckSession.isEmpty()) {
-//                        jObj = new JSONObject(resultOfCheckSession);
-//                        if (jObj.has("success")) {
-//                            JSONObject jObjSuccess = jObj.getJSONObject("success");
-//                            msg = jObjSuccess.getString("message");
-//                        } else {
-//                            JSONObject jObjError = jObj.getJSONObject("error");
-//                            msg = jObjError.getString("message");
-//                            code = jObjError.getString("code");
-//                        }
-//                    }
-//                } else {
-//                    connectedOrNot = "error";
-//                }
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//            }
-//            return connectedOrNot;
-//        }
-//
-//        @Override
-//        protected void onPostExecute(String connectedOrNot) {
-//            try {
-//                progressDialog.dismiss();
-//                if (connectedOrNot.equals("success")) {
-//                    if (!resultOfCheckSession.isEmpty()) {
-//
-//                        if (jObj.has("success")) {
-//                            Intent deliveryActivity = new Intent(StartUpActivity.this, SettingsActivity.class);
-//                            startActivity(deliveryActivity);
-//                            successResponseOfUser = new Gson().fromJson(loadPreferencesUser(), SuccessResponseOfUser.class);
-//                            displayUserData();
-//                        } else {
-//                            Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_LONG).show();
-//                            if (code.equals("AL001")) {
-//                                Intent goToSignin = new Intent(StartUpActivity.this, SignInActivity.class);
-//                                startActivity(goToSignin);
-//                            }
-//                        }
-//                    } else {
-//                        Toast.makeText(getApplicationContext(), "Server is not responding please try again later", Toast.LENGTH_LONG).show();
-//                    }
-//                } else {
-//                    Toast.makeText(getApplicationContext(), "Please check your internet connection", Toast.LENGTH_LONG).show();
-//                }
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//            }
-//        }
-//    }
 }

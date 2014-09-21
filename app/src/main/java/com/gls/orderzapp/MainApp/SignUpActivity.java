@@ -548,9 +548,7 @@ public class SignUpActivity extends ActionBarActivity {
                             startActivity(goToVerifyActivity);
                             finish();
                         } else {
-
                             Toast.makeText(context, msg, Toast.LENGTH_LONG).show();
-
                         }
                     } else {
                         Toast.makeText(context, "Server is not responding, please try again later", Toast.LENGTH_LONG).show();

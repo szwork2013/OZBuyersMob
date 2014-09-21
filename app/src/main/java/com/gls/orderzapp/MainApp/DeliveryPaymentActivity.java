@@ -70,6 +70,7 @@ public class DeliveryPaymentActivity extends Activity {
     public static void selectDeliveryType() {
         new DeliveryChargesAndTypeAdapter(context);
     }
+
     public void runOnResume()
     {
         checkPaymentmode();
@@ -78,7 +79,7 @@ public class DeliveryPaymentActivity extends Activity {
             setDeliveryAddress(loadPreferencesUserDataForDeliveryAddress());
             setBillingAddress(loadPreferencesUserDataForBillingAddress());
             selectDeliveryType();
-            setPaymentMode();
+//            setPaymentMode();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -92,18 +93,17 @@ public class DeliveryPaymentActivity extends Activity {
         context = DeliveryPaymentActivity.this;
         findViewsById();
         runOnResume();
-
     }
 
-    public void setPaymentMode(){
-        successResponseOfUser = new Gson().fromJson(loadPreferencesUser(), SuccessResponseOfUser.class);
-
-        if(!successResponseOfUser.getSuccess().getUser().getCountrycode().equals("91")){
-            cash_on_delivery.setVisibility(View.GONE);
-        }else{
-            cash_on_delivery.setVisibility(View.VISIBLE);
-        }
-    }
+//    public void setPaymentMode(){
+//        successResponseOfUser = new Gson().fromJson(loadPreferencesUser(), SuccessResponseOfUser.class);
+//
+//        if(!successResponseOfUser.getSuccess().getUser().getCountrycode().equals("91")){
+//            cash_on_delivery.setVisibility(View.GONE);
+//        }else{
+//            cash_on_delivery.setVisibility(View.VISIBLE);
+//        }
+//    }
 
     @Override
     protected void onStart() {
@@ -155,6 +155,13 @@ public class DeliveryPaymentActivity extends Activity {
     public void selectPaymentMode() {
         if (cashOnDelivery == true) {
             cash_on_delivery.setVisibility(View.VISIBLE);
+            successResponseOfUser = new Gson().fromJson(loadPreferencesUser(), SuccessResponseOfUser.class);
+
+            if(!successResponseOfUser.getSuccess().getUser().getCountrycode().equals("91")){
+                cash_on_delivery.setVisibility(View.GONE);
+            }else{
+                cash_on_delivery.setVisibility(View.VISIBLE);
+            }
         } else {
             credit_card.setVisibility(View.VISIBLE);
         }

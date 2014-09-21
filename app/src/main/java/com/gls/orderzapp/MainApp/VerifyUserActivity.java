@@ -149,6 +149,7 @@ public class VerifyUserActivity extends ActionBarActivity {
                         if (jObj.has("success")) {
                             Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_LONG).show();
                             finish();
+                            SignInActivity.islogedin = true;
                         } else {
                             Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_LONG).show();
                         }
