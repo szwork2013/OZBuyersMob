@@ -215,11 +215,9 @@ public class SignInActivity extends Activity {
     }
 
     public void setPostSignInParameters() {
-
         signInPostData = new SignInPostData();
         signInPostData.setMobileno(countryCode + mobileNumberEditText.getText().toString().trim());
         signInPostData.setPassword(passwordEditText.getText().toString().trim());
-
     }
 
     public String loadCountryCodePreference() throws Exception{
@@ -229,7 +227,11 @@ public class SignInActivity extends Activity {
             countryCode = "91";
         }else {
             SuccessResponseOfUser successResponseOfUser = new Gson().fromJson(sp.getString("USER_DATA", ""), SuccessResponseOfUser.class);
-            countryCode = successResponseOfUser.getSuccess().getUser().getCountrycode();
+            if(successResponseOfUser.getSuccess().getUser().getCountrycode() != null) {
+                countryCode = successResponseOfUser.getSuccess().getUser().getCountrycode();
+            }else{
+                countryCode = "91";
+            }
         }
         return countryCode;
     }
