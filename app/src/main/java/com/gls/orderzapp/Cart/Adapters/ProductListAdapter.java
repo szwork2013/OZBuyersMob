@@ -79,6 +79,8 @@ public class ProductListAdapter {
                 spinner_weight = (Spinner) llproductDetails.findViewById(R.id.spinner_weight);
                 delete_image = (ImageView) llproductDetails.findViewById(R.id.delete_image);
                 llDeleteImage = (LinearLayout) llproductDetails.findViewById(R.id.llDeleteImage);
+                LinearLayout ll_discount = (LinearLayout) llproductDetails.findViewById(R.id.ll_discount);
+                TextView txt_discount_onimage = (TextView) llproductDetails.findViewById(R.id.txt_discount_onimage);
                 TextView calculated_price = (TextView) llproductDetails.findViewById(R.id.calculated_price);
 
                 if (productDetailsList.get(i).getProductlogo() != null) {
@@ -87,6 +89,13 @@ public class ProductListAdapter {
                     }
                 }
 
+                if(productDetailsList.get(i).getDiscount() != null && productDetailsList.get(i).getDiscount().getCode() != null &&
+                         !productDetailsList.get(i).getDiscount().getCode().equalsIgnoreCase("none")){
+                    ll_discount.setVisibility(View.VISIBLE);
+                    txt_discount_onimage.setText(productDetailsList.get(i).getDiscount().getPercent()+"");
+                }else {
+                    ll_discount.setVisibility(View.GONE);
+                }
                 Log.d(productDetailsList.get(i).getProductname() + "ssssssssssssss   ", productDetailsList.get(i).getPrice().getUom());
                 if (productDetailsList.get(i).getProductname() != null) {
                     product_name.setText(productDetailsList.get(i).getProductname());

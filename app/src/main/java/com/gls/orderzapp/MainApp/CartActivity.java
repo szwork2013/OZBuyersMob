@@ -46,10 +46,6 @@ public class CartActivity extends Activity {
     int mYear, mMonth, mDay, yy, mm, dd;//, hh, min, cHH, cMin, cAm_Pm;
     DatePicker datePicker;
     AlertDialog alertDialog;
-//    String productId = "";
-//    ArrayList<String> listOfProductIdforDelivery = new ArrayList<>();
-//    public CheckDeliveryTimeSlotsProductIDs productIdsForGettingTimeSlots;
-//    public SuccesResponseCheckDeliveryTimingSlots succesResponseCheckDeliveryTimingSlots;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

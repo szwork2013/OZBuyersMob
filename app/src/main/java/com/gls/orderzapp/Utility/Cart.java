@@ -555,4 +555,18 @@ public class Cart {
         }
         return subTotal;
     }
+
+    public static double totalDiscountForASeller(List<ProductDetails> listProducts){
+        double discount = 0.0;
+        try{
+            for(int i = 0; i < listProducts.size(); i++){
+                if(listProducts.get(i).getDiscount() != null && listProducts.get(i).getDiscount().getCode() != null && !listProducts.get(i).getDiscount().getCode().equalsIgnoreCase("none")){
+                    discount = discount + ((listProducts.get(i).getPrice().getValue() * Double.parseDouble(listProducts.get(i).getQuantity()) * listProducts.get(i).getDiscount().getPercent())/100);
+                }
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return discount;
+    }
 }

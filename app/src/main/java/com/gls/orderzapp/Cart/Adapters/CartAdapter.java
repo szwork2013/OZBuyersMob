@@ -52,7 +52,9 @@ public class CartAdapter {
     public static LinearLayout llCartListItemView, llProductList;
     public static List<ProductDetails> productList;
     public static List<TextView> listText = new ArrayList<>();
-    public static TextView sub_total;
+    TextView sub_total;
+    TextView total_discount;
+    LinearLayout ll_discount;
     public CheckDeliveryTimeSlotsProductIDs productIdsForGettingTimeSlots;
     public SuccesResponseCheckDeliveryTimingSlots succesResponseCheckDeliveryTimingSlots;
     Context context;
@@ -117,14 +119,21 @@ public class CartAdapter {
             String branchid = productList.get(i).getBranchid();
             a++;
             if (branchids.contains(branchid)) {
-
                 listProducts.add(productList.get(i));
-
             } else {
                 if (i > 0) {
-
                     new ProductListAdapter(context, listProducts, listText.size() - 1).getProductView();
-                    sub_total.setText(Cart.providerSubTotalInCart(listProducts) + "");
+                    double discount = Cart.totalDiscountForASeller(listProducts);
+                    if(discount > 0) {
+                        ll_discount.setVisibility(View.VISIBLE);
+                        total_discount.setText(discount + "");
+                        Log.d("discount", discount+"");
+                        Log.d("sub total", Cart.providerSubTotalInCart(listProducts)+"");
+                        sub_total.setText((Cart.providerSubTotalInCart(listProducts) - discount)+ "");
+                    }else{
+                        ll_discount.setVisibility(View.GONE);
+                        sub_total.setText(Cart.providerSubTotalInCart(listProducts) + "");
+                    }
 
                 }
 
@@ -138,19 +147,22 @@ public class CartAdapter {
                 spn_timeslot = (Spinner) llCartListItemView.findViewById(R.id.spn_timeslot);
                 LinearLayout ll_deliverylayout_cart = (LinearLayout) llCartListItemView.findViewById(R.id.ll_deliverylayout_cart);
                 Button btn_productcart_privacy = (Button) llCartListItemView.findViewById(R.id.btn_productcart_privacy);
+                ll_discount = (LinearLayout) llCartListItemView.findViewById(R.id.ll_discount);
+                total_discount = (TextView) llCartListItemView.findViewById(R.id.total_discount);
                 sub_total = (TextView) llCartListItemView.findViewById(R.id.sub_total);
                 listText.add(sub_total);
                 if (productList.get(i).getNote() != null) {
                     txt_provider_note.setText(productList.get(i).getNote());
                 }
+
                 branchids.add(branchid);
                 listProducts.clear();
                 listProducts.add(productList.get(i));
 
                 if (productList.get(i).getProviderName() != null) {
-
                     textProviderName.setText(productList.get(i).getProviderName());
                 }
+
                 btn_productcart_privacy.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -205,16 +217,12 @@ public class CartAdapter {
 
                             date = deliveryDateOnCart(succesResponseCheckDeliveryTimingSlots.getSuccess().getDoc().get(k).getExpected_date());
                             Log.d("PrefDate", productList.get(i).getPrefereddeliverydate());
-//                            for (int m = 0; m < arrayListTimeSlots.size(); m++) {
                             spn_timeslot.setAdapter(new SpinnerAdapter(context.getApplicationContext(), deliveryTimeSlots(succesResponseCheckDeliveryTimingSlots.getSuccess().getDoc().get(k).getDeliverytimingslots(), succesResponseCheckDeliveryTimingSlots.getSuccess().getDoc().get(k).getBranchid())));
-//                            }
                         }
                     }
-
                 } else {
                     ll_deliverylayout_cart.setVisibility(View.GONE);
                 }
-
 
                 spn_timeslot.setId((branchids.size() - 1) + 3000);
                 btn_productcart_privacy.setId(i + 2000);
@@ -222,18 +230,12 @@ public class CartAdapter {
                 spn_timeslot.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                     @Override
                     public void onItemSelected(AdapterView<?> adapterView, View view, int pos, long l) {
-
-                        Log.d("ids", adapterView.getId() - 3000 + "");
-//                        Toast.makeText(context, new Gson().toJson(arrayListTimeSlotsObject.get(adapterView.getId()-3000)), Toast.LENGTH_LONG).show();
-//
-//                        Toast.makeText(context, new Gson().toJson(arrayListTimeSlotsObject.get(adapterView.getId()-3000).get(pos)), Toast.LENGTH_LONG).show();
                         AvailableDeliveryTimingSlots ts = new AvailableDeliveryTimingSlots();
                         ts.setAvailable(arrayListTimeSlotsObject.get(adapterView.getId() - 3000).get(pos).getAvailable());
                         ts.setFrom(arrayListTimeSlotsObject.get(adapterView.getId() - 3000).get(pos).getFrom());
                         ts.setTo(arrayListTimeSlotsObject.get(adapterView.getId() - 3000).get(pos).getTo());
 
                         Cart.saveTimeSlot(arrayListTimeSlotsObject.get(adapterView.getId() - 3000).get(pos).getBranchid(), ts, date);
-
                     }
 
                     @Override
@@ -245,10 +247,18 @@ public class CartAdapter {
 
             if (i == productList.size() - 1) {
                 new ProductListAdapter(context, listProducts, listText.size() - 1).getProductView();
-                sub_total.setText(Cart.providerSubTotalInCart(listProducts) + "");
+                double discount = Cart.totalDiscountForASeller(listProducts);
+                if(discount > 0) {
+                    ll_discount.setVisibility(View.VISIBLE);
+                    total_discount.setText(discount + "");
+                    Log.d("discount", discount+"");
+                    Log.d("sub total", Cart.providerSubTotalInCart(listProducts) - discount+"");
+                    sub_total.setText((Cart.providerSubTotalInCart(listProducts) - discount) + "");
+                }else{
+                    ll_discount.setVisibility(View.GONE);
+                    sub_total.setText(Cart.providerSubTotalInCart(listProducts) + "");
+                }
             }
-
-            Log.d("After date selected", new Gson().toJson(productList));
         }
     }
 

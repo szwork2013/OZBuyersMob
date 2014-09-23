@@ -237,7 +237,6 @@ public class GridAdapterProviderCategories extends BaseAdapter implements Animat
                             StartUpActivity.added_to_cart.setVisibility(View.VISIBLE);
                             StartUpActivity.added_to_cart.startAnimation(slide_down);
 
-
                             productDetailsToAddIntoTheCart = new ProductDetails();
 
                             if (providerDetails.getProvider().getPaymentmode() != null) {
@@ -350,8 +349,9 @@ public class GridAdapterProviderCategories extends BaseAdapter implements Animat
                             if (providerDetails.getProducts().get(position).getProductimage() != null) {
                                 productDetailsToAddIntoTheCart.setProductimage(providerDetails.getProducts().get(position).getProductimage());
                             }
-                            if (providerDetails.getProducts().get(position).getDiscount() != null) {
-                                productDetailsToAddIntoTheCart.setDiscount(providerDetails.getProducts().get(position).getDiscount());
+                            if (productDetailsList.get(position).getDiscount() != null) {
+//                                Toast.makeText(context, productDetailsList.get(position).getDiscount().getCode(), Toast.LENGTH_SHORT).show();
+                                productDetailsToAddIntoTheCart.setDiscount(productDetailsList.get(position).getDiscount());
                             }
                             if (providerDetails.getProducts().get(position).getProductlogo() != null) {
                                 productDetailsToAddIntoTheCart.setProductlogo(providerDetails.getProducts().get(position).getProductlogo());

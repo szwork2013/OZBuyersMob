@@ -146,5 +146,6 @@
     <string name="selected_city"></string>
     <string name="please_select_city">Select City </string>
     <string name="title_activity_test">Test</string>
+    <string name="total_discount">Total Discount</string>
 
 </resources>
