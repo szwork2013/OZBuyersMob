@@ -320,10 +320,10 @@ public class SettingsActivity extends ActionBarActivity {
                 Toast.makeText(getApplicationContext(), "Please enter area", Toast.LENGTH_LONG).show();
                 return;
             }
-            if (pincodeEditText.getText().toString().trim().length() < 6) {
-                Toast.makeText(getApplicationContext(), "Please enter a valid pincode", Toast.LENGTH_LONG).show();
-                return;
-            }
+//            if (pincodeEditText.getText().toString().trim().length() < 6) {
+//                Toast.makeText(getApplicationContext(), "Please enter a valid pincode", Toast.LENGTH_LONG).show();
+//                return;
+//            }
             if (editTextState.getText().toString().trim().length() == 0) {
                 Toast.makeText(getApplicationContext(), "Please enter your state", Toast.LENGTH_LONG).show();
                 return;

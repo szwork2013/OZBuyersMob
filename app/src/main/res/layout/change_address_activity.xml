@@ -81,7 +81,6 @@
                 android:gravity="start"
                 android:hint="@string/pincode"
                 android:inputType="number"
-                android:maxLength="6"
                 android:singleLine="true" />
 
             <EditText

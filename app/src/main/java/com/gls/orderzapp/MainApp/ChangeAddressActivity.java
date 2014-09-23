@@ -104,10 +104,10 @@ public class ChangeAddressActivity extends Activity {
             Toast.makeText(getApplicationContext(), "Please enter your area", Toast.LENGTH_LONG).show();
             return;
         }
-        if (edittext_zipcode.getText().toString().trim().length() < 6) {
-            Toast.makeText(getApplicationContext(), "Please enter your Pincode", Toast.LENGTH_LONG).show();
-            return;
-        }
+//        if (edittext_zipcode.getText().toString().trim().length() < 6) {
+//            Toast.makeText(getApplicationContext(), "Please enter your Pincode", Toast.LENGTH_LONG).show();
+//            return;
+//        }
         if (edittext_country.getText().toString().trim().length() == 0) {
             Toast.makeText(getApplicationContext(), "Please enter your Country", Toast.LENGTH_LONG).show();
             return;

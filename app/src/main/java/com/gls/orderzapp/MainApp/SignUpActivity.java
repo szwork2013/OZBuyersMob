@@ -311,13 +311,18 @@ public class SignUpActivity extends ActionBarActivity {
             }
         }
 
-        if (pincodeEditText.getText().toString().trim().length() < 6) {
-            Toast.makeText(getApplicationContext(), "Please enter your Pincode", Toast.LENGTH_LONG).show();
-            return;
-        }
-        if (pincodeEditText.getText().toString().trim().length() > 0) {
-            int j = 0;
+//        if (pincodeEditText.getText().toString().trim().length() < 6) {
+//            Toast.makeText(getApplicationContext(), "Please enter your Pincode", Toast.LENGTH_LONG).show();
+//            return;
+//        }
+//        if (pincodeEditText.getText().toString().trim().length() > 0) {
+
             if(country.equalsIgnoreCase("india")) {
+                if (pincodeEditText.getText().toString().trim().length() < 6) {
+                    Toast.makeText(getApplicationContext(), "Please enter your Pincode", Toast.LENGTH_LONG).show();
+                    return;
+                }
+                int j = 0;
                 for (int i = 0; i < zipcodeList.size(); i++) {
                     if (pincodeEditText.getText().toString().trim().equalsIgnoreCase(zipcodeList.get(i).toString())) {
                         j++;
@@ -327,8 +332,13 @@ public class SignUpActivity extends ActionBarActivity {
                     Toast.makeText(getApplicationContext(), "Please enter correct PinCode ", Toast.LENGTH_LONG).show();
                     return;
                 }
+            }else{
+                if (pincodeEditText.getText().toString().trim().length() == 0) {
+                    Toast.makeText(getApplicationContext(), "Please enter your Pincode", Toast.LENGTH_LONG).show();
+                    return;
+                }
             }
-        }
+//        }
 
         if(!country.equalsIgnoreCase("india")){
             if(edit_state.getText().toString().trim().length() == 0) {

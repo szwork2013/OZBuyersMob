@@ -21,6 +21,7 @@ import com.gls.orderzapp.R;
 import com.gls.orderzapp.Utility.Cart;
 import com.gls.orderzapp.Utility.CheckConnection;
 import com.gls.orderzapp.Utility.GoogleAnalyticsUtility;
+import com.gls.orderzapp.Utility.ResetStaticData;
 import com.gls.orderzapp.Utility.ServerConnection;
 
 import org.json.JSONObject;
@@ -192,7 +193,6 @@ public class ProductConfigurationActivity extends Activity {
                             Intent deliveryPayment = new Intent(ProductConfigurationActivity.this, DeliveryPaymentActivity.class);
                             startActivity(deliveryPayment);
                             finish();
-
                         } else {
                             Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_LONG).show();
                             if (code.equals("AL001")) {
@@ -211,6 +211,4 @@ public class ProductConfigurationActivity extends Activity {
             }
         }
     }
-
-
 }
