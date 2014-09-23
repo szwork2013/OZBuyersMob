@@ -90,20 +90,61 @@ public class ProductConfigurationListAdapter extends BaseAdapter {
         RadioButton eggless = (RadioButton) convertView.findViewById(R.id.eggless);
         LinearLayout ll_message = (LinearLayout) convertView.findViewById(R.id.ll_message);
         LinearLayout ll_food_type = (LinearLayout) convertView.findViewById(R.id.ll_food_type);
+        Log.d("cart before", new Gson().toJson(Cart.hm));
+        Log.d("egless1", "1");
+        for (int i = 0; i < cakeList.get(position).getProductconfiguration().getConfiguration().size(); i++)
+        {
+            if (cakeList.get(position).getProductconfiguration().getConfiguration().get(i).getProd_configtype().equalsIgnoreCase("ftp"))
+            {
+                if (cakeList.get(position).getProductconfiguration().getConfiguration().get(i).getFoodType().equalsIgnoreCase("eggless"))
+                {
+                    eggless.setChecked(true);
+                    egg.setChecked(false);
+                    message_price.setText("0.0");
+                    if (cakeList.get(position).getProductconfiguration().getConfiguration().get(i).getProd_configtype().equalsIgnoreCase("ftp"))
+                    {
+                        Cart.addFoodTypeConfiguration(cakeList.get(position).getCartCount(),
+                                cakeList.get(position).getProductconfiguration().getConfiguration().get(i).getProd_configtype(),
+                                cakeList.get(position).getProductconfiguration().getConfiguration().get(i).getProd_configname(),
+                                cakeList.get(position).getProductconfiguration().getConfiguration().get(i).getProd_configprice(),
+                                cakeList.get(position).getProductconfiguration().getConfiguration().get(i).isChecked(),
+                                "eggless");
+                    }
+                    Log.d("egless2", "2");
+                    egg_price.setText((cakeList.get(position).getProductconfiguration().getConfiguration().get(i).getProd_configprice().getValue() * Double.parseDouble(cakeList.get(position).getQuantity())) + "");
+                } else
+                {
+                    egg.setChecked(true);
+                    eggless.setChecked(false);
+                    message_price.setText("0.0");
+                    egg_price.setText("0.0");
+                    if (cakeList.get(position).getProductconfiguration().getConfiguration().get(i).getProd_configtype().equalsIgnoreCase("ftp"))
+                    {
+                        Cart.addFoodTypeConfiguration(cakeList.get(position).getCartCount(),
+                                cakeList.get(position).getProductconfiguration().getConfiguration().get(i).getProd_configtype(),
+                                cakeList.get(position).getProductconfiguration().getConfiguration().get(i).getProd_configname(),
+                                cakeList.get(position).getProductconfiguration().getConfiguration().get(i).getProd_configprice(),
+                                cakeList.get(position).getProductconfiguration().getConfiguration().get(i).isChecked(),
+                                "egg");
+                    }
+                    Log.d("egless3", "3");
+                }
+            }
 
-        for (int i = 0; i < cakeList.get(position).getProductconfiguration().getConfiguration().size(); i++) {
+
             if (cakeList.get(position).getProductconfiguration().getConfiguration().get(i).getProd_configtype().equalsIgnoreCase("msg")) {
                 ll_message.setVisibility(View.VISIBLE);
+                if (cakeList.get(position).getProductconfiguration().getConfiguration().get(i).isChecked() == true) {
+                    message_checkbox.setChecked(true);
+                    edttxt_message_on_cake.setText(cakeList.get(position).getMessageonproduct());
+                }
 
             } else if (cakeList.get(position).getProductconfiguration().getConfiguration().get(i).getProd_configtype().equalsIgnoreCase("ftp")) {
                 ll_food_type.setVisibility(View.VISIBLE);
             }
         }
 
-        egg.setChecked(true);
-        message_price.setText("0.0");
-        egg_price.setText("0.0");
-
+        Log.d("cart after", new Gson().toJson(Cart.hm));
         message_checkbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -128,6 +169,7 @@ public class ProductConfigurationListAdapter extends BaseAdapter {
 
 
         Log.d("cartt before adding conf", new Gson().toJson(Cart.hm));
+        Log.d("cakelist size", cakeList.size() + "");
         egg_eggless_group.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
@@ -135,14 +177,12 @@ public class ProductConfigurationListAdapter extends BaseAdapter {
                     case R.id.eggless:
                         for (int i = 0; i < cakeList.get(Integer.parseInt(group.getTag() + "")).getProductconfiguration().getConfiguration().size(); i++) {
                             if (cakeList.get(Integer.parseInt(group.getTag() + "")).getProductconfiguration().getConfiguration().get(i).getProd_configtype().equalsIgnoreCase("ftp")) {
-//                                Toast.makeText(context, cakeList.get(position).getCartCount(), Toast.LENGTH_LONG).show();
                                 Cart.addFoodTypeConfiguration(cakeList.get(Integer.parseInt(group.getTag() + "")).getCartCount(),
                                         cakeList.get(Integer.parseInt(group.getTag() + "")).getProductconfiguration().getConfiguration().get(i).getProd_configtype(),
                                         cakeList.get(Integer.parseInt(group.getTag() + "")).getProductconfiguration().getConfiguration().get(i).getProd_configname(),
                                         cakeList.get(Integer.parseInt(group.getTag() + "")).getProductconfiguration().getConfiguration().get(i).getProd_configprice(),
                                         cakeList.get(Integer.parseInt(group.getTag() + "")).getProductconfiguration().getConfiguration().get(i).isChecked(),
                                         "eggless");
-//                                cakeList.get(position1).getProductconfiguration().getConfiguration().get(i).setFoodType("eggless");
                                 egg_price.setText((cakeList.get(Integer.parseInt(group.getTag() + "")).getProductconfiguration().getConfiguration().get(i).getProd_configprice().getValue() * Double.parseDouble(cakeList.get(Integer.parseInt(group.getTag() + "")).getQuantity())) + "");
                             }
                         }
@@ -161,7 +201,7 @@ public class ProductConfigurationListAdapter extends BaseAdapter {
                                         "egg");
                             }
                         }
-                        Log.d("egg", new Gson().toJson(Cart.hm));
+                        Log.d("egg123", new Gson().toJson(Cart.hm));
                         break;
                 }
             }
@@ -222,20 +262,6 @@ public class ProductConfigurationListAdapter extends BaseAdapter {
             }
         };
 
-//        edttxt_message_on_cake.setOnTouchListener(new View.OnTouchListener() {
-//            @Override
-//            public boolean onTouch(View view, MotionEvent motionEvent) {
-//
-//                if (tempEditText != null) {
-//                    tempEditText.removeTextChangedListener(textWatcher);
-//                }
-//                tempEditText = ((EditText) view);
-//                tag = view.getTag()+"";
-//                tempEditText.addTextChangedListener(textWatcher);
-//                return false;
-//            }
-//        });
-
         edttxt_message_on_cake.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
@@ -256,14 +282,4 @@ public class ProductConfigurationListAdapter extends BaseAdapter {
         edttxt_message_on_cake.setTag(cakeList.get(position).getCartCount());
         return convertView;
     }
-
-//    public void setOnTouchListener(EditText edittext){
-//        if (tempEditText != null) {
-//            tempEditText.removeTextChangedListener(textWatcher);
-//        }
-//        tempEditText = edittext;
-//
-//        tempEditText.addTextChangedListener(textWatcher);
-//    }
-
 }

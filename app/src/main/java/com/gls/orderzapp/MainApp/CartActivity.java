@@ -20,6 +20,7 @@ import com.gls.orderzapp.Cart.Adapters.CartAdapter;
 import com.gls.orderzapp.R;
 import com.gls.orderzapp.Utility.Cart;
 import com.gls.orderzapp.Utility.CheckConnection;
+import com.gls.orderzapp.Utility.ResetStaticData;
 import com.gls.orderzapp.Utility.ServerConnection;
 
 import org.json.JSONObject;

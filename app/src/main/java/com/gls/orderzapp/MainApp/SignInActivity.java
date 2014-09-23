@@ -215,11 +215,9 @@ public class SignInActivity extends Activity {
     }
 
     public void setPostSignInParameters() {
-
         signInPostData = new SignInPostData();
         signInPostData.setMobileno(countryCode + mobileNumberEditText.getText().toString().trim());
         signInPostData.setPassword(passwordEditText.getText().toString().trim());
-
     }
 
     public String loadCountryCodePreference() throws Exception{
@@ -229,8 +227,17 @@ public class SignInActivity extends Activity {
             countryCode = "91";
         }else {
             SuccessResponseOfUser successResponseOfUser = new Gson().fromJson(sp.getString("USER_DATA", ""), SuccessResponseOfUser.class);
-            countryCode = successResponseOfUser.getSuccess().getUser().getCountrycode();
+            if(successResponseOfUser.getSuccess().getUser().getCountrycode() != null) {
+                if(!successResponseOfUser.getSuccess().getUser().getCountrycode().isEmpty()) {
+                    countryCode = successResponseOfUser.getSuccess().getUser().getCountrycode();
+                }else{
+                    countryCode = "91";
+                }
+            }else{
+                countryCode = "91";
+            }
         }
+        Log.d("County code return",new Gson().toJson(countryCode));
         return countryCode;
     }
 
@@ -340,7 +347,6 @@ public class SignInActivity extends Activity {
     public String getCountryCodeList() throws Exception{
         String resultGetCountryCode = "";
         resultGetCountryCode = ServerConnection.executeGet(getApplicationContext(), "/api/countrycode");
-
         Log.d("response of resultGetCountryCode",resultGetCountryCode);
         return resultGetCountryCode;
     }
@@ -383,8 +389,12 @@ public class SignInActivity extends Activity {
                             CountryCodeAdapter objCountryCodeAdapter = new CountryCodeAdapter(getApplicationContext(), 0 ,successResponseForCountryCode.getSuccess().getCountrycode());
                             countryCodeSpinner.setAdapter(objCountryCodeAdapter);
                             for(int i = 0 ; i < successResponseForCountryCode.getSuccess().getCountrycode().size() ; i++) {
-                                if(loadCountryCodePreference().equals(successResponseForCountryCode.getSuccess().getCountrycode().get(i).getCode()))
-                                countryCodeSpinner.setSelection(i);
+                                Log.d("country code outside", successResponseForCountryCode.getSuccess().getCountrycode().get(i).getCode());
+                                Log.d("loadprefe", successResponseForCountryCode.getSuccess().getCountrycode().get(i).getCode());
+                                if(loadCountryCodePreference().equals(successResponseForCountryCode.getSuccess().getCountrycode().get(i).getCode())) {
+                                    Log.d("country code", successResponseForCountryCode.getSuccess().getCountrycode().get(i).getCode());
+                                    countryCodeSpinner.setSelection(i);
+                                }
                             }
                         }else{
                             Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_LONG).show();

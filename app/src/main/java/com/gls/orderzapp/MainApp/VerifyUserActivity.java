@@ -60,8 +60,6 @@ public class VerifyUserActivity extends ActionBarActivity {
     public void findViewsById() {
         verificationEditText = (EditText) findViewById(R.id.editTextVerifyUser);
         verifyButton = (Button) findViewById(R.id.verifyUser_button);
-
-//        UtilityClassForLanguagePreferance.applyTypeface(UtilityClassForLanguagePreferance.getParentView(verificationEditText), UtilityClassForLanguagePreferance.getTypeFace(context));
     }
 
     public void verify(View view) {
