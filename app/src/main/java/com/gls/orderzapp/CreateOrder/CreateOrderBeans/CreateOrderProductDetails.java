@@ -20,6 +20,15 @@ public class CreateOrderProductDetails {
     String providername;
     List<ProductConfiguration> productconfiguration = new ArrayList<>();
     Location location;
+    DiscountDetails discount;
+
+    public DiscountDetails getDiscount() {
+        return discount;
+    }
+
+    public void setDiscount(DiscountDetails discount) {
+        this.discount = discount;
+    }
 
     public String getSelectedUom() {
         return selectedUom;

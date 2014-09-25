@@ -8,12 +8,12 @@ import java.util.List;
  */
 public class CreateOrderCartList {
     List<CreateOrderProductDetails> cart = new ArrayList<>();
-    List<DeliveryChargeDetails> deliverycharges = new ArrayList<>();
-    List<DeliveryTypes> deliverytypes = new ArrayList<>();
+//    List<DeliveryChargeDetails> deliverycharges = new ArrayList<>();
+//    List<DeliveryTypes> deliverytypes = new ArrayList<>();
     String totalorderprice;
     CreateOrderAddressDetails billing_address;
-    CreateOrderAddressDetails delivery_address;
-    String deliverytype;
+//    CreateOrderAddressDetails delivery_address;
+//    String deliverytype;
     String preferred_delivery_date;
     List<String> orderinstructions = new ArrayList<>();
     String paymentmode;
@@ -27,21 +27,21 @@ public class CreateOrderCartList {
         this.sellerdelivery = sellerdelivery;
     }
 
-    public List<DeliveryTypes> getDeliverytypes() {
-        return deliverytypes;
-    }
-
-    public void setDeliverytypes(List<DeliveryTypes> deliverytypes) {
-        this.deliverytypes = deliverytypes;
-    }
-
-    public List<DeliveryChargeDetails> getDeliverycharges() {
-        return deliverycharges;
-    }
-
-    public void setDeliverycharges(List<DeliveryChargeDetails> deliverycharges) {
-        this.deliverycharges = deliverycharges;
-    }
+//    public List<DeliveryTypes> getDeliverytypes() {
+//        return deliverytypes;
+//    }
+//
+//    public void setDeliverytypes(List<DeliveryTypes> deliverytypes) {
+//        this.deliverytypes = deliverytypes;
+//    }
+//
+//    public List<DeliveryChargeDetails> getDeliverycharges() {
+//        return deliverycharges;
+//    }
+//
+//    public void setDeliverycharges(List<DeliveryChargeDetails> deliverycharges) {
+//        this.deliverycharges = deliverycharges;
+//    }
 
     public List<String> getOrderinstructions() {
         return orderinstructions;
@@ -60,13 +60,13 @@ public class CreateOrderCartList {
         this.preferred_delivery_date = preferred_delivery_date;
     }
 
-    public String getDeliverytype() {
-        return deliverytype;
-    }
-
-    public void setDeliverytype(String deliverytype) {
-        this.deliverytype = deliverytype;
-    }
+//    public String getDeliverytype() {
+//        return deliverytype;
+//    }
+//
+//    public void setDeliverytype(String deliverytype) {
+//        this.deliverytype = deliverytype;
+//    }
 
     public String getPaymentmode() {
         return paymentmode;
@@ -100,11 +100,11 @@ public class CreateOrderCartList {
         this.billing_address = billing_address;
     }
 
-    public CreateOrderAddressDetails getDelivery_address() {
-        return delivery_address;
-    }
-
-    public void setDelivery_address(CreateOrderAddressDetails delivery_address) {
-        this.delivery_address = delivery_address;
-    }
+//    public CreateOrderAddressDetails getDelivery_address() {
+//        return delivery_address;
+//    }
+//
+//    public void setDelivery_address(CreateOrderAddressDetails delivery_address) {
+//        this.delivery_address = delivery_address;
+//    }
 }

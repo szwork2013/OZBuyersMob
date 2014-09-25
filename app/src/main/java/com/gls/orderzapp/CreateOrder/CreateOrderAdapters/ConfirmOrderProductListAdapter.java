@@ -111,7 +111,7 @@ public class ConfirmOrderProductListAdapter {
             ll_special_message.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Log.d("PopUp", "OrderDetails");
+//                    Log.d("PopUp", "OrderDetails");
                     new PopUpForConfigurationCharges(context, v, Cart.configurationList((CreateOrderProductDetails) v.getTag()));
                 }
             });

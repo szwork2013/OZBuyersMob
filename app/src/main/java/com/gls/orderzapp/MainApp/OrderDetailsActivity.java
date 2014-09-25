@@ -27,6 +27,7 @@ import com.gls.orderzapp.CreateOrder.CreateOrderBeans.CreateOrderCartList;
 import com.gls.orderzapp.CreateOrder.CreateOrderBeans.CreateOrderData;
 import com.gls.orderzapp.CreateOrder.CreateOrderBeans.CreateOrderProductDetails;
 import com.gls.orderzapp.CreateOrder.CreateOrderBeans.DeliveryChargeDetails;
+import com.gls.orderzapp.CreateOrder.CreateOrderBeans.DiscountDetails;
 import com.gls.orderzapp.CreateOrder.CreateOrderBeans.FtpConfigurationData;
 import com.gls.orderzapp.CreateOrder.CreateOrderBeans.MsgConfigurationData;
 import com.gls.orderzapp.CreateOrder.CreateOrderBeans.ProductConfiguration;
@@ -62,11 +63,9 @@ public class OrderDetailsActivity extends Activity {
     RadioGroup payment_mode_group;
     RadioButton cash_on_delivery, credit_card;
     CreateOrderData createOrderData;
-    //    public static DeliveryTypes deliveryTypes;
     Context context;
     ArrayList<ProductDetails> cartDetails = new ArrayList<>();
     SuccessResponseOfUser successResponseOfUserBillingAddresDetails, successResponseOfUserDeliveryAddresDetails;
-    //    ListView address_list;
     ProductConfiguration productConfiguration;
 
     @Override
@@ -134,7 +133,7 @@ public class OrderDetailsActivity extends Activity {
 
     @Override
     protected void onResume() {
-        Log.d("cart", new Gson().toJson(Cart.hm));
+//        Log.d("cart", new Gson().toJson(Cart.hm));
         super.onResume();
     }
 
@@ -170,8 +169,9 @@ public class OrderDetailsActivity extends Activity {
                 if (cartDetails.get(i).getPrice().getUom() != null) {
                     if (cartDetails.get(i).getPrice().getUom().equalsIgnoreCase("kg") || cartDetails.get(i).getPrice().getUom().equalsIgnoreCase("no") || cartDetails.get(i).getPrice().getUom().equalsIgnoreCase("lb")) {
                         if (cartDetails.get(i).getOrignalUom().equalsIgnoreCase("kg") || cartDetails.get(i).getOrignalUom().equalsIgnoreCase("no") || cartDetails.get(i).getOrignalUom().equalsIgnoreCase("lb")) {
-                            createOrderProductDetails.setOrderprice((cartDetails.get(i).getPrice().getValue() * Double.parseDouble(cartDetails.get(i).getQuantity())) + "");
-                            createOrderProductDetails.setQty(Double.parseDouble(cartDetails.get(i).getQuantity()) + "");
+                                createOrderProductDetails.setOrderprice((cartDetails.get(i).getPrice().getValue() * Double.parseDouble(cartDetails.get(i).getQuantity())) + "");
+
+                                createOrderProductDetails.setQty(Double.parseDouble(cartDetails.get(i).getQuantity()) + "");
                         } else {
                             createOrderProductDetails.setOrderprice((cartDetails.get(i).getPrice().getValue() * Double.parseDouble(cartDetails.get(i).getQuantity())) * 1000 + "");
                             createOrderProductDetails.setQty(Double.parseDouble(cartDetails.get(i).getQuantity()) * 1000 + "");
@@ -179,7 +179,7 @@ public class OrderDetailsActivity extends Activity {
                         createOrderProductDetails.setUom(cartDetails.get(i).getOrignalUom());
 
                     } else if (cartDetails.get(i).getPrice().getUom().equalsIgnoreCase("Gm")) {
-                        Log.d("uom", cartDetails.get(i).getPrice().getValue() + "");
+//                        Log.d("uom", cartDetails.get(i).getPrice().getValue() + "");
                         if (cartDetails.get(i).getOrignalUom().equalsIgnoreCase("kg")) {
                             createOrderProductDetails.setOrderprice(((cartDetails.get(i).getPrice().getValue()) / 1000 * Double.parseDouble(cartDetails.get(i).getQuantity())) + "");
                             createOrderProductDetails.setQty(Double.parseDouble(cartDetails.get(i).getQuantity()) / 1000.00 + "");
@@ -189,7 +189,6 @@ public class OrderDetailsActivity extends Activity {
                         }
                         createOrderProductDetails.setUom(cartDetails.get(i).getOrignalUom());
                     }
-
                     createOrderProductDetails.setSelectedUom(cartDetails.get(i).getOrignalUom());
                 }
                 try {
@@ -240,18 +239,19 @@ public class OrderDetailsActivity extends Activity {
                 if (cartDetails.get(i).getProviderName() != null) {
                     createOrderProductDetails.setProvidername(cartDetails.get(i).getProviderName());
                 }
+                if(cartDetails.get(i).getDiscount() != null && cartDetails.get(i).getDiscount().getCode() != null){
+                    DiscountDetails discountDetails = new DiscountDetails();
+                    discountDetails.setCode(cartDetails.get(i).getDiscount().getCode());
+                    discountDetails.setValue(cartDetails.get(i).getDiscount().getPercent());
+                    createOrderProductDetails.setDiscount(discountDetails);
+                }
                 createOrderProductDetails.setCartCount(cartDetails.get(i).getCartCount());
-
-//                if (!orderBillingAddressDetails.getDate().isEmpty()) {
-////                    createOrderCartList.setPreferred_delivery_date(orderBillingAddressDetails.getDate());
-//                }
 
                 createOrderCartList.getCart().add(createOrderProductDetails);
             }
             Collections.sort(createOrderCartList.getCart(), new CustomComparator());
 
             createOrderCartList.setBilling_address(orderBillingAddressDetails);
-            createOrderCartList.setDelivery_address(orderDeliveryAddressDetails);
 
             if (DeliveryPaymentActivity.payment_mode.equalsIgnoreCase("Cash on Delivery")) {
                 createOrderCartList.setPaymentmode("COD");
@@ -261,7 +261,7 @@ public class OrderDetailsActivity extends Activity {
             createOrderData.setOrderdata(createOrderCartList);
             new AdapterForMultipleProviders(context, createOrderCartList.getCart(), orderDeliveryAddressDetails).setMultipleProvidersList();
             displayOrderData();
-            Log.d("SellirDT",new Gson().toJson(OrderDetailsActivity.createOrderCartList.getSellerdelivery()));
+//            Log.d("SellirDT",new Gson().toJson(OrderDetailsActivity.createOrderCartList.getSellerdelivery()));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -271,9 +271,6 @@ public class OrderDetailsActivity extends Activity {
 
         textGrandTotal.setText("Grand Total:");
         payment_mode.setText(DeliveryPaymentActivity.payment_mode);
-//        Log.d("Date and time slot",createOrderData.getOrderdata().getBilling_address().getDate()+" "+createOrderData.getOrderdata().getBilling_address().getTimeslot());
-//        expected_delivery_date.setText(createOrderData.getOrderdata().getBilling_address().getDate());
-//        expected_delivery_timeslot.setText(createOrderData.getOrderdata().getBilling_address().getTimeslot());
 
         billingAddressTextView.setText(createOrderData.getOrderdata().getBilling_address().getAddress1() + ", " +
                 createOrderData.getOrderdata().getBilling_address().getAddress2() + ", " +
@@ -282,20 +279,13 @@ public class OrderDetailsActivity extends Activity {
                 createOrderData.getOrderdata().getBilling_address().getZipcode() + "\n" +
                 createOrderData.getOrderdata().getBilling_address().getState() + ", " +
                 createOrderData.getOrderdata().getBilling_address().getCountry());
-//        }
 
     }
 
     public void confirmOrder(View view) {
-//        if (!createOrderData.getOrderdata().getBilling_address().getDate().isEmpty()) {
 
         new PlaceOrderAsync().execute();
 
-//        } else {
-
-//            Toast.makeText(getApplicationContext(), "Please Select a delivery date", Toast.LENGTH_LONG).show();
-
-//        }
     }
 
     public String placeAnOrder() {
@@ -305,7 +295,7 @@ public class OrderDetailsActivity extends Activity {
             GsonBuilder gBuild = new GsonBuilder();
             Gson gson = gBuild.disableHtmlEscaping().create();
             jsonToSendOverServer = gson.toJson(createOrderData);
-            Log.d("order", jsonToSendOverServer);
+//            Log.d("order", jsonToSendOverServer);
             resultPlaceAnOrder = ServerConnection.executePost1(jsonToSendOverServer, "/api/createorder");
         } catch (Exception e) {
             e.printStackTrace();
@@ -374,7 +364,7 @@ public class OrderDetailsActivity extends Activity {
                     connectedOrNot = "success";
                     resultPlaceAnOrder = placeAnOrder();
                     if (!resultPlaceAnOrder.isEmpty()) {
-                        Log.d("result create order", resultPlaceAnOrder);
+//                        Log.d("result create order", resultPlaceAnOrder);
                         jObj = new JSONObject(resultPlaceAnOrder);
                         if (jObj.has("success")) {
                             JSONObject jObjSuccess = jObj.getJSONObject("success");

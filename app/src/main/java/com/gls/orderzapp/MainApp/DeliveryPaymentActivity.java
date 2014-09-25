@@ -142,6 +142,7 @@ public class DeliveryPaymentActivity extends Activity {
         Collections.sort(checkForPaymentModeList, new PaymentModeComparator());
 
         for (int i = 0; i < Cart.hm.size(); i++) {
+            Log.d("payment mode", checkForPaymentModeList.get(i).getPaymentmode().getCod() +"");
             if (checkForPaymentModeList.get(i).getPaymentmode() != null) {
                 if (checkForPaymentModeList.get(i).getPaymentmode().getCod() != null) {
                     if (checkForPaymentModeList.get(i).getPaymentmode().getCod() == false) {
@@ -150,13 +151,16 @@ public class DeliveryPaymentActivity extends Activity {
                 }
             }
         }
+
+        Log.d("cashondel", new Gson().toJson(cashOnDelivery));
     }
 
     public void selectPaymentMode() {
         if (cashOnDelivery == true) {
             cash_on_delivery.setVisibility(View.VISIBLE);
-            successResponseOfUser = new Gson().fromJson(loadPreferencesUser(), SuccessResponseOfUser.class);
 
+            successResponseOfUser = new Gson().fromJson(loadPreferencesUser(), SuccessResponseOfUser.class);
+            Log.d("select", new Gson().toJson(successResponseOfUser));
             if(!successResponseOfUser.getSuccess().getUser().getCountrycode().equals("91")){
                 cash_on_delivery.setVisibility(View.GONE);
             }else{

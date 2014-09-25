@@ -112,10 +112,10 @@ public class ProductListAdapter {
                 }
 
                 if (productDetailsList.get(i).getPrice().getUom() != null) {
-                    Log.d("Product qty", productDetailsList.get(i).getQuantity());
-                    Log.d("Product price", productDetailsList.get(i).getPrice().getValue() + "");
+//                    Log.d("Product qty", productDetailsList.get(i).getQuantity());
+//                    Log.d("Product price", productDetailsList.get(i).getPrice().getValue() + "");
                     calculated_price.setText(String.format("%.2f", productDetailsList.get(i).getPrice().getValue() * Double.parseDouble(productDetailsList.get(i).getQuantity())));
-                    Log.d("Text", calculated_price.getText().toString());
+//                    Log.d("Text", calculated_price.getText().toString());
                 }
 
                 uomSpinnerActions();
@@ -213,7 +213,7 @@ public class ProductListAdapter {
                             Cart.updateCart(tag, tempEditText.getText().toString().trim(), measure);
                             for (int i = 0; i < list.size(); i++) {
                                 if (tag.equalsIgnoreCase(list.get(i).split("-")[0])) {
-                                    CartAdapter.changeSubTotal(tag, list.get(i).split("-")[1]);
+                                    CartAdapter.changeSubTotal(tag, list.get(i).split("-")[1], productDetailsList);
                                 }
                             }
                         }
@@ -231,7 +231,7 @@ public class ProductListAdapter {
                             Cart.updateCart(tag, tempEditText.getText().toString().trim(), measure);
                             for (int i = 0; i < list.size(); i++) {
                                 if (tag.equalsIgnoreCase(list.get(i).split("-")[0])) {
-                                    CartAdapter.changeSubTotal(tag, list.get(i).split("-")[1]);
+                                    CartAdapter.changeSubTotal(tag, list.get(i).split("-")[1], productDetailsList);
                                 }
                             }
                         }
@@ -245,7 +245,7 @@ public class ProductListAdapter {
                             String fixed_rate = ((TextView) (((LinearLayout) (tempEditText.getParent())).getChildAt(1))).getText().toString();
                             TextView tempText = (TextView) (((LinearLayout) (tempEditText.getParent())).getChildAt(7));
                             measure = "Gm";
-                            Log.d("original", orignal_uom);
+//                            Log.d("original", orignal_uom);
                             if (orignal_uom.equalsIgnoreCase("kg")) {
                                 tempText.setText(String.format("%.2f", (((Double.parseDouble(tempEditText.getText().toString())) / 1000) * (Double.parseDouble(fixed_rate)))));
                             } else {
@@ -254,7 +254,7 @@ public class ProductListAdapter {
                             Cart.updateCart(tag, tempEditText.getText().toString().trim(), measure);
                             for (int i = 0; i < list.size(); i++) {
                                 if (tag.equalsIgnoreCase(list.get(i).split("-")[0])) {
-                                    CartAdapter.changeSubTotal(tag, list.get(i).split("-")[1]);
+                                    CartAdapter.changeSubTotal(tag, list.get(i).split("-")[1], productDetailsList);
                                 }
                             }
                         }
@@ -273,7 +273,7 @@ public class ProductListAdapter {
                             Cart.updateCart(tag, tempEditText.getText().toString().trim(), measure);
                             for (int i = 0; i < list.size(); i++) {
                                 if (tag.equalsIgnoreCase(list.get(i).split("-")[0])) {
-                                    CartAdapter.changeSubTotal(tag, list.get(i).split("-")[1]);
+                                    CartAdapter.changeSubTotal(tag, list.get(i).split("-")[1], productDetailsList);
                                 }
                             }
                         }
@@ -346,7 +346,7 @@ public class ProductListAdapter {
                     if (isDouble(tempEditText.getText().toString().trim()) == true) {
                         uom = Cart.returnUom(tag);
                         orignal_uom = Cart.returnOrignalUom(tag);
-                        Log.d("OrignalUOM", orignal_uom);
+//                        Log.d("OrignalUOM", orignal_uom);
                         min_weight = Cart.returnMinWeight(tag);
                         max_weight = Cart.returnMaxWeight(tag);
                         if (uom.equalsIgnoreCase("Kg")) {
@@ -383,7 +383,7 @@ public class ProductListAdapter {
                             Cart.updateCart(tag, tempEditText.getText().toString().trim(), uom);
                             for (int i = 0; i < list.size(); i++) {
                                 if (tag.equalsIgnoreCase(list.get(i).split("-")[0])) {
-                                    CartAdapter.changeSubTotal(tag, list.get(i).split("-")[1]);
+                                    CartAdapter.changeSubTotal(tag, list.get(i).split("-")[1], productDetailsList);
                                 }
                             }
                         } else {
@@ -392,17 +392,16 @@ public class ProductListAdapter {
                                     Cart.updateCart(tag, tempEditText.getText().toString().trim(), uom);
                                     for (int i = 0; i < list.size(); i++) {
                                         if (tag.equalsIgnoreCase(list.get(i).split("-")[0])) {
-                                            CartAdapter.changeSubTotal(tag, list.get(i).split("-")[1]);
+                                            CartAdapter.changeSubTotal(tag, list.get(i).split("-")[1], productDetailsList);
                                         }
                                     }
                                 } else {
                                     Cart.updateCart(tag, "0", uom);
                                     for (int i = 0; i < list.size(); i++) {
                                         if (tag.equalsIgnoreCase(list.get(i).split("-")[0])) {
-                                            CartAdapter.changeSubTotal(tag, list.get(i).split("-")[1]);
+                                            CartAdapter.changeSubTotal(tag, list.get(i).split("-")[1], productDetailsList);
                                         }
                                     }
-//                                            tempEditText.setText("");
                                     Toast.makeText(context, "minimum order of " + min_weight + " " + uom + " is required to place the order for this product", Toast.LENGTH_LONG).show();
                                 }
                             } else {
@@ -411,15 +410,14 @@ public class ProductListAdapter {
                                         Cart.updateCart(tag, tempEditText.getText().toString().trim(), uom);
                                         for (int i = 0; i < list.size(); i++) {
                                             if (tag.equalsIgnoreCase(list.get(i).split("-")[0])) {
-                                                CartAdapter.changeSubTotal(tag, list.get(i).split("-")[1]);
+                                                CartAdapter.changeSubTotal(tag, list.get(i).split("-")[1], productDetailsList);
                                             }
                                         }
-
                                     } else {
                                         Cart.updateCart(tag, "0", uom);
                                         for (int i = 0; i < list.size(); i++) {
                                             if (tag.equalsIgnoreCase(list.get(i).split("-")[0])) {
-                                                CartAdapter.changeSubTotal(tag, list.get(i).split("-")[1]);
+                                                CartAdapter.changeSubTotal(tag, list.get(i).split("-")[1], productDetailsList);
                                             }
                                         }
 //                                                    tempEditText.setText("");
@@ -431,7 +429,7 @@ public class ProductListAdapter {
                                         Cart.updateCart(tag, tempEditText.getText().toString().trim(), uom);
                                         for (int i = 0; i < list.size(); i++) {
                                             if (tag.equalsIgnoreCase(list.get(i).split("-")[0])) {
-                                                CartAdapter.changeSubTotal(tag, list.get(i).split("-")[1]);
+                                                CartAdapter.changeSubTotal(tag, list.get(i).split("-")[1], productDetailsList);
                                             }
                                         }
 
@@ -439,7 +437,7 @@ public class ProductListAdapter {
                                         Cart.updateCart(tag, "0", uom);
                                         for (int i = 0; i < list.size(); i++) {
                                             if (tag.equalsIgnoreCase(list.get(i).split("-")[0])) {
-                                                CartAdapter.changeSubTotal(tag, list.get(i).split("-")[1]);
+                                                CartAdapter.changeSubTotal(tag, list.get(i).split("-")[1], productDetailsList);
                                             }
                                         }
                                         Toast.makeText(context, "Enter weight between  " + min_weight + " " + uom + " and " + max_weight + " " + uom, Toast.LENGTH_LONG).show();
@@ -455,7 +453,7 @@ public class ProductListAdapter {
                     Cart.updateCart(tag, "0", uom);
                     for (int i = 0; i < list.size(); i++) {
                         if (tag.equalsIgnoreCase(list.get(i).split("-")[0])) {
-                            CartAdapter.changeSubTotal(tag, list.get(i).split("-")[1]);
+                            CartAdapter.changeSubTotal(tag, list.get(i).split("-")[1], productDetailsList);
                         }
                     }
                     tempText.setText("0");

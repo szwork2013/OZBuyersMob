@@ -22,6 +22,7 @@ import com.gls.orderzapp.R;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -201,9 +202,11 @@ public class Cart {
 
     public static void updateCart(String position, String quantity, String measure) {
         ProductDetails localProduct;
+
         try {
             int hmSize = hm.size();
             String[] keys = hm.keySet().toArray(new String[hmSize]);
+            ProductDetails[] values = hm.values().toArray(new ProductDetails[hm.size()]);
             for (int i = 0; i < hmSize; i++) {
                 if (keys[i].equals(position)) {
                     localProduct = hm.get(keys[i]);
@@ -212,7 +215,9 @@ public class Cart {
                     hm.put(position, localProduct);
                 }
             }
-            CartActivity.grand_total.setText(String.format("%.2f", Cart.subTotal()));
+            List<ProductDetails> list = new ArrayList<ProductDetails>(Arrays.asList(values));
+//            list.addAll());
+            CartActivity.displayGrandTotal(list);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -236,7 +241,7 @@ public class Cart {
     //*********
     public static String returnOrignalUom(String cartCount) {
         String orinalUom = "";
-        Log.d("original uom", cartCount);
+//        Log.d("original uom", cartCount);
         String[] mKeys = Cart.hm.keySet().toArray(new String[hm.size()]);
         try {
             for (int i = 0; i < mKeys.length; i++) {
@@ -291,7 +296,7 @@ public class Cart {
                     productDetails.setMessageonproduct(messageoncake);
                     hm.put(keys[i], productDetails);
 
-                    Log.d("add message", new Gson().toJson(productDetails));
+//                    Log.d("add message", new Gson().toJson(productDetails));
                 }
             }
 
@@ -359,7 +364,7 @@ public class Cart {
             final int keySize = keys.length;
 
             for (int i = 0; i < keySize; i++) {
-                Log.d("config", new Gson().toJson(Cart.hm.get(keys[i])));
+//                Log.d("config", new Gson().toJson(Cart.hm.get(keys[i])));
                 if (Cart.hm.get(keys[i]).getProductconfiguration().getConfiguration().size() <= 0) {
 
                 } else {
@@ -455,7 +460,7 @@ public class Cart {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        Log.d("charge", deliveryCharges + "");
+//        Log.d("charge", deliveryCharges + "");
         return deliveryCharges;
     }
 
@@ -469,7 +474,7 @@ public class Cart {
                 }
             }
 
-            Log.d("cart after saving deliverytype", new Gson().toJson(hm));
+//            Log.d("cart after saving deliverytype", new Gson().toJson(hm));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -485,7 +490,7 @@ public class Cart {
             }
         }
 
-        Log.d("cart after adding timelots", new Gson().toJson(hm));
+//        Log.d("cart after adding timelots", new Gson().toJson(hm));
     }
 
     public static void saveOrderInstructions(String branchid, String orderInstruction) {
@@ -567,6 +572,21 @@ public class Cart {
         }catch (Exception e){
             e.printStackTrace();
         }
+        return discount;
+    }
+
+    public static double totalDiscountForASellerInOrderDetails(List<CreateOrderProductDetails> listProducts){
+        double discount = 0.0;
+        try{
+            for(int i = 0; i < listProducts.size(); i++){
+                if(listProducts.get(i).getDiscount() != null && listProducts.get(i).getDiscount().getCode() != null && !listProducts.get(i).getDiscount().getCode().equalsIgnoreCase("none")){
+                    discount = discount + ((Double.parseDouble(listProducts.get(i).getOrderprice()) * listProducts.get(i).getDiscount().getValue())/100);
+                }
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+//        Log.d("discount", discount+"");
         return discount;
     }
 }

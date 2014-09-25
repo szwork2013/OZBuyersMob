@@ -17,16 +17,19 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.gls.orderzapp.Cart.Adapters.CartAdapter;
+import com.gls.orderzapp.Provider.Beans.ProductDetails;
 import com.gls.orderzapp.R;
 import com.gls.orderzapp.Utility.Cart;
 import com.gls.orderzapp.Utility.CheckConnection;
 import com.gls.orderzapp.Utility.ResetStaticData;
 import com.gls.orderzapp.Utility.ServerConnection;
+import com.google.gson.Gson;
 
 import org.json.JSONObject;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by prajyot on 10/7/14.
@@ -173,18 +176,21 @@ public class CartActivity extends Activity {
             ll_noproducts.setVisibility(View.GONE);
             ll_products.setVisibility(View.VISIBLE);
             try {
-//                Cart.deleteFromCartIfQuantityIsZero();
                 new CartAdapter(context);
-                grand_total.setText(Cart.subTotal() + "");
             } catch (Exception e) {
                 e.printStackTrace();
             }
         } else {
-
             Cart.hm.clear();
             ll_noproducts.setVisibility(View.VISIBLE);
             ll_products.setVisibility(View.GONE);
         }
+    }
+
+    public static void displayGrandTotal(List<ProductDetails> listProducts){
+        Log.d("display grand total", new Gson().toJson(listProducts));
+        double discount = Cart.totalDiscountForASeller(listProducts);
+        grand_total.setText(Cart.subTotal() - discount+ "");
     }
 
     public void placeAnOrder(View view) {

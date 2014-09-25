@@ -52,6 +52,7 @@ public class CartAdapter {
     public static LinearLayout llCartListItemView, llProductList;
     public static List<ProductDetails> productList;
     public static List<TextView> listText = new ArrayList<>();
+    public static List<TextView> listDiscounts = new ArrayList<>();
     TextView sub_total;
     TextView total_discount;
     LinearLayout ll_discount;
@@ -90,7 +91,7 @@ public class CartAdapter {
         dataForGetDeliveryCharges();
     }
 
-    public static void changeSubTotal(String cartCount, String parentIndex) {
+    public static void changeSubTotal(String cartCount, String parentIndex, List<ProductDetails> listProducts) {
         try {
             String branchid = "";
             List<ProductDetails> list = new ArrayList<>();
@@ -105,9 +106,13 @@ public class CartAdapter {
                     list.add(productList.get(j));
                 }
             }
-
-            Log.d("list", new Gson().toJson(list));
-            ((TextView) listText.get(Integer.parseInt(parentIndex))).setText(Cart.providerSubTotalInCart(list) + "");
+            double discount = Cart.totalDiscountForASeller(list);
+            Log.d("discount", discount+"");
+                ((TextView) listDiscounts.get(Integer.parseInt(parentIndex))).setText(discount+"");
+                ((TextView) listText.get(Integer.parseInt(parentIndex))).setText(Cart.providerSubTotalInCart(list) - discount + "");
+//            }else {
+//                ((TextView) listText.get(Integer.parseInt(parentIndex))).setText(Cart.providerSubTotalInCart(list) + "");
+//            }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -127,14 +132,13 @@ public class CartAdapter {
                     if(discount > 0) {
                         ll_discount.setVisibility(View.VISIBLE);
                         total_discount.setText(discount + "");
-                        Log.d("discount", discount+"");
-                        Log.d("sub total", Cart.providerSubTotalInCart(listProducts)+"");
+//                        Log.d("discount", discount+"");
+//                        Log.d("sub total", Cart.providerSubTotalInCart(listProducts)+"");
                         sub_total.setText((Cart.providerSubTotalInCart(listProducts) - discount)+ "");
                     }else{
                         ll_discount.setVisibility(View.GONE);
                         sub_total.setText(Cart.providerSubTotalInCart(listProducts) + "");
                     }
-
                 }
 
                 LayoutInflater li = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -151,6 +155,7 @@ public class CartAdapter {
                 total_discount = (TextView) llCartListItemView.findViewById(R.id.total_discount);
                 sub_total = (TextView) llCartListItemView.findViewById(R.id.sub_total);
                 listText.add(sub_total);
+                listDiscounts.add(total_discount);
                 if (productList.get(i).getNote() != null) {
                     txt_provider_note.setText(productList.get(i).getNote());
                 }
@@ -182,12 +187,9 @@ public class CartAdapter {
                        goToPrivacyPolicy.putExtra("ACTIVITY_NAME","Policy");
                         goToPrivacyPolicy.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         context.startActivity(goToPrivacyPolicy);
-
                     }
                 });
                 if (!CartActivity.date.isEmpty()) {
-
-//                    arrayListTimeSlotsObject=new ArrayList<>();
                     ll_deliverylayout_cart.setVisibility(View.VISIBLE);
                     if (successResponseForDeliveryCharges.getSuccess().getDeliverycharge().size() > 0) {
                         for (int j = 0; j < successResponseForDeliveryCharges.getSuccess().getDeliverycharge().size(); j++) {
@@ -210,13 +212,10 @@ public class CartAdapter {
                     }
 
                     for (int k = 0; k < succesResponseCheckDeliveryTimingSlots.getSuccess().getDoc().size(); k++) {
-
                         if (succesResponseCheckDeliveryTimingSlots.getSuccess().getDoc().get(k).getBranchid().equals(branchid)) {
-
                             delivery_date_on_shoppingcart.setText(deliveryDateOnCart(succesResponseCheckDeliveryTimingSlots.getSuccess().getDoc().get(k).getExpected_date()));
-
                             date = deliveryDateOnCart(succesResponseCheckDeliveryTimingSlots.getSuccess().getDoc().get(k).getExpected_date());
-                            Log.d("PrefDate", productList.get(i).getPrefereddeliverydate());
+//                            Log.d("PrefDate", productList.get(i).getPrefereddeliverydate());
                             spn_timeslot.setAdapter(new SpinnerAdapter(context.getApplicationContext(), deliveryTimeSlots(succesResponseCheckDeliveryTimingSlots.getSuccess().getDoc().get(k).getDeliverytimingslots(), succesResponseCheckDeliveryTimingSlots.getSuccess().getDoc().get(k).getBranchid())));
                         }
                     }
@@ -248,11 +247,13 @@ public class CartAdapter {
             if (i == productList.size() - 1) {
                 new ProductListAdapter(context, listProducts, listText.size() - 1).getProductView();
                 double discount = Cart.totalDiscountForASeller(listProducts);
+                ProductDetails[] values = Cart.hm.values().toArray(new ProductDetails[Cart.hm.size()]);
+                CartActivity.displayGrandTotal(new ArrayList<ProductDetails>(Arrays.asList(values)));
                 if(discount > 0) {
                     ll_discount.setVisibility(View.VISIBLE);
                     total_discount.setText(discount + "");
-                    Log.d("discount", discount+"");
-                    Log.d("sub total", Cart.providerSubTotalInCart(listProducts) - discount+"");
+//                    Log.d("discount", discount+"");
+//                    Log.d("sub total", Cart.providerSubTotalInCart(listProducts) - discount+"");
                     sub_total.setText((Cart.providerSubTotalInCart(listProducts) - discount) + "");
                 }else{
                     ll_discount.setVisibility(View.GONE);
@@ -291,29 +292,6 @@ public class CartAdapter {
                 timeslots = timeslots.concat(" - " + (getToHrs - 12) + ":" + getToMin + " PM");
             }
 
-//            if(deliveryTimingslots.get(m).getFrom()<12)
-//            {
-//                timeslots=deliveryTimingslots.get(m).getFrom()+" AM";
-//            }else if(deliveryTimingslots.get(m).getFrom()==12)
-//            {
-//                timeslots=deliveryTimingslots.get(m).getFrom()+" PM";
-//            }
-//            else if(deliveryTimingslots.get(m).getFrom()>12)
-//            {
-//                timeslots=(deliveryTimingslots.get(m).getFrom()-12)+" PM";
-//            }
-//
-//            if(deliveryTimingslots.get(m).getTo()<12)
-//            {
-//                timeslots=timeslots.concat(" - "+deliveryTimingslots.get(m).getTo()+" AM");
-//            }else if(deliveryTimingslots.get(m).getTo()==12)
-//            {
-//                timeslots=timeslots.concat(" - "+deliveryTimingslots.get(m).getTo()+" PM");
-//            }
-//            else if(deliveryTimingslots.get(m).getTo()>12)
-//            {
-//                timeslots=timeslots.concat(" - "+(deliveryTimingslots.get(m).getTo()-12)+" PM");
-//            }
             if (deliveryTimingslots.get(m).getAvailable() == true) {
                 timeingslot = new AvailableDeliveryTimingSlots();
                 timeingslot.setAvailable(deliveryTimingslots.get(m).getAvailable());
@@ -326,8 +304,8 @@ public class CartAdapter {
             }
         }
         arrayListTimeSlotsObject.add(innerArray);
-        Log.d("arrayListTimeSlots", new Gson().toJson(arrayListTimeSlots));
-        Log.d("arrayListTimeSlotsObject", new Gson().toJson(arrayListTimeSlotsObject));
+//        Log.d("arrayListTimeSlots", new Gson().toJson(arrayListTimeSlots));
+//        Log.d("arrayListTimeSlotsObject", new Gson().toJson(arrayListTimeSlotsObject));
 
         return arrayListTimeSlots;
     }
@@ -384,7 +362,7 @@ public class CartAdapter {
             GsonBuilder gBuild = new GsonBuilder();
             Gson gson = gBuild.disableHtmlEscaping().create();
             jsonToSendOverServer = gson.toJson(branchIdsForGettingDeliveryCharges);
-            Log.d("jsonToSendOverServer", jsonToSendOverServer);
+//            Log.d("jsonToSendOverServer", jsonToSendOverServer);
             resultOfDeliveryCharges = ServerConnection.executePost1(jsonToSendOverServer, "/api/deliverycharge");
 
         } catch (Exception e) {
@@ -418,16 +396,16 @@ public class CartAdapter {
         String[] mKeys = Cart.hm.keySet().toArray(new String[Cart.hm.size()]);
         for (int i = 0; i < Cart.getCount(); i++) {
             productId = Cart.hm.get(mKeys[i]).getProductid();
-            Log.d("productId", productId);
+//            Log.d("productId", productId);
             if (!listOfProductIdforDelivery.contains(productId)) {
                 listOfProductIdforDelivery.add(productId);
             }
         }
-        Log.d("Date", CartActivity.date);
-        Log.d("listOfProductIdforDelivery", new Gson().toJson(listOfProductIdforDelivery));
+//        Log.d("Date", CartActivity.date);
+//        Log.d("listOfProductIdforDelivery", new Gson().toJson(listOfProductIdforDelivery));
         productIdsForGettingTimeSlots.setPreferred_delivery_date(CartActivity.date);
         productIdsForGettingTimeSlots.setProductids(listOfProductIdforDelivery);
-        Log.d("productIdsForGettingTimeSlots", new Gson().toJson(productIdsForGettingTimeSlots));
+//        Log.d("productIdsForGettingTimeSlots", new Gson().toJson(productIdsForGettingTimeSlots));
         new GetDeliveryTimeSlotsAsync().execute();
 
     }
@@ -440,7 +418,7 @@ public class CartAdapter {
             GsonBuilder gBuild = new GsonBuilder();
             Gson gson = gBuild.disableHtmlEscaping().create();
             jsonToSendOverServer = gson.toJson(productIdsForGettingTimeSlots);
-            Log.d("jsonToSendOverServerProductIds", jsonToSendOverServer);
+//            Log.d("jsonToSendOverServerProductIds", jsonToSendOverServer);
             resultOfDeliveryTimeSlot = ServerConnection.executePost1(jsonToSendOverServer, "/api/deliverytimeslots");
 
         } catch (Exception e) {
@@ -475,11 +453,11 @@ public class CartAdapter {
                     connectedOrNot = "success";
                     resultOfGetDeliveryCharges = getDeliverCharges();
                     if (!resultOfGetDeliveryCharges.isEmpty()) {
-                        Log.d("resultOfGetDeliveryCharges", resultOfGetDeliveryCharges);
+//                        Log.d("resultOfGetDeliveryCharges", resultOfGetDeliveryCharges);
                         jObj = new JSONObject(resultOfGetDeliveryCharges);
                         if (jObj.has("success")) {
                             successResponseForDeliveryCharges = new Gson().fromJson(resultOfGetDeliveryCharges, SuccessResponseForDeliveryChargesAndType.class);
-                            Log.d("Successresponse for delivery charges", resultOfGetDeliveryCharges);
+//                            Log.d("Successresponse for delivery charges", resultOfGetDeliveryCharges);
                         } else {
                             JSONObject jObjError = jObj.getJSONObject("error");
                             msg = jObjError.getString("message");
@@ -543,12 +521,12 @@ public class CartAdapter {
                     connectedOrNot = "success";
                     resultOfDeliveryTimeSlots = getDeliverTimeSlots();
                     if (!resultOfDeliveryTimeSlots.isEmpty()) {
-                        Log.d("resultOfDeliveryTimeSlots", resultOfDeliveryTimeSlots);
+//                        Log.d("resultOfDeliveryTimeSlots", resultOfDeliveryTimeSlots);
                         jObj = new JSONObject(resultOfDeliveryTimeSlots);
                         if (jObj.has("success")) {
                             arrayListTimeSlotsObject = new ArrayList<>();
                             succesResponseCheckDeliveryTimingSlots = new Gson().fromJson(resultOfDeliveryTimeSlots, SuccesResponseCheckDeliveryTimingSlots.class);
-                            Log.d("Successresponse for delivery time slots", resultOfDeliveryTimeSlots);
+//                            Log.d("Successresponse for delivery time slots", resultOfDeliveryTimeSlots);
                         } else {
                             JSONObject jObjError = jObj.getJSONObject("error");
                             msg = jObjError.getString("message");

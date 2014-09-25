@@ -24,12 +24,15 @@ import com.gls.orderzapp.CreateOrder.CreateOrderBeans.DeliveryChargeDetails;
 import com.gls.orderzapp.CreateOrder.CreateOrderBeans.DeliveryTypes;
 import com.gls.orderzapp.CreateOrder.CreateOrderBeans.SellerDelivery;
 import com.gls.orderzapp.MainApp.OrderDetailsActivity;
+import com.gls.orderzapp.Provider.Beans.ProductDetails;
 import com.gls.orderzapp.R;
+import com.gls.orderzapp.SignUp.Location;
 import com.gls.orderzapp.Utility.Cart;
 import com.google.gson.Gson;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -44,8 +47,9 @@ public class AdapterForMultipleProviders {
     List<String> branchIds = new ArrayList<>();
     List<String> contactSupportsList = new ArrayList<>();
     LayoutInflater li;
+    LinearLayout ll_discount;
     String pickupaddress = "";
-    TextView textGrandTotal, delivery_charge, deliveryTypeText, deliveryDateText, deliveryTimeText, deliveryAddressText, contact_noText;
+    TextView textGrandTotal, delivery_charge, deliveryTypeText, deliveryDateText, deliveryTimeText, deliveryAddressText, contact_noText, total_discount;
     CreateOrderAddressDetails orderDeliveryAddress;
     String[] keys;
 
@@ -65,18 +69,34 @@ public class AdapterForMultipleProviders {
             String branchid = createOrderProductDetailsList.get(i).getBranchid();
             String providerName = createOrderProductDetailsList.get(i).getProvidername();
             String providerArea = createOrderProductDetailsList.get(i).getLocation().getArea();
+            Location location = null;
+            createOrderProductDetailsList.get(i).setLocation(location);
             String deliveryType = "", deliveryDate = "", deliveryTime = "", contact_no = "";
             int getFromHrs = 0, getToHrs = 0;
             String getFromMin = "", getToMin = "";
 
             if (providers != null) {
                 if (providers.contains(branchid)) {
-
                     list.add(createOrderProductDetailsList.get(i));
                 } else {
 
                     if (i > 0) {
                         new ConfirmOrderProductListAdapter(context, list).setProductList();
+
+                        delivery_charge.setText(deliveryCharges + "");
+//                        if(list.get(i).getDiscount() != null && list.get(i).getDiscount().getCode() != null &&
+//                                !list.get(i).getDiscount().getCode().equalsIgnoreCase("none")){
+                        double discount = Cart.totalDiscountForASellerInOrderDetails(list);
+                        Log.d("i>0", discount+"");
+                        if(discount > 0){
+                            Log.d("i>0", discount+"");
+                            ll_discount.setVisibility(View.VISIBLE);
+                            total_discount.setText(discount+"");
+                        }else{
+                            ll_discount.setVisibility(View.GONE);
+                        }
+                        textGrandTotal.setText((Cart.currentProviderSubTotal(list) + deliveryCharges - discount) + "");
+                        deliveryCharges = 0.0;
                     }
 
                     li = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -90,13 +110,25 @@ public class AdapterForMultipleProviders {
                     deliveryAddressText = (TextView) llProductsForProvider.findViewById(R.id.delivery_address);
                     contact_noText = (TextView) llProductsForProvider.findViewById(R.id.contact_no);
                     LinearLayout ll_contact_support = (LinearLayout) llProductsForProvider.findViewById(R.id.ll_contact_support);
+                    ll_discount = (LinearLayout) llProductsForProvider.findViewById(R.id.ll_discount);
+                    total_discount = (TextView) llProductsForProvider.findViewById(R.id.total_discount);
 
-
-                    if (i > 0) {
-                        delivery_charge.setText(deliveryCharges + "");
-                        textGrandTotal.setText((Cart.currentProviderSubTotal(list) + deliveryCharges) + "");
-                        deliveryCharges = 0.0;
-                    }
+//                    if (i > 0) {
+//                        delivery_charge.setText(deliveryCharges + "");
+////                        if(list.get(i).getDiscount() != null && list.get(i).getDiscount().getCode() != null &&
+////                                !list.get(i).getDiscount().getCode().equalsIgnoreCase("none")){
+//                            double discount = Cart.totalDiscountForASellerInOrderDetails(list);
+//                        Log.d("i>0", discount+"");
+//                        if(discount > 0){
+//                            Log.d("i>0", discount+"");
+//                            ll_discount.setVisibility(View.VISIBLE);
+//                            total_discount.setText(discount+"");
+//                        }else{
+//                            ll_discount.setVisibility(View.GONE);
+//                        }
+//                        textGrandTotal.setText((Cart.currentProviderSubTotal(list) + deliveryCharges) + "");
+//                        deliveryCharges = 0.0;
+//                    }
 
                     textGrandTotal = ((TextView) llProductsForProvider.findViewById(R.id.grandtoatal));
                     delivery_charge = (TextView) llProductsForProvider.findViewById(R.id.delivery_charge);
@@ -109,7 +141,7 @@ public class AdapterForMultipleProviders {
                         } else {
                             if (branchid.equals(Cart.hm.get(keys[j]).getBranchid())) {
                                 branchIds.add(Cart.hm.get(keys[j]).getBranchid());
-                                Log.d("BranchIds",branchIds+"");
+//                                Log.d("BranchIds",branchIds+"");
                                 if (Cart.hm.get(keys[j]).getDeliveryType().getDeliveryType().equalsIgnoreCase("home")) {
                                     deliveryType = "Home Delivery";
                                 } else {
@@ -119,11 +151,10 @@ public class AdapterForMultipleProviders {
                                 deliveryDate=Cart.hm.get(keys[j]).getPrefereddeliverydate().toString();
 
                                 for(int a= 0; a < Cart.hm.get(keys[j]).getContact_supports().size(); a++){
-                                    if(a<2) {
+                                    if(a < 2) {
                                         contactSupportsList.add(Cart.hm.get(keys[j]).getContact_supports().get(a));
                                     }
                                 }
-//                                contactSupportsList.addAll(Cart.hm.get(keys[j]).getContact_supports());
                                 for (int cont_list = 0; cont_list < contactSupportsList.size(); cont_list++) {
 
                                     contact_no = contact_no.concat(contactSupportsList.get(cont_list) + ",");
@@ -182,7 +213,7 @@ public class AdapterForMultipleProviders {
                                 sellerDelivery.setPrefdeldtime(deliveryDate);
                                 sellerDelivery.setContact_supports(contact_no);
                                 sellerDelivery.setPrefdeltimeslot(Cart.hm.get(keys[j]).getTimeslot());
-                                Log.d("PD",providerName+"--"+Cart.hm.get(keys[j]).getDeliveryType().getDeliveryType());
+//                                Log.d("PD",providerName+"--"+Cart.hm.get(keys[j]).getDeliveryType().getDeliveryType());
                                 sellerDelivery.setDeliverytype(Cart.hm.get(keys[j]).getDeliveryType().getDeliveryType());
                                 sellerDelivery.setDelivery_address(orderDeliveryAddress);
 
@@ -240,7 +271,7 @@ public class AdapterForMultipleProviders {
 
                                 adddeliveryTypes.setBranchid(branchid);
                                 adddeliveryTypes.setDeliverytype(Cart.hm.get(keys[j]).getDeliveryType().getDeliveryType());
-                                OrderDetailsActivity.createOrderCartList.getDeliverytypes().add(adddeliveryTypes);
+//                                OrderDetailsActivity.createOrderCartList.getDeliverytypes().add(adddeliveryTypes);
                             }
                         }
                     }
@@ -263,9 +294,20 @@ public class AdapterForMultipleProviders {
 
             if (i == createOrderProductDetailsList.size() - 1) {
                 new ConfirmOrderProductListAdapter(context, list).setProductList();
+//                if(list.get(i).getDiscount() != null && list.get(i).getDiscount().getCode() != null &&
+//                        !list.get(i).getDiscount().getCode().equalsIgnoreCase("none")){
+                double discount = Cart.totalDiscountForASellerInOrderDetails(list);
+                Log.d("i == size-1", discount+"");
+                if(discount > 0){
+                    ll_discount.setVisibility(View.VISIBLE);
+                    total_discount.setText(discount+"");
+                }else{
+                    ll_discount.setVisibility(View.GONE);
+                }
                 delivery_charge.setText(deliveryCharges + "");
-                textGrandTotal.setText((Cart.currentProviderSubTotal(list) + deliveryCharges) + "");
-                OrderDetailsActivity.grandTotal.setText(String.format("%.2f", Cart.subTotal() + Cart.configurredProductPrice(createOrderProductDetailsList) + Cart.returnDeliveryCharges(DeliveryChargesAndTypeAdapter.successResponseForDeliveryCharges)));
+                textGrandTotal.setText((Cart.currentProviderSubTotal(list) + deliveryCharges - discount) + "");
+                ProductDetails[] values = Cart.hm.values().toArray(new ProductDetails[Cart.hm.size()]);
+                OrderDetailsActivity.grandTotal.setText(String.format("%.2f", Cart.subTotal() + Cart.configurredProductPrice(createOrderProductDetailsList) + Cart.returnDeliveryCharges(DeliveryChargesAndTypeAdapter.successResponseForDeliveryCharges) - Cart.totalDiscountForASeller(new ArrayList<ProductDetails>(Arrays.asList(values)))));
                 deliveryCharges = 0.0;
             }
         }
