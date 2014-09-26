@@ -23,6 +23,7 @@ import com.gls.orderzapp.Utility.CheckConnection;
 import com.gls.orderzapp.Utility.GoogleAnalyticsUtility;
 import com.gls.orderzapp.Utility.ResetStaticData;
 import com.gls.orderzapp.Utility.ServerConnection;
+import com.google.gson.Gson;
 
 import org.json.JSONObject;
 
@@ -77,6 +78,7 @@ public class ProductConfigurationActivity extends Activity {
             @Override
             public void onClick(View v) {
                 Cart.deleteConfigObject();
+                Log.d("DeleteConfigOBJ",new Gson().toJson(Cart.hm));
                 new CheckSessionAsync().execute();
             }
         });
@@ -110,6 +112,7 @@ public class ProductConfigurationActivity extends Activity {
                 if (Cart.hm.get(keys[i]).getProductconfiguration().getConfiguration().size() > 0) {
 
                     cakeproductDetailes.add(Cart.hm.get(keys[i]));
+                    Log.d("CakeproductDetails",new Gson().toJson(cakeproductDetailes.get(i)));
                 }
             }
         } catch (Exception e) {

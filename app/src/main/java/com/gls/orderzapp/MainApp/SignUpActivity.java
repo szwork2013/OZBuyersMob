@@ -53,8 +53,8 @@ public class SignUpActivity extends ActionBarActivity {
     String regid = "";
     Context context;
     AutoCompleteTextView auto_area, pincodeEditText;
-    EditText mobileNoEditText, passwordEditText, usernameEditText, address1EditText, address2EditText, cityEditText, areaEditText,
-             countryEditText, stateEditText, emailEditText, firstnameEditText, edit_state, edit_city;
+    EditText mobileNoEditText, passwordEditText, usernameEditText, address1EditText, address2EditText,
+               emailEditText, firstnameEditText, edit_state, edit_city;
     Button signUpButton;
 
     //    String SENDER_ID = "926441694335";
@@ -210,15 +210,10 @@ public class SignUpActivity extends ActionBarActivity {
         usernameEditText = (EditText) findViewById(R.id.editTextUserName);
         address1EditText = (EditText) findViewById(R.id.editTextAddress1);
         address2EditText = (EditText) findViewById(R.id.editTextAddress2);
-        cityEditText = (EditText) findViewById(R.id.editTextCity);
-        areaEditText = (EditText) findViewById(R.id.editTextArea);
         pincodeEditText = (AutoCompleteTextView) findViewById(R.id.edtTextPincode);
         emailEditText = (EditText) findViewById(R.id.editTextEmail);
         signUpButton = (Button) findViewById(R.id.buttonSignUp);
-        countryEditText = (EditText) findViewById(R.id.editTextCountry);
-        stateEditText = (EditText) findViewById(R.id.editTextState);
         auto_area = (AutoCompleteTextView) findViewById(R.id.auto_area);
-        //************after auto area
         country_spinner = (Spinner) findViewById(R.id.country_spinner);
         state_spinner = (Spinner) findViewById(R.id.state_spinner);
         city_spinner = (Spinner) findViewById(R.id.city_spinner);
@@ -276,7 +271,7 @@ public class SignUpActivity extends ActionBarActivity {
             return;
         }
         if (firstnameEditText.getText().toString().trim().length() == 0) {
-            Toast.makeText(getApplicationContext(), "Please enter a username", Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), "Please enter a firstname", Toast.LENGTH_LONG).show();
             return;
         }
         if (usernameEditText.getText().toString().trim().length() == 0) {

@@ -90,19 +90,20 @@ public class ProductConfigurationListAdapter extends BaseAdapter {
         RadioButton eggless = (RadioButton) convertView.findViewById(R.id.eggless);
         LinearLayout ll_message = (LinearLayout) convertView.findViewById(R.id.ll_message);
         LinearLayout ll_food_type = (LinearLayout) convertView.findViewById(R.id.ll_food_type);
-        Log.d("cart before", new Gson().toJson(Cart.hm));
-        Log.d("egless1", "1");
-        for (int i = 0; i < cakeList.get(position).getProductconfiguration().getConfiguration().size(); i++)
-        {
-            if (cakeList.get(position).getProductconfiguration().getConfiguration().get(i).getProd_configtype().equalsIgnoreCase("ftp"))
-            {
-                if (cakeList.get(position).getProductconfiguration().getConfiguration().get(i).getFoodType().equalsIgnoreCase("eggless"))
-                {
+
+        egg_eggless_group.setTag(position + 100);
+        message_checkbox.setTag(position + "_" + cakeList.get(position).getCartCount());
+        edttxt_message_on_cake.setTag(cakeList.get(position).getCartCount());
+
+        Log.d("CakeList", new Gson().toJson(Cart.hm));
+
+        for (int i = 0; i < cakeList.get(position).getProductconfiguration().getConfiguration().size(); i++) {
+            if (cakeList.get(position).getProductconfiguration().getConfiguration().get(i).getProd_configtype().equalsIgnoreCase("ftp")) {
+                if (cakeList.get(position).getProductconfiguration().getConfiguration().get(i).getFoodType().equalsIgnoreCase("eggless")) {
                     eggless.setChecked(true);
                     egg.setChecked(false);
                     message_price.setText("0.0");
-                    if (cakeList.get(position).getProductconfiguration().getConfiguration().get(i).getProd_configtype().equalsIgnoreCase("ftp"))
-                    {
+                    if (cakeList.get(position).getProductconfiguration().getConfiguration().get(i).getProd_configtype().equalsIgnoreCase("ftp")) {
                         Cart.addFoodTypeConfiguration(cakeList.get(position).getCartCount(),
                                 cakeList.get(position).getProductconfiguration().getConfiguration().get(i).getProd_configtype(),
                                 cakeList.get(position).getProductconfiguration().getConfiguration().get(i).getProd_configname(),
@@ -110,27 +111,23 @@ public class ProductConfigurationListAdapter extends BaseAdapter {
                                 cakeList.get(position).getProductconfiguration().getConfiguration().get(i).isChecked(),
                                 "eggless");
                     }
-                    Log.d("egless2", "2");
                     egg_price.setText((cakeList.get(position).getProductconfiguration().getConfiguration().get(i).getProd_configprice().getValue() * Double.parseDouble(cakeList.get(position).getQuantity())) + "");
-                } else
-                {
+                } else {
                     egg.setChecked(true);
                     eggless.setChecked(false);
                     message_price.setText("0.0");
                     egg_price.setText("0.0");
-                    if (cakeList.get(position).getProductconfiguration().getConfiguration().get(i).getProd_configtype().equalsIgnoreCase("ftp"))
-                    {
+                    if (cakeList.get(position).getProductconfiguration().getConfiguration().get(i).getProd_configtype().equalsIgnoreCase("ftp")) {
                         Cart.addFoodTypeConfiguration(cakeList.get(position).getCartCount(),
                                 cakeList.get(position).getProductconfiguration().getConfiguration().get(i).getProd_configtype(),
                                 cakeList.get(position).getProductconfiguration().getConfiguration().get(i).getProd_configname(),
                                 cakeList.get(position).getProductconfiguration().getConfiguration().get(i).getProd_configprice(),
                                 cakeList.get(position).getProductconfiguration().getConfiguration().get(i).isChecked(),
                                 "egg");
+
                     }
-                    Log.d("egless3", "3");
                 }
             }
-
 
             if (cakeList.get(position).getProductconfiguration().getConfiguration().get(i).getProd_configtype().equalsIgnoreCase("msg")) {
                 ll_message.setVisibility(View.VISIBLE);
@@ -143,8 +140,8 @@ public class ProductConfigurationListAdapter extends BaseAdapter {
                 ll_food_type.setVisibility(View.VISIBLE);
             }
         }
+        Log.d("cart after for loop", new Gson().toJson(Cart.hm));
 
-        Log.d("cart after", new Gson().toJson(Cart.hm));
         message_checkbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -167,45 +164,44 @@ public class ProductConfigurationListAdapter extends BaseAdapter {
             }
         });
 
+        Log.d("cart after Msg Config", new Gson().toJson(Cart.hm));
 
-        Log.d("cartt before adding conf", new Gson().toJson(Cart.hm));
-        Log.d("cakelist size", cakeList.size() + "");
+
+
         egg_eggless_group.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 switch (checkedId) {
                     case R.id.eggless:
-                        for (int i = 0; i < cakeList.get(Integer.parseInt(group.getTag() + "")).getProductconfiguration().getConfiguration().size(); i++) {
-                            if (cakeList.get(Integer.parseInt(group.getTag() + "")).getProductconfiguration().getConfiguration().get(i).getProd_configtype().equalsIgnoreCase("ftp")) {
-                                Cart.addFoodTypeConfiguration(cakeList.get(Integer.parseInt(group.getTag() + "")).getCartCount(),
-                                        cakeList.get(Integer.parseInt(group.getTag() + "")).getProductconfiguration().getConfiguration().get(i).getProd_configtype(),
-                                        cakeList.get(Integer.parseInt(group.getTag() + "")).getProductconfiguration().getConfiguration().get(i).getProd_configname(),
-                                        cakeList.get(Integer.parseInt(group.getTag() + "")).getProductconfiguration().getConfiguration().get(i).getProd_configprice(),
-                                        cakeList.get(Integer.parseInt(group.getTag() + "")).getProductconfiguration().getConfiguration().get(i).isChecked(),
+                        for (int i = 0; i < cakeList.get(Integer.parseInt(group.getTag() + "") - 100).getProductconfiguration().getConfiguration().size(); i++) {
+                            if (cakeList.get(Integer.parseInt(group.getTag() + "") - 100).getProductconfiguration().getConfiguration().get(i).getProd_configtype().equalsIgnoreCase("ftp")) {
+                                Cart.addFoodTypeConfiguration(cakeList.get(Integer.parseInt(group.getTag() + "") - 100).getCartCount(),
+                                        cakeList.get(Integer.parseInt(group.getTag() + "") - 100).getProductconfiguration().getConfiguration().get(i).getProd_configtype(),
+                                        cakeList.get(Integer.parseInt(group.getTag() + "") - 100).getProductconfiguration().getConfiguration().get(i).getProd_configname(),
+                                        cakeList.get(Integer.parseInt(group.getTag() + "") - 100).getProductconfiguration().getConfiguration().get(i).getProd_configprice(),
+                                        cakeList.get(Integer.parseInt(group.getTag() + "") - 100).getProductconfiguration().getConfiguration().get(i).isChecked(),
                                         "eggless");
-                                egg_price.setText((cakeList.get(Integer.parseInt(group.getTag() + "")).getProductconfiguration().getConfiguration().get(i).getProd_configprice().getValue() * Double.parseDouble(cakeList.get(Integer.parseInt(group.getTag() + "")).getQuantity())) + "");
+                                egg_price.setText((cakeList.get(Integer.parseInt(group.getTag() + "") - 100).getProductconfiguration().getConfiguration().get(i).getProd_configprice().getValue() * Double.parseDouble(cakeList.get(Integer.parseInt(group.getTag() + "") - 100).getQuantity())) + "");
                             }
                         }
-
-                        Log.d("eggless", new Gson().toJson(Cart.hm));
                         break;
                     case R.id.egg:
                         egg_price.setText("0.0");
-                        for (int i = 0; i < cakeList.get(Integer.parseInt(group.getTag() + "")).getProductconfiguration().getConfiguration().size(); i++) {
-                            if (cakeList.get(Integer.parseInt(group.getTag() + "")).getProductconfiguration().getConfiguration().get(i).getProd_configtype().equalsIgnoreCase("ftp")) {
-                                Cart.addFoodTypeConfiguration(cakeList.get(Integer.parseInt(group.getTag() + "")).getCartCount(),
-                                        cakeList.get(Integer.parseInt(group.getTag() + "")).getProductconfiguration().getConfiguration().get(i).getProd_configtype(),
-                                        cakeList.get(Integer.parseInt(group.getTag() + "")).getProductconfiguration().getConfiguration().get(i).getProd_configname(),
-                                        cakeList.get(Integer.parseInt(group.getTag() + "")).getProductconfiguration().getConfiguration().get(i).getProd_configprice(),
-                                        cakeList.get(Integer.parseInt(group.getTag() + "")).getProductconfiguration().getConfiguration().get(i).isChecked(),
+                        for (int i = 0; i < cakeList.get(Integer.parseInt(group.getTag() + "") - 100).getProductconfiguration().getConfiguration().size(); i++) {
+                            if (cakeList.get(Integer.parseInt(group.getTag() + "") - 100).getProductconfiguration().getConfiguration().get(i).getProd_configtype().equalsIgnoreCase("ftp")) {
+                                Cart.addFoodTypeConfiguration(cakeList.get(Integer.parseInt(group.getTag() + "") - 100).getCartCount(),
+                                        cakeList.get(Integer.parseInt(group.getTag() + "") - 100).getProductconfiguration().getConfiguration().get(i).getProd_configtype(),
+                                        cakeList.get(Integer.parseInt(group.getTag() + "") - 100).getProductconfiguration().getConfiguration().get(i).getProd_configname(),
+                                        cakeList.get(Integer.parseInt(group.getTag() + "") - 100).getProductconfiguration().getConfiguration().get(i).getProd_configprice(),
+                                        cakeList.get(Integer.parseInt(group.getTag() + "") - 100).getProductconfiguration().getConfiguration().get(i).isChecked(),
                                         "egg");
                             }
                         }
-                        Log.d("egg123", new Gson().toJson(Cart.hm));
                         break;
                 }
             }
         });
+        Log.d("cart after egg group", new Gson().toJson(Cart.hm));
 
         if (cakeList.get(position).getProductlogo().getImage() != null) {
             imageLoader = com.nostra13.universalimageloader.core.ImageLoader.getInstance();
@@ -277,9 +273,7 @@ public class ProductConfigurationListAdapter extends BaseAdapter {
             }
         });
 
-        egg_eggless_group.setTag(position);
-        message_checkbox.setTag(position + "_" + cakeList.get(position).getCartCount());
-        edttxt_message_on_cake.setTag(cakeList.get(position).getCartCount());
+
         return convertView;
     }
 }

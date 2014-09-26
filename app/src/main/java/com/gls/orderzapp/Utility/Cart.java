@@ -484,8 +484,6 @@ public class Cart {
                 hm.get(keys[i]).setPrefereddeliverydate(date);
             }
         }
-
-        Log.d("cart after adding timelots", new Gson().toJson(hm));
     }
 
     public static void saveOrderInstructions(String branchid, String orderInstruction) {
@@ -503,6 +501,7 @@ public class Cart {
                                                 ProductConfigurationPrice prod_configprice,
                                                 boolean checked,
                                                 String foodType) {
+        Log.d("FoodTypeWithCartCount",foodType+" "+cartCount);
 
         String[] keys = Cart.hm.keySet().toArray(new String[hm.size()]);
         for (int i = 0; i < hm.size(); i++) {
